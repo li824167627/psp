@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<!-- 用户信息 -->
+	<bean className="RUserBean" notes="用户信息">
+		<attrs>
+			<attr type="string" name="uid" notes="用户的uid" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="phoneNum" notes="用户手机号" demoValue="18553351967" />
+			<attr type="string" name="nickName" notes="用户昵称" demoValue="candy" />
+			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
+			<attr type="int" name="type" notes="用户类型 0：正常，1：导入" demoValue="1" />
+			<attr type="long" name="regTime" notes="注册时间" demoValue="unix时间戳" />
+			
+		</attrs>
+	</bean>
+	
+</beans>

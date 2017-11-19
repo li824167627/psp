@@ -1,0 +1,9 @@
+rootProject.name = 'psp-park'
+
+/*工具类*/
+includeFlat 'psp-util'
+
+/*代码生成工具*/
+includeFlat 'northend-interface-go'
+project(':northend-interface-go').projectDir = new File(settingsDir, '../../northend/northend-interface-go')
+project(':northend-interface-go').buildFileName = 'build.gradle'

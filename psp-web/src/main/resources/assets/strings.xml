@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+
+	<string name="sms_reg_vcode_msg">验证码是 %s 。中关村智造大街联合工会，请妥善保管您的验证码，不要轻易泄露给他人，此验证码有效期为15分钟。。</string>
+	<string name="api_path">/com/psp/web/</string>
+
+</strings>

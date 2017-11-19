@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols-config distPath="src/main/java"
+	packageName="com.psp.admin.controller" resPackageName="res/bean"
+	reqPackageName="req" xmlPath="src/main/java/com/psp/admin/protocols">
+
+	<protocolFiles>
+		<protocols-file fileName="user-protocol.xml" toCreate="true"
+			className="UserController" requestMapping="/wapp/user" version="1.0"
+			notes="用户相关接口" />
+	</protocolFiles>
+
+	<beanFiles>
+		<bean-file fileName="beans.xml" />
+	</beanFiles>
+
+	<resBean resCode="rescode" resMsg="msg" resData="data"
+		toCreate="false" />
+
+</protocols-config>
