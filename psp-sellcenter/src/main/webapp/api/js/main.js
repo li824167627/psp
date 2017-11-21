@@ -34,11 +34,11 @@ function setBeans(){
   var beanhtml = '';
   var beantble = '<table  class="pct90 mb20 auto beantbl">'
     +'<tr><th width="15%">类型</th><th width="20%">名称</th><th width="35%">默认值</th><th width="30%">备注</th></tr>';
+  var sum = 0;
   $.each(jsonData,function(idx,item){
     //输出--目录
     menuhtml += '<li><a href="#bean-' + item.className + '">';
     menuhtml += item.className + '-' + item.notes;
-
     // 输出bean table
     beanhtml += '<h4 class="pct90 f14 m15 auto " id="bean-' + item.className  +'">'+item.className+'</h4>';
     beanhtml += beantble;
@@ -55,9 +55,10 @@ function setBeans(){
       trhtml += '</tr>'
     });
     beanhtml += trhtml + '</table>';
-
+    sum ++;
   });
   menuhtml += '</ul>';
+  menuhtml += '<p>总数：'+sum+'</p>'
   $('#beans-menu').html(menuhtml);
   $('#beans-div').html(beanhtml);
 }
@@ -65,6 +66,8 @@ function setBeans(){
 function SetProtocols(){
   var menuhtml = '';
   var protocol = '';
+  var sum = 0;
+  var finish = 0;
   $.each(protocolsJson,function(pdex, ptem){
     menuhtml += '<h3><a href="#p_' + ptem.className + '-' + pdex +  '" >' + ptem.notes +' '+ ptem.version + '-' + ptem.className + '</a></h3>';
     menuhtml += '<ul class="pl10">';
@@ -73,7 +76,7 @@ function SetProtocols(){
     $.each(protocolslist,function(idx,item){
       //输出--目录
       menuhtml += '<li><a href="#protocol-' + item.name + '-' + pdex +  '" >';
-      menuhtml += (idx+Number(1)) +'. ' + item.notes + '-' + item.name;
+      menuhtml += (item.state==0?'<span style="color:red">':'')+(idx+Number(1)) +'. ' + item.notes + '-' + item.name+'</span>';
 
       // 输出protocol bean table
       protocol += '<h4 class="pct90 f14 m10 auto " id="protocol-' + item.name + '-' + pdex + '">'+ (idx+Number(1)) + '. ' +item.notes+'-'+item.name+'</h4>';
@@ -123,10 +126,14 @@ function SetProtocols(){
       reqdemo += '<div class="json-collapsed" id="json-collapsed' + pdex + idx + '"></div>'
       protocol += '<tr><td class="pct15 tc">示例</td><td class="tl">' + reqdemo + '</td></tr>';
       protocol += '</table>';
+      sum++;
+      if(item.state == 1){
+    	  	finish++;
+      }
     });
     menuhtml += '</ul>';
   });
-
+  menuhtml = '<h3>接口总数：'+sum+'；完成数量：'+ finish +'</h3>' + menuhtml;
 
   $('#protocols-menu').html(menuhtml);
   $('#protocols-div').html(protocol);

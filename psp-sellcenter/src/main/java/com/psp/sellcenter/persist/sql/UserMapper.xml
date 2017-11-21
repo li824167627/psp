@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.sellcenter.persist.sql.UserMapper">
+	
+	<!-- 根据搜索条件获取管理的客户总数 -->
+	<select id="selectUserCount2Seller" resultType="int">
+		SELECT count(*) 
+		FROM psp_user
+		<where>
+			sid = #{sid}
+			<if test="filteType != 0">
+				and level = #{filteType}
+			</if>
+			<if test="stype != 0">
+				<if test="stype == 1">
+					AND (name like '%#{key}%') 
+				</if>
+				<if test="stype == 2">
+					AND (phoneNum like '%#{key}%') 
+				</if>
+				<if test="stype == 3">
+					AND (companyName like '%#{key}%') 
+				</if>
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 根据搜索条件获取管理的客户 -->
+	<select id="selectUsers2Seller" resultType="UserBean">
+		SELECT * FROM psp_user 
+		<where>
+			sid = #{sid}
+			<if test="filteType != 0">
+				and level = #{filteType}
+			</if>
+			<if test="stype != 0">
+				<if test="stype == 1">
+					AND (name like '%#{key}%') 
+				</if>
+				<if test="stype == 2">
+					AND (phoneNum like '%#{key}%') 
+				</if>
+				<if test="stype == 3">
+					AND (companyName like '%#{key}%') 
+				</if>
+			</if>
+		</where> 
+		ORDER BY isAllot Desc, createTime desc
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 根据手机号获取客户信息 -->
+	<select id="selectUserByPhone" resultType="UserBean">
+		SELECT * FROM psp_user 
+		where phoneNum = #{phoneNum}
+	</select>
+	
+	<!-- 新增客户 -->
+	<insert id="insert">
+		INSERT INTO psp_user
+		(uid, name, phoneNum, companyName, position, sid, sellerJson,
+		orderNum, createTime, communityTime, label, origin, level,
+		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>)
+		VALUES
+		(#{uid}, #{name}, #{phoneNum}, #{companyName}, #{position}, #{sid}, #{sellerJson},
+		0, now(), now(), #{label}, #{origin}, #{level},
+		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>);
+	</insert>
+	
+	<!-- 更新客户的销售人员 -->
+	<update id="updateSeller">
+		UPDATE psp_user 
+		SET 
+			sid = #{sid},sellerJson = #{sellerJson} 
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	<!-- 更新销售人员 -->
+	<update id="update">
+		UPDATE psp_user 
+		<set>
+			<if test="name != null">name=#{name},</if>
+			<if test="phoneNum != null">phoneNum=#{phoneNum},</if>
+			<if test="companyName != null">companyName=#{companyName},</if>
+			<if test="position != null">position=#{position},</if>
+			<if test="label != null">label=#{label},</if>
+		</set> 
+		WHERE
+			uid = #{uid};
+	</update>
+
+</mapper>

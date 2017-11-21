@@ -4,11 +4,24 @@
 	reqPackageName="req" xmlPath="src/main/java/com/psp/sellcenter/protocols">
 
 	<protocolFiles>
+		<protocols-file fileName="seller-protocol.xml" toCreate="true"
+			className="SellController" requestMapping="/seller" version="1.0"
+			notes="销售相关接口" />
+			
 		<protocols-file fileName="user-protocol.xml" toCreate="true"
-			className="UserController" requestMapping="/wapp/user" version="1.0"
-			notes="用户相关接口" />
+			className="UserController" requestMapping="/user" version="1.0"
+			notes="客户相关接口" />
+			
+		<protocols-file fileName="usernews-protocol.xml" toCreate="true"
+			className="UserNewsController" requestMapping="/usernews" version="1.0"
+			notes="客户消息流相关接口" />
+			
+		<protocols-file fileName="order-protocol.xml" toCreate="true"
+			className="OrderController" requestMapping="/order" version="1.0"
+			notes="工单相关接口" />
+			
 	</protocolFiles>
-
+	
 	<beanFiles>
 		<bean-file fileName="beans.xml" />
 	</beanFiles>
