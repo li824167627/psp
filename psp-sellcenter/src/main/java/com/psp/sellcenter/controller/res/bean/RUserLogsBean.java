@@ -5,7 +5,8 @@ package com.psp.sellcenter.controller.res.bean;
  * 操作客户信息
  **/
 public class RUserLogsBean {
-	private String lid; // 操作id
+	private Integer lid; // 操作id
+	private String uid; // 用户
 	private String sid; // 销售id
 	private String sellerJson; // 销售信息
 	private String content; // 操作文本
@@ -14,12 +15,20 @@ public class RUserLogsBean {
 	private Long createTime; // 创建时间
 	private Integer type; // 操作类型 0 管理员分配 1 新建客户 2 修改客户 3归档客户
 
-	public void setLid(String lid) {
+	public void setLid(Integer lid) {
  		this.lid = lid;
 	}
 
-	public String getLid() {
+	public Integer getLid() {
  		return lid;
+	}
+
+	public void setUid(String uid) {
+ 		this.uid = uid;
+	}
+
+	public String getUid() {
+ 		return uid;
 	}
 
 	public void setSid(String sid) {

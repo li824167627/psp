@@ -28,6 +28,7 @@
 			<attr type="int" name="origin" notes="状态1：0线上（PC） 1 园区下单 2 线下" demoValue="1" />
 			<attr type="int" name="level" notes="客户级别：0尚未定级 1 有效客户 2 无效客户" demoValue="1" />
 			<attr type="int" name="isAllot" notes="是否分配：0待分配，1已分配" demoValue="1" />
+			<attr type="int" name="status" notes="客户状态，0:全部1:待沟通客户2:已处理客户" demoValue="1" />
 			<attr type="string" name="aid" notes="当前分配人" demoValue="1" />
 			<attr type="string" name="adminJson" notes="管理人员Json" demoValue="{'name':'杨娜','phoneNum':'188123123123'}" />
 			<attr type="long" name="allotTime" notes="分配时间" demoValue="unix时间戳" />
@@ -35,29 +36,33 @@
 	</bean>
 	
 	<!-- 客户信息流信息（预工单） -->
-	<bean className="RSaleUserNewsBean" notes="客户信息流信息（预工单）">
+	<bean className="RUserNewsBean" notes="客户信息流信息（预工单）">
 		<attrs>
-			<attr type="string" name="nid" notes="客户信息id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
+			<attr type="int" name="nid" notes="客户信息id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="label" notes="消息标签" demoValue="['重要','优质']" />
 			<attr type="string" name="content" notes="需求描述" demoValue="java开发" />
 			<attr type="string" name="uid" notes="用户" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="userJson" notes="沟通客户JSON" demoValue="{'name':'崔海东','phoneNum':'15762888888'}" />
 			<attr type="int" name="origin" notes="来源：0线上（PC） 1 主动沟通" demoValue="1" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
-			<attr type="long" name="updateTime" notes="更新时间" demoValue="unix时间戳" />
+			<attr type="string" name="sid" notes="当前销售" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="sellerJson" notes="当前销售JSON" demoValue="{'name':'钱哲','phoneNum':'15762888888'}" />
+			
 		</attrs>
 	</bean>
 	
 	<!-- 操作客户信息 -->
 	<bean className="RUserLogsBean" notes="操作客户信息">
 		<attrs>
-			<attr type="string" name="lid" notes="操作id" demoValue="1" />
+			<attr type="int" name="lid" notes="操作id" demoValue="1" />
+			<attr type="string" name="uid" notes="用户" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
 			<attr type="string" name="sid" notes="销售id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="sellerJson" notes="销售信息" demoValue="{'销售名称':'钱哲','销售电话':'18553351967'}" />
 			<attr type="string" name="content" notes="操作文本" demoValue="【杨娜】分配客户给【崔海东】" />
 			<attr type="string" name="aid" notes="管理员" demoValue="abc123249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="adminJson" notes="管理员信息" demoValue="{'管理员名称':'杨娜','管理员电话':'18553351967'}" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
-			<attr type="int" name="type" notes="操作类型 0 管理员分配 1 新建客户 2 修改客户 3归档客户" demoValue="1" />
+			<attr type="int" name="type" notes="操作类型0管理员分配 1 新建客户 2 修改客户 3归档客户 4 设置评级 5编辑标签 6开始沟通" demoValue="1" />
 		</attrs>
 	</bean>
 	

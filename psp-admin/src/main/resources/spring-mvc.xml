@@ -28,7 +28,11 @@
 			<mvc:mapping path="/**" />
 			<bean class="com.psp.admin.interceptor.CommonInterceptor"></bean>
 		</mvc:interceptor>
-
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/**" />
+			<bean class="com.psp.admin.interceptor.UserInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<!-- 开启注解 -->
 	<mvc:annotation-driven />

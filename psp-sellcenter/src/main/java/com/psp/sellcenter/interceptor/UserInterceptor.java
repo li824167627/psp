@@ -37,7 +37,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				request.setAttribute("token", token);
 				request.setAttribute("seller", seller);
 				flag = true;
-				logger.info("userid is :" + seller.getSid());
+				logger.info("sellerid is :" + seller.getSid());
 			}
 		} else {
 			SellerBean seller = sellerServiceImpl.getSellerById("9a4609a38cb84d62a5fcde2c83c8e98c");
@@ -46,7 +46,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				request.setAttribute("token", token);
 				request.setAttribute("seller", seller);
 				flag = true;
-				logger.info("userid is :" + seller.getSid());
+				logger.info("sellerid is :" + seller.getSid());
 			}
 		}
 		if (!flag) {

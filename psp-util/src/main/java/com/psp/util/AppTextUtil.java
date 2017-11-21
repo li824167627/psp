@@ -77,9 +77,7 @@ public class AppTextUtil {
 	}
 
 	public static void main(String[] args) {
-		for(int i =0 ; i < 14 ; i++) {
 			System.out.println(getPrimaryKey());
-		}
 	}
 	
 	/**
@@ -88,4 +86,6 @@ public class AppTextUtil {
 	public static String getFileKey() {
 		return DateUtil.getDate("yyyyMMdd") + System.currentTimeMillis() + RandomUtil.getRandomCharAndNum(12);
 	}
+	
+	
 }

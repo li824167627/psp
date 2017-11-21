@@ -31,6 +31,21 @@
 		<msg>更新用户信息失败！</msg>
 	</result>
 	
+	<result name="create_user_log_error">
+		<code>100007</code>
+		<msg>新建用户操作日志失败！</msg>
+	</result>
+	
+	<result name="seller_has_no_auth">
+		<code>100008</code>
+		<msg>您没有权限修改该客户！</msg>
+	</result>
+	
+	<result name="create_user_news_error">
+		<code>100009</code>
+		<msg>创建客户消息失败！</msg>
+	</result>
+	
 	
 	
 	

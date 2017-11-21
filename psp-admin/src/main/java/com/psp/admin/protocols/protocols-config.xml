@@ -4,8 +4,11 @@
 	reqPackageName="req" xmlPath="src/main/java/com/psp/admin/protocols">
 
 	<protocolFiles>
+		<protocols-file fileName="admin-protocol.xml" toCreate="true"
+			className="AdminController" requestMapping="/admin" version="1.0"
+			notes="管理员相关接口" />
 		<protocols-file fileName="user-protocol.xml" toCreate="true"
-			className="UserController" requestMapping="/wapp/user" version="1.0"
+			className="UserController" requestMapping="/user" version="1.0"
 			notes="用户相关接口" />
 	</protocolFiles>
 

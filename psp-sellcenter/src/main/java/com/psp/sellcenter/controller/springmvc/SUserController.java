@@ -87,6 +87,22 @@ public class SUserController {
 	}
 
 	/**
+	 * 编辑客户标签
+	 **/
+	@RequestMapping("/v1/editLabel")
+	@ResponseBody
+	public BaseResult editLabel(@Validated EditUserLabelParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return userController.editLabel(param, request, response);
+	}
+
+	/**
 	 * 编辑客户级别
 	 **/
 	@RequestMapping("/v1/editLevel")

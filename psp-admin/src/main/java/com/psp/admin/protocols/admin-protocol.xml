@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+	<!-- 登录 -->
+	<protocol name="login" requestMapping="/v1/login" resType="json" notes="登录" state="0" requestName="LoginParam"
+		resDataType="object" responseName="RAdminBean">
+		<request>
+			<param name="phoneNum" type="String" demoValue="15654724214" notes="手机号">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="password" type="String" demoValue="123123" notes="密码">
+				<notEmpty message="密码不能为空"></notEmpty>
+			</param>
+			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码,输入次数错误超过5次，需输入图形验证码">
+			</param>
+			<param name="device" type="String" demoValue="chrome 12.3" notes="设备">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 根据token获取管理员人员信息 -->
+	<protocol name="getAdmin" requestMapping="/v1/getAdmin" resType="json" notes="获取管理员信息" state="0" requestName="GetAdminParam"
+		resDataType="object" responseName="RAdminBean">
+		<request>
+			<param name="token" type="String" demoValue="15654724214" notes="登录token">
+				<notEmpty message="token不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 更新用户名 -->
+	<protocol name="updateName" requestMapping="/v1/updateName" resType="json" notes="更新用户名" state="0" requestName="UpdateNameParam"
+		resDataType="base" >
+		<request>
+			<param name="name" type="String" demoValue="管理员一" notes="姓名">
+				<notEmpty message="更改姓名不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 更新密码 -->
+	<protocol name="updatePassWord" requestMapping="/v1/updatePassWord" resType="json" notes="更改密码" state="0" requestName="UpdatePasswordParam"
+		resDataType="base" >
+		<request>
+			<param name="oldPwd" type="String" demoValue="123123" notes="历史密码">
+				<notEmpty message="历史密码不能为空"></notEmpty>
+			</param>
+			<param name="newPwd" type="String" demoValue="123123" notes="新密码">
+				<notEmpty message="新密码不能为空"></notEmpty>
+			</param>
+			<param name="submitPwd" type="String" demoValue="123123" notes="确认密码">
+				<notEmpty message="确认密码不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+</protocols>

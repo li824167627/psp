@@ -79,6 +79,18 @@
 		</request>
 	</protocol>
 	
+	<!-- 编辑客户标签 -->
+	<protocol name="editLabel" requestMapping="/v1/editLabel" resType="json" notes="编辑客户标签" state="1" requestName="EditUserLabelParam"
+		resDataType="base">
+		<request>
+			<param name="userId" type="String" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户id">
+				<notEmpty message="客户id不能为空"></notEmpty>
+			</param>
+			<param name="label" type="string" demoValue="['开发人员']" notes="客户标签">
+			</param>
+		</request>
+	</protocol>
+	
 	<!-- 编辑客户级别 -->
 	<protocol name="editLevel" requestMapping="/v1/editLevel" resType="json" notes="编辑客户级别" state="1" requestName="EditUserLevelParam"
 		resDataType="base">

@@ -16,6 +16,7 @@ import com.psp.sellcenter.controller.res.bean.RUserBean;
 import com.psp.sellcenter.controller.res.bean.RUserLogsBean;
 import com.psp.sellcenter.controller.springmvc.req.AddUserParam;
 import com.psp.sellcenter.controller.springmvc.req.ArchiveParam;
+import com.psp.sellcenter.controller.springmvc.req.EditUserLabelParam;
 import com.psp.sellcenter.controller.springmvc.req.EditUserLevelParam;
 import com.psp.sellcenter.controller.springmvc.req.EditUserParam;
 import com.psp.sellcenter.controller.springmvc.req.GetUserDetailParam;
@@ -30,11 +31,18 @@ import com.psp.util.NumUtil;
 @Component
 public class UserController {
 	
-	Logger logger = Logger.getLogger(UserController.class);
+	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
 	UserService userServiceImpl;
-
+	
+	/**
+	 * 获取客户列表
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ListResult<RUserBean> getUsers(GetUsersParam param, HttpServletRequest request,
 			HttpServletResponse response) {
 		ListResult<RUserBean> result = new ListResult<>();
@@ -44,17 +52,17 @@ public class UserController {
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
+			int status = NumUtil.toInt(param.getStatus(), 0);// 沟通状态
 			String key = param.getKey();//关键字
 			
-			PageResult<RUserBean> resList = userServiceImpl.getUsers2Seller(sid, page, pageSize, filteType, stype, key);
-			int totalSize = resList.getCount();
-			List<RUserBean> lists = resList.getData();
-			if(resList == null || totalSize == 0) {
-				result.setData(lists);
-				result.setTotalSize(totalSize);
+			PageResult<RUserBean> resList = userServiceImpl.getUsers2Seller(sid, page, pageSize, filteType, stype, key, status);
+			if(resList == null) {
+				result.setData(null);
+				result.setTotalSize(0);
 				return result;
 			}
-	
+			int totalSize = resList.getCount();
+			List<RUserBean> lists = resList.getData();
 			result.setData(lists);
 			result.setTotalSize(totalSize);
 		} catch (ServiceException e) {
@@ -62,7 +70,14 @@ public class UserController {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 新建客户
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<RUserBean> add(AddUserParam param, HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RUserBean> result = new ObjectResult<>();
 		try {
@@ -82,43 +97,210 @@ public class UserController {
 		} catch (ServiceException e) {
 			result.setServiceException(e);
 		} catch (Exception e) {
+			logger.info(e);
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 编辑客户
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<RUserBean> edit(EditUserParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ObjectResult<RUserBean> result = new ObjectResult<>();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			
+			String name = param.getName();
+			String phoneNum = param.getPhoneNum();
+			String companyName = param.getCompanyName();
+			String position = param.getPosition();
+			String label = param.getLabel();
+			String uid = param.getUserId();
+			
+			RUserBean data = userServiceImpl.eidtUser(sid, name, phoneNum, companyName, position, label, uid);
+			result.setData(data);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 根据状态获取客户数量
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<Integer> getUserNum(GetUserNumParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ObjectResult<Integer> result = new ObjectResult<>();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			int isAllot = NumUtil.toInt(param.getStatus(), 0);
+			int userNum = userServiceImpl.getUserNum2Seller(sid, isAllot);
+			result.setData(userNum);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 编辑客户评级
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult editLevel(EditUserLevelParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BaseResult result = new BaseResult();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			
+			String uid = param.getUserId();
+			int level = NumUtil.toInt(param.getLevel(), 0);
+			
+			boolean flag = userServiceImpl.eidtUserLevel(sid, level, uid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 归档客户
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult archive(ArchiveParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BaseResult result = new BaseResult();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			
+			String uid = param.getUserId();
+			boolean flag = userServiceImpl.archive(sid, uid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取客户详情
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<RUserBean> getDetail(GetUserDetailParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ObjectResult<RUserBean> result = new ObjectResult<>();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			String uid = param.getUid();
+			
+			RUserBean data = userServiceImpl.getDetail(sid, uid);
+			result.setData(data);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取客户操作列表
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ListResult<RUserLogsBean> getUserLogs(GetUserLogsParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ListResult<RUserLogsBean> result = new ListResult<>();
+		try {
+			String sid = (String)request.getAttribute("sellerId");
+			String uid = param.getUid();
+			String key = param.getKey();//关键字
+			
+			PageResult<RUserLogsBean> resList = userServiceImpl.getUserLogs(sid, uid, key);
+			
+			if(resList == null) {
+				result.setData(null);
+				result.setTotalSize(0);
+				return result;
+			}
+			int totalSize = resList.getCount();
+			List<RUserLogsBean> lists = resList.getData();
+			result.setData(lists);
+			result.setTotalSize(totalSize);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 编辑客户标签
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public BaseResult editLabel(EditUserLabelParam param, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+
+			String sid = (String)request.getAttribute("sellerId");
+			
+			String uid = param.getUserId();
+			String label = param.getLabel();
+			
+			boolean flag = userServiceImpl.eidtUserLabel(sid, label, uid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			result.setFlag(false);
+			logger.info(e);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 
 }

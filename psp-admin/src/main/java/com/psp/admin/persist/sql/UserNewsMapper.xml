@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.admin.persist.sql.UserNewsMapper">
+	
+	
+	<!-- 新增客户消息流 -->
+	<insert id="insert">
+		INSERT INTO psp_user_news
+		(uid, sid, sellerJson, userJson, 
+		label, origin, createTime, content)
+		VALUES
+		(#{uid}, #{sid}, #{sellerJson}, #{userJson}, 
+		#{label}, #{origin}, now(), #{content});
+	</insert>
+
+	<!-- 查询客户消息流数量 -->
+	<select id="selectUserNewsCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_user_news
+		<where>
+			uid = #{uid}
+			<if test="sid != null">
+				AND sid = #{sid}
+			</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 查询客户消息流-->
+	<select id="selectUserNews" resultType="UserNewsBean">
+		SELECT *
+		FROM psp_user_news
+		<where>
+			uid = #{uid}
+			<if test="sid != null">
+				AND sid = #{sid}
+			</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+		</where> 
+		order by createTime desc
+		LIMIT #{start},#{length};
+	</select>
+
+</mapper>

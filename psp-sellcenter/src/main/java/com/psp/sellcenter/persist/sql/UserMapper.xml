@@ -2,47 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.psp.sellcenter.persist.sql.UserMapper">
 	
-	<!-- 根据搜索条件获取管理的客户总数 -->
+	<!-- 根据分配状态获取管理的客户总数 -->
 	<select id="selectUserCount2Seller" resultType="int">
 		SELECT count(*) 
 		FROM psp_user
 		<where>
 			sid = #{sid}
+			<!-- 筛选 -->
 			<if test="filteType != 0">
 				and level = #{filteType}
 			</if>
-			<if test="stype != 0">
-				<if test="stype == 1">
-					AND (name like '%#{key}%') 
-				</if>
-				<if test="stype == 2">
-					AND (phoneNum like '%#{key}%') 
-				</if>
-				<if test="stype == 3">
-					AND (companyName like '%#{key}%') 
-				</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (name like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<if test="stype == 3">
+				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 沟通状态 -->
+			<if test="status != 0">
+				and status = #{status}
 			</if>
 		</where> 
 	</select>
+	
 	
 	<!-- 根据搜索条件获取管理的客户 -->
 	<select id="selectUsers2Seller" resultType="UserBean">
 		SELECT * FROM psp_user 
 		<where>
 			sid = #{sid}
+			<!-- 筛选 -->
 			<if test="filteType != 0">
 				and level = #{filteType}
 			</if>
-			<if test="stype != 0">
-				<if test="stype == 1">
-					AND (name like '%#{key}%') 
-				</if>
-				<if test="stype == 2">
-					AND (phoneNum like '%#{key}%') 
-				</if>
-				<if test="stype == 3">
-					AND (companyName like '%#{key}%') 
-				</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (name like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<if test="stype == 3">
+				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 沟通状态 -->
+			<if test="status != 0">
+				and status = #{status}
 			</if>
 		</where> 
 		ORDER BY isAllot Desc, createTime desc
@@ -89,5 +98,48 @@
 		WHERE
 			uid = #{uid};
 	</update>
-
+	
+	<!-- 根据id获取客户信息 -->
+	<select id="selectUserById" resultType="UserBean">
+		SELECT * FROM psp_user 
+		where uid = #{uid}
+	</select>
+	
+	<!-- 更新客户评级 -->
+	<update id="updateLevel">
+		UPDATE psp_user 
+		SET 
+			level = #{level}
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	<!-- 更新客户的标签 -->
+	<update id="updateLabel">
+		UPDATE psp_user 
+		SET 
+			label = #{label}
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	<!-- 归档客户，状态为待分配-->
+	<update id="archive">
+		UPDATE psp_user 
+		SET 
+			sid = null,sellerJson = null, isAllot=0
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	<!-- 更新客户状态 0 待沟通 1已沟通 -->
+	<update id="updateStatus">
+		UPDATE psp_user 
+		SET 
+			status = #{status}
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	
 </mapper>

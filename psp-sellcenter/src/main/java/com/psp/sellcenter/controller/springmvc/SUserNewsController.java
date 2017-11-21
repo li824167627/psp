@@ -27,8 +27,8 @@ public class SUserNewsController {
 	 **/
 	@RequestMapping("/v1/getUserNews")
 	@ResponseBody
-	public ListResult<RSaleUserNewsBean> getUserNews(@Validated GetUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		ListResult<RSaleUserNewsBean> res = new ListResult<RSaleUserNewsBean>();
+	public ListResult<RUserNewsBean> getUserNews(@Validated GetUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RUserNewsBean> res = new ListResult<RUserNewsBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
 			res.setMsg(error.getFieldError().getDefaultMessage());
@@ -39,11 +39,11 @@ public class SUserNewsController {
 	}
 
 	/**
-	 * 新建/编辑客户消息
+	 * 新建客户消息
 	 **/
-	@RequestMapping("/v1/edit")
+	@RequestMapping("/v1/add")
 	@ResponseBody
-	public BaseResult edit(@Validated EditUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult add(@Validated AddUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -51,6 +51,6 @@ public class SUserNewsController {
 			return res;
 		}
 
-		return userNewsController.edit(param, request, response);
+		return userNewsController.add(param, request, response);
 	}
 }

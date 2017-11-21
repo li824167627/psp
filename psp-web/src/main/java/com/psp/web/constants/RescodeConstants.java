@@ -12,6 +12,9 @@ import org.jdom2.input.SAXBuilder;
 
 /**
  * 返回结果处理
+ * 
+ * @author cuihaidong
+ *
  */
 public class RescodeConstants {
 
@@ -38,24 +41,29 @@ public class RescodeConstants {
 	private void parserXml() {
 		SAXBuilder builder = new SAXBuilder();
 		try {
-			Document doc = builder.build(this.getClass().getResourceAsStream("/assets/rescode.xml"));
-			Element rootEl = doc.getRootElement();
-			// 获得所有子元素
-			List<Element> results = rootEl.getChildren("result");
-			for (Element result : results) {
-				Rescode rescode = new Rescode();
-				// 获取name
-				String name = result.getAttributeValue("name");
-				// 获取code, msg
-				int code = parseInt(result.getChildText("code"), -1);
+			CfgBean cfg = CfgParse.getInstance().getConfig();
+			List<CfgFileBean> files = cfg.getRescodes();
 
-				String msg = result.getChildText("msg");
+			for (CfgFileBean file : files) {
+				Document doc = builder.build(this.getClass().getResourceAsStream(file.getFile()));
+				Element rootEl = doc.getRootElement();
+				// 获得所有子元素
+				List<Element> results = rootEl.getChildren("result");
+				for (Element result : results) {
+					Rescode rescode = new Rescode();
+					// 获取name
+					String name = result.getAttributeValue("name");
+					// 获取code, msg
+					int code = parseInt(result.getChildText("code"), -1);
 
-				rescode.setCode(code);
-				rescode.setMsg(msg);
-				rescode.setName(name);
+					String msg = result.getChildText("msg");
 
-				maps.put(name, rescode);
+					rescode.setCode(code);
+					rescode.setMsg(msg);
+					rescode.setName(name);
+
+					maps.put(name, rescode);
+				}
 			}
 		} catch (JDOMException e) {
 			e.printStackTrace();

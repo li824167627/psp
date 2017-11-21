@@ -20,6 +20,7 @@ public class UserBean {
 	private Integer origin; // 状态1：0线上（PC） 1 园区下单 2 线下
 	private Integer level; // 客户级别：0尚未定级 1 有效客户 2 无效客户
 	private Integer isAllot; // 是否分配：0待分配，1已分配
+	private Integer status; // 客户状态，0:全部1:待沟通客户2:已处理客户
 	private String aid; // 当前分配人
 	private String adminJson; // 管理人员Json
 	private Timestamp allotTime; // 分配时间
@@ -125,4 +126,11 @@ public class UserBean {
 	public void setCommunityTime(Timestamp communityTime) {
 		this.communityTime = communityTime;
 	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
 }

@@ -3,8 +3,12 @@
 	
 	<!-- 获取客户信息流列表 -->
 	<protocol name="getUserNews" requestMapping="/v1/getUserNews" resType="json" notes="获取客户信息流" state="1" requestName="GetUserNewsParam"
-		resDataType="list" responseName="RSaleUserNewsBean">
+		resDataType="list" responseName="RUserNewsBean">
 		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
 			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
 				<notEmpty message="客户id不能为空"></notEmpty>
 			</param>
@@ -16,14 +20,12 @@
 		</request>
 	</protocol>
 	
-	<!-- 编辑新建客户消息 -->
-	<protocol name="edit" requestMapping="/v1/edit" resType="json" notes="新建/编辑客户消息" state="1" requestName="EditUserNewsParam"
+	<!-- 新建客户消息 -->
+	<protocol name="add" requestMapping="/v1/add" resType="json" notes="新建客户消息" state="1" requestName="AddUserNewsParam"
 		resDataType="base" >
 		<request>
 			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
 				<notEmpty message="客户id不能为空"></notEmpty>
-			</param>
-			<param name="nid" type="string" demoValue="acef2dc12c31b2a3e1b23e123e12a3" notes="消息流id，空时为新建">
 			</param>
 			<param name="label" type="string" demoValue="['app开发','原生开发']" notes="信息标签">
 			</param>

@@ -2,6 +2,9 @@ package com.psp.web.constants;
 
 /**
  * 返回结果常量
+ * 
+ * @author cuihaidong
+ *
  */
 public class Rescode {
 
