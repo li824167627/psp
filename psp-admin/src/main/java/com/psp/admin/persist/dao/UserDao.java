@@ -28,4 +28,12 @@ public interface UserDao {
 
 	int updateStatus(UserBean user);
 
+	
+	// -======= admin ======
+	int selectUserCount(int filteType, int stype, String key, int status);
+
+	List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int status);
+
+	int allotUser(UserBean user);
+
 }

@@ -12,9 +12,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.controller.res.bean.RUserBean;
 import com.psp.admin.controller.res.bean.RUserLogsBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.SellerBean;
 import com.psp.admin.model.UserBean;
 import com.psp.admin.model.UserLogBean;
+import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.SellerDao;
 import com.psp.admin.persist.dao.UserDao;
 import com.psp.admin.persist.dao.UserLogDao;
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService {
 	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
+	AdminDao adminImpl;
+	
+	@Autowired
 	SellerDao sellerImpl;
 	
 	@Autowired
@@ -40,18 +45,13 @@ public class UserServiceImpl implements UserService {
 	
 
 	@Override
-	public PageResult<RUserBean> getUsers2Seller(String sid, int page, int pageSize,
-				int filteType, int stype, String key, int status) {
+	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int status) {
 		PageResult<RUserBean> result = new PageResult<RUserBean>();
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
-		}	
-		int count = userImpl.selectUserCount2Seller(sid, filteType, stype, key, status);
+		int count = userImpl.selectUserCount(filteType, stype, key, status);
 		if(count == 0) {
 			return null;
 		}
-		List<UserBean> resList = userImpl.selectUsers2Seller(page, pageSize, sid, filteType, stype, key, status);
+		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, status);
 		List<RUserBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -445,6 +445,54 @@ public class UserServiceImpl implements UserService {
 		userlog.setContent(bean.getContent());
 		userlog.setType(bean.getType());
 		return userlog;
+	}
+
+	@Override
+	public int getUserNum(int isAllot) {
+		//TODO:存入缓存 客户数量存入缓存
+		int count = userImpl.selectUserCount(0, 0, null, isAllot);
+		return count;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean allot(String aid, String sid, String uid) {
+		AdminBean admin = adminImpl.selectOneById(aid);
+		logger.info("管理员：" + JSON.toJSONString(admin));
+		UserBean user = userImpl.selectUserById(uid);
+		logger.info("编辑用户" + JSON.toJSONString(user));
+		if(user == null) {
+			throw new ServiceException("object_is_not_exist", "被分配的客户");
+		}
+		if(user.getIsAllot() == 1) {
+			throw new ServiceException("user_has_alloted");
+		}
+		JSONObject adminJson = new JSONObject();
+		adminJson.put("name", admin.getUsername());
+		adminJson.put("phone", admin.getPhoneNum());
+		SellerBean seller = sellerImpl.selectOneById(sid);
+		logger.info("分配的销售：" + JSON.toJSONString(seller));
+		boolean flag = false;
+		if(seller == null) {
+			throw new ServiceException("object_is_not_exist", "分配的销售");
+		}
+		JSONObject sellerJson = new JSONObject();
+		sellerJson.put("name", seller.getUsername());
+		sellerJson.put("phone", seller.getPhoneNum());
+		user.setSid(sid);
+		user.setSellerJson(sellerJson.toJSONString());
+		user.setAid(aid);
+		user.setAdminJson(adminJson.toJSONString());
+		user.setIsAllot(1);// 已分配
+		flag = userImpl.allotUser(user) > 0;
+		if(!flag) {
+			throw new ServiceException("update_user_error");
+		}
+		flag = insertUserLog(0, sid, seller.getUsername(), sellerJson.toJSONString(), user, aid, admin.getUsername(), adminJson.toJSONString());
+		if(!flag) {
+			throw new ServiceException("create_user_log_error");
+		}
+		return flag;
 	}
 
 

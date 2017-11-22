@@ -7,7 +7,7 @@ import com.psp.admin.service.res.PageResult;
 public interface UserService {
 
 	/**
-	 * 获取销售下所有客户
+	 * 获取所有客户
 	 * @param sid
 	 * @param pageSize 
 	 * @param page 
@@ -17,7 +17,7 @@ public interface UserService {
 	 * @param status 
 	 * @return
 	 */
-	PageResult<RUserBean> getUsers2Seller(String sid, int page, int pageSize, int filteType, int stype, String key, int status);
+	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int status);
 	
 	/**
 	 * 新建客户
@@ -97,5 +97,21 @@ public interface UserService {
 	 * @return
 	 */
 	PageResult<RUserLogsBean> getUserLogs(String sid, String uid, String key);
+	
+	/**
+	 * 查询客户数量
+	 * @param isAllot
+	 * @return
+	 */
+	int getUserNum(int isAllot);
+	
+	/**
+	 * 分配客户给销售人员
+	 * @param aid
+	 * @param sid
+	 * @param uid
+	 * @return
+	 */
+	boolean allot(String aid, String sid, String uid);
 
 }

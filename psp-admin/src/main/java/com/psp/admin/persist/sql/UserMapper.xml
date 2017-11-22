@@ -142,4 +142,74 @@
 	</update>
 	
 	
+	
+	<!-- 根据分配状态获取客户总数 -->
+	<select id="selectUserCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_user
+		<where>
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and level = #{filteType}
+			</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (name like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<if test="stype == 3">
+				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 沟通状态 -->
+			<if test="status != 0">
+				and status = #{status}
+			</if>
+		</where> 
+	</select>
+	
+	
+	<!-- 根据搜索条件获取客户 -->
+	<select id="selectUsers" resultType="UserBean">
+		SELECT * FROM psp_user 
+		<where>
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and level = #{filteType}
+			</if>
+			<!-- 关键字搜索 -->
+			<if test="stype == 1">
+				AND (name like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<if test="stype == 3">
+				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 沟通状态 -->
+			<if test="status != 0">
+				and status = #{status}
+			</if>
+		</where> 
+		ORDER BY isAllot, createTime desc
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 分配客户给销售 -->
+	<update id="allotUser">
+		UPDATE psp_user 
+		SET 
+			sid = #{sid},
+			sellerJson = #{sellerJson},
+			isAllot = 1,
+			aid = #{aid},
+			adminJson = #{adminJson},
+			allotTime = now(),
+			status = 0
+		WHERE
+			uid = #{uid};
+	</update>
+	
 </mapper>

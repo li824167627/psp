@@ -92,4 +92,31 @@ public class UserImpl extends BaseImpl implements UserDao {
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateStatus", where);
 	}
 
+	@Override
+	public int selectUserCount(int filteType, int stype, String key, int status) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("filteType", filteType);
+		where.put("stype", stype);
+		where.put("key", key);
+		where.put("status", status);
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectUserCount", where);
+	}
+
+	@Override
+	public List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int status) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("start", page * pageSize);
+		where.put("length", pageSize);
+		where.put("filteType", filteType);
+		where.put("stype", stype);
+		where.put("key", key);
+		where.put("status", status);
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectUsers", where);
+	}
+
+	@Override
+	public int allotUser(UserBean user) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".allotUser", user);
+	}
+
 }

@@ -1,115 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <results>
 	<!-- 用户相关，100001开始 -->
-	<!-- 申请加入工会业务 001-099 -->
-	<result name="user_join_union_user_has_pass">
+	<result name="create_user_error">
 		<code>100001</code>
-		<msg>您已经是工会会员！</msg>
+		<msg>新建用户失败！</msg>
 	</result>
-	<result name="user_join_union_phone_is_exist">
+	
+	<result name="update_user_seller_error">
 		<code>100002</code>
-		<msg>您的手机号已经存在！</msg>
+		<msg>认领用户失败！</msg>
 	</result>
-
-	<result name="user_join_union_user_has_apply">
+	
+	<result name="user_not_claim">
 		<code>100003</code>
-		<msg>您已经申请工会会员，正在审核中！</msg>
+		<msg>客户没有被认领，%s。</msg>
 	</result>
 	
-	<result name="user_join_union_company_is_not_exist">
+	<result name="user_is_claimed_by_u">
 		<code>100004</code>
-		<msg>抱歉，您正在申请的公司不存在！</msg>
+		<msg>您已认领该客户，%s。</msg>
 	</result>
 	
-	<result name="user_update_info_error">
+	<result name="user_is_claimed">
 		<code>100005</code>
+		<msg>该客户已经被认领，销售信息：%s。</msg>
+	</result>
+	
+	<result name="update_user_error">
+		<code>100006</code>
 		<msg>更新用户信息失败！</msg>
 	</result>
 	
-	<result name="user_del_info_error">
-		<code>100006</code>
-		<msg>更新关联资料失败！</msg>
+	<result name="create_user_log_error">
+		<code>100007</code>
+		<msg>新建用户操作日志失败！</msg>
 	</result>
 	
-	<result name="user_vcode_is_error">
-		<code>200101</code>
-		<msg>验证码输入有误，请重新输入！</msg>
+	<result name="seller_has_no_auth">
+		<code>100008</code>
+		<msg>您没有权限修改该客户！</msg>
 	</result>
 	
-	<result name="user_vcode_is_expire">
-		<code>200101</code>
-		<msg>验证码已经过期，请重新获取！</msg>
+	<result name="create_user_news_error">
+		<code>100009</code>
+		<msg>创建客户消息失败！</msg>
 	</result>
 	
-	<result name="user_form_is_submit">
-		<code>200101</code>
-		<msg>"您已经提交过表单！</msg>
-	</result>
-	
-	<result name="user_auth_event_user_is_not_admin">
-		<code>200101</code>
-		<msg>您没有权限验证二维码！</msg>
-	</result>
-	
-	<result name="user_auth_event_user_has_claim">
-		<code>200102</code>
-		<msg>您已经领取了奖品！</msg>
+	<result name="user_has_alloted">
+		<code>100010</code>
+		<msg>客户已分配！</msg>
 	</result>
 	
 	
-	<result name="user_is_not_vip">
-		<code>200103</code>
-		<msg>您还不是会员，快去完善资料吧</msg>
-	</result>
-	
-	<result name="event_ticket_is_none">
-		<code>200104</code>
-		<msg>活动票券已售完</msg>
-	</result>
-	
-	<result name="user_form_data_error">
-		<code>200105</code>
-		<msg>用户活动表单数据插入失败</msg>
-	</result>
-	
-	<result name="user_ticket_error">
-		<code>200106</code>
-		<msg>用户票据插入失败，请重试</msg>
-	</result>
-	
-	<result name="ticket_update_error">
-		<code>200107</code>
-		<msg>票据数量更新失败，请重试</msg>
-	</result>
-	
-	<result name="user_auth_event_error">
-		<code>200108</code>
-		<msg>验证失败，请重试！</msg>
-	</result>
-	
-	<result name="user_auth_number_error">
-		<code>200108</code>
-		<msg>更新验证数量失败，请重试！</msg>
-	</result>
-	
-	<result name="add_verify_error">
-		<code>300004</code>
-		<msg>添加验证员失败</msg>
-	</result>
-	
-	<result name="verify_timeout_error">
-		<code>300005</code>
-		<msg>二维码已失效请重试</msg>
-	</result>
-	
-	<result name="order_is_payed">
-		<code>200109</code>
-		<msg>票已支付成功，不要重复支付</msg>
-	</result>
-	
-	<result name="order_update_error">
-		<code>200110</code>
-		<msg>支付状态更新失败</msg>
-	</result>
 	
 </results>
