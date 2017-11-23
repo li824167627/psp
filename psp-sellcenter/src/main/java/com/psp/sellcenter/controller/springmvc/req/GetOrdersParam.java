@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 /**
  * 获取客户工单列表
  **/
-public class GetUserOrdersParam {
+public class GetOrdersParam {
 	private Integer page; // 页码，默认从0开始
 	private Integer pagesize; // 每页数量，默认20
 	@Pattern(regexp = "^0|1$", message = "搜索阶段错误：0:全部1:待处理")

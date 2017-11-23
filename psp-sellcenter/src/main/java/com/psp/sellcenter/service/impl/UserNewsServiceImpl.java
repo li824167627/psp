@@ -74,7 +74,9 @@ public class UserNewsServiceImpl implements UserNewsService{
 	private RUserNewsBean parse(UserNewsBean bean) {
 		RUserNewsBean res = new RUserNewsBean();
 		res.setContent(bean.getContent());
-		res.setCreateTime(bean.getCreateTime().getTime() / 1000);
+		if(bean.getCreateTime() != null) {
+			res.setCreateTime(bean.getCreateTime().getTime() / 1000);
+		}
 		res.setLabel(bean.getLabel());
 		res.setNid(bean.getNid());
 		res.setOrigin(bean.getOrigin());

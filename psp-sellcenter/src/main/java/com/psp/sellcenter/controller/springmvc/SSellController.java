@@ -34,8 +34,8 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return sellController.login(param, request, response);
+		res.setData(new RSellerBean().getDemoValue());
+		return res;
 	}
 
 	/**
@@ -50,8 +50,8 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return sellController.getSeller(param, request, response);
+		res.setData(new RSellerBean().getDemoValue());
+		return res;
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return sellController.updateName(param, request, response);
+		res.setMsg(null);
+		return res;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return sellController.updatePassWord(param, request, response);
+		res.setMsg(null);
+		return res;
 	}
 }

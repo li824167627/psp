@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <protocols>
 
-	<!-- 获取客户信息流列表 -->
-	<protocol name="getUserOrders" requestMapping="/v1/getUserOrders" resType="json" notes="获取客户工单列表" state="1" requestName="GetUserOrdersParam"
+	<!-- 获取工单列表 -->
+	<protocol name="getOrders" requestMapping="/v1/getOrders" resType="json" notes="获取客户工单列表" state="1" requestName="GetOrdersParam"
 		resDataType="list" responseName="ROrderBean">
 		<request>
-			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
-				<notEmpty message="客户id不能为空"></notEmpty>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="stage" type="string" demoValue="0" notes="阶段：0 全部： 1待处理">
+				<pattern regexp="^0|1$" message="搜索阶段错误：0:全部1:待处理" />
+			</param>
+			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID，空则查询当前销售待工单">
 			</param>
 			<param name="stype" type="string" demoValue="0" notes="搜索条件类型，0:全部1:描述2:标签">
 				<pattern regexp="^0|1|2$" message="搜索条件错误：0:全部1:描述2:标签" />
@@ -15,6 +21,16 @@
 			</param>
 			<param name="filteType" type="string" demoValue="0" notes="筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止">
 				<pattern regexp="^[0-8]$" message="搜索条件错误： 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取销售工单数量 -->
+	<protocol name="getOrderNum" requestMapping="/v1/getOrderNum" resType="json" notes="获取工单数量" state="1" requestName="GetOrderNumParam"
+		resDataType="object" responseName="Integer">
+		<request>
+			<param name="stage" type="string" demoValue="0" notes="搜索客户状态，0:全部1进行中2已完成3已关闭">
+				<pattern regexp="^0|1|1|3$" message="状态错误：0:全部1进行中2已完成3已关闭" />
 			</param>
 		</request>
 	</protocol>
@@ -29,6 +45,8 @@
 			<param name="pid" type="string" demoValue="acef2dc12c31b2a3e1b23e123e12a3" notes="选择服务商">
 				<notEmpty message="服务商不能为空"></notEmpty>
 			</param>
+			<param name="provider" type="string" demoValue="{'firstType':'1','secondeType':2,'pid':'pid'}" notes="选择服务商">
+			</param>
 			<param name="label" type="string" demoValue="['app开发','原生开发']" notes="工单标签">
 			</param>
 			<param name="content" type="string" demoValue="客户想做一个app" notes="描述">
@@ -37,5 +55,125 @@
 		</request>
 	</protocol>
 	
+	<!-- 获取服务分类及服务商列表 -->
+	<protocol name="getServiceProviders" requestMapping="/v1/getServiceProviders" resType="json" notes="获取服务分类及服务商列表" state="1" 
+		resDataType="object" responseName="RServiceProviderBean">
+	</protocol>
+	
+	<!-- 获取工单基本信息 -->
+	<protocol name="getDetail" requestMapping="/v1/getDetail" resType="json" notes="获取工单基本信息" state="1" requestName="GetOrderDetailParam"
+		resDataType="object" responseName="ROrderBean">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取订单操作日志 -->
+	<protocol name="getOrderLogs" requestMapping="/v1/getOrderLogs" resType="json" notes="获取工单操作日志" state="1" requestName="GetOrderLogsParam"
+		resDataType="list" responseName="ROrderLogsBean">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="key" type="String" demoValue="" notes="关键字">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 分配工单 -->
+	<protocol name="allotOrder" requestMapping="/v1/allotOrder" resType="json" notes="分配工单给服务商" state="0" requestName="AllotOrderParam"
+		resDataType="base">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="pid" type="string" demoValue="acef2dc12c31b2a3e1b23e123e12a3" notes="选择服务商">
+				<notEmpty message="服务商不能为空"></notEmpty>
+			</param>
+			<param name="provider" type="string" demoValue="{'firstType':'1','secondeType':2,'pid':'pid'}" notes="选择服务商">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 关闭工单：1不能分配2不能生成合同3项目终止 -->
+	<protocol name="closeOrder" requestMapping="/v1/closeOrder" resType="json" notes="关闭工单" state="0" requestName="CloseOrderParam"
+		resDataType="base">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="status" type="string" demoValue="1" notes="关闭状态：-1不能分配-2不能生成合同-3项目终止">
+				<pattern regexp="^-1|-2|-3$" message="关闭状态错误：-1不能分配-2不能生成合同-3项目终止" />
+			</param>
+			<param name="content" type="string" demoValue="关闭描述JSON" notes="关闭描述JSON">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 上传合同 -->
+	<protocol name="uploadContract" requestMapping="/v1/uploadContract" resType="json" notes="上传合同" state="0" requestName="UploadContractParam"
+		resDataType="base">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="contractNo" type="string" demoValue="HT012017023023" notes="合同编号">
+			</param>
+			<param name="name" type="string" demoValue="软件开发服务合同" notes="合同名称">
+				<notEmpty message="合同名称不能为空"></notEmpty>
+			</param>
+			<param name="signTime" type="long" demoValue="123123123123" notes="合同签订时间">
+			</param>
+			<param name="startTime" type="long" demoValue="123123123123" notes="合同开始时间">
+			</param>
+			<param name="endTime" type="long" demoValue="123123123123" notes="合同开始时间">
+			</param>
+			<param name="partyA" type="string" demoValue="123123123123" notes="合同甲方JSON">
+			</param>
+			<param name="partyB" type="string" demoValue="123123123123" notes="合同乙方JSON">
+			</param>
+			<param name="contarctUrl" type="string" demoValue="1123" notes="合同地址">
+			</param>
+			<param name="payment" type="string" demoValue="1" notes="付款方式：0一次性 1分期">
+			</param>
+			<param name="deadline" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案">
+			</param>
+			<param name="service" type="string" demoValue="服务事项" notes="服务事项">
+			</param>
+			<param name="money" type="double" demoValue="100" notes="合同金额">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 服务商提交完成申请，1完成工单2拒绝完成 -->
+	<protocol name="confirmOrder" requestMapping="/v1/confirmOrder" resType="json" notes="确认工单" state="0" requestName="ConfirmOrderParam"
+		resDataType="base">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="type" type="string" demoValue="1" notes="工单完成情况确认：1完成工单2拒绝完成">
+				<pattern regexp="^1|2$" message="完成情况错误：1完成工单2拒绝完成" />
+			</param>
+			<param name="content" type="string" demoValue="完成描述" notes="完成描述">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 工单反馈 -->
+	<protocol name="feedback" requestMapping="/v1/feedback" resType="json" notes="工单反馈" state="0" requestName="FeedbackParam"
+		resDataType="base">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="score" type="string" demoValue="[{quality:10},{speed:10},{attribute:10}]" notes="服务质量，服务速度，服务态度的评分">
+			</param>
+			<param name="content" type="string" demoValue="评价描述" notes="评价描述">
+			</param>
+		</request>
+	</protocol>
 	
 </protocols>

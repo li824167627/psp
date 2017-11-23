@@ -2,7 +2,7 @@ package com.psp.sellcenter.controller.res.bean;
 
 
 /**
- * 客户信息流信息（预工单）
+ * 客户信息流信息
  **/
 public class RUserNewsBean {
 	private Integer nid; // 客户信息id

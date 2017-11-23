@@ -51,4 +51,9 @@ public class RSellerBean {
  		return lastLoginTime;
 	}
 
+	public RSellerBean getDemoValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

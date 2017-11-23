@@ -7,6 +7,7 @@ package com.psp.sellcenter.controller.res.bean;
 public class ROrderBean {
 	private String oid; // 工单信息id
 	private String orderNo; // 工单号
+	private String sid; // 当前销售id
 	private String uid; // 客户id
 	private String userJson; // 客户信息
 	private String label; // 工单标签
@@ -15,6 +16,11 @@ public class ROrderBean {
 	private String providerJson; // 服务商信息
 	private Long createTime; // 创建时间
 	private Integer status; // 状态
+	private Integer stage; // 所处阶段
+	private Integer isAllot; // 是否被分配
+	private Long expectedTime; // 预计完成时间
+	private Long completeTime; // 实际完成时间
+	private Long isNeedInvoice; // 是否需要发票
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -30,6 +36,14 @@ public class ROrderBean {
 
 	public String getOrderNo() {
  		return orderNo;
+	}
+
+	public void setSid(String sid) {
+ 		this.sid = sid;
+	}
+
+	public String getSid() {
+ 		return sid;
 	}
 
 	public void setUid(String uid) {
@@ -94,6 +108,46 @@ public class ROrderBean {
 
 	public Integer getStatus() {
  		return status;
+	}
+
+	public void setStage(Integer stage) {
+ 		this.stage = stage;
+	}
+
+	public Integer getStage() {
+ 		return stage;
+	}
+
+	public void setIsAllot(Integer isAllot) {
+ 		this.isAllot = isAllot;
+	}
+
+	public Integer getIsAllot() {
+ 		return isAllot;
+	}
+
+	public void setExpectedTime(Long expectedTime) {
+ 		this.expectedTime = expectedTime;
+	}
+
+	public Long getExpectedTime() {
+ 		return expectedTime;
+	}
+
+	public void setCompleteTime(Long completeTime) {
+ 		this.completeTime = completeTime;
+	}
+
+	public Long getCompleteTime() {
+ 		return completeTime;
+	}
+
+	public void setIsNeedInvoice(Long isNeedInvoice) {
+ 		this.isNeedInvoice = isNeedInvoice;
+	}
+
+	public Long getIsNeedInvoice() {
+ 		return isNeedInvoice;
 	}
 
 }

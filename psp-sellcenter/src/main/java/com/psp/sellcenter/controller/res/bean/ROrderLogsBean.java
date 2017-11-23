@@ -2,18 +2,18 @@ package com.psp.sellcenter.controller.res.bean;
 
 
 /**
- * 操作客户信息
+ * 操作工单信息
  **/
-public class RUserLogsBean {
+public class ROrderLogsBean {
 	private Integer lid; // 操作id
-	private String uid; // 用户
+	private String oid; // 订单ID
 	private String sid; // 销售id
 	private String sellerJson; // 销售信息
 	private String content; // 操作文本
-	private String aid; // 管理员
-	private String adminJson; // 管理员信息
+	private String pid; // 服务商id
+	private String providerJon; // 服务商JSON
 	private Long createTime; // 创建时间
-	private Integer type; // 操作类型 0管理员分配 1 新建客户 2 修改客户 3归档客户 4 设置评级 5编辑标签 6开始沟通
+	private Integer type; // 操作类型0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
 
 	public void setLid(Integer lid) {
  		this.lid = lid;
@@ -23,12 +23,12 @@ public class RUserLogsBean {
  		return lid;
 	}
 
-	public void setUid(String uid) {
- 		this.uid = uid;
+	public void setOid(String oid) {
+ 		this.oid = oid;
 	}
 
-	public String getUid() {
- 		return uid;
+	public String getOid() {
+ 		return oid;
 	}
 
 	public void setSid(String sid) {
@@ -55,20 +55,20 @@ public class RUserLogsBean {
  		return content;
 	}
 
-	public void setAid(String aid) {
- 		this.aid = aid;
+	public void setPid(String pid) {
+ 		this.pid = pid;
 	}
 
-	public String getAid() {
- 		return aid;
+	public String getPid() {
+ 		return pid;
 	}
 
-	public void setAdminJson(String adminJson) {
- 		this.adminJson = adminJson;
+	public void setProviderJon(String providerJon) {
+ 		this.providerJon = providerJon;
 	}
 
-	public String getAdminJson() {
- 		return adminJson;
+	public String getProviderJon() {
+ 		return providerJon;
 	}
 
 	public void setCreateTime(Long createTime) {

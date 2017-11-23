@@ -54,7 +54,7 @@
 				and status = #{status}
 			</if>
 		</where> 
-		ORDER BY isAllot Desc, createTime desc
+		ORDER BY createTime desc
 		LIMIT #{start},#{length}
 	</select>
 	

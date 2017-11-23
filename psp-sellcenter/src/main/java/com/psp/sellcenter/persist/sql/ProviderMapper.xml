@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.sellcenter.persist.sql.ProviderMapper">
+	
+	<!-- 获取所有分类 -->
+	<select id="selectAllCates" resultMap="CategoryMap">
+		SELECT
+			sc.cid,
+			sc.NAME,
+			c.cid AS scid,
+			c.NAME AS sname 
+		FROM
+			psp_category sc
+			LEFT JOIN psp_category c ON sc.cid = c.parentId 
+		WHERE
+			sc.parentId = 0 
+		ORDER BY
+			sc.sort,
+			c.parentId,
+			c.sort
+	</select>
+	
+	<resultMap type="CategoryBean" id="CategoryMap" autoMapping="true">
+		<id property="cid" column="cid"/>
+		<result property="name"  column="name"/>
+		<collection property="childern" ofType="CategoryBean">
+          	<id property="cid" column="scid"/>
+			<result property="name"  column="sname"/>
+   		</collection>
+	</resultMap>
+	
+	<!-- 根据分类ID获取服务商列表 -->
+	<select id="selectListByCid" resultType="ProviderBean">
+		SELECT p.* FROM psp_provider p
+		left join psp_provider_category_relation r
+		on p.pid = r.pid
+		where r.cid = #{cid}
+	</select>
+</mapper>

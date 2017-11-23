@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.sellcenter.persist.sql.OrderLogMapper">
+	
+	
+	<!-- 插入工单日志 -->
+	<insert id="insert">
+		INSERT INTO psp_order_log
+		(oid, pid, providerJson, sid, sellerJson, content, type, createTime)
+		VALUES
+		(#{oid}, #{pid}, #{providerJson}, #{sid}, #{sellerJson}, #{content}, #{type}, #{createTime});
+	</insert>
+
+	<!-- 查询客户日志数量 -->
+	<select id="selectOrderLogsCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_order_log
+		<where>
+			oid = #{oid}
+			<!-- 筛选 -->
+			<if test="key != null">
+				AND (content like CONCAT('%', '${key}' ,'%')) 
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 查询客户日志 -->
+	<select id="selectOrderLogs" resultType="OrderLogBean">
+		SELECT *
+		FROM psp_order_log
+		<where>
+			oid = #{oid}
+			<!-- 筛选 -->
+			<if test="key != null">
+				AND (content like CONCAT('%', '${key}' ,'%')) 
+			</if>
+		</where> 
+		order by createTime desc;
+	</select>
+	
+	
+
+</mapper>

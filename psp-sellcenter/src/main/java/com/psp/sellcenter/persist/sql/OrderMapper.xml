@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.sellcenter.persist.sql.OrderMapper">
+	
+	<!-- 根据分配状态获取管理的工单总数 -->
+	<select id="selectOrderCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_order
+		<where>
+			sid = #{sid}
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and status = #{filteType}
+			</if>
+			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and status > 1
+			</if>
+			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 1">
+				AND (content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 用户详情下-->
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+		</where> 
+	</select>
+	
+	
+	<!-- 根据搜索条件获取管理的客户 -->
+	<select id="selectOrders" resultType="OrderBean">
+		SELECT * 
+		FROM psp_order
+		<where>
+			sid = #{sid}
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and status = #{filteType}
+			</if>
+			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and status > 1
+			</if>
+			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 1">
+				AND (content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 用户详情下-->
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+		</where> 
+		ORDER BY stage, updateTime desc, createTime desc
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 根据阶段搜索数量 -->
+	<select id="selectOrderCount2Seller" resultType="int">
+		SELECT count(*) 
+		FROM psp_order
+		<where>
+			sid = #{sid}
+			<!-- 筛选 -->
+			<if test="stage != 0"><!-- 1进行中 2 已完成 3 关闭 -->
+				and stage = #{stage}
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 新增工单 -->
+	<insert id="insert">
+		INSERT INTO psp_order
+		(oid, orderNo, sid, sellerJson, uid, label, content,
+		pid, status, stage, createTime, isAllot, updateTime)
+		VALUES
+		(#{oid}, #{orderNo}, #{sid}, #{sellerJson}, #{uid}, #{label}, #{content},
+		#{pid}, #{status}, #{stage}, now(), #{isAllot}, now());
+	</insert>
+	
+	<!-- 根据id获取客户信息 -->
+	<select id="selectOrderById" resultType="OrderBean">
+		SELECT * FROM psp_order 
+		where oid = #{oid}
+	</select>
+	
+	
+</mapper>

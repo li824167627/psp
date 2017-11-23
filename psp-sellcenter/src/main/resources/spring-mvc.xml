@@ -33,6 +33,7 @@
 			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
 			<mvc:mapping path="/user/**" />
 			<mvc:mapping path="/usernews/**" />
+			<mvc:mapping path="/order/**" />
 			<bean class="com.psp.sellcenter.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 

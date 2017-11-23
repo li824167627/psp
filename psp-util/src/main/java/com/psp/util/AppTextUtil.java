@@ -76,15 +76,21 @@ public class AppTextUtil {
 		return ip;
 	}
 
-	public static void main(String[] args) {
-			System.out.println(getPrimaryKey());
-	}
 	
 	/**
 	 * 获取文件key
 	 */
 	public static String getFileKey() {
 		return DateUtil.getDate("yyyyMMdd") + System.currentTimeMillis() + RandomUtil.getRandomCharAndNum(12);
+	}
+
+	/**
+	 * 随机订单号
+	 * @param prefix
+	 * @return
+	 */
+	public static String getRandomNo(String prefix) {
+		return prefix + DateUtil.getDate("yyyyMMddHHmmss") + RandomUtil.getRandomCharAndNum(6);
 	}
 	
 	

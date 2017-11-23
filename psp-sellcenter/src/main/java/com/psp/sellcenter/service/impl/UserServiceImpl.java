@@ -79,7 +79,9 @@ public class UserServiceImpl implements UserService {
 			res.setAllotTime(user.getAllotTime().getTime() / 1000);
 		}
 		res.setCompanyName(user.getCompanyName());
-		res.setCreateTime(user.getCreateTime().getTime() / 1000);
+		if(user.getCreateTime() != null) {
+			res.setCreateTime(user.getCreateTime().getTime() / 1000);
+		}
 		res.setIsAllot(user.getIsAllot());
 		res.setLabel(user.getLabel());
 		res.setLevel(user.getLevel());
@@ -294,7 +296,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean archive(String sid, String uid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		logger.info("当前销售：" + JSON.toJSONString(seller));
 		boolean flag = false;
 		if(seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
@@ -303,12 +304,9 @@ public class UserServiceImpl implements UserService {
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		logger.info("编辑用户" + JSON.toJSONString(user));
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}
-		logger.info("用户sid" + user.getSid());
-		logger.info(!sid.equals(user.getSid()));
 		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
 		}
@@ -444,6 +442,9 @@ public class UserServiceImpl implements UserService {
 		userlog.setAdminJson(bean.getAdminJson());
 		userlog.setContent(bean.getContent());
 		userlog.setType(bean.getType());
+		if(bean.getCreateTime() != null) {
+			userlog.setCreateTime(bean.getCreateTime().getTime() / 1000);
+		}
 		return userlog;
 	}
 
