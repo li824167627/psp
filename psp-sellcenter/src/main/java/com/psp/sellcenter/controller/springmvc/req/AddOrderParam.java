@@ -11,7 +11,6 @@ public class AddOrderParam {
 	private String uid; // 客户ID
 	@NotEmpty(message = "服务商不能为空")
 	private String pid; // 选择服务商
-	private String provider; // 选择服务商
 	private String label; // 工单标签
 	@NotEmpty(message = "描述不能为空")
 	private String content; // 描述
@@ -30,14 +29,6 @@ public class AddOrderParam {
 
 	public String getPid() {
  		return pid;
-	}
-
-	public void setProvider(String provider) {
- 		this.provider = provider;
-	}
-
-	public String getProvider() {
- 		return provider;
 	}
 
 	public void setLabel(String label) {

@@ -23,6 +23,7 @@ public class OrderBean {
 	private Timestamp expectedTime; // 预计完成时间
 	private Timestamp completeTime; // 实际完成时间
 	private Long isNeedInvoice; // 是否需要发票
+	private ProviderBean provider;// 服务商信息
 	public String getOid() {
 		return oid;
 	}
@@ -124,6 +125,12 @@ public class OrderBean {
 	}
 	public void setSellerJson(String sellerJson) {
 		this.sellerJson = sellerJson;
+	}
+	public ProviderBean getProvider() {
+		return provider;
+	}
+	public void setProvider(ProviderBean provider) {
+		this.provider = provider;
 	}
 
 }

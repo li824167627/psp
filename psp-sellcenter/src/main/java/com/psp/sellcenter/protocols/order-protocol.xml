@@ -29,7 +29,7 @@
 	<protocol name="getOrderNum" requestMapping="/v1/getOrderNum" resType="json" notes="获取工单数量" state="1" requestName="GetOrderNumParam"
 		resDataType="object" responseName="Integer">
 		<request>
-			<param name="stage" type="string" demoValue="0" notes="搜索客户状态，0:全部1进行中2已完成3已关闭">
+			<param name="stage" type="string" demoValue="0" notes="搜索工单状态，0:全部1进行中2已完成3已关闭">
 				<pattern regexp="^0|1|1|3$" message="状态错误：0:全部1进行中2已完成3已关闭" />
 			</param>
 		</request>
@@ -44,8 +44,6 @@
 			</param>
 			<param name="pid" type="string" demoValue="acef2dc12c31b2a3e1b23e123e12a3" notes="选择服务商">
 				<notEmpty message="服务商不能为空"></notEmpty>
-			</param>
-			<param name="provider" type="string" demoValue="{'firstType':'1','secondeType':2,'pid':'pid'}" notes="选择服务商">
 			</param>
 			<param name="label" type="string" demoValue="['app开发','原生开发']" notes="工单标签">
 			</param>
@@ -83,7 +81,7 @@
 	</protocol>
 	
 	<!-- 分配工单 -->
-	<protocol name="allotOrder" requestMapping="/v1/allotOrder" resType="json" notes="分配工单给服务商" state="0" requestName="AllotOrderParam"
+	<protocol name="allotOrder" requestMapping="/v1/allotOrder" resType="json" notes="分配工单给服务商" state="1" requestName="AllotOrderParam"
 		resDataType="base">
 		<request>
 			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
@@ -92,13 +90,11 @@
 			<param name="pid" type="string" demoValue="acef2dc12c31b2a3e1b23e123e12a3" notes="选择服务商">
 				<notEmpty message="服务商不能为空"></notEmpty>
 			</param>
-			<param name="provider" type="string" demoValue="{'firstType':'1','secondeType':2,'pid':'pid'}" notes="选择服务商">
-			</param>
 		</request>
 	</protocol>
 	
 	<!-- 关闭工单：1不能分配2不能生成合同3项目终止 -->
-	<protocol name="closeOrder" requestMapping="/v1/closeOrder" resType="json" notes="关闭工单" state="0" requestName="CloseOrderParam"
+	<protocol name="closeOrder" requestMapping="/v1/closeOrder" resType="json" notes="关闭工单" state="1" requestName="CloseOrderParam"
 		resDataType="base">
 		<request>
 			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
@@ -113,7 +109,7 @@
 	</protocol>
 	
 	<!-- 上传合同 -->
-	<protocol name="uploadContract" requestMapping="/v1/uploadContract" resType="json" notes="上传合同" state="0" requestName="UploadContractParam"
+	<protocol name="uploadContract" requestMapping="/v1/uploadContract" resType="json" notes="上传合同" state="1" requestName="UploadContractParam"
 		resDataType="base">
 		<request>
 			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
@@ -134,11 +130,11 @@
 			</param>
 			<param name="partyB" type="string" demoValue="123123123123" notes="合同乙方JSON">
 			</param>
-			<param name="contarctUrl" type="string" demoValue="1123" notes="合同地址">
+			<param name="contractUrl" type="string" demoValue="1123" notes="合同地址">
 			</param>
 			<param name="payment" type="string" demoValue="1" notes="付款方式：0一次性 1分期">
 			</param>
-			<param name="deadline" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案">
+			<param name="paymentWay" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案">
 			</param>
 			<param name="service" type="string" demoValue="服务事项" notes="服务事项">
 			</param>
@@ -148,7 +144,7 @@
 	</protocol>
 	
 	<!-- 服务商提交完成申请，1完成工单2拒绝完成 -->
-	<protocol name="confirmOrder" requestMapping="/v1/confirmOrder" resType="json" notes="确认工单" state="0" requestName="ConfirmOrderParam"
+	<protocol name="confirmOrder" requestMapping="/v1/confirmOrder" resType="json" notes="确认工单" state="1" requestName="ConfirmOrderParam"
 		resDataType="base">
 		<request>
 			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
@@ -163,7 +159,7 @@
 	</protocol>
 	
 	<!-- 工单反馈 -->
-	<protocol name="feedback" requestMapping="/v1/feedback" resType="json" notes="工单反馈" state="0" requestName="FeedbackParam"
+	<protocol name="feedback" requestMapping="/v1/feedback" resType="json" notes="工单反馈" state="1" requestName="FeedbackParam"
 		resDataType="base">
 		<request>
 			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">

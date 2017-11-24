@@ -3,6 +3,7 @@ package com.psp.sellcenter.persist.dao;
 import java.util.List;
 
 import com.psp.sellcenter.model.OrderBean;
+import com.psp.sellcenter.model.OrderContractBean;
 
 public interface OrderDao {
 	
@@ -15,6 +16,12 @@ public interface OrderDao {
 	int selectOrderCount2Seller(String sid, int stage);
 
 	OrderBean selectOrderById(String oid);
+
+	int updateProvider(OrderBean order);
+
+	int updateStatus(OrderBean order);
+
+	int insertContract(OrderContractBean contract);
 
 
 }

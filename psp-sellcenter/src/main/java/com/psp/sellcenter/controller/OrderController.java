@@ -87,12 +87,11 @@ public class OrderController {
 		try {
 
 			String sid = (String)request.getAttribute("sellerId");
-			String provider = param.getProvider();
 			String pid = param.getPid();
 			String uid = param.getUid();
 			String label = param.getLabel();
 			String content = param.getContent();
-			boolean flag = orderServiceImpl.addOrder(sid, pid, provider, uid, label, content);
+			boolean flag = orderServiceImpl.addOrder(sid, pid, uid, label, content);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -210,30 +209,143 @@ public class OrderController {
 		return result;
 	}
 
+	/**
+	 * 分配工单
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult allotOrder(AllotOrderParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BaseResult result = new BaseResult();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			String pid = param.getPid();
+			String oid = param.getOid();
+			boolean flag = orderServiceImpl.allotOrder(sid, pid, oid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 关闭工单 -1不能分配-2不能生成合同-3项目终止
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult closeOrder(CloseOrderParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BaseResult result = new BaseResult();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			String oid = param.getOid();
+			String content = param.getContent();
+			int status = NumUtil.toInt(param.getStatus(), -1);//-1不能分配-2不能生成合同-3项目终止
+			boolean flag = orderServiceImpl.closeOrder(sid, oid, content, status);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 上传合同
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult uploadContract(UploadContractParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BaseResult result = new BaseResult();
+		try {
 
+			String sid = (String)request.getAttribute("sellerId");
+			String oid = param.getOid();
+			String contractNo = param.getContractNo();
+			String name = param.getName();
+			long signTime = param.getSignTime();
+			long startTime = param.getStartTime();
+			long endTime = param.getEndTime();
+			String partyA = param.getPartyA();
+			String partyB = param.getPartyB();
+			String contractUrl = param.getContractUrl();
+			int payment = NumUtil.toInt(param.getPayment(), 0);// 付款方式：0一次性 1分期
+			String paymentWay = param.getPaymentWay();//分期方式JSON 
+			String service = param.getService();
+			double money = param.getMoney() == null ? 0 :param.getMoney();
+			boolean flag = orderServiceImpl.uploadContract(sid, oid, contractNo, name, signTime, startTime, 
+					endTime, partyA, partyB, contractUrl, payment, paymentWay, service, money);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 确认完成
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult confirmOrder(ConfirmOrderParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		BaseResult result = new BaseResult();
+		try {
+
+			String sid = (String)request.getAttribute("sellerId");
+			String oid = param.getOid();
+			String content = param.getContent();
+			int type = NumUtil.toInt(param.getType(), 1);//1完成工单2拒绝完成
+			boolean flag = orderServiceImpl.confirmOrder(sid, oid, content, type);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 
 	public BaseResult feedback(FeedbackParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		BaseResult result = new BaseResult();
+		try {
+
+			String sid = (String)request.getAttribute("sellerId");
+			String oid = param.getOid();
+			String content = param.getContent();
+			String score = param.getScore();
+			boolean flag = orderServiceImpl.feedback(sid, oid, content, score);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 
 	

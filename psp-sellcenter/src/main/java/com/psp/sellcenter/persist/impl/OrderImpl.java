@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.psp.sellcenter.model.OrderBean;
+import com.psp.sellcenter.model.OrderContractBean;
 import com.psp.sellcenter.persist.dao.OrderDao;
 
 @Repository
@@ -56,8 +57,33 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	@Override
 	public OrderBean selectOrderById(String oid) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderById", oid);
+	}
 
-		
+	@Override
+	public int updateProvider(OrderBean order) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("pid", order.getPid());
+		where.put("oid", order.getOid());
+		where.put("status", order.getStatus());
+		where.put("stage", order.getStage());
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateProvider", where);
+
+	}
+
+	@Override
+	public int updateStatus(OrderBean order) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("oid", order.getOid());
+		where.put("status", order.getStatus());
+		where.put("stage", order.getStage());
+		where.put("expectedTime", order.getExpectedTime());
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateStatus", where);
+
+	}
+
+	@Override
+	public int insertContract(OrderContractBean contract) {
+		return sqlSessionTemplate.insert(NAME_SPACE + ".insertContract", contract);
 	}
 
 

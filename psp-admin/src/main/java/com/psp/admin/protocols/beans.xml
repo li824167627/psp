@@ -79,4 +79,27 @@
 		</attrs>
 	</bean>
 	
+	<!-- 服务分类 -->
+	<bean className="RCategroyBean" notes="服务分类">
+		<attrs>
+			<attr type="JSONArray" name="category"
+				notes="服务类型:cid 分类的值，name：分类标题，children：子分类，"
+				demoValue="[{cid:1,name:'敏捷制造',children:[{cid:1,name:'工商服务'}]}]" />
+		</attrs>
+	</bean>
+	
+	<!-- 服务商账号信息 -->
+	<bean className="RAccountBean" notes="账户信息">
+		<attrs>
+			<attr type="string" name="aid" notes="账户aid" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="phoneNum" notes="用户手机号" demoValue="18553351967" />
+			<attr type="string" name="nickName" notes="用户昵称" demoValue="candy" />
+			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
+			<attr type="int" name="type" notes="用户类型 0 员工 1 服务商管理员" demoValue="1" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="long" name="lastLoginTime" notes="上次登录时间" demoValue="unix时间戳" />
+			
+		</attrs>
+	</bean>
+	
 </beans>

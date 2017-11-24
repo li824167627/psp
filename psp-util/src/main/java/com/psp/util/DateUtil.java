@@ -24,7 +24,7 @@ public class DateUtil {
 			return null;
 		}
 	}
-
+	
 	public static final Timestamp getTimestamp(String dateStr, String format) {
 		SimpleDateFormat sdf = null;
 		if (format == null)

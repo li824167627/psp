@@ -1,14 +1,14 @@
 package com.psp.admin.controller.springmvc.req;
 
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * 更新用户名
+ * 创建服务商账户
  **/
 public class UpdateNameParam {
-	@NotEmpty(message = "更改姓名不能为空")
-	private String name; // 姓名
+	private String name; // 账户名
+	private String phone; // 手机号
+	private String password; // 手机号
 
 	public void setName(String name) {
  		this.name = name;
@@ -16,6 +16,22 @@ public class UpdateNameParam {
 
 	public String getName() {
  		return name;
+	}
+
+	public void setPhone(String phone) {
+ 		this.phone = phone;
+	}
+
+	public String getPhone() {
+ 		return phone;
+	}
+
+	public void setPassword(String password) {
+ 		this.password = password;
+	}
+
+	public String getPassword() {
+ 		return password;
 	}
 
 }

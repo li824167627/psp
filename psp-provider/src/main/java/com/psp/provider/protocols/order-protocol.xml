@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+<!-- 获取工单列表 -->
+	<protocol name="getOrders" requestMapping="/v1/getOrders" resType="json" notes="获取工单列表" state="1" requestName="GetOrdersParam"
+		resDataType="list" responseName="ROrderBean">
+		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="stage" type="string" demoValue="0" notes="阶段：0 全部： 1待处理">
+				<pattern regexp="^0|1$" message="搜索阶段错误：0:全部1:待处理" />
+			</param>
+			<param name="stype" type="string" demoValue="0" notes="搜索条件类型，0:全部1:描述2:标签">
+				<pattern regexp="^0|1|2$" message="搜索条件错误：0:全部1:描述2:标签" />
+			</param>
+			<param name="key" type="String" demoValue="" notes="关键字">
+			</param>
+			<param name="filteType" type="string" demoValue="0" notes="筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止">
+				<pattern regexp="^[0-8]$" message="搜索条件错误： 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取工单数量 -->
+	<protocol name="getOrderNum" requestMapping="/v1/getOrderNum" resType="json" notes="获取工单数量" state="1" requestName="GetOrderNumParam"
+		resDataType="object" responseName="Integer">
+		<request>
+			<param name="stage" type="string" demoValue="0" notes="搜索工单状态，0:全部1进行中2已完成3已关闭">
+				<pattern regexp="^0|1|1|3$" message="状态错误：0:全部1进行中2已完成3已关闭" />
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取工单基本信息 -->
+	<protocol name="getDetail" requestMapping="/v1/getDetail" resType="json" notes="获取工单基本信息" state="1" requestName="GetOrderDetailParam"
+		resDataType="object" responseName="ROrderBean">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取订单操作日志 -->
+	<protocol name="getOrderLogs" requestMapping="/v1/getOrderLogs" resType="json" notes="获取工单操作日志" state="1" requestName="GetOrderLogsParam"
+		resDataType="list" responseName="ROrderLogsBean">
+		<request>
+			<param name="oid" type="string" demoValue="0efa099815a34543af90d4c8750cdbf8" notes="工单ID">
+				<notEmpty message="工单id不能为空"></notEmpty>
+			</param>
+			<param name="key" type="String" demoValue="" notes="关键字">
+			</param>
+		</request>
+	</protocol>
+	
+</protocols>

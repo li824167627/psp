@@ -66,8 +66,8 @@ public class SUserController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return userController.archive(param, request, response);
+		res.setMsg(null);
+		return res;
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class SUserController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return userController.getDetail(param, request, response);
+		res.setData(new RUserBean().getDemoValue());
+		return res;
 	}
 
 	/**
@@ -115,6 +115,9 @@ public class SUserController {
 			return res;
 		}
 
-		return userController.getUserLogs(param, request, response);
+		List<RUserLogsBean> data = new ArrayList<>();
+		data.add(new RUserLogsBean().getDemoValue());
+		res.setData(data);
+		return res;
 	}
 }

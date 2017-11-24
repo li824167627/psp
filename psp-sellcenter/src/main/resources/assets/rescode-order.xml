@@ -11,5 +11,58 @@
 		<msg>记录工单操作日志失败！</msg>
 	</result>
 	
+	<result name="can_not_allot">
+		<code>200003</code>
+		<msg>该工单状态不能被分配！</msg>
+	</result>
+	
+	<result name="allot_order_error">
+		<code>200004</code>
+		<msg>工单分配失败！</msg>
+	</result>
+	
+	<result name="order_can_not_close">
+		<code>200005</code>
+		<msg>该工单状态不能被关闭！</msg>
+	</result>
+	
+	<result name="order_can_not_sign_contract">
+		<code>200006</code>
+		<msg>该工单状态不能上传合同，等待服务商接受！</msg>
+	</result>
+	
+	<result name="upload_contract_error">
+		<code>200007</code>
+		<msg>上传合同失败！</msg>
+	</result>
+	
+	<result name="update_order_status_error">
+		<code>200008</code>
+		<msg>更新工单失败！</msg>
+	</result>
+	
+	<result name="order_can_not_confirm">
+		<code>200009</code>
+		<msg>该工单状态不能确认操作！</msg>
+	</result>
+	
+	<result name="order_can_not_feedback">
+		<code>200009</code>
+		<msg>该工单状态不能反馈！</msg>
+	</result>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </results>

@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class BaseCacheImpl {
 	protected Logger logger = Logger.getLogger(getClass());
 
-	public static final String NAME_SPACE = "psp:sellcenter:";
+	public static final String NAME_SPACE = "psp:2.0:provider:";
 	@Resource
 	protected RedisTemplate<String, Object> redisTemplate;
 

@@ -10,11 +10,11 @@ import com.psp.sellcenter.cache.dao.SellerCacheDao;
 
 @Repository
 public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
-	String KEY_IMG_CODE = "psp:seller:imgcode:";
-	String KEY_LOGIN_CODE = "psp:seller:logincode:";
-	String KEY_VCODE = "psp:seller:vcode:";
-	String KEY_TOKEN_UID = "psp:seller:token:sellerId:";
-	String KEY_UID_TOKEN = "psp:seller:sellerId:token:";
+	String KEY_IMG_CODE = "psp:2.0:seller:imgcode:";
+	String KEY_LOGIN_CODE = "psp:2.0:seller:logincode:";
+	String KEY_VCODE = "psp:2.0:seller:vcode:";
+	String KEY_TOKEN_UID = "psp:2.0:seller:token:sellerId:";
+	String KEY_UID_TOKEN = "psp:2.0:seller:sellerId:token:";
 	
 	@Override
 	public String getSellerIdByToken(String token) {

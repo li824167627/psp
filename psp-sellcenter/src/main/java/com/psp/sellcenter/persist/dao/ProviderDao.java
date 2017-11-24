@@ -11,5 +11,7 @@ public interface ProviderDao {
 
 	List<ProviderBean> selectListByCid(Integer categoryId);
 
+	ProviderBean selectOneById(String pid);
+
 
 }

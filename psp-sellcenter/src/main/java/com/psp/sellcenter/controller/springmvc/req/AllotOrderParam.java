@@ -11,7 +11,6 @@ public class AllotOrderParam {
 	private String oid; // 工单ID
 	@NotEmpty(message = "服务商不能为空")
 	private String pid; // 选择服务商
-	private String provider; // 选择服务商
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -27,14 +26,6 @@ public class AllotOrderParam {
 
 	public String getPid() {
  		return pid;
-	}
-
-	public void setProvider(String provider) {
- 		this.provider = provider;
-	}
-
-	public String getProvider() {
- 		return provider;
 	}
 
 }

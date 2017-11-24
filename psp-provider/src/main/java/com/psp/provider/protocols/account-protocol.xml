@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+	<!-- 登录 -->
+	<protocol name="login" requestMapping="/v1/login" resType="json" notes="登录" state="0" requestName="LoginParam"
+		resDataType="object" responseName="RAccountBean">
+		<request>
+			<param name="phoneNum" type="String" demoValue="15654724214" notes="手机号">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="password" type="String" demoValue="123123" notes="密码">
+				<notEmpty message="密码不能为空"></notEmpty>
+			</param>
+			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码,输入次数错误超过5次，需输入图形验证码">
+			</param>
+			<param name="device" type="String" demoValue="chrome 12.3" notes="设备">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 根据token获取服务商账号人员信息 -->
+	<protocol name="getAccount" requestMapping="/v1/getAccount" resType="json" notes="获取服务商账号信息" state="0" requestName="GetAccountParam"
+		resDataType="object" responseName="RAccountBean">
+		<request>
+			<param name="token" type="String" demoValue="15654724214" notes="登录token">
+				<notEmpty message="token不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+
+</protocols>

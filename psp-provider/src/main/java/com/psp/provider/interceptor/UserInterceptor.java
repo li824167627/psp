@@ -4,51 +4,61 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.fastjson.JSON;
+import com.psp.provider.cache.dao.AccountCacheDao;
+import com.psp.provider.constants.Rescode;
+import com.psp.provider.constants.RescodeConstants;
+import com.psp.provider.controller.res.BaseResult;
+import com.psp.provider.model.AccountBean;
+import com.psp.provider.service.AccountService;
+
 public class UserInterceptor extends HandlerInterceptorAdapter {
-	private Logger logger = Logger.getLogger(getClass());
-//	@Autowired
-//	UserService userServiceImpl;
-//	@Autowired
-//	UserCacheDao userCacheImpl;
+	private Logger logger = Logger.getLogger(this.getClass());
+
+	@Autowired
+	AccountService accountServiceImpl;
+
+	@Autowired
+	AccountCacheDao accountCacheImpl;
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-//		request.setCharacterEncoding("utf-8");
-//		boolean flag = false;
-//		String token = request.getHeader("token");
-//		if (token != null) {
-//			this.logger.info("token is:" + token);
-//			UserBean user = this.userServiceImpl.existUser(token);
-//			if (user != null) {
-//				request.setAttribute("userId", user.getUid());
-//				request.setAttribute("token", token);
-//				request.setAttribute("user", user);
-//				flag = true;
-//				this.logger.info("userid is :" + user.getUid());
-//			}
-//		} else {
-//			UserBean user = this.userServiceImpl.getUser("9a4609a38cb84d62a5fcde2c83c8e98c");
-//			if (user != null) {
-//				request.setAttribute("userId", user.getUid());
-//				request.setAttribute("token", token);
-//				request.setAttribute("user", user);
-//				flag = true;
-//				this.logger.info("userid is :" + user.getUid());
-//			}
-//		}
-//		if (!flag) {
-//			BaseResult result = new BaseResult();
-//
-//			Rescode rescode = RescodeConstants.getInstance().get("token_fail");
-//			result.setFlag(false);
-//			result.setRescode(rescode.getCode());
-//			result.setMsg(rescode.getMsg());
-//			response.setCharacterEncoding("utf-8");
-//			response.getWriter().write(JSON.toJSONString(result));
-//			return false;
-//		}
+		request.setCharacterEncoding("utf-8");
+		boolean flag = false;
+		String token = request.getHeader("token");
+		if (token != null) {
+			logger.info("token is:" + token);
+			AccountBean account = accountServiceImpl.getAccountByToken(token);
+			if (account != null) {
+				request.setAttribute("accountId", account.getAid());
+				request.setAttribute("token", token);
+				request.setAttribute("account", account);
+				flag = true;
+				logger.info("accountid is :" + account.getAid());
+			}
+		} else {
+			AccountBean account = accountServiceImpl.getAccountById("54cbb57addff448a9fde74402c7b383e");
+			if (account != null) {
+				request.setAttribute("accountId", account.getAid());
+				request.setAttribute("token", token);
+				request.setAttribute("account", account);
+				flag = true;
+				logger.info("accountid is :" + account.getAid());
+			}
+		}
+		if (!flag) {
+			BaseResult result = new BaseResult();
+			Rescode rescode = RescodeConstants.getInstance().get("token_fail");
+			result.setFlag(false);
+			result.setRescode(rescode.getCode());
+			result.setMsg(rescode.getMsg());
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().write(JSON.toJSONString(result));
+			return false;
+		}
 		return super.preHandle(request, response, handler);
 	}
 

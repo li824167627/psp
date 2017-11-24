@@ -34,8 +34,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return adminController.login(param, request, response);
+		res.setData(new RAdminBean().getDemoValue());
+		return res;
 	}
 
 	/**
@@ -50,8 +50,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return adminController.getAdmin(param, request, response);
+		res.setData(new RAdminBean().getDemoValue());
+		return res;
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return adminController.updateName(param, request, response);
+		res.setMsg(null);
+		return res;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-
-		return adminController.updatePassWord(param, request, response);
+		res.setMsg(null);
+		return res;
 	}
 }

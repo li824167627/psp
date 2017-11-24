@@ -10,6 +10,9 @@
 		<protocols-file fileName="user-protocol.xml" toCreate="true"
 			className="UserController" requestMapping="/user" version="1.0"
 			notes="用户相关接口" />
+		<protocols-file fileName="provider-protocol.xml" toCreate="true"
+			className="ProviderController" requestMapping="/provider" version="1.0"
+			notes="服务商相关接口" />
 	</protocolFiles>
 
 	<beanFiles>

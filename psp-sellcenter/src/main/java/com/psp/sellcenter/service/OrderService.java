@@ -27,10 +27,9 @@ public interface OrderService {
 	 * @param provider
 	 * @param uid
 	 * @param label
-	 * @param content
 	 * @return
 	 */
-	boolean addOrder(String sid, String pid, String provider, String uid, String label, String content);
+	boolean addOrder(String sid, String pid, String provider, String uid, String label);
 	
 	/**
 	 * 获取服务商列表Json
@@ -62,6 +61,67 @@ public interface OrderService {
 	 * @return
 	 */
 	PageResult<ROrderLogsBean> getOrderogs(String sid, String oid, String key);
+	
+	/**
+	 * 分配工单
+	 * @param sid
+	 * @param pid
+	 * @param provider
+	 * @return
+	 */
+	boolean allotOrder(String sid, String pid, String provider);
+	
+	/**
+	 * 关闭工单
+	 * @param sid
+	 * @param oid
+	 * @param content
+	 * @param status
+	 * @return
+	 */
+	boolean closeOrder(String sid, String oid, String content, int status);
+	
+	/**
+	 * 上传合同
+	 * @param sid
+	 * @param oid
+	 * @param contractNo
+	 * @param name
+	 * @param signTime
+	 * @param startTime
+	 * @param endTime
+	 * @param partA
+	 * @param partB
+	 * @param contractUrl
+	 * @param payment
+	 * @param paymentWay
+	 * @param service
+	 * @param money
+	 * @return
+	 */
+	boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
+			long endTime, String partA, String partB, String contractUrl, int payment, String paymentWay,
+			String service, double money);
+	
+	/**
+	 * 确认完成
+	 * @param sid
+	 * @param oid
+	 * @param content
+	 * @param type
+	 * @return
+	 */
+	boolean confirmOrder(String sid, String oid, String content, int type);
+	
+	/**
+	 * 工单反馈
+	 * @param sid
+	 * @param oid
+	 * @param content
+	 * @param score
+	 * @return
+	 */
+	boolean feedback(String sid, String oid, String content, String score);
 
 	
 

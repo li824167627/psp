@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+	
+	<!-- 服务分类 -->
+	<protocol name="getCategories" requestMapping="/v1/getCategories" resType="json" notes="获取服务分类列表" state="0" 
+		resDataType="object" responseName="RCategroyBean">
+	</protocol>
+	
+	<!-- 创建服务商 -->
+	<protocol name="addProvider" requestMapping="/v1/addProvider" resType="json" notes="创建服务商并生成管理员账户" state="0" requestName="AddProviderParam"
+		resDataType="object" responseName="RAccountBean">
+		<request>
+			<param name="name" type="string" demoValue="北京硬创云加" notes="页码，默认从0开始">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取服务商列表 -->
+	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取管理员信息" state="0" requestName="GetProviderListParam"
+		resDataType="object" responseName="RAdminBean">
+		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="cid" type="String" demoValue="1" notes="服务分类">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 创建服务商账户 -->
+	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="0" requestName="UpdateNameParam"
+		resDataType="base" >
+		<request>
+			<param name="name" type="string" demoValue="服务商1" notes="账户名">
+			</param>
+			<param name="phone" type="string" demoValue="17617005502" notes="手机号">
+			</param>
+			<param name="password" type="string" demoValue="17617005502" notes="手机号">
+			</param>
+		</request>
+	</protocol>
+	
+</protocols>

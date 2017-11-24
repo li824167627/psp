@@ -17,9 +17,9 @@ public class UploadContractParam {
 	private Long endTime; // 合同开始时间
 	private String partyA; // 合同甲方JSON
 	private String partyB; // 合同乙方JSON
-	private String contarctUrl; // 合同地址
+	private String contractUrl; // 合同地址
 	private String payment; // 付款方式：0一次性 1分期
-	private String deadline; // 分期方案
+	private String paymentWay; // 分期方案
 	private String service; // 服务事项
 	private Double money; // 合同金额
 
@@ -87,12 +87,12 @@ public class UploadContractParam {
  		return partyB;
 	}
 
-	public void setContarctUrl(String contarctUrl) {
- 		this.contarctUrl = contarctUrl;
+	public void setContractUrl(String contractUrl) {
+ 		this.contractUrl = contractUrl;
 	}
 
-	public String getContarctUrl() {
- 		return contarctUrl;
+	public String getContractUrl() {
+ 		return contractUrl;
 	}
 
 	public void setPayment(String payment) {
@@ -103,12 +103,12 @@ public class UploadContractParam {
  		return payment;
 	}
 
-	public void setDeadline(String deadline) {
- 		this.deadline = deadline;
+	public void setPaymentWay(String paymentWay) {
+ 		this.paymentWay = paymentWay;
 	}
 
-	public String getDeadline() {
- 		return deadline;
+	public String getPaymentWay() {
+ 		return paymentWay;
 	}
 
 	public void setService(String service) {

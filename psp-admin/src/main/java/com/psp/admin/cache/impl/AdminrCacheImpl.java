@@ -10,11 +10,11 @@ import com.psp.admin.cache.dao.AdminCacheDao;
 
 @Repository
 public class AdminrCacheImpl extends BaseCacheImpl implements AdminCacheDao {
-	String KEY_IMG_CODE = "psp2.0:admin:imgcode:";
-	String KEY_LOGIN_CODE = "psp2.0:admin:logincode:";
-	String KEY_VCODE = "psp2.0:admin:vcode:";
-	String KEY_TOKEN_UID = "psp2.0:admin:token:adminId:";
-	String KEY_UID_TOKEN = "psp2.0:admin:adminId:token:";
+	String KEY_IMG_CODE = NAME_SPACE + "imgcode:";
+	String KEY_LOGIN_CODE = NAME_SPACE + "logincode:";
+	String KEY_VCODE = NAME_SPACE + "vcode:";
+	String KEY_TOKEN_UID = NAME_SPACE + "token:adminId:";
+	String KEY_UID_TOKEN = NAME_SPACE + "adminId:token:";
 	
 	@Override
 	public String getAdminIdByToken(String token) {
