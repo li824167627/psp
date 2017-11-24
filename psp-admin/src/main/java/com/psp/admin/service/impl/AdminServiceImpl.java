@@ -7,6 +7,7 @@ import com.psp.admin.cache.dao.AdminCacheDao;
 import com.psp.admin.model.AdminBean;
 import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.service.AdminService;
+import com.psp.admin.service.exception.ServiceException;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -27,12 +28,18 @@ public class AdminServiceImpl implements AdminService {
 			return null;
 		}
 		AdminBean user = adminImpl.selectOneById(sid);
+		if(user.getStatus() != 0) {
+			throw new ServiceException("account_is_forzen");
+		}
 		return user;
 	}
 
 	@Override
 	public AdminBean getAdminById(String sid) {
 		AdminBean user = adminImpl.selectOneById(sid);
+		if(user.getStatus() != 0) {
+			throw new ServiceException("account_is_forzen");
+		}
 		return user;
 	}
 

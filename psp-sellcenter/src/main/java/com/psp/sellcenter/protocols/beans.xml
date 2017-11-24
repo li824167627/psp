@@ -84,6 +84,8 @@
 			<attr type="int" name="isAllot" notes="是否被分配" demoValue="1"></attr>
 			<attr  type="long" name="expectedTime" notes="预计完成时间" demoValue="unix时间戳" ></attr>
 			<attr  type="long" name="completeTime" notes="实际完成时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="closeTime" notes="关闭时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="updateime" notes="操作更新时间" demoValue="unix时间戳" ></attr>
 			<attr  type="long" name="isNeedInvoice" notes="是否需要发票" demoValue="1" ></attr>
 		</attrs>
 	</bean>

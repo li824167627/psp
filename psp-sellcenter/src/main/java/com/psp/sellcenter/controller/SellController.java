@@ -41,6 +41,11 @@ public class SellController {
 			result.setFlag(false);
 			result.setRescode(e.getServiceCode());
 			result.setMsg(e.getServiceMsg());
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}

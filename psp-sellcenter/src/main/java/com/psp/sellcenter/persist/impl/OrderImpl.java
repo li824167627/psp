@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.psp.sellcenter.model.OrderBean;
 import com.psp.sellcenter.model.OrderContractBean;
 import com.psp.sellcenter.persist.dao.OrderDao;
+import com.psp.util.StringUtil;
 
 @Repository
 public class OrderImpl extends BaseImpl implements OrderDao {
@@ -22,7 +23,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("filteType", filteType);
 		where.put("stype", stype);
 		where.put("key", key);
-		where.put("uid", uid);
+		if(!StringUtil.isEmpty(uid)) {
+			where.put("uid", uid);
+		}
 		where.put("stage", stage);
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderCount", where);
 	}
@@ -36,7 +39,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("filteType", filteType);
 		where.put("stype", stype);
 		where.put("key", key);
-		where.put("uid", uid);
+		if(!StringUtil.isEmpty(uid)) {
+			where.put("uid", uid);
+		}
 		where.put("stage", stage);
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectOrders", where);
 	}
@@ -66,6 +71,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("oid", order.getOid());
 		where.put("status", order.getStatus());
 		where.put("stage", order.getStage());
+		where.put("isAllot", order.getIsAllot());
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateProvider", where);
 
 	}

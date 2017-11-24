@@ -17,7 +17,7 @@ import com.psp.provider.controller.springmvc.req.*;
  * 账户相关接口
  **/
 @Controller
-@RequestMapping(value = "/wapp/account", produces = "application/json")
+@RequestMapping(value = "/account", produces = "application/json")
 public class SAccountController {
 	@Autowired
 	com.psp.provider.controller.AccountController accountController;

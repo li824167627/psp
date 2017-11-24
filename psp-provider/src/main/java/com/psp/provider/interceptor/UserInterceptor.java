@@ -40,7 +40,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				logger.info("accountid is :" + account.getAid());
 			}
 		} else {
-			AccountBean account = accountServiceImpl.getAccountById("54cbb57addff448a9fde74402c7b383e");
+			AccountBean account = accountServiceImpl.getAccountById("431b57addff448a9fde74402c7b383e");
 			if (account != null) {
 				request.setAttribute("accountId", account.getAid());
 				request.setAttribute("token", token);

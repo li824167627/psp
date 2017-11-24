@@ -18,7 +18,7 @@ processResources {
 }
 
 war {  
-	archiveName 'psp-provider'  
+	archiveName 'psp-provider.war'  
 }
 
 
@@ -49,7 +49,7 @@ task shutdownTomcat() << {
     session(remotes.deployServer) {
       println 'shut down tomcat...' 
       executeScript '''#!/bin/sh
-                        cd /usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/bin
+                        cd /usr/local/tomcat/tomcat8088/apache-tomcat-8.5.15/bin
                         ./shutdown.sh
                     '''
     }
@@ -61,8 +61,8 @@ task del(dependsOn:shutdownTomcat) << {
     session(remotes.deployServer) {  
       println 'start deleting...'   
       executeScript '''#!/bin/sh  
-                        rm -rf /usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/webapps/psp-provider
-                        rm -f  /usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/webapps/psp-provider.war 
+                        rm -rf /usr/local/tomcat/tomcat8088/apache-tomcat-8.5.15/webapps/psp-provider
+                        rm -f  /usr/local/tomcat/tomcat8088/apache-tomcat-8.5.15/webapps/psp-provider.war 
                     '''  
     }  
   }  
@@ -72,7 +72,7 @@ task copy(dependsOn:del) << {
   ssh.run {  
     session(remotes.deployServer) {  
       println 'start copying war...'   
-      put from: buildDir.toString() + '/libs/psp-provider.war', into: '/usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/webapps'  
+      put from: buildDir.toString() + '/libs/psp-provider.war', into: '/usr/local/tomcat/tomcat8088/apache-tomcat-8.5.15/webapps'  
     }  
   }  
 }  
@@ -81,7 +81,7 @@ task deploy(dependsOn:copy) << {
   ssh.run {  
     session(remotes.deployServer) {  
       println 'start tomcat...'   
-      execute '/usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/bin/startup.sh'  
+      execute '/usr/local/tomcat/tomcat8088/apache-tomcat-8.5.15/bin/startup.sh'  
     }  
   }
 }

@@ -41,18 +41,25 @@
 	</result>
 
 	<result name="vcode_is_error">
-		<code>100001</code>
+		<code>107</code>
 		<msg>验证码不正确！</msg>
 	</result>
 
 	<result name="vcode_is_expire">
-		<code>100002</code>
+		<code>108</code>
 		<msg>验证码已经过期！</msg>
 	</result>
 
 	<result name="user_is_disabled">
-		<code>100003</code>
+		<code>109</code>
 		<msg>用户已经被禁用！</msg>
 	</result>
+	
+	<result name="account_is_forzen">
+		<code>110</code>
+		<msg>该账户已被冻结</msg>
+	</result>
+	
+	
 
 </results>

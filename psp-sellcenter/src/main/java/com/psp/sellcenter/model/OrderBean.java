@@ -22,6 +22,8 @@ public class OrderBean {
 	private Integer isAllot; // 是否被分配
 	private Timestamp expectedTime; // 预计完成时间
 	private Timestamp completeTime; // 实际完成时间
+	private Timestamp closeTime; // 关闭时间
+	private Timestamp updateTime; // 操作更新
 	private Long isNeedInvoice; // 是否需要发票
 	private ProviderBean provider;// 服务商信息
 	public String getOid() {
@@ -131,6 +133,18 @@ public class OrderBean {
 	}
 	public void setProvider(ProviderBean provider) {
 		this.provider = provider;
+	}
+	public Timestamp getCloseTime() {
+		return closeTime;
+	}
+	public void setCloseTime(Timestamp closeTime) {
+		this.closeTime = closeTime;
+	}
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

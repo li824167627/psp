@@ -107,16 +107,19 @@
 	</insert>
 	
 	<!-- 根据id获取客户信息 -->
-	<select id="selectOrderById" resultType="OrderBean">
-		SELECT * FROM psp_order 
-		where oid = #{oid}
+	<select id="selectOrderById" resultMap="OrderMap">
+		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact
+		FROM psp_order o 
+		left join psp_provider p
+		on o.pid = p.pid
+		where o.oid = #{oid}
 	</select>
 	
 	<!-- 更新工单的服务商 -->
 	<update id="updateProvider">
 		UPDATE psp_order 
 		SET 
-			pid = #{pid},status = #{status},stage = #{stage}  
+			pid = #{pid},status = #{status},stage = #{stage},isAllot=#{isAllot}
 		WHERE
 			oid = #{oid};
 	</update>
@@ -129,6 +132,9 @@
 			<if test="status == 4">
 			,expectedTime = #{expectedTime}
 			</if>
+			<if test="stage == 2">
+			,closeTime = now()
+			</if>
 		</set>
 		WHERE
 			oid = #{oid};
@@ -138,10 +144,10 @@
 	<insert id="insertContract">
 		INSERT INTO psp_order_contract
 		(oid, contractNo, partyA, partyB, contractUrl, signTime, startTime,
-		endTime, createTime, service, money, payment, parymentWay)
+		endTime, createTime, service, money, payment, paymentWay)
 		VALUES
 		(#{oid}, #{contractNo}, #{partyA}, #{partyB}, #{contractUrl}, #{signTime}, #{startTime},
-		#{endTime}, now(), #{service}, #{money}, #{payment}, #{parymentWay});
+		#{endTime}, now(), #{service}, #{money}, #{payment}, #{paymentWay});
 	</insert>
 	
 </mapper>

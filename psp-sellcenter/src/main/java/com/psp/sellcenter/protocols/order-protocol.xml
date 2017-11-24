@@ -30,7 +30,7 @@
 		resDataType="object" responseName="Integer">
 		<request>
 			<param name="stage" type="string" demoValue="0" notes="搜索工单状态，0:全部1进行中2已完成3已关闭">
-				<pattern regexp="^0|1|1|3$" message="状态错误：0:全部1进行中2已完成3已关闭" />
+				<pattern regexp="^0|1|2|3$" message="状态错误：0:全部1进行中2已完成3已关闭" />
 			</param>
 		</request>
 	</protocol>

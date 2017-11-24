@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.psp.sellcenter.persist.sql.OrderMapper">
+<mapper namespace="com.psp.provider.persist.sql.OrderMapper">
 	
 	<!-- 根据分配状态获取管理的工单总数 -->
 	<select id="selectOrderCount" resultType="int">
 		SELECT count(*) 
 		FROM psp_order
 		<where>
-			sid = #{sid}
+			pid = #{pid}
 			<!-- 筛选 -->
 			<if test="filteType != 0">
 				and status = #{filteType}
@@ -21,10 +21,6 @@
 			</if>
 			<if test="stype == 2">
 				AND (label like CONCAT('%', '${key}' ,'%')) 
-			</if>
-			<!-- 用户详情下-->
-			<if test="uid != null">
-				and uid = #{uid}
 			</if>
 		</where> 
 	</select>
@@ -59,7 +55,7 @@
 		left join psp_provider p
 		on o.pid = p.pid
 		<where>
-			o.sid = #{sid}
+			o.pid = #{pid}
 			<!-- 筛选 -->
 			<if test="filteType != 0">
 				and o.status = #{filteType}
@@ -74,21 +70,17 @@
 			<if test="stype == 2">
 				AND (o.label like CONCAT('%', '${key}' ,'%')) 
 			</if>
-			<!-- 用户详情下-->
-			<if test="uid != null">
-				and o.uid = #{uid}
-			</if>
 		</where> 
 		ORDER BY o.stage, o.updateTime desc, o.createTime desc
 		LIMIT #{start},#{length}
 	</select>
 	
 	<!-- 根据阶段搜索数量 -->
-	<select id="selectOrderCount2Seller" resultType="int">
+	<select id="selectOrderCount2Provider" resultType="int">
 		SELECT count(*) 
 		FROM psp_order
 		<where>
-			sid = #{sid}
+			pid = #{pid}
 			<!-- 筛选 -->
 			<if test="stage != 0"><!-- 1进行中 2 已完成 3 关闭 -->
 				and stage = #{stage}
@@ -96,30 +88,11 @@
 		</where> 
 	</select>
 	
-	<!-- 新增工单 -->
-	<insert id="insert">
-		INSERT INTO psp_order
-		(oid, orderNo, sid, sellerJson, uid, label, content,
-		pid, status, stage, createTime, isAllot, updateTime)
-		VALUES
-		(#{oid}, #{orderNo}, #{sid}, #{sellerJson}, #{uid}, #{label}, #{content},
-		#{pid}, #{status}, #{stage}, now(), #{isAllot}, now());
-	</insert>
-	
-	<!-- 根据id获取客户信息 -->
+	<!-- 根据id获取工单信息 -->
 	<select id="selectOrderById" resultType="OrderBean">
 		SELECT * FROM psp_order 
 		where oid = #{oid}
 	</select>
-	
-	<!-- 更新工单的服务商 -->
-	<update id="updateProvider">
-		UPDATE psp_order 
-		SET 
-			pid = #{pid},status = #{status},stage = #{stage}  
-		WHERE
-			oid = #{oid};
-	</update>
 	
 	<!-- 更新工单的服务商 -->
 	<update id="updateStatus">
@@ -134,14 +107,14 @@
 			oid = #{oid};
 	</update>
 	
-	<!-- 上传合同 -->
-	<insert id="insertContract">
-		INSERT INTO psp_order_contract
-		(oid, contractNo, partyA, partyB, contractUrl, signTime, startTime,
-		endTime, createTime, service, money, payment, parymentWay)
-		VALUES
-		(#{oid}, #{contractNo}, #{partyA}, #{partyB}, #{contractUrl}, #{signTime}, #{startTime},
-		#{endTime}, now(), #{service}, #{money}, #{payment}, #{parymentWay});
-	</insert>
+	<!-- 服务商拒绝工单 -->
+	<update id="refuseOrder">
+		UPDATE psp_order 
+		SET 
+			pid = #{pid},status = #{status},isAllot = #{isAllot}  
+		WHERE
+			oid = #{oid};
+	</update>
+	
 	
 </mapper>

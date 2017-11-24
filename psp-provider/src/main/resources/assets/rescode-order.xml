@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+	<!-- 工单相关，200001开始 -->
+	<result name="order_can_not_handle">
+		<code>200001</code>
+		<msg>工单状态不能提交申请</msg>
+	</result>
+	
+	<result name="update_order_status_error">
+		<code>200002</code>
+		<msg>工单更新状态失败</msg>
+	</result>
+	
+	<result name="order_can_not_handle">
+		<code>200002</code>
+		<msg>工单状态不能处理接收拒绝</msg>
+	</result>
+	
+	
+	
+	
+</results>

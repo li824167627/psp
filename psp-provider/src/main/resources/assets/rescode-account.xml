@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+	<!-- 用户相关，100001开始 -->
+	<result name="account_is_forzen">
+		<code>100001</code>
+		<msg>该账户已被冻结</msg>
+	</result>
+	
+	<result name="account_has_no_auth">
+		<code>100002</code>
+		<msg>该账户没有权限管理该%s</msg>
+	</result>
+	
+</results>

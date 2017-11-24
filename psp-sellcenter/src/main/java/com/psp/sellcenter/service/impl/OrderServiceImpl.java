@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -100,6 +101,12 @@ public class OrderServiceImpl implements OrderService {
 		if(bean.getExpectedTime() != null) {
 			order.setExpectedTime(bean.getExpectedTime().getTime() / 1000);
 		}
+		if(bean.getCloseTime() != null) {
+			order.setCloseTime(bean.getCloseTime().getTime() / 1000);
+		}
+		if(bean.getUpdateTime() != null) {
+			order.setUpdateime(bean.getUpdateTime().getTime() / 1000);
+		}
 		order.setIsAllot(bean.getIsAllot());
 		order.setIsNeedInvoice(bean.getIsNeedInvoice());
 		order.setLabel(bean.getLabel());
@@ -126,6 +133,7 @@ public class OrderServiceImpl implements OrderService {
 		return order;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean addOrder(String sid, String pid, String uid, String label, String content) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
@@ -200,7 +208,7 @@ public class OrderServiceImpl implements OrderService {
 			orderlog.setProviderJson(provider);
 		}
 		JSONObject contentJson = new JSONObject();
-		// 0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
+		// 0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭 
 		contentJson.put("oid", oid);
 		contentJson.put("orderNo", orderNo);
 		if(type == 3) {
@@ -308,6 +316,7 @@ public class OrderServiceImpl implements OrderService {
 		return log;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean allotOrder(String sid, String pid, String oid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
@@ -334,6 +343,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(2);// 等待服务商服务
 		order.setStage(1);// 进行中
 		order.setPid(pid);
+		order.setIsAllot(1);//分配服务商
 		flag = orderImpl.updateProvider(order) > 0;
 		if(!flag) {
 			throw new ServiceException("allot_order_error");
@@ -348,6 +358,7 @@ public class OrderServiceImpl implements OrderService {
 		return flag;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean closeOrder(String sid, String oid, String content, int status) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
@@ -382,6 +393,7 @@ public class OrderServiceImpl implements OrderService {
 		return flag;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
 			long endTime, String partyA, String partyB, String contractUrl, int payment, String paymentWay,
@@ -434,6 +446,7 @@ public class OrderServiceImpl implements OrderService {
 		return flag;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean confirmOrder(String sid, String oid, String content, int type) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
@@ -472,6 +485,7 @@ public class OrderServiceImpl implements OrderService {
 		return flag;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean feedback(String sid, String oid, String content, String score) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
@@ -490,6 +504,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(1);// 1 已完成
 		order.setStage(2);// 阶段已完成
 		flag = orderImpl.updateStatus(order) > 0;
+		// TODO：给服务商评分
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());

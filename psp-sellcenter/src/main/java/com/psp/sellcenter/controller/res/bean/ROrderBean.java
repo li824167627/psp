@@ -20,6 +20,8 @@ public class ROrderBean {
 	private Integer isAllot; // 是否被分配
 	private Long expectedTime; // 预计完成时间
 	private Long completeTime; // 实际完成时间
+	private Long closeTime; // 关闭时间
+	private Long updateime; // 操作更新时间
 	private Long isNeedInvoice; // 是否需要发票
 
 	public void setOid(String oid) {
@@ -140,6 +142,22 @@ public class ROrderBean {
 
 	public Long getCompleteTime() {
  		return completeTime;
+	}
+
+	public void setCloseTime(Long closeTime) {
+ 		this.closeTime = closeTime;
+	}
+
+	public Long getCloseTime() {
+ 		return closeTime;
+	}
+
+	public void setUpdateime(Long updateime) {
+ 		this.updateime = updateime;
+	}
+
+	public Long getUpdateime() {
+ 		return updateime;
 	}
 
 	public void setIsNeedInvoice(Long isNeedInvoice) {

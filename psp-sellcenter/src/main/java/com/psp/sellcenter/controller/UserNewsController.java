@@ -59,6 +59,11 @@ public class UserNewsController {
 			result.setTotalSize(totalSize);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}

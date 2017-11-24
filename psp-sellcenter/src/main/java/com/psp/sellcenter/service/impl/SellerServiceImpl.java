@@ -7,6 +7,7 @@ import com.psp.sellcenter.cache.dao.SellerCacheDao;
 import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.persist.dao.SellerDao;
 import com.psp.sellcenter.service.SellerService;
+import com.psp.sellcenter.service.exception.ServiceException;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -27,12 +28,18 @@ public class SellerServiceImpl implements SellerService {
 			return null;
 		}
 		SellerBean user = sellerImpl.selectOneById(sid);
+		if(user.getStatus() != 0) {
+			throw new ServiceException("account_is_forzen");
+		}
 		return user;
 	}
 
 	@Override
 	public SellerBean getSellerById(String sid) {
 		SellerBean user = sellerImpl.selectOneById(sid);
+		if(user.getStatus() != 0) {
+			throw new ServiceException("account_is_forzen");
+		}
 		return user;
 	}
 

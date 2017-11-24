@@ -17,7 +17,7 @@ import com.psp.provider.controller.springmvc.req.*;
  * 工单相关接口
  **/
 @Controller
-@RequestMapping(value = "/wapp/order", produces = "application/json")
+@RequestMapping(value = "/order", produces = "application/json")
 public class SOrderController {
 	@Autowired
 	com.psp.provider.controller.OrderController orderController;
@@ -84,5 +84,69 @@ public class SOrderController {
 		}
 
 		return orderController.getOrderLogs(param, request, response);
+	}
+
+	/**
+	 * 接收工单
+	 **/
+	@RequestMapping("/v1/accept")
+	@ResponseBody
+	public BaseResult accept(@Validated AcceptOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return orderController.accept(param, request, response);
+	}
+
+	/**
+	 * 拒绝工单
+	 **/
+	@RequestMapping("/v1/refuse")
+	@ResponseBody
+	public BaseResult refuse(@Validated RefuseOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return orderController.refuse(param, request, response);
+	}
+
+	/**
+	 * 申请完成工单
+	 **/
+	@RequestMapping("/v1/submitFinish")
+	@ResponseBody
+	public BaseResult submitFinish(@Validated SubmitFinishParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return orderController.submitFinish(param, request, response);
+	}
+
+	/**
+	 * 申请终止工单
+	 **/
+	@RequestMapping("/v1/submitClose")
+	@ResponseBody
+	public BaseResult submitClose(@Validated SubmitCloseParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return orderController.submitClose(param, request, response);
 	}
 }

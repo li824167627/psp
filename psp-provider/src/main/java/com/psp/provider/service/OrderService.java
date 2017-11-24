@@ -2,7 +2,7 @@ package com.psp.provider.service;
 
 import com.psp.provider.controller.res.bean.ROrderBean;
 import com.psp.provider.controller.res.bean.ROrderLogsBean;
-import com.psp.provider.controller.res.bean.RServiceProviderBean;
+import com.psp.provider.model.AccountBean;
 import com.psp.provider.service.impl.res.PageResult;
 
 public interface OrderService {
@@ -18,111 +18,71 @@ public interface OrderService {
 	 * @param stage 
 	 * @return
 	 */
-	PageResult<ROrderBean> getOrders(String sid, int page, int pageSize, int filteType, int stype, String key, String uid, int stage);
+	PageResult<ROrderBean> getOrders(AccountBean account, int page, int pageSize, int filteType, int stype, String key,
+			int stage);
 	
 	/**
-	 * 新建工单
-	 * @param sid
-	 * @param pid
-	 * @param provider
-	 * @param uid
-	 * @param label
-	 * @return
-	 */
-	boolean addOrder(String sid, String pid, String provider, String uid, String label);
-	
-	/**
-	 * 获取服务商列表Json
-	 * @return
-	 */
-	RServiceProviderBean getServiceProviders();
-	
-	/**
-	 * 获取当前销售订单数量
-	 * @param sid
+	 * 获取各个阶段工单数量
+	 * @param account
 	 * @param stage
 	 * @return
 	 */
-	int getOrderNum2Seller(String sid, int stage);
+	int getOrderNum2Provider(AccountBean account, int stage);
 	
 	/**
 	 * 获取工单详情
-	 * @param sid
-	 * @param uid
+	 * @param param
+	 * @param request
+	 * @param response
 	 * @return
 	 */
-	ROrderBean getDetail(String sid, String uid);
+	ROrderBean getDetail(AccountBean account, String oid);
 	
 	/**
-	 * 获取工单操作日志列表
-	 * @param sid
+	 * 获取操作工单日志列表
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	PageResult<ROrderLogsBean> getOrderogs(AccountBean account, String oid, String key);
+	
+	/**
+	 * 申请完成工单
 	 * @param oid
-	 * @param key
-	 * @return
-	 */
-	PageResult<ROrderLogsBean> getOrderogs(String sid, String oid, String key);
-	
-	/**
-	 * 分配工单
-	 * @param sid
-	 * @param pid
-	 * @param provider
-	 * @return
-	 */
-	boolean allotOrder(String sid, String pid, String provider);
-	
-	/**
-	 * 关闭工单
-	 * @param sid
-	 * @param oid
-	 * @param content
-	 * @param status
-	 * @return
-	 */
-	boolean closeOrder(String sid, String oid, String content, int status);
-	
-	/**
-	 * 上传合同
-	 * @param sid
-	 * @param oid
-	 * @param contractNo
-	 * @param name
-	 * @param signTime
-	 * @param startTime
-	 * @param endTime
-	 * @param partA
-	 * @param partB
-	 * @param contractUrl
-	 * @param payment
-	 * @param paymentWay
-	 * @param service
-	 * @param money
-	 * @return
-	 */
-	boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
-			long endTime, String partA, String partB, String contractUrl, int payment, String paymentWay,
-			String service, double money);
-	
-	/**
-	 * 确认完成
-	 * @param sid
-	 * @param oid
-	 * @param content
 	 * @param type
+	 * @param content
+	 * @param account
 	 * @return
 	 */
-	boolean confirmOrder(String sid, String oid, String content, int type);
+	boolean submitFinish(String oid, int type, String content, AccountBean account);
 	
 	/**
-	 * 工单反馈
-	 * @param sid
+	 * 拒绝工单
 	 * @param oid
 	 * @param content
-	 * @param score
+	 * @param account
 	 * @return
 	 */
-	boolean feedback(String sid, String oid, String content, String score);
-
+	boolean refuseOrder(String oid, String content, AccountBean account);
 	
+	/**
+	 * 接收工单
+	 * @param oid
+	 * @param content
+	 * @param account
+	 * @return
+	 */
+	boolean acceptOrder(String oid, String content, AccountBean account);
+	
+	/**
+	 * 申请终止工单
+	 * @param oid
+	 * @param type
+	 * @param content
+	 * @param account
+	 * @return
+	 */
+	boolean submitClose(String oid, int type, String content, AccountBean account);
 
 }

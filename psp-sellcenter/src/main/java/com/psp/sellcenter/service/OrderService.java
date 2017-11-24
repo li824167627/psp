@@ -51,7 +51,7 @@ public interface OrderService {
 	 * @param uid
 	 * @return
 	 */
-	ROrderBean getDetail(String sid, String uid);
+	ROrderBean getDetail(String sid, String oid);
 	
 	/**
 	 * 获取工单操作日志列表

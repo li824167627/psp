@@ -1,21 +1,18 @@
 package com.psp.provider.service.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.provider.controller.res.bean.ROrderBean;
 import com.psp.provider.controller.res.bean.ROrderLogsBean;
-import com.psp.provider.controller.res.bean.RServiceProviderBean;
-import com.psp.provider.model.CategoryBean;
-import com.psp.provider.model.CategoryTree;
+import com.psp.provider.model.AccountBean;
 import com.psp.provider.model.OrderBean;
 import com.psp.provider.model.OrderLogBean;
 import com.psp.provider.model.ProviderBean;
@@ -25,11 +22,6 @@ import com.psp.provider.persist.dao.ProviderDao;
 import com.psp.provider.service.OrderService;
 import com.psp.provider.service.exception.ServiceException;
 import com.psp.provider.service.impl.res.PageResult;
-import com.psp.sellcenter.model.OrderContractBean;
-import com.psp.sellcenter.model.SellerBean;
-import com.psp.sellcenter.model.UserBean;
-import com.psp.sellcenter.persist.dao.UserDao;
-import com.psp.util.AppTextUtil;
 import com.psp.util.StringUtil;
 
 @Service
@@ -44,20 +36,26 @@ public class OrderServiceImpl implements OrderService {
 	OrderLogDao orderLogImpl;
 
 	@Autowired
-	UserDao userImpl;
-	
-	@Autowired
 	ProviderDao providerImpl;
 
+
 	@Override
-	public PageResult<ROrderBean> getOrders(String sid, int page, int pageSize, int filteType, int stype,
-			String key, String uid, int stage) {
+	public PageResult<ROrderBean> getOrders(AccountBean account, int page, int pageSize, int filteType, int stype,
+			String key, int stage) {
 		PageResult<ROrderBean> result = new PageResult<ROrderBean>();
-		int count = orderImpl.selectOrderCount(sid, filteType, stype, key, uid, stage);
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
+		}	
+		String pid = account.getPid();
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider == null) {
+			throw new ServiceException("object_is_not_exist", "当前服务商");
+		}
+		int count = orderImpl.selectOrderCount(provider.getPid(), filteType, stype, key, stage);
 		if(count == 0) {
 			return null;
 		}
-		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize, sid, filteType, stype, key, uid, stage);
+		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize, provider.getPid(), filteType, stype, key, stage);
 		List<ROrderBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -70,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 		result.setData(resData);
 		return result;
 	}
-	
+
 	/**
 	 * 格式化数据
 	 * @param bean
@@ -87,6 +85,12 @@ public class OrderServiceImpl implements OrderService {
 		}
 		if(bean.getExpectedTime() != null) {
 			order.setExpectedTime(bean.getExpectedTime().getTime() / 1000);
+		}
+		if(bean.getCloseTime() != null) {
+			order.setCloseTime(bean.getCloseTime().getTime() / 1000);
+		}
+		if(bean.getUpdateTime() != null) {
+			order.setUpdateime(bean.getUpdateTime().getTime() / 1000);
 		}
 		order.setIsAllot(bean.getIsAllot());
 		order.setIsNeedInvoice(bean.getIsNeedInvoice());
@@ -115,144 +119,43 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public boolean addOrder(String sid, String pid, String uid, String label, String content) {
-		boolean flag = false;
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
-		UserBean user = userImpl.selectUserById(uid);
-		logger.info(JSON.toJSONString(user));
-		if(user == null) {
-			throw new ServiceException("object_is_not_exist", "客户");
+	public int getOrderNum2Provider(AccountBean account, int stage) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
+		}	
+		String pid = account.getPid();
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider == null) {
+			throw new ServiceException("object_is_not_exist", "当前服务商");
 		}
-		OrderBean order = new OrderBean();
-		String oid = AppTextUtil.getPrimaryKey();
-		String prefix = "GD";// 工单前缀
-		String orderNo = AppTextUtil.getRandomNo(prefix);
-		order.setOid(oid);
-		order.setOrderNo(orderNo);
-		order.setPid(pid);
-		ProviderBean proBean = providerImpl.selectOneById(pid);
-		JSONObject providerJson = new JSONObject();
-		providerJson.put("name", proBean.getName());
-		providerJson.put("phone", proBean.getPhoneNum());
-		providerJson.put("contact", proBean.getContact());
-		order.setProviderJson(providerJson.toJSONString());
-		order.setUid(uid);
-		order.setSid(sid);
-		order.setSellerJson(sellerJson.toJSONString());
-		order.setLabel(label);
-		order.setContent(content);
-		order.setStatus(2);// 待处理
-		order.setStage(1);// 进行中
-		order.setIsAllot(1);// 已分配
-		flag = orderImpl.insert(order) > 0;
-		if(!flag) {
-			throw new ServiceException("create_order_error");
-		}
+		return orderImpl.selectOrderCount2Provider(provider.getPid(), stage);
+	}
 
-		// TODO: 派单完发送短信
-		flag = insertOrderLog(oid, orderNo, sid, sellerJson.toJSONString(),
-				pid, providerJson.toJSONString(), 0, null);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
-		if(!flag) {
-			throw new ServiceException("create_order_log_error");
-		}
-		return flag;
-	}
-	
-	/**
-	 * 插入订单操作日志表
-	 * @param oid
-	 * @param sid
-	 * @param jsonString
-	 * @param pid
-	 * @param provider
-	 * @param type
-	 * @param content 
-	 * @return
-	 */
-	private boolean insertOrderLog(String oid, String orderNo, String sid, String sellerJson, 
-			String pid, String provider, int type, String content) {
-		OrderLogBean orderlog = new OrderLogBean();
-		orderlog.setOid(oid);
-		if(!StringUtil.isEmpty(sid)) {
-			orderlog.setSid(sid);
-			orderlog.setSellerJson(sellerJson);
-		}
-		if(!StringUtil.isEmpty(pid)) {
-			orderlog.setPid(pid);
-			orderlog.setProviderJson(provider);
-		}
-		JSONObject contentJson = new JSONObject();
-		// 0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
-		contentJson.put("oid", oid);
-		contentJson.put("orderNo", orderNo);
-		if(type == 3) {
-			contentJson.put("contractNo", content);// 上传合同的合同编号
-		} else if(type == 7) {
-			contentJson.put("reason", content);// 归档关闭的原因
-		} else if(type == 4 || type == 5) {
-			contentJson.put("opinion", content); // 销售对工单的完成意见
-		}
-		orderlog.setContent(contentJson.toJSONString());
-		orderlog.setType(type);
-		return orderLogImpl.insert(orderlog) > 0;
-	}
 
 	@Override
-	public RServiceProviderBean getServiceProviders() {
-		RServiceProviderBean bean = new RServiceProviderBean();
-		JSONArray jsonArray = new JSONArray();
-		String cateStr = serviceCacheImpl.getCategoryCache();
-		if (StringUtil.isEmpty(cateStr)) {
-			List<CategoryBean> cates = providerImpl.selectAllCates();
-			if(cates == null) {
-				return null;
-			}
-			for(CategoryBean ca : cates) {
-				JSONObject firstObject = new JSONObject();
-				firstObject.put("name", ca.getName());
-				firstObject.put("cid", ca.getCid());
-				List<CategoryBean> children = ca.getChildern();
-				List<CategoryTree> sub = null;
-				if(children != null && children.size() > 0) {
-					sub = new ArrayList<CategoryTree>();
-					for(CategoryBean c : children){
-						List<ProviderBean> providers = providerImpl.selectListByCid(c.getCid());
-						CategoryTree menus = new CategoryTree(c.getName(), c.getCid(), providers);
-						sub.add(menus);
-					}
-				}
-				firstObject.put("children", sub);
-				jsonArray.add(firstObject);
-			}
-			String jsonMenu = JSON.toJSONString(jsonArray);
-			serviceCacheImpl.setCategoryCache(jsonMenu);
-		} else {
-			jsonArray = JSON.parseArray(cateStr);
+	public ROrderBean getDetail(AccountBean account, String oid) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
 		}
-		bean.setService(jsonArray);
-		return bean;
-	}
-
-	@Override
-	public int getOrderNum2Seller(String sid, int stage) {
-		int count = orderImpl.selectOrderCount2Seller(sid,stage);
-		return count;
-	}
-
-	@Override
-	public ROrderBean getDetail(String sid, String oid) {
 		OrderBean order = orderImpl.selectOrderById(oid);
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
+		logger.info("order:" + JSON.toJSONString(order));
+		logger.info("account:" + JSON.toJSONString(account));
+		if(!account.getPid().equals(order.getPid())) {
+			throw new ServiceException("account_has_no_auth", "工单");
+		}
 		return parse(order);
 	}
 
+
 	@Override
-	public PageResult<ROrderLogsBean> getOrderogs(String sid, String oid, String key) {
+	public PageResult<ROrderLogsBean> getOrderogs(AccountBean account, String oid, String key) {
 		PageResult<ROrderLogsBean> result = new PageResult<ROrderLogsBean>();
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
+		}
 		int count = orderLogImpl.selectOrderLogsCount(oid, key);
 		if(count == 0) {
 			return null;
@@ -292,204 +195,176 @@ public class OrderServiceImpl implements OrderService {
 		return log;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean allotOrder(String sid, String pid, String oid) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		boolean flag = false;
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
+	public boolean submitFinish(String oid, int type, String content, AccountBean account) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
 		}
+		boolean flag = false;
 		OrderBean order = orderImpl.selectOrderById(oid);
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
-		ProviderBean proBean = providerImpl.selectOneById(pid);
-		JSONObject providerJson = new JSONObject();
-		providerJson.put("name", proBean.getName());
-		providerJson.put("phone", proBean.getPhoneNum());
-		providerJson.put("contact", proBean.getContact());
-		
-		if(order.getStatus() != 0) {
-			throw new ServiceException("can_not_allot");
+		logger.info("工单： "+JSON.toJSONString(order));
+		if(order.getStatus() != 4 && order.getStatus() != 7) { //4 合同已上传 7 拒绝完成
+			throw new ServiceException("order_can_not_submit");
 		}
-		order.setStatus(2);// 等待服务商服务
-		order.setStage(1);// 进行中
-		order.setPid(pid);
-		flag = orderImpl.updateProvider(order) > 0;
-		if(!flag) {
-			throw new ServiceException("allot_order_error");
-		}
-		
-		// TODO: 派单完发送短信
-		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				pid, providerJson.toJSONString(), 2, null);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
-		if(!flag) {
-			throw new ServiceException("create_order_log_error");
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean closeOrder(String sid, String oid, String content, int status) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		boolean flag = false;
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
-		}
-		OrderBean order = orderImpl.selectOrderById(oid);
-		if(order == null) {
-			throw new ServiceException("object_is_not_exist", "工单");
-		}
-		logger.info("工单"+JSON.toJSONString(order));
-		if((status == -1 && order.getStatus() != 0) // 待处理时关闭
-				|| (status == -2 && order.getStatus() != 3) // 服务商已接受后，合同问题关闭
-				|| (status == -3 && order.getStatus() != 8)) { // 服务商无法完成，客户提出终止
-			throw new ServiceException("order_can_not_close");
-		}
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
-		order.setStatus(status);
-		order.setStage(3); // 阶段：关闭
+		order.setStatus(5);
 		flag = orderImpl.updateStatus(order) > 0;
-		if(!flag) {
-			throw new ServiceException("allot_order_error");
-		}
-		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				null, null, 6, content);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
-		if(!flag) {
-			throw new ServiceException("create_order_log_error");
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
-			long endTime, String partyA, String partyB, String contractUrl, int payment, String paymentWay,
-			String service, double money) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		boolean flag = false;
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
-		}
-		OrderBean order = orderImpl.selectOrderById(oid);
-		if(order == null) {
-			throw new ServiceException("object_is_not_exist", "工单");
-		}
-		logger.info("工单"+JSON.toJSONString(order));
-		if(order.getStatus() != 3) { // 服务商已接受状态后，销售可以与客户签合同
-			throw new ServiceException("order_can_not_sign_contract");
-		}
-		OrderContractBean contract = new OrderContractBean();
-		contract.setContractNo(contractNo);
-		contract.setContractUrl(contractUrl);
-		contract.setEndTime(new Timestamp(endTime));
-		contract.setMoney(money);
-		contract.setOid(oid);
-		contract.setPartyA(partyA);
-		contract.setPartyB(partyB);
-		contract.setPayment(payment);
-		contract.setPaymentWay(paymentWay);
-		contract.setService(service);
-		contract.setSignTime(new Timestamp(signTime));
-		contract.setStartTime(new Timestamp(startTime));
-		flag = orderImpl.insertContract(contract) > 0;
-		if(!flag) {
-			throw new ServiceException("upload_contract_error");
-		}
-		order.setStatus(4);// 合同已上传
-		order.setExpectedTime(new Timestamp(endTime));// 合同结束时间更新到工单预计完成时间
-		//TODO： 发送短信给服务商
-		flag = orderImpl.updateStatus(order) > 0;
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
 		if(!flag) {
 			throw new ServiceException("update_order_status_error");
 		}
-		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				null, null, 3, contractNo);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
-		if(!flag) {
-			throw new ServiceException("create_order_log_error");
-		}
-		return flag;
-	}
-
-	@Override
-	public boolean confirmOrder(String sid, String oid, String content, int type) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		boolean flag = false;
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
-		}
-		OrderBean order = orderImpl.selectOrderById(oid);
-		if(order == null) {
-			throw new ServiceException("object_is_not_exist", "工单");
-		}
-		logger.info("工单"+JSON.toJSONString(order));
-		if(order.getStatus() != 5) { // 服务商申请完成，销售确认工单状态
-			throw new ServiceException("order_can_not_confirm");
-		}
-		//1完成工单, 可反馈 2拒绝完成
-		order.setStatus(type == 1 ? 6 : 7);
-		flag = orderImpl.updateStatus(order) > 0;
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
-		if(!flag) {
-			throw new ServiceException("update_order_status_error");
-		}
-		int coType = type == 1 ? 4 : 5;
+		String pid = account.getPid();
 		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
 		JSONObject providerJson = new JSONObject();
 		providerJson.put("name", proBean.getName());
-		providerJson.put("phone", proBean.getPhoneNum());
-		providerJson.put("contact", proBean.getContact());
-		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				order.getPid(), providerJson.toJSONString(), coType, content);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
+		providerJson.put("phone", account.getPhoneNum());
+		providerJson.put("contact", account.getUsername());
+		// 8 接收 9 拒绝 10 申请完成 11 申请终止
+		flag = insertOrderLog(oid, order.getOrderNo(), pid, providerJson.toJSONString(), 10, content, type);
 		if(!flag) {
 			throw new ServiceException("create_order_log_error");
 		}
 		return flag;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean feedback(String sid, String oid, String content, String score) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
-		boolean flag = false;
-		if(seller == null) {
-			throw new ServiceException("object_is_not_exist", "销售");
+	public boolean refuseOrder(String oid, String content, AccountBean account) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
 		}
+		boolean flag = false;
 		OrderBean order = orderImpl.selectOrderById(oid);
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单"+JSON.toJSONString(order));
-		if(order.getStatus() != 6) { // 6 销售确认完成，等待反馈状态
-			throw new ServiceException("order_can_not_feedback");
+		logger.info("工单： "+JSON.toJSONString(order));
+		if(order.getStatus() != 2) { //2 待处理
+			throw new ServiceException("order_can_not_handle");
 		}
-		order.setStatus(1);// 1 已完成
-		order.setStage(2);// 阶段已完成
-		flag = orderImpl.updateStatus(order) > 0;
-		JSONObject sellerJson = new JSONObject();
-		sellerJson.put("name", seller.getUsername());
-		sellerJson.put("phone", seller.getPhoneNum());
+		order.setPid(null);
+		order.setIsAllot(0);
+		order.setStatus(0);//已拒绝，status=0 待处理
+		flag = orderImpl.refuseOrder(order) > 0;
 		if(!flag) {
 			throw new ServiceException("update_order_status_error");
 		}
-		JSONObject contentJson = new JSONObject();
-		contentJson.put("score", JSON.parse(score));
-		contentJson.put("describe", content);
-		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				null, null, 6, contentJson.toJSONString());//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
+		String pid = account.getPid();
+		ProviderBean proBean = providerImpl.selectOneById(pid);
+		JSONObject providerJson = new JSONObject();
+		providerJson.put("name", proBean.getName());
+		providerJson.put("phone", account.getPhoneNum());
+		providerJson.put("contact", account.getUsername());
+		// 8 接收 9 拒绝 10 申请完成 11 申请终止
+		flag = insertOrderLog(oid, order.getOrderNo(), pid, providerJson.toJSONString(), 9, content, 0);
 		if(!flag) {
 			throw new ServiceException("create_order_log_error");
 		}
 		return flag;
 	}
-	
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean acceptOrder(String oid, String content, AccountBean account) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
+		}
+		boolean flag = false;
+		OrderBean order = orderImpl.selectOrderById(oid);
+		if(order == null) {
+			throw new ServiceException("object_is_not_exist", "工单");
+		}
+		logger.info("工单： "+JSON.toJSONString(order));
+		if(order.getStatus() != 2) { //2 待处理
+			throw new ServiceException("order_can_not_handle");
+		}
+		order.setStatus(3);//已接收，status=3
+		flag = orderImpl.updateStatus(order) > 0;
+		if(!flag) {
+			throw new ServiceException("update_order_status_error");
+		}
+		String pid = account.getPid();
+		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
+		JSONObject providerJson = new JSONObject();
+		providerJson.put("name", proBean.getName());
+		providerJson.put("phone", account.getPhoneNum());
+		providerJson.put("contact", account.getUsername());
+		// 8 接收 9 拒绝 10 申请完成 11 申请终止
+		flag = insertOrderLog(oid, order.getOrderNo(), pid, providerJson.toJSONString(), 8, content, 0);
+		if(!flag) {
+			throw new ServiceException("create_order_log_error");
+		}
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean submitClose(String oid, int type, String content, AccountBean account) {
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "登录账户");
+		}
+		boolean flag = false;
+		OrderBean order = orderImpl.selectOrderById(oid);
+		if(order == null) {
+			throw new ServiceException("object_is_not_exist", "工单");
+		}
+		logger.info("工单： "+JSON.toJSONString(order));
+		if(order.getStatus() != 4 && order.getStatus() != 7) { //4 合同已上传 7 拒绝完成
+			throw new ServiceException("order_can_not_submit");
+		}
+		order.setStatus(8);//申请终止，status=8
+		flag = orderImpl.updateStatus(order) > 0;
+		if(!flag) {
+			throw new ServiceException("update_order_status_error");
+		}
+		String pid = account.getPid();
+		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
+		JSONObject providerJson = new JSONObject();
+		providerJson.put("name", proBean.getName());
+		providerJson.put("phone", account.getPhoneNum());
+		providerJson.put("contact", account.getUsername());
+		// 8 接收 9 拒绝 10 申请完成 11 申请终止
+		flag = insertOrderLog(oid, order.getOrderNo(), pid, providerJson.toJSONString(), 11, content, type);
+		if(!flag) {
+			throw new ServiceException("create_order_log_error");
+		}
+		return flag;
+	}
+
+	/**
+	 * 插入订单操作日志表
+	 * @param oid
+	 * @param sid
+	 * @param jsonString
+	 * @param pid
+	 * @param provider
+	 * @param type
+	 * @param content 
+	 * @return
+	 */
+	private boolean insertOrderLog(String oid, String orderNo, String pid, String provider, int type, String content, int select) {
+		OrderLogBean orderlog = new OrderLogBean();
+		orderlog.setOid(oid);
+		if(!StringUtil.isEmpty(pid)) {
+			orderlog.setPid(pid);
+			orderlog.setProviderJson(provider);
+		}
+		JSONObject contentJson = new JSONObject();
+		// 8 接收 9 拒绝 10 申请完成 11 申请终止
+		contentJson.put("oid", oid);
+		contentJson.put("orderNo", orderNo);
+		contentJson.put("content", content);
+		if(type == 10) {
+			contentJson.put("type", select == 1 ? "按期完成" : select == 2 ? "延期完成" : "其他");
+		} else if(type == 11) {
+			contentJson.put("type", select == 1 ? "客户终止" : "其他");
+		}
+		orderlog.setContent(contentJson.toJSONString());
+		orderlog.setType(type);
+		return orderLogImpl.insert(orderlog) > 0;
+	}
+
 
 }

@@ -6,19 +6,17 @@ import com.psp.provider.model.OrderBean;
 
 public interface OrderDao {
 	
-	int selectOrderCount(String sid, int filteType, int stype, String key, String uid, int stage);
+	int selectOrderCount(String sid, int filteType, int stype, String key, int stage);
 
-	List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key, String uid, int stage);
+	List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key, int stage);
 
-	int insert(OrderBean order);
-
-	int selectOrderCount2Seller(String sid, int stage);
+	int selectOrderCount2Provider(String pid, int stage);
 
 	OrderBean selectOrderById(String oid);
 
-	int updateProvider(OrderBean order);
-
 	int updateStatus(OrderBean order);
+
+	int refuseOrder(OrderBean order);
 
 
 

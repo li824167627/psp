@@ -2,6 +2,7 @@
 <application>
 	<rescodes>
 		<item file="/assets/rescode-user.xml"/>
+		<item file="/assets/rescode-admin.xml"/>
 		<item file="/assets/rescode.xml"/>
 	</rescodes>
 	

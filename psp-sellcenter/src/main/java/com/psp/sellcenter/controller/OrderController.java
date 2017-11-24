@@ -97,6 +97,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -118,8 +119,10 @@ public class OrderController {
 				result.setData(bean);
 			}
 		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
-			result.setMsg(e.getServiceMsg());
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
@@ -144,6 +147,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -163,14 +167,15 @@ public class OrderController {
 		try {
 
 			String sid = (String)request.getAttribute("sellerId");
-			String uid = param.getOid();
+			String oid = param.getOid();
 			
-			ROrderBean data = orderServiceImpl.getDetail(sid, uid);
+			ROrderBean data = orderServiceImpl.getDetail(sid, oid);
 			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -205,6 +210,11 @@ public class OrderController {
 			result.setTotalSize(totalSize);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
@@ -229,6 +239,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -256,6 +267,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -295,6 +307,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -322,6 +335,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
@@ -342,6 +356,7 @@ public class OrderController {
 			result.setServiceException(e);
 		} catch (Exception e) {
 			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
 		}
