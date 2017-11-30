@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.admin.persist.sql.OrderMapper">
+	
+	<!-- 根据分配状态获取管理的工单总数 -->
+	<select id="selectOrderCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_order
+		<where>
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and status = #{filteType}
+			</if>
+			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and status > 1
+			</if>
+			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 1">
+				AND (content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 用户详情下-->
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+			<if test="sid != null">
+				and sid = #{sid}
+			</if>
+			<if test="pid != null">
+				and pid = #{pid}
+			</if>
+		</where> 
+	</select>
+	
+	
+	<resultMap type="OrderBean" id="OrderMap" autoMapping="true">
+		<id property="oid" column="oid"/>
+		<result property="orderNo"  column="orderNo"/>
+		<result property="sid"  column="sid"/>
+		<result property="uid"  column="uid"/>
+		<result property="label"  column="label"/>
+		<result property="pid"  column="pid"/>
+		<result property="createTime"  column="createTime"/>
+		<result property="status"  column="status"/>
+		<result property="stage"  column="stage"/>
+		<result property="isAllot"  column="isAllot"/>
+		<result property="expectedTime"  column="expectedTime"/>
+		<result property="completeTime"  column="completeTime"/>
+		<result property="isNeedInvoice"  column="isNeedInvoice"/>
+		<association property="provider" javaType="ProviderBean">
+			<id property="pid" column="ppid"/>
+			<result property="name"  column="pname"/>
+			<result property="phoneNum"  column="pphoneNum"/>
+			<result property="contact"  column="pcontact"/>
+		</association> 
+	</resultMap>
+	
+	<!-- 根据搜索条件获取管理的客户 -->
+	<select id="selectOrders" resultMap="OrderMap">
+		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact
+		FROM psp_order o 
+		left join psp_provider p
+		on o.pid = p.pid
+		<where>
+			<!-- 筛选 -->
+			<if test="filteType != 0">
+				and o.status = #{filteType}
+			</if>
+			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and o.status > 1
+			</if>
+			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 1">
+				AND (o.content like CONCAT('%', '${key}' ,'%'))
+			</if>
+			<if test="stype == 2">
+				AND (o.label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<!-- 用户详情下-->
+			<if test="uid != null">
+				and o.uid = #{uid}
+			</if>
+			<if test="sid != null">
+				and o.sid = #{sid}
+			</if>
+			<if test="pid != null">
+				and o.pid = #{pid}
+			</if>
+		</where> 
+		ORDER BY o.stage, o.updateTime desc, o.createTime desc
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 根据id获取客户信息 -->
+	<select id="selectOrderById" resultMap="OrderMap">
+		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact
+		FROM psp_order o 
+		left join psp_provider p
+		on o.pid = p.pid
+		where o.oid = #{oid}
+	</select>
+	
+</mapper>

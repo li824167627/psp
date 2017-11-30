@@ -37,10 +37,4 @@ public class UserNewsImpl extends BaseImpl implements UserNewsDao {
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectUserNews", where);
 	}
 
-	@Override
-	public int insert(UserNewsBean news) {
-		return sqlSessionTemplate.insert(NAME_SPACE + ".insert", news);
-	}
-
-
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+
+	<!-- 按层级获取所有服务 -->
+	<protocol name="getAllService" requestMapping="/v1/getAllServices" resType="json" notes="按层级获取所有服务分类JSON" state="1" 
+		resDataType="object" responseName="RCategoryJSONBean">
+	</protocol>
+	
+	<!-- 获取服务分类 -->
+	<protocol name="getCategories" requestMapping="/v1/getCategories" resType="json" notes="获取服务分类JSON" state="1" 
+		resDataType="object" responseName="RCategoryJSONBean">
+	</protocol>
+	
+	
+	<!-- 获取服务列表 -->
+	<protocol name="getService" requestMapping="/v1/getService" resType="json" notes="获取服务列表" state="1" requestName="GetServiceParam"
+		resDataType="list" responseName="RCategoryBean">
+		<request>
+			<param name="parentId" type="string" demoValue="1" notes="服务所属的二级服务分类">
+				<notEmpty message="请选择服务分类"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 创建服务分类 -->
+	<protocol name="addService" requestMapping="/v1/addService" resType="json" notes="创建服务分类" state="1" requestName="AddServiceParam"
+		resDataType="base" >
+		<request>
+			<param name="parentId" type="string" demoValue="1" notes="服务所属的二级服务分类">
+				<notEmpty message="请选择服务分类"></notEmpty>
+			</param>
+			<param name="isService" type="string" demoValue="1" notes="是否是服务：0:服务分类 1:服务">
+				<pattern regexp="^0|1$" message="服务分类类型错误：0:服务分类 1:服务" />
+			</param>
+			<param name="name" type="string" demoValue="开发" notes="服务名称">
+			</param>
+			<param name="sort" type="int" demoValue="5" notes="顺序">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 编辑服务分类 -->
+	<protocol name="editService" requestMapping="/v1/editService" resType="json" notes="编辑服务" state="1" requestName="EditServiceParam"
+		resDataType="base" >
+		<request>
+			<param name="cid" type="string" demoValue="8" notes="服务id">
+				<notEmpty message="编辑服务项不能为空"></notEmpty>
+			</param>
+			<param name="parentId" type="string" demoValue="1" notes="服务所属的服务分类">
+			</param>
+			<param name="isService" type="string" demoValue="1" notes="是否是服务：0:服务分类 1:服务">
+				<pattern regexp="^0|1$" message="服务分类类型错误：0:服务分类 1:服务" />
+			</param>
+			<param name="name" type="string" demoValue="开发" notes="服务名称">
+			</param>
+			<param name="sort" type="int" demoValue="5" notes="顺序">
+			</param>
+		</request>
+	</protocol>
+	
+	
+</protocols>

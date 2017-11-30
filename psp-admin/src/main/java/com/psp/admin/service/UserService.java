@@ -2,6 +2,7 @@ package com.psp.admin.service;
 
 import com.psp.admin.controller.res.bean.RUserBean;
 import com.psp.admin.controller.res.bean.RUserLogsBean;
+import com.psp.admin.controller.res.bean.RUserNewsBean;
 import com.psp.admin.service.res.PageResult;
 
 public interface UserService {
@@ -18,68 +19,6 @@ public interface UserService {
 	 * @return
 	 */
 	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int status);
-	
-	/**
-	 * 新建客户
-	 * @param sid
-	 * @param name
-	 * @param phoneNum
-	 * @param companyName
-	 * @param position
-	 * @param label
-	 * @param isUpdate
-	 * @param isClaim
-	 * @return
-	 */
-	RUserBean addUser(String sid, String name, String phoneNum, String companyName, String position, String label,
-			int isUpdate, int isClaim);
-	
-	/**
-	 * 编辑客户
-	 * @param sid
-	 * @param name
-	 * @param phoneNum
-	 * @param companyName
-	 * @param position
-	 * @param label
-	 * @param uid
-	 * @return
-	 */
-	RUserBean eidtUser(String sid, String name, String phoneNum, String companyName, String position, String label,
-			String uid);
-	/**
-	 * 查询客户数量
-	 * @param sid
-	 * @param isAllot 
-	 * @return
-	 */
-	int getUserNum2Seller(String sid, int isAllot);
-	
-	/**
-	 * 设置客户评级
-	 * @param sid
-	 * @param level
-	 * @param uid
-	 * @return
-	 */
-	boolean eidtUserLevel(String sid, int level, String uid);
-	
-	/**
-	 * 设置客户标签
-	 * @param sid
-	 * @param label
-	 * @param uid
-	 * @return
-	 */
-	boolean eidtUserLabel(String sid, String label, String uid);
-	
-	/**
-	 * 归档客户
-	 * @param sid
-	 * @param uid
-	 * @return
-	 */
-	boolean archive(String sid, String uid);
 	
 	/**
 	 * 获取客户详情
@@ -113,5 +52,17 @@ public interface UserService {
 	 * @return
 	 */
 	boolean allot(String aid, String sid, String uid);
+	
+	/**
+	 * 获取客户消息
+	 * @param sid
+	 * @param page
+	 * @param pageSize
+	 * @param stype
+	 * @param key
+	 * @param uid
+	 * @return
+	 */
+	PageResult<RUserNewsBean> getUserNews(String sid, int page, int pageSize, int stype, String key, String uid);
 
 }

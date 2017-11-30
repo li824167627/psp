@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.admin.persist.sql.ProviderMapper">
+	<!-- 插入服务商 -->
+	<insert id="insert">
+		INSERT INTO psp_provider
+		(pid, name, address, contact, phoneNum,
+			 content, score, createTime, status)
+		VALUES
+		(#{pid}, #{name}, #{address}, #{contact}, #{phoneNum},
+			 #{content}, #{score}, now(), #{status});
+	</insert>
+	
+	<!-- 查询服务商总数 -->
+	<select id="selectProviderCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_provider p
+			<if test="cid != 0">
+			LEFT JOIN psp_provider_category_relation r
+			ON p.pid = r.pid
+			</if>
+		<where>
+			<if test="cid != 0">
+				r.cid = #{r.cid}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询服务商 -->
+	<select id="selectProviders" resultType="ProviderBean">
+		SELECT
+			*
+		FROM
+			psp_provider p
+			<if test="cid != 0">
+			LEFT JOIN psp_provider_category_relation r
+			ON p.pid = r.pid
+			</if>
+		<where>
+			<if test="cid != 0">
+				r.cid = #{r.cid}
+			</if>
+		</where>
+		order by p.status, p.createTime DESC
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 根据id 获取服务商详情 -->
+	<select id="selectOneById" resultType="ProviderBean">
+		SELECT
+			*
+		FROM
+			psp_provider
+		<where>
+			pid = #{pid}
+		</where>
+	</select>
+	
+	<!-- 根据手机号 获取服务商账号 -->
+	<select id="selectAccountByPhone" resultType="AccountBean">
+		SELECT
+			*
+		FROM
+			psp_provider_account
+		<where>
+			phoneNum = #{phoneNum}
+		</where>
+	</select>
+	
+	<!-- 插入服务商账号 -->
+	<insert id="insertAccount">
+		INSERT INTO psp_provider_account
+		(aid, username, phoneNum, password, type,
+			 pid, status, createTime, lastLoginTime)
+		VALUES
+		(#{aid}, #{username}, #{phoneNum}, #{password}, #{type},
+			 #{pid}, #{status}, now(), now());
+	</insert>
+	
+	<!-- 查询服务商账号总数 -->
+	<select id="selectAccountCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_provider_account
+		<where>
+			pid = #{pid}
+		</where>
+	</select>
+	
+	<!-- 查询服务商账号 -->
+	<select id="selectAccounts" resultType="AccountBean">
+		SELECT
+			*
+		FROM
+			psp_provider_account
+		<where>
+			pid = #{pid}
+		</where>
+		order by status, createTime DESC
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 根据id 获取服务商账号 -->
+	<select id="selectAccountById" resultType="AccountBean">
+		SELECT
+			*
+		FROM
+			psp_provider_account
+		<where>
+			aid = #{aid}
+		</where>
+	</select>
+	
+	<!-- 更新服务商账号 -->
+	<update id="updateAccount">
+		UPDATE psp_provider_account
+		<set>
+			<if test="password != null">
+				password = #{password}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
+	
+	
+</mapper>

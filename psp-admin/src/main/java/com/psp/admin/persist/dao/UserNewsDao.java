@@ -10,6 +10,4 @@ public interface UserNewsDao {
 
 	List<UserNewsBean> selectUserNews(int page, int pageSize, String sid, int stype, String key, String uid);
 
-	int insert(UserNewsBean news);
-
 }

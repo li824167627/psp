@@ -7,12 +7,21 @@
 		<protocols-file fileName="admin-protocol.xml" toCreate="true"
 			className="AdminController" requestMapping="/admin" version="1.0"
 			notes="管理员相关接口" />
-		<protocols-file fileName="user-protocol.xml" toCreate="true"
-			className="UserController" requestMapping="/user" version="1.0"
-			notes="用户相关接口" />
+		<protocols-file fileName="service-protocol.xml" toCreate="true"
+			className="ServiceController" requestMapping="/service" version="1.0"
+			notes="服务分类相关接口" />
 		<protocols-file fileName="provider-protocol.xml" toCreate="true"
 			className="ProviderController" requestMapping="/provider" version="1.0"
 			notes="服务商相关接口" />
+		<protocols-file fileName="user-protocol.xml" toCreate="true"
+			className="UserController" requestMapping="/user" version="1.0"
+			notes="客户相关接口" />
+		<protocols-file fileName="seller-protocol.xml" toCreate="true"
+			className="SellerController" requestMapping="/seller" version="1.0"
+			notes="销售相关接口" />
+		<protocols-file fileName="order-protocol.xml" toCreate="true"
+			className="OrderController" requestMapping="/order" version="1.0"
+			notes="工单相关接口" />
 	</protocolFiles>
 
 	<beanFiles>

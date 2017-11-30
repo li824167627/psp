@@ -3,7 +3,7 @@ package com.psp.admin.controller.springmvc.req;
 
 
 /**
- * 获取管理员信息
+ * 获取服务商列表
  **/
 public class GetProviderListParam {
 	private Integer page; // 页码，默认从0开始

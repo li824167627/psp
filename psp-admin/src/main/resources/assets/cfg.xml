@@ -3,6 +3,8 @@
 	<rescodes>
 		<item file="/assets/rescode-user.xml"/>
 		<item file="/assets/rescode-admin.xml"/>
+		<item file="/assets/rescode-provider.xml"/>
+		<item file="/assets/rescode-seller.xml"/>
 		<item file="/assets/rescode.xml"/>
 	</rescodes>
 	

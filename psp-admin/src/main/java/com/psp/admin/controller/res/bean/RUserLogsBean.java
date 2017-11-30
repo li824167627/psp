@@ -87,9 +87,4 @@ public class RUserLogsBean {
  		return type;
 	}
 
-	public RUserLogsBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

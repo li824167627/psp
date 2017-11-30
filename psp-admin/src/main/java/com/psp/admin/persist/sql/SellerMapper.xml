@@ -7,5 +7,61 @@
 		SELECT * FROM psp_sale_center 
 		WHERE sid = #{sid}
 	</select>
-
+	
+	<!-- 根据手机号获取销售信息 -->
+	<select id="selectOneByPhone" resultType="SellerBean">
+		SELECT * FROM psp_sale_center 
+		WHERE phoneNum = #{phoneNum}
+	</select>
+	
+	<!-- 查询销售总数 -->
+	<select id="selectSellerCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_sale_center 
+	</select>
+	
+	<!-- 查询销售列表 -->
+	<select id="selectSellers" resultType="SellerBean">
+		SELECT
+			*
+		FROM
+			psp_sale_center 
+		order by createTime DESC
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 插入销售-->
+	<insert id="insert">
+		INSERT INTO psp_sale_center
+		(sid, username, phoneNum, password,
+			 status, createTime, lastLoginTime)
+		VALUES
+		(#{sid}, #{username}, #{phoneNum}, #{password},
+			 #{status}, now(), now());
+	</insert>
+	
+	<!-- 更新销售 -->
+	<update id="update">
+		UPDATE psp_sale_center
+		<set>
+			<if test="name != null">
+				name = #{name}
+			</if>
+			<if test="phoneNum != null">
+				phoneNum = #{phoneNum}
+			</if>
+			<if test="password != null">
+				password = #{password}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+		</set> 
+		WHERE
+			sid = #{sid};
+	</update>
+	
+	
 </mapper>

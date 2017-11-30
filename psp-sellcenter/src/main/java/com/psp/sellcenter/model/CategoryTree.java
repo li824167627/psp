@@ -14,10 +14,11 @@ public class CategoryTree {
 		this.phone = phone;
 	}
 	
+	
 	public CategoryTree(String name, int cid, List<ProviderBean> lists) {
 		this.name = name;
 		this.cid = cid+"";
-		if(lists.size() > 0) {
+		if(lists != null && lists.size() > 0) {
 			ArrayList<CategoryTree> ptrees = new ArrayList<CategoryTree>();
 			for(ProviderBean p : lists) {
 				CategoryTree pt = new CategoryTree(p.getName(), p.getPid(), p.getPhoneNum());

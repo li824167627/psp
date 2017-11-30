@@ -17,7 +17,12 @@ public class ProviderImpl extends BaseImpl implements ProviderDao {
 	public List<CategoryBean> selectAllCates() {
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectAllCates");
 	}
-
+	
+	@Override
+	public List<CategoryBean> selectService(Integer parentId) {
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectService", parentId);
+	}
+	
 	@Override
 	public List<ProviderBean> selectListByCid(Integer categoryId) {
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectListByCid", categoryId);
@@ -26,6 +31,11 @@ public class ProviderImpl extends BaseImpl implements ProviderDao {
 	@Override
 	public ProviderBean selectOneById(String pid) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOneById", pid);
+	}
+
+	@Override
+	public List<ProviderBean> selectAll() {
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectAllProvider");
 	}
 
 

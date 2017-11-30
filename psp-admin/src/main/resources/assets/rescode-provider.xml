@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+	<!-- 服务与服务商相关，300001开始 -->
+	<result name="add_service_error">
+		<code>300001</code>
+		<msg>添加服务失败</msg>
+	</result>
+	
+	<result name="add_provider_error">
+		<code>300002</code>
+		<msg>添加服务商失败</msg>
+	</result>
+	
+	<result name="add_provider_account_error">
+		<code>300003</code>
+		<msg>添加服务商账号失败</msg>
+	</result>
+	
+	<result name="update_provider_account_error">
+		<code>300004</code>
+		<msg>更新服务商账号失败</msg>
+	</result>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</results>

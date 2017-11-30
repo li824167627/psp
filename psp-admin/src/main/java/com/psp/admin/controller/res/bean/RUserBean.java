@@ -159,9 +159,4 @@ public class RUserBean {
  		return allotTime;
 	}
 
-	public RUserBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

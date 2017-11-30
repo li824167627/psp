@@ -9,6 +9,7 @@ public class RSellerBean {
 	private String phoneNum; // 销售手机号
 	private String username; // 销售昵称
 	private Integer status; // 状态1：正常，0：禁用
+	private Long createTime; // 创建时间
 	private Long lastLoginTime; // 最后登录时间
 
 	public void setSid(String sid) {
@@ -41,6 +42,14 @@ public class RSellerBean {
 
 	public Integer getStatus() {
  		return status;
+	}
+
+	public void setCreateTime(Long createTime) {
+ 		this.createTime = createTime;
+	}
+
+	public Long getCreateTime() {
+ 		return createTime;
 	}
 
 	public void setLastLoginTime(Long lastLoginTime) {

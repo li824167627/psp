@@ -12,6 +12,8 @@ public class ProviderBean {
 	private Double score;
 	private Timestamp createTime;
 	
+	private Integer cid;// 服务
+	
 	public String getPid() {
 		return pid;
 	}
@@ -59,6 +61,12 @@ public class ProviderBean {
 	}
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
+	}
+	public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
 	}
 
 }

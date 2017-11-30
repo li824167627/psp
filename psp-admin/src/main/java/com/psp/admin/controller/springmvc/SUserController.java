@@ -14,7 +14,7 @@ import com.psp.admin.controller.res.bean.*;
 import com.psp.admin.controller.springmvc.req.*;
 
 /**
- * 用户相关接口
+ * 客户相关接口
  **/
 @Controller
 @RequestMapping(value = "/user", produces = "application/json")
@@ -55,22 +55,6 @@ public class SUserController {
 	}
 
 	/**
-	 * 归档客户
-	 **/
-	@RequestMapping("/v1/archive")
-	@ResponseBody
-	public BaseResult archive(@Validated ArchiveParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult res = new BaseResult();
-		if (error.hasErrors()) {
-			res.setRescode(BaseResult.param.getCode());
-			res.setMsg(error.getFieldError().getDefaultMessage());
-			return res;
-		}
-		res.setMsg(null);
-		return res;
-	}
-
-	/**
 	 * 分配客户给销售
 	 **/
 	@RequestMapping("/v1/allot")
@@ -98,8 +82,8 @@ public class SUserController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RUserBean().getDemoValue());
-		return res;
+
+		return userController.getDetail(param, request, response);
 	}
 
 	/**
@@ -115,9 +99,22 @@ public class SUserController {
 			return res;
 		}
 
-		List<RUserLogsBean> data = new ArrayList<>();
-		data.add(new RUserLogsBean().getDemoValue());
-		res.setData(data);
-		return res;
+		return userController.getUserLogs(param, request, response);
+	}
+
+	/**
+	 * 获取客户信息流
+	 **/
+	@RequestMapping("/v1/getUserNews")
+	@ResponseBody
+	public ListResult<RUserNewsBean> getUserNews(@Validated GetUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RUserNewsBean> res = new ListResult<RUserNewsBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return userController.getUserNews(param, request, response);
 	}
 }

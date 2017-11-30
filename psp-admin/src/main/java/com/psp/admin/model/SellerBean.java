@@ -12,6 +12,7 @@ public class SellerBean {
 	private Integer status; // 状态1：正常，0：禁用
 	private Timestamp createTime; // 创建时间
 	private Timestamp lastLoginTime; // 最后登录时间
+	private String password;//密码
 
 	public void setSid(String sid) {
  		this.sid = sid;
@@ -61,4 +62,11 @@ public class SellerBean {
 		this.lastLoginTime = lastLoginTime;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

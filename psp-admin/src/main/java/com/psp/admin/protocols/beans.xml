@@ -8,6 +8,7 @@
 			<attr type="string" name="phoneNum" notes="销售手机号" demoValue="18553351967" />
 			<attr type="string" name="username" notes="销售昵称" demoValue="candy" />
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
 			<attr type="int" name="type" notes="管理员类型：0 园区运营人员 1超级管理员" demoValue="1" />
 			
@@ -21,6 +22,7 @@
 			<attr type="string" name="phoneNum" notes="销售手机号" demoValue="18553351967" />
 			<attr type="string" name="username" notes="销售昵称" demoValue="candy" />
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
 		</attrs>
 	</bean>
@@ -79,12 +81,41 @@
 		</attrs>
 	</bean>
 	
-	<!-- 服务分类 -->
-	<bean className="RCategroyBean" notes="服务分类">
+	<!-- 服务分类JSON -->
+	<bean className="RCategoryJSONBean" notes="服务分类">
 		<attrs>
 			<attr type="JSONArray" name="category"
 				notes="服务类型:cid 分类的值，name：分类标题，children：子分类，"
 				demoValue="[{cid:1,name:'敏捷制造',children:[{cid:1,name:'工商服务'}]}]" />
+		</attrs>
+	</bean>
+	
+	<!-- 服务分类 -->
+	<bean className="RCategoryBean" notes="服务分类信息">
+		<attrs>
+			<attr type="int" name="cid" notes="操作id" demoValue="0" />
+			<attr type="string" name="name" notes="服务分类名称" demoValue="七星" />
+			<attr type="int" name="parentId" notes="父节点" demoValue="1" />
+			<attr type="int" name="sort" notes="排序" demoValue="1" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="string" name="adminId" notes="创建管理员" demoValue="七星" />
+			<attr type="string" name="adminJson" notes="创建管理员" demoValue="七星" />
+		</attrs>
+	</bean>
+	
+	
+	<!-- 服务商信息 -->
+	<bean className="RProviderBean" notes="服务商信息">
+		<attrs>
+			<attr type="string" name="pid" notes="服务商pid" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="name" notes="服务商名称" demoValue="北京硬创云加" />
+			<attr type="string" name="address" notes="地址" demoValue="中观村智造大街" />、
+			<attr type="string" name="contact" notes="联系人" demoValue="瑞讯" />
+			<attr type="string" name="phoneNum" notes="联系电话" demoValue="16723412341" />
+			<attr type="string" name="content" notes="服务商服务内容简介" demoValue="北京硬创云加做软件开发" />
+			<attr type="double" name="score" notes="评价得分" demoValue="4.8" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="int" name="status" notes="状态 0 正常 1 禁用" demoValue="0" />
 		</attrs>
 	</bean>
 	
@@ -93,12 +124,51 @@
 		<attrs>
 			<attr type="string" name="aid" notes="账户aid" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="phoneNum" notes="用户手机号" demoValue="18553351967" />
-			<attr type="string" name="nickName" notes="用户昵称" demoValue="candy" />
+			<attr type="string" name="username" notes="用户昵称" demoValue="candy" />
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
 			<attr type="int" name="type" notes="用户类型 0 员工 1 服务商管理员" demoValue="1" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="上次登录时间" demoValue="unix时间戳" />
 			
+		</attrs>
+	</bean>
+	
+	<!-- 工单信息 -->
+	<bean className="ROrderBean" notes="工单信息">
+		<attrs>
+			<attr type="string" name="oid" notes="工单信息id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="orderNo" notes="工单号" demoValue="GD0120171117011230DFGXD1" />
+			<attr type="string" name="sid" notes="当前销售id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="uid" notes="客户id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="userJson" notes="客户信息" demoValue="{'客户名称':'崔海东','客户电话':'18553351967'}" />
+			<attr type="string" name="label" notes="工单标签" demoValue="['APP','原生开发']" />
+			<attr type="string" name="content" notes="工单需求描述" demoValue="java开发" />
+			<attr type="string" name="pid" notes="服务商" demoValue="abc123249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="providerJson" notes="服务商信息" demoValue="{'服务商名称':'北京硬创云加','服务商电话':'18553351967'}" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="int" name="status" notes="状态" demoValue="0:待分配 1已完成 2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
+			<attr type="int" name="stage" notes="所处阶段" demoValue="0:待分配 1已完成 2:进行中 3已终止" />
+			<attr type="int" name="isAllot" notes="是否被分配" demoValue="1"></attr>
+			<attr  type="long" name="expectedTime" notes="预计完成时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="completeTime" notes="实际完成时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="closeTime" notes="关闭时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="updateime" notes="操作更新时间" demoValue="unix时间戳" ></attr>
+			<attr  type="long" name="isNeedInvoice" notes="是否需要发票" demoValue="1" ></attr>
+		</attrs>
+	</bean>
+	
+	<!-- 操作工单信息 -->
+	<bean className="ROrderLogsBean" notes="操作工单信息">
+		<attrs>
+			<attr type="int" name="lid" notes="操作id" demoValue="1" />
+			<attr type="string" name="oid" notes="订单ID" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="sid" notes="销售id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="sellerJson" notes="销售信息" demoValue="{'销售名称':'钱哲','销售电话':'18553351967'}" />
+			<attr type="string" name="content" notes="操作文本" demoValue="【杨娜】分配客户给【崔海东】" />
+			<attr type="string" name="pid" notes="服务商id" demoValue="abc123249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="providerJon" notes="服务商JSON" demoValue="{'管理员名称':'杨娜','管理员电话':'18553351967'}" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="int" name="type" notes="操作类型0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档" demoValue="1" />
 		</attrs>
 	</bean>
 	

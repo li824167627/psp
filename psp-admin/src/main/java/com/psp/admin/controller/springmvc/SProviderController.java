@@ -2,22 +2,16 @@ package com.psp.admin.controller.springmvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.psp.admin.controller.res.BaseResult;
-import com.psp.admin.controller.res.ObjectResult;
-import com.psp.admin.controller.res.bean.RAccountBean;
-import com.psp.admin.controller.res.bean.RAdminBean;
-import com.psp.admin.controller.res.bean.RCategroyBean;
-import com.psp.admin.controller.springmvc.req.AddProviderParam;
-import com.psp.admin.controller.springmvc.req.GetProviderListParam;
-import com.psp.admin.controller.springmvc.req.UpdateNameParam;
+import java.util.*;
+import com.psp.admin.controller.res.*;
+import com.psp.admin.controller.res.bean.*;
+import com.psp.admin.controller.springmvc.req.*;
 
 /**
  * 服务商相关接口
@@ -29,20 +23,9 @@ public class SProviderController {
 	com.psp.admin.controller.ProviderController providerController;
 
 	/**
-	 * 获取服务分类列表
-	 **/
-	@RequestMapping("/v1/getCategories")
-	@ResponseBody
-	public ObjectResult<RCategroyBean> getCategories(HttpServletRequest request, HttpServletResponse response) {
-		ObjectResult<RCategroyBean> res = new ObjectResult<RCategroyBean>();
-		res.setData(new RCategroyBean().getDemoValue());
-		return res;
-	}
-
-	/**
 	 * 创建服务商并生成管理员账户
 	 **/
-	@RequestMapping("/v1/addProvider")
+	@RequestMapping("/v1/add")
 	@ResponseBody
 	public ObjectResult<RAccountBean> addProvider(@Validated AddProviderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RAccountBean> res = new ObjectResult<RAccountBean>();
@@ -51,24 +34,72 @@ public class SProviderController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RAccountBean().getDemoValue());
-		return res;
+
+		return providerController.addProvider(param, request, response);
 	}
 
 	/**
-	 * 获取管理员信息
+	 * 获取服务商列表
 	 **/
 	@RequestMapping("/v1/getList")
 	@ResponseBody
-	public ObjectResult<RAdminBean> getList(@Validated GetProviderListParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		ObjectResult<RAdminBean> res = new ObjectResult<RAdminBean>();
+	public ListResult<RProviderBean> getList(@Validated GetProviderListParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RProviderBean> res = new ListResult<RProviderBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RAdminBean().getDemoValue());
+
+		return providerController.getList(param, request, response);
+	}
+
+	/**
+	 * 删除服务商
+	 **/
+	@RequestMapping("/v1/del")
+	@ResponseBody
+	public BaseResult delProvider(@Validated DelProviderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+		res.setMsg(null);
 		return res;
+	}
+
+	/**
+	 * 获取服务商信息
+	 **/
+	@RequestMapping("/v1/getDetail")
+	@ResponseBody
+	public ObjectResult<RProviderBean> getDetail(@Validated GetProviderDetailParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RProviderBean> res = new ObjectResult<RProviderBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.getDetail(param, request, response);
+	}
+
+	/**
+	 * 获取服务商账户列表
+	 **/
+	@RequestMapping("/v1/getAccountList")
+	@ResponseBody
+	public ListResult<RAccountBean> getAccountList(@Validated GetProviderAccountListParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RAccountBean> res = new ListResult<RAccountBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.getAccountList(param, request, response);
 	}
 
 	/**
@@ -83,7 +114,39 @@ public class SProviderController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return providerController.addAccount(param, request, response);
+	}
+
+	/**
+	 * 重置服务商账户密码
+	 **/
+	@RequestMapping("/v1/restPwd")
+	@ResponseBody
+	public BaseResult resetPwd(@Validated ResetProviderPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.resetPwd(param, request, response);
+	}
+
+	/**
+	 * 删除服务商账户
+	 **/
+	@RequestMapping("/v1/delAccount")
+	@ResponseBody
+	public BaseResult delAccount(@Validated DelProviderAccountParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.delAccount(param, request, response);
 	}
 }

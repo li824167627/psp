@@ -14,10 +14,11 @@ import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RUserBean;
 import com.psp.admin.controller.res.bean.RUserLogsBean;
+import com.psp.admin.controller.res.bean.RUserNewsBean;
 import com.psp.admin.controller.springmvc.req.AllotParam;
-import com.psp.admin.controller.springmvc.req.ArchiveParam;
 import com.psp.admin.controller.springmvc.req.GetUserDetailParam;
 import com.psp.admin.controller.springmvc.req.GetUserLogsParam;
+import com.psp.admin.controller.springmvc.req.GetUserNewsParam;
 import com.psp.admin.controller.springmvc.req.GetUserNumParam;
 import com.psp.admin.controller.springmvc.req.GetUsersParam;
 import com.psp.admin.service.UserService;
@@ -93,11 +94,13 @@ public class UserController {
 		return result;
 	}
 	
-	public BaseResult archive(ArchiveParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/**
+	 * 分配客户
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult allot(AllotParam param, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {
@@ -117,17 +120,109 @@ public class UserController {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 获取客户详情
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<RUserBean> getDetail(GetUserDetailParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ObjectResult<RUserBean> result = new ObjectResult<>();
+		try {
 
+			String aid = (String)request.getAttribute("adminId");
+			String uid = param.getUid();
+			
+			RUserBean data = userServiceImpl.getDetail(aid, uid);
+			result.setData(data);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取客户操作日志
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ListResult<RUserLogsBean> getUserLogs(GetUserLogsParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ListResult<RUserLogsBean> result = new ListResult<>();
+		try {
+			String aid = (String)request.getAttribute("adminId");
+			String uid = param.getUid();
+			String key = param.getKey();//关键字
+			
+			PageResult<RUserLogsBean> resList = userServiceImpl.getUserLogs(aid, uid, key);
+			
+			if(resList == null) {
+				result.setData(null);
+				result.setTotalSize(0);
+				return result;
+			}
+			int totalSize = resList.getCount();
+			List<RUserLogsBean> lists = resList.getData();
+			result.setData(lists);
+			result.setTotalSize(totalSize);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取客户消息表
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ListResult<RUserNewsBean> getUserNews(GetUserNewsParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		ListResult<RUserNewsBean> result = new ListResult<>();
+		try {
+			String aid = (String)request.getAttribute("adminId");
+			String uid = param.getUid();
+			int page = NumUtil.toInt(param.getPage(), 0);
+			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
+			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
+			String key = param.getKey();//关键字
+			
+			PageResult<RUserNewsBean> resList = userServiceImpl.getUserNews(aid, page, pageSize, stype, key, uid);
+			if(resList == null) {
+				result.setData(null);
+				result.setTotalSize(0);
+				return result;
+			}
+			int totalSize = resList.getCount();
+			List<RUserNewsBean> lists = resList.getData();
+			result.setData(lists);
+			result.setTotalSize(totalSize);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 
 }

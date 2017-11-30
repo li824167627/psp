@@ -7,25 +7,50 @@
 		SELECT
 			sc.cid,
 			sc.NAME,
+			sc.parentId,
 			c.cid AS scid,
-			c.NAME AS sname 
+			c.NAME AS sname,
+			c.parentId AS sparentId
 		FROM
 			psp_category sc
 			LEFT JOIN psp_category c ON sc.cid = c.parentId 
 		WHERE
-			sc.parentId = 0 
+			c.isService = 0
+			and  sc.parentId = 0 
+			
 		ORDER BY
 			sc.sort,
 			c.parentId,
 			c.sort
 	</select>
 	
+	<!-- 获取所有服务 -->
+	<select id="selectService" resultType="CategoryBean">
+		SELECT
+			cid,
+			name,
+			parentId
+		FROM
+			psp_category
+		<where>
+			<if test="parentId != null">
+			parentId = #{parentId}
+			</if>
+			and isService = 1
+		</where>
+		ORDER BY
+			parentId,
+			sort
+	</select>
+	
 	<resultMap type="CategoryBean" id="CategoryMap" autoMapping="true">
 		<id property="cid" column="cid"/>
 		<result property="name"  column="name"/>
+		<result property="parentId"  column="parentId"/>
 		<collection property="childern" ofType="CategoryBean">
           	<id property="cid" column="scid"/>
 			<result property="name"  column="sname"/>
+			<result property="parentId"  column="sparentId"/>
    		</collection>
 	</resultMap>
 	
@@ -34,7 +59,7 @@
 		SELECT p.* FROM psp_provider p
 		left join psp_provider_category_relation r
 		on p.pid = r.pid
-		where r.cid = #{cid}
+		where r.cid = #{cid} and p.status = 0
 	</select>
 	
 	<!-- 根据id获取服务商 -->
@@ -42,4 +67,24 @@
 		SELECT p.* FROM psp_provider p
 		where p.pid = #{pid}
 	</select>
+		
+	<!-- 查询所有服务商 -->
+	<select id="selectAllProvider" resultType="ProviderBean">
+		SELECT
+			p.*,
+			r.cid 
+		FROM
+			psp_provider p
+			LEFT JOIN psp_provider_category_relation r
+			LEFT JOIN psp_category pc ON r.cid = pc.cid ON p.pid = r.pid 
+		where p.status = 0
+		ORDER BY
+			pc.parentId,
+			pc.sort,
+			p.createTime DESC
+
+	</select>
+	
+	
+	
 </mapper>

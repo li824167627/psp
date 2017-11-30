@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+
+	<!-- 获取销售人员列表 -->
+	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取销售人员列表" state="1" requestName="GetSellersParam"
+		resDataType="list" responseName="RSellerBean">
+		<request>
+			<param name="key" type="String" demoValue="" notes="关键字检索">
+			</param>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 编辑销售-->
+	<protocol name="eidt" requestMapping="/v1/eidt" resType="json" notes="编辑销售" state="1" requestName="EditSellerParam"
+		resDataType="base" >
+		<request>
+			<param name="sid" type="string" demoValue="销售id" notes="销售id">
+			</param>
+			<param name="name" type="string" demoValue="崔海东" notes="销售名称">
+				<notEmpty message="名称不能为空"></notEmpty>
+			</param>
+			<param name="password" type="string" demoValue="123123" notes="密码">
+			</param>
+			<param name="phoneNum" type="string" demoValue="手机号" notes="手机号">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 重置密码 -->
+	<protocol name="resetPwd" requestMapping="/v1/restPwd" resType="json" notes="重置销售账户密码" state="1" requestName="ResetSellerPwdParam"
+		resDataType="base" >
+		<request>
+			<param name="sid" type="String" demoValue="1" notes="销售账号id">
+				<notEmpty message="销售账号id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 删除销售 -->
+	<protocol name="del" requestMapping="/v1/del" resType="json" notes="删除销售账户" state="1" requestName="DelSellerParam"
+		resDataType="base" >
+		<request>
+			<param name="sid" type="String" demoValue="1" notes="销售账号id">
+				<notEmpty message="销售账号id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	
+	
+	
+</protocols>

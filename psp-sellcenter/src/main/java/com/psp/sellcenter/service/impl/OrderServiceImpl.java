@@ -2,7 +2,9 @@ package com.psp.sellcenter.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import com.psp.sellcenter.controller.res.bean.ROrderBean;
 import com.psp.sellcenter.controller.res.bean.ROrderLogsBean;
 import com.psp.sellcenter.controller.res.bean.RServiceProviderBean;
 import com.psp.sellcenter.model.CategoryBean;
-import com.psp.sellcenter.model.CategoryTree;
 import com.psp.sellcenter.model.OrderBean;
 import com.psp.sellcenter.model.OrderContractBean;
 import com.psp.sellcenter.model.OrderLogBean;
@@ -233,21 +234,58 @@ public class OrderServiceImpl implements OrderService {
 			if(cates == null) {
 				return null;
 			}
+			List<ProviderBean> providers = providerImpl.selectAll();
+			logger.info(JSON.toJSON("获取所有服务商：" + providers));
+			Map<Integer, List<ProviderBean>> AllProviders = new HashMap<Integer, List<ProviderBean>>();  
+			
+			Integer cid = 0;
+			List<ProviderBean> subProviders = new ArrayList<ProviderBean>();
+		    for (ProviderBean provider : providers) { 
+			    	if(cid == 0 || cid != provider.getCid()) {
+		    			subProviders = new ArrayList<ProviderBean>();
+		    		}
+		    		cid = provider.getCid();
+		    		subProviders.add(provider);
+		    		AllProviders.put(cid, subProviders);  
+		    }  
+
+			// 获取所有服务项
+			List<CategoryBean> Services = providerImpl.selectService(null);
+			logger.info(JSON.toJSON(Services));
+			Map<Integer, JSONArray> AllServices = new HashMap<Integer, JSONArray>();  
+			Integer parentId = 0;
+			JSONArray subCates = new JSONArray();
+		    for (CategoryBean cate : Services) { 
+			    	JSONObject serviceObject = new JSONObject();
+		    		serviceObject.put("name", cate.getName());
+		    		serviceObject.put("cid", cate.getCid());
+		    		serviceObject.put("children", AllProviders.get(cate.getCid()));
+		    		if(parentId == 0 || parentId != cate.getParentId()) {
+		    			subCates = new JSONArray();
+		    		}
+		    		parentId = cate.getParentId();
+		    		subCates.add(serviceObject);
+		    		
+		    		AllServices.put(parentId, subCates);  
+		    }  
+		    
+		    // 构造三级树
 			for(CategoryBean ca : cates) {
 				JSONObject firstObject = new JSONObject();
 				firstObject.put("name", ca.getName());
 				firstObject.put("cid", ca.getCid());
 				List<CategoryBean> children = ca.getChildern();
-				List<CategoryTree> sub = null;
 				if(children != null && children.size() > 0) {
-					sub = new ArrayList<CategoryTree>();
+					JSONArray secondCates = new JSONArray();
 					for(CategoryBean c : children){
-						List<ProviderBean> providers = providerImpl.selectListByCid(c.getCid());
-						CategoryTree menus = new CategoryTree(c.getName(), c.getCid(), providers);
-						sub.add(menus);
+						JSONObject secondObject = new JSONObject();
+						secondObject.put("name", c.getName());
+						secondObject.put("cid", c.getCid());
+						secondObject.put("children", AllServices.get(c.getCid()));
+						secondCates.add(secondObject);
 					}
+					firstObject.put("children", secondCates);
 				}
-				firstObject.put("children", sub);
 				jsonArray.add(firstObject);
 			}
 			String jsonMenu = JSON.toJSONString(jsonArray);

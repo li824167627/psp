@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+	<!-- 销售，400001开始 -->
+	<result name="add_seller_error">
+		<code>400001</code>
+		<msg>新建销售失败</msg>
+	</result>
+	
+	<result name="update_seller_error">
+		<code>400002</code>
+		<msg>编辑销售失败</msg>
+	</result>
+	
+	
+	
+</results>

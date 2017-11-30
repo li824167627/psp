@@ -32,16 +32,6 @@
 		</request>
 	</protocol>
 	
-	<!-- 归档客户 -->
-	<protocol name="archive" requestMapping="/v1/archive" resType="json" notes="归档客户" state="0" requestName="ArchiveParam"
-		resDataType="base">
-		<request>
-			<param name="userId" type="String" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户id">
-				<notEmpty message="客户id不能为空"></notEmpty>
-			</param>
-		</request>
-	</protocol>
-	
 	<!-- 分配用户 -->
 	<protocol name="allot" requestMapping="/v1/allot" resType="json" notes="分配客户给销售" state="1" requestName="AllotParam"
 		resDataType="base">
@@ -56,7 +46,7 @@
 	</protocol>
 	
 	<!-- 获取客户基本信息 -->
-	<protocol name="getDetail" requestMapping="/v1/getDetail" resType="json" notes="获取客户基本信息" state="0" requestName="GetUserDetailParam"
+	<protocol name="getDetail" requestMapping="/v1/getDetail" resType="json" notes="获取客户基本信息" state="1" requestName="GetUserDetailParam"
 		resDataType="object" responseName="RUserBean">
 		<request>
 			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
@@ -66,11 +56,30 @@
 	</protocol>
 	
 	<!-- 获取客户操作日志 -->
-	<protocol name="getUserLogs" requestMapping="/v1/getUserLogs" resType="json" notes="获取客户操作日志" state="0" requestName="GetUserLogsParam"
+	<protocol name="getUserLogs" requestMapping="/v1/getUserLogs" resType="json" notes="获取客户操作日志" state="1" requestName="GetUserLogsParam"
 		resDataType="list" responseName="RUserLogsBean">
 		<request>
 			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
 				<notEmpty message="客户id不能为空"></notEmpty>
+			</param>
+			<param name="key" type="String" demoValue="" notes="关键字">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取客户信息流列表 -->
+	<protocol name="getUserNews" requestMapping="/v1/getUserNews" resType="json" notes="获取客户信息流" state="1" requestName="GetUserNewsParam"
+		resDataType="list" responseName="RUserNewsBean">
+		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="uid" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID">
+				<notEmpty message="客户id不能为空"></notEmpty>
+			</param>
+			<param name="stype" type="string" demoValue="0" notes="搜索条件类型，0:全部1:描述2:标签">
+				<pattern regexp="^0|1|2$" message="搜索条件错误：0:全部1:描述2:标签" />
 			</param>
 			<param name="key" type="String" demoValue="" notes="关键字">
 			</param>

@@ -31,6 +31,8 @@
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/user/**" />
+			<mvc:mapping path="/service/**" />
+			<mvc:mapping path="/provider/**" />
 			<bean class="com.psp.admin.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

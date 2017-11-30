@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <protocols>
 	
-	<!-- 服务分类 -->
-	<protocol name="getCategories" requestMapping="/v1/getCategories" resType="json" notes="获取服务分类列表" state="0" 
-		resDataType="object" responseName="RCategroyBean">
-	</protocol>
-	
 	<!-- 创建服务商 -->
-	<protocol name="addProvider" requestMapping="/v1/addProvider" resType="json" notes="创建服务商并生成管理员账户" state="0" requestName="AddProviderParam"
+	<protocol name="addProvider" requestMapping="/v1/add" resType="json" notes="创建服务商并生成管理员账户" state="1" requestName="AddProviderParam"
 		resDataType="object" responseName="RAccountBean">
 		<request>
-			<param name="name" type="string" demoValue="北京硬创云加" notes="页码，默认从0开始">
+			<param name="name" type="string" demoValue="北京硬创云加信息技术有限公司" notes="服务商名称">
+				<notEmpty message="名称不能为空"></notEmpty>
+			</param>
+			<param name="address" type="string" demoValue="中关村智造大街" notes="服务商地址">
+			</param>
+			<param name="contact" type="string" demoValue="崔海东" notes="联系人，根据联系人和手机号生成服务商管理账号">
+				<notEmpty message="联系人不能为空"></notEmpty>
+			</param>
+			<param name="phoneNum" type="string" demoValue="手机号" notes="手机号，根据联系人和手机号生成服务商管理账号">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="content" type="string" demoValue="北京硬创云加信息技术有限公司是致力于技术开发、网站建设、公众号、H5、小程序开发，Android，iosAPP开发的初创公司" notes="服务内容">
 			</param>
 		</request>
 	</protocol>
 	
 	<!-- 获取服务商列表 -->
-	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取管理员信息" state="0" requestName="GetProviderListParam"
-		resDataType="object" responseName="RAdminBean">
+	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取服务商列表" state="1" requestName="GetProviderListParam"
+		resDataType="list" responseName="RProviderBean">
 		<request>
 			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
 			</param>
@@ -28,15 +34,73 @@
 		</request>
 	</protocol>
 	
-	<!-- 创建服务商账户 -->
-	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="0" requestName="UpdateNameParam"
+	<!-- 删除服务商 -->
+	<protocol name="delProvider" requestMapping="/v1/del" resType="json" notes="删除服务商" state="0" requestName="DelProviderParam"
 		resDataType="base" >
 		<request>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取服务商详情 -->
+	<protocol name="getDetail" requestMapping="/v1/getDetail" resType="json" notes="获取服务商信息" state="1" requestName="GetProviderDetailParam"
+		resDataType="object" responseName="RProviderBean">
+		<request>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取服务商账户列表 -->
+	<protocol name="getAccountList" requestMapping="/v1/getAccountList" resType="json" notes="获取服务商账户列表" state="1" requestName="GetProviderAccountListParam"
+		resDataType="list" responseName="RAccountBean">
+		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 创建服务商账户 -->
+	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="1" requestName="UpdateNameParam"
+		resDataType="base" >
+		<request>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
 			<param name="name" type="string" demoValue="服务商1" notes="账户名">
 			</param>
 			<param name="phone" type="string" demoValue="17617005502" notes="手机号">
+				<notEmpty message="手机号"></notEmpty>
 			</param>
-			<param name="password" type="string" demoValue="17617005502" notes="手机号">
+			<param name="password" type="string" demoValue="123123" notes="密码">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 重置密码 -->
+	<protocol name="resetPwd" requestMapping="/v1/restPwd" resType="json" notes="重置服务商账户密码" state="1" requestName="ResetProviderPwdParam"
+		resDataType="base" >
+		<request>
+			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
+				<notEmpty message="服务商账号id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 删除账号 -->
+	<protocol name="delAccount" requestMapping="/v1/delAccount" resType="json" notes="删除服务商账户" state="1" requestName="DelProviderAccountParam"
+		resDataType="base" >
+		<request>
+			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
+				<notEmpty message="服务商账号id不能为空"></notEmpty>
 			</param>
 		</request>
 	</protocol>

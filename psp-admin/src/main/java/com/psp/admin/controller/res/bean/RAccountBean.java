@@ -7,7 +7,7 @@ package com.psp.admin.controller.res.bean;
 public class RAccountBean {
 	private String aid; // 账户aid
 	private String phoneNum; // 用户手机号
-	private String nickName; // 用户昵称
+	private String username; // 用户昵称
 	private Integer status; // 状态1：正常，0：禁用
 	private Integer type; // 用户类型 0 员工 1 服务商管理员
 	private Long createTime; // 创建时间
@@ -29,12 +29,12 @@ public class RAccountBean {
  		return phoneNum;
 	}
 
-	public void setNickName(String nickName) {
- 		this.nickName = nickName;
+	public void setUsername(String username) {
+ 		this.username = username;
 	}
 
-	public String getNickName() {
- 		return nickName;
+	public String getUsername() {
+ 		return username;
 	}
 
 	public void setStatus(Integer status) {
@@ -67,11 +67,6 @@ public class RAccountBean {
 
 	public Long getLastLoginTime() {
  		return lastLoginTime;
-	}
-
-	public RAccountBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

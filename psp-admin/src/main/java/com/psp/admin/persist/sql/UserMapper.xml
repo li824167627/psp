@@ -1,148 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.psp.admin.persist.sql.UserMapper">
-	
-	<!-- 根据分配状态获取管理的客户总数 -->
-	<select id="selectUserCount2Seller" resultType="int">
-		SELECT count(*) 
-		FROM psp_user
-		<where>
-			sid = #{sid}
-			<!-- 筛选 -->
-			<if test="filteType != 0">
-				and level = #{filteType}
-			</if>
-			<!-- 关键字搜索 -->
-			<if test="stype == 1">
-				AND (name like CONCAT('%', '${key}' ,'%'))
-			</if>
-			<if test="stype == 2">
-				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
-			</if>
-			<if test="stype == 3">
-				AND (companyName like CONCAT('%', '${key}' ,'%')) 
-			</if>
-			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
-			</if>
-		</where> 
-	</select>
-	
-	
-	<!-- 根据搜索条件获取管理的客户 -->
-	<select id="selectUsers2Seller" resultType="UserBean">
-		SELECT * FROM psp_user 
-		<where>
-			sid = #{sid}
-			<!-- 筛选 -->
-			<if test="filteType != 0">
-				and level = #{filteType}
-			</if>
-			<!-- 关键字搜索 -->
-			<if test="stype == 1">
-				AND (name like CONCAT('%', '${key}' ,'%'))
-			</if>
-			<if test="stype == 2">
-				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
-			</if>
-			<if test="stype == 3">
-				AND (companyName like CONCAT('%', '${key}' ,'%')) 
-			</if>
-			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
-			</if>
-		</where> 
-		ORDER BY isAllot Desc, createTime desc
-		LIMIT #{start},#{length}
-	</select>
-	
-	<!-- 根据手机号获取客户信息 -->
-	<select id="selectUserByPhone" resultType="UserBean">
-		SELECT * FROM psp_user 
-		where phoneNum = #{phoneNum}
-	</select>
-	
-	<!-- 新增客户 -->
-	<insert id="insert">
-		INSERT INTO psp_user
-		(uid, name, phoneNum, companyName, position, sid, sellerJson,
-		orderNum, createTime, communityTime, label, origin, level,
-		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>)
-		VALUES
-		(#{uid}, #{name}, #{phoneNum}, #{companyName}, #{position}, #{sid}, #{sellerJson},
-		0, now(), now(), #{label}, #{origin}, #{level},
-		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>);
-	</insert>
-	
-	<!-- 更新客户的销售人员 -->
-	<update id="updateSeller">
-		UPDATE psp_user 
-		SET 
-			sid = #{sid},sellerJson = #{sellerJson} 
-		WHERE
-			uid = #{uid};
-	</update>
-	
-	<!-- 更新销售人员 -->
-	<update id="update">
-		UPDATE psp_user 
-		<set>
-			<if test="name != null">name=#{name},</if>
-			<if test="phoneNum != null">phoneNum=#{phoneNum},</if>
-			<if test="companyName != null">companyName=#{companyName},</if>
-			<if test="position != null">position=#{position},</if>
-			<if test="label != null">label=#{label},</if>
-		</set> 
-		WHERE
-			uid = #{uid};
-	</update>
-	
+
 	<!-- 根据id获取客户信息 -->
 	<select id="selectUserById" resultType="UserBean">
 		SELECT * FROM psp_user 
 		where uid = #{uid}
 	</select>
-	
-	<!-- 更新客户评级 -->
-	<update id="updateLevel">
-		UPDATE psp_user 
-		SET 
-			level = #{level}
-		WHERE
-			uid = #{uid};
-	</update>
-	
-	<!-- 更新客户的标签 -->
-	<update id="updateLabel">
-		UPDATE psp_user 
-		SET 
-			label = #{label}
-		WHERE
-			uid = #{uid};
-	</update>
-	
-	<!-- 归档客户，状态为待分配-->
-	<update id="archive">
-		UPDATE psp_user 
-		SET 
-			sid = null,sellerJson = null, isAllot=0
-		WHERE
-			uid = #{uid};
-	</update>
-	
-	<!-- 更新客户状态 0 待沟通 1已沟通 -->
-	<update id="updateStatus">
-		UPDATE psp_user 
-		SET 
-			status = #{status}
-		WHERE
-			uid = #{uid};
-	</update>
-	
-	
-	
+
 	<!-- 根据分配状态获取客户总数 -->
 	<select id="selectUserCount" resultType="int">
 		SELECT count(*) 
@@ -168,7 +33,6 @@
 			</if>
 		</where> 
 	</select>
-	
 	
 	<!-- 根据搜索条件获取客户 -->
 	<select id="selectUsers" resultType="UserBean">

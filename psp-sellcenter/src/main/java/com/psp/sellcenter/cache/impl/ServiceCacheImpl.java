@@ -9,7 +9,7 @@ import com.psp.sellcenter.cache.dao.ServiceCacheDao;
 
 @Repository
 public class ServiceCacheImpl extends BaseCacheImpl implements ServiceCacheDao {
-	String KEY_CATEGOTY = "psp:2.0:sellcenter:category:";
+	String KEY_CATEGOTY = NAME_SPACE + ":category:";
 
 	@Override
 	public boolean setCategoryCache(String cates) {
@@ -17,9 +17,13 @@ public class ServiceCacheImpl extends BaseCacheImpl implements ServiceCacheDao {
 			@Override
 			public Boolean doInRedis(RedisConnection connection) {
 				String key = KEY_CATEGOTY;
-				if (!connection.exists(key.getBytes())) {
-					connection.set(key.getBytes(), cates.getBytes());
-					connection.expire(key.getBytes(), 7 * 60 * 60 * 24);
+				if (cates == null) {
+					connection.del(key.getBytes());
+				} else {
+					if (!connection.exists(key.getBytes())) {
+						connection.set(key.getBytes(), cates.getBytes());
+						connection.expire(key.getBytes(), 7 * 60 * 60 * 24);
+					}
 				}
 				return Boolean.valueOf(true);
 			}

@@ -9,6 +9,7 @@ public class RAdminBean {
 	private String phoneNum; // 销售手机号
 	private String username; // 销售昵称
 	private Integer status; // 状态1：正常，0：禁用
+	private Long createTime; // 创建时间
 	private Long lastLoginTime; // 最后登录时间
 	private Integer type; // 管理员类型：0 园区运营人员 1超级管理员
 
@@ -42,6 +43,14 @@ public class RAdminBean {
 
 	public Integer getStatus() {
  		return status;
+	}
+
+	public void setCreateTime(Long createTime) {
+ 		this.createTime = createTime;
+	}
+
+	public Long getCreateTime() {
+ 		return createTime;
 	}
 
 	public void setLastLoginTime(Long lastLoginTime) {
