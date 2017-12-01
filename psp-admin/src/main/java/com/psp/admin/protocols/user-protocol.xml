@@ -16,8 +16,7 @@
 			<param name="filteType" type="string" demoValue="0" notes="筛选客户等级，0全部1:有效2:无效3:待定级">
 				<pattern regexp="^0|1|2|3$" message="搜索条件错误：0全部1:有效2:无效3:待定级" />
 			</param>
-			<param name="status" type="string" demoValue="0" notes="搜索客户状态，0:全部1:待沟通客户2:已处理客户">
-				<pattern regexp="^0|1|2$" message="状态错误：0:全部1:待沟通客户2:已处理客户" />
+			<param name="isAllot" type="string" demoValue="0" notes="搜索客户状态，0:待分配1:已分配客户">
 			</param>
 		</request>
 	</protocol>

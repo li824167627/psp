@@ -13,9 +13,11 @@ public interface ProviderService {
 	 * @param contact
 	 * @param phoneNum
 	 * @param content
+	 * @param confirmPwd 
+	 * @param password 
 	 * @return
 	 */
-	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content);
+	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd);
 	
 	
 	/**

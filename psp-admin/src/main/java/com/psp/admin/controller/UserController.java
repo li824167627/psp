@@ -50,10 +50,10 @@ public class UserController {
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
-			int status = NumUtil.toInt(param.getStatus(), 0);// 沟通状态
+			int isALlot = NumUtil.toInt(param.getIsAllot(), -1);// 沟通状态
 			String key = param.getKey();//关键字
 			
-			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, status);
+			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.admin.persist.sql.ParkMapper">
+	
+	<!-- 根据id获取园区信息 -->
+	<select id="selectOneById" resultType="ParkBean">
+		SELECT * FROM psp_park
+		WHERE pid = #{pid}
+	</select>
+	
+	<!-- 查询园区总数 -->
+	<select id="selectCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_park 
+		<where>
+			<if test="key != null">
+				name like CONCAT('%', '${key}' ,'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询园区列表 -->
+	<select id="selectList" resultType="ParkBean">
+		SELECT
+			*
+		FROM
+			psp_park 
+		<where>
+			<if test="key != null">
+				name like CONCAT('%', '${key}' ,'%')
+			</if>
+		</where>
+		ORDER BY createTime desc
+		LIMIT #{start},#{length}
+	</select>
+	
+	
+	<!-- 插入园区-->
+	<insert id="insert">
+		INSERT INTO psp_park
+		(pid, name,createTime,adminId,contact,phoneNum,
+			cityCode,province,city,district,coordinate,brief,status)
+		VALUES
+		(#{pid}, #{name}, now(), #{adminId}, #{contact}, #{phoneNum}, 
+			#{cityCode}, #{province}, #{city}, #{district}, #{coordinate}, 
+			#{brief}, #{status});
+	</insert>
+	
+	<!-- 更新园区 -->
+	<update id="update">
+		UPDATE psp_park
+		<set>
+			<if test="name != null">
+				name = #{name}
+			</if>
+			<if test="contact != null">
+				contact = #{contact},
+			</if>
+			<if test="phoneNum != null">
+				phoneNum = #{phoneNum},
+			</if>
+			<if test="cityCode != null">
+				cityCode = #{cityCode},
+			</if>
+			<if test="province != null">
+				province = #{province},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="district != null">
+				district = #{district},
+			</if>
+			<if test="brief != null">
+				brief = #{brief},
+			</if>
+			<if test="cityCode != null">
+				cityCode = #{cityCode},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set> 
+		WHERE
+			pid = #{pid};
+	</update>
+	
+	
+
+</mapper>

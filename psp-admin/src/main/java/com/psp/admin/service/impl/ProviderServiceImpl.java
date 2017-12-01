@@ -35,7 +35,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content) {
+	public RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd) {
 		boolean flag = false;
 		ProviderBean provider = new ProviderBean();
 		String pid = AppTextUtil.getPrimaryKey();
@@ -63,7 +63,11 @@ public class ProviderServiceImpl implements ProviderService {
 		account.setPhoneNum(phoneNum);
 		account.setType(1);//0 员工 1 服务商管理员
 		account.setStatus(0);// 0 正常
-		account.setPassword(MD5Util.md5("123456"));
+		if(!password.equals(confirmPwd)) {
+			throw new ServiceException("provider_password_not_same");
+		}
+		// TODO：验证密码
+		account.setPassword(MD5Util.md5(password));
 		flag = providerImpl.insertAccount(account) > 0;
 		if(!flag) {
 			throw new ServiceException("add_provider_account_error");

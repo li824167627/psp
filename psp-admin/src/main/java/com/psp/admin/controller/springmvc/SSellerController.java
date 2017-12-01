@@ -55,7 +55,7 @@ public class SSellerController {
 	}
 
 	/**
-	 * 重置服务商账户密码
+	 * 重置销售账户密码
 	 **/
 	@RequestMapping("/v1/restPwd")
 	@ResponseBody

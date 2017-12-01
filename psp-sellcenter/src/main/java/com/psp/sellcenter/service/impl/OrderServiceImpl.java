@@ -238,35 +238,36 @@ public class OrderServiceImpl implements OrderService {
 			logger.info(JSON.toJSON("获取所有服务商：" + providers));
 			Map<Integer, List<ProviderBean>> AllProviders = new HashMap<Integer, List<ProviderBean>>();  
 			
-			Integer cid = 0;
 			List<ProviderBean> subProviders = new ArrayList<ProviderBean>();
 		    for (ProviderBean provider : providers) { 
-			    	if(cid == 0 || cid != provider.getCid()) {
-		    			subProviders = new ArrayList<ProviderBean>();
+		    		if(provider.getCid() != null) {
+		    			if(AllProviders.containsKey(provider.getCid())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
+		    				AllProviders.get(provider.getCid()).add(provider);
+		    			}else{//map中不存在，新建key，用来存放数据 
+		    				subProviders = new ArrayList<ProviderBean>();
+		    				subProviders.add(provider);
+				    		AllProviders.put(provider.getCid(), subProviders);  
+		    			}  
 		    		}
-		    		cid = provider.getCid();
-		    		subProviders.add(provider);
-		    		AllProviders.put(cid, subProviders);  
 		    }  
 
 			// 获取所有服务项
 			List<CategoryBean> Services = providerImpl.selectService(null);
-			logger.info(JSON.toJSON(Services));
 			Map<Integer, JSONArray> AllServices = new HashMap<Integer, JSONArray>();  
-			Integer parentId = 0;
 			JSONArray subCates = new JSONArray();
 		    for (CategoryBean cate : Services) { 
 			    	JSONObject serviceObject = new JSONObject();
 		    		serviceObject.put("name", cate.getName());
 		    		serviceObject.put("cid", cate.getCid());
 		    		serviceObject.put("children", AllProviders.get(cate.getCid()));
-		    		if(parentId == 0 || parentId != cate.getParentId()) {
-		    			subCates = new JSONArray();
-		    		}
-		    		parentId = cate.getParentId();
-		    		subCates.add(serviceObject);
 		    		
-		    		AllServices.put(parentId, subCates);  
+			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
+			    		AllServices.get(cate.getParentId()).add(serviceObject);
+	            }else{//map中不存在，新建key，用来存放数据 
+	            		subCates = new JSONArray();
+	            		subCates.add(serviceObject);
+			    		AllServices.put(cate.getParentId(), subCates); 
+	            }  
 		    }  
 		    
 		    // 构造三级树

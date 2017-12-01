@@ -47,16 +47,16 @@
 		UPDATE psp_sale_center
 		<set>
 			<if test="name != null">
-				name = #{name}
+				name = #{name},
 			</if>
 			<if test="phoneNum != null">
-				phoneNum = #{phoneNum}
+				phoneNum = #{phoneNum},
 			</if>
 			<if test="password != null">
-				password = #{password}
+				password = #{password},
 			</if>
 			<if test="status != null">
-				,status = #{status}
+				status = #{status},
 			</if>
 		</set> 
 		WHERE

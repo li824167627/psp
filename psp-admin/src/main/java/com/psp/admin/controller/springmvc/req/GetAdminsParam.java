@@ -3,9 +3,9 @@ package com.psp.admin.controller.springmvc.req;
 
 
 /**
- * 获取销售人员列表
+ * 获取管理员列表
  **/
-public class GetSellersParam {
+public class GetAdminsParam {
 	private String key; // 关键字检索
 	private Integer page; // 页码，默认从0开始
 	private Integer pagesize; // 每页数量，默认20

@@ -11,6 +11,19 @@
 		<msg>编辑销售失败</msg>
 	</result>
 	
+	<result name="add_park_error">
+		<code>400003</code>
+		<msg>新建园区失败</msg>
+	</result>
+	
+	<result name="update_park_error">
+		<code>400004</code>
+		<msg>编辑园区失败</msg>
+	</result>
+
+	
+	
+	
 	
 	
 </results>

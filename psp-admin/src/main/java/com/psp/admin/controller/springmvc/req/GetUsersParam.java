@@ -14,8 +14,7 @@ public class GetUsersParam {
 	private String key; // 关键字
 	@Pattern(regexp = "^0|1|2|3$", message = "搜索条件错误：0全部1:有效2:无效3:待定级")
 	private String filteType; // 筛选客户等级，0全部1:有效2:无效3:待定级
-	@Pattern(regexp = "^0|1|2$", message = "状态错误：0:全部1:待沟通客户2:已处理客户")
-	private String status; // 搜索客户状态，0:全部1:待沟通客户2:已处理客户
+	private String isAllot; // 搜索客户状态，0:待分配1:已分配客户
 
 	public void setPage(Integer page) {
  		this.page = page;
@@ -57,12 +56,12 @@ public class GetUsersParam {
  		return filteType;
 	}
 
-	public void setStatus(String status) {
- 		this.status = status;
+	public void setIsAllot(String isAllot) {
+ 		this.isAllot = isAllot;
 	}
 
-	public String getStatus() {
- 		return status;
+	public String getIsAllot() {
+ 		return isAllot;
 	}
 
 }

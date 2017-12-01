@@ -12,7 +12,7 @@ public class EditSellerParam {
 	private String name; // 销售名称
 	private String password; // 密码
 	@NotEmpty(message = "手机号不能为空")
-	private String phoneNum; // 手机号，根据联系人和手机号生成服务商管理账号
+	private String phoneNum; // 手机号
 
 	public void setSid(String sid) {
  		this.sid = sid;

@@ -22,6 +22,9 @@
 		<protocols-file fileName="order-protocol.xml" toCreate="true"
 			className="OrderController" requestMapping="/order" version="1.0"
 			notes="工单相关接口" />
+		<protocols-file fileName="park-protocol.xml" toCreate="true"
+			className="ParkController" requestMapping="/park" version="1.0"
+			notes="园区相关接口" />
 	</protocolFiles>
 
 	<beanFiles>

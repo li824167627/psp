@@ -21,6 +21,12 @@
 		<msg>更新服务商账号失败</msg>
 	</result>
 	
+	<result name="provider_password_not_same">
+		<code>300005</code>
+		<msg>密码与确认密码不一致</msg>
+	</result>
+	
+	
 	
 	
 	

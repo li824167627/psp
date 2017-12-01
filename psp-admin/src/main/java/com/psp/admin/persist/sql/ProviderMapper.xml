@@ -119,10 +119,10 @@
 		UPDATE psp_provider_account
 		<set>
 			<if test="password != null">
-				password = #{password}
+				password = #{password},
 			</if>
 			<if test="status != null">
-				,status = #{status}
+				status = #{status},
 			</if>
 		</set> 
 		WHERE

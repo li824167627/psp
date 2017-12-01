@@ -51,19 +51,19 @@ public class CategoryServiceImpl implements CategoryService {
 			// 获取所有服务项
 			List<CategoryBean> Services = serviceImpl.selectService(null);
 			Map<Integer, JSONArray> AllServices = new HashMap<Integer, JSONArray>();  
-			Integer parentId = 0;
 			JSONArray subCates = new JSONArray();
 		    for (CategoryBean cate : Services) { 
-			    	JSONObject serviceObject = new JSONObject();
+				logger.info("当前分类：" + JSON.toJSONString(cate));
+			 	JSONObject serviceObject = new JSONObject();
 		    		serviceObject.put("name", cate.getName());
 		    		serviceObject.put("cid", cate.getCid());
-		    		if(parentId == 0 || parentId != cate.getParentId()) {
-		    			subCates = new JSONArray();
-		    		}
-		    		parentId = cate.getParentId();
-		    		subCates.add(serviceObject);
-		    		
-		    		AllServices.put(parentId, subCates);  
+			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
+			    		AllServices.get(cate.getParentId()).add(serviceObject);
+	            }else{//map中不存在，新建key，用来存放数据  
+	            		subCates = new JSONArray();
+	            		subCates.add(serviceObject);
+			    		AllServices.put(cate.getParentId(), subCates); 
+	            }  
 		    }  
 		    
 		    // 构造三级树
@@ -140,7 +140,6 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		List<CategoryBean> resList = serviceImpl.selectServiceByPid(parentId);
 		List<RCategoryBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (CategoryBean bean : resList) {
 				RCategoryBean rb = parse(bean);

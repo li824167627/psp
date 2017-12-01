@@ -27,9 +27,9 @@
 			<if test="stype == 3">
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
-			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
+			<!-- 分配状态 -->
+			<if test="isALlot != -1">
+				and isALlot = #{isALlot}
 			</if>
 		</where> 
 	</select>
@@ -52,9 +52,9 @@
 			<if test="stype == 3">
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
-			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
+			<!-- 分配状态 -->
+			<if test="isALlot != -1">
+				and isALlot = #{isALlot}
 			</if>
 		</where> 
 		ORDER BY isAllot, createTime desc

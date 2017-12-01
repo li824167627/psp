@@ -51,7 +51,9 @@ public class ProviderController {
 			String contact = param.getContact();
 			String phoneNum = param.getPhoneNum();
 			String content = param.getContent();
-			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content);
+			String password = param.getPassword();
+			String confirmPwd = param.getConfirmPwd();
+			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content, password, confirmPwd);
 			if (bean != null) {
 				result.setData(bean);
 			}

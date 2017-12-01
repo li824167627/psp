@@ -8,6 +8,12 @@
 			<param name="name" type="string" demoValue="北京硬创云加信息技术有限公司" notes="服务商名称">
 				<notEmpty message="名称不能为空"></notEmpty>
 			</param>
+			<param name="password" type="string" demoValue="123123" notes="密码">
+				<notEmpty message="密码不能为空"></notEmpty>
+			</param>
+			<param name="confirmPwd" type="string" demoValue="123123" notes="确认密码">
+				<notEmpty message="确认密码不能为空"></notEmpty>
+			</param>
 			<param name="address" type="string" demoValue="中关村智造大街" notes="服务商地址">
 			</param>
 			<param name="contact" type="string" demoValue="崔海东" notes="联系人，根据联系人和手机号生成服务商管理账号">

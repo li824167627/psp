@@ -69,9 +69,4 @@ public class RAdminBean {
  		return type;
 	}
 
-	public RAdminBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

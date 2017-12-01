@@ -20,7 +20,7 @@
 		<request>
 			<param name="pid" type="string" demoValue="园区id" notes="园区id">
 			</param>
-			<param name="name" type="string" demoValue="崔海东" notes="园区名称">
+			<param name="name" type="string" demoValue="海淀区" notes="园区名称">
 				<notEmpty message="名称不能为空"></notEmpty>
 			</param>
 			<param name="contact" type="string" demoValue="杨娜" notes="联系人">
@@ -28,7 +28,7 @@
 			<param name="phoneNum" type="string" demoValue="18888881212" notes="手机号">
 				<notEmpty message="手机号不能为空"></notEmpty>
 			</param>
-			<param name="cityCode" type="string" demoValue="18888881212" notes="手机号">
+			<param name="cityCode" type="string" demoValue="123" notes="城市编号">
 			</param>
 			<param name="province" type="string" demoValue="北京市" notes="省(直辖市)">
 			</param>
@@ -47,7 +47,7 @@
 	<protocol name="del" requestMapping="/v1/del" resType="json" notes="删除园区" state="1" requestName="DelParkParam"
 		resDataType="base" >
 		<request>
-			<param name="sid" type="String" demoValue="1" notes="园区id">
+			<param name="pid" type="String" demoValue="1" notes="园区id">
 				<notEmpty message="园区id不能为空"></notEmpty>
 			</param>
 		</request>

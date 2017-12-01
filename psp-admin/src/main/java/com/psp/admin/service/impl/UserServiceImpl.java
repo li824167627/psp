@@ -49,13 +49,13 @@ public class UserServiceImpl implements UserService {
 	UserNewsDao userNewsImpl;
 
 	@Override
-	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int status) {
+	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot) {
 		PageResult<RUserBean> result = new PageResult<RUserBean>();
-		int count = userImpl.selectUserCount(filteType, stype, key, status);
+		int count = userImpl.selectUserCount(filteType, stype, key, isALlot);
 		if(count == 0) {
 			return null;
 		}
-		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, status);
+		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot);
 		List<RUserBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {

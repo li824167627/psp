@@ -34,8 +34,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RAdminBean().getDemoValue());
-		return res;
+
+		return adminController.login(param, request, response);
 	}
 
 	/**
@@ -50,8 +50,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RAdminBean().getDemoValue());
-		return res;
+
+		return adminController.getAdmin(param, request, response);
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return adminController.updateName(param, request, response);
 	}
 
 	/**
@@ -82,7 +82,55 @@ public class SAdminController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return adminController.updatePassWord(param, request, response);
+	}
+
+	/**
+	 * 获取管理员列表
+	 **/
+	@RequestMapping("/v1/getList")
+	@ResponseBody
+	public ListResult<RAdminBean> getList(@Validated GetAdminsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RAdminBean> res = new ListResult<RAdminBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.getList(param, request, response);
+	}
+
+	/**
+	 * 编辑管理员
+	 **/
+	@RequestMapping("/v1/eidt")
+	@ResponseBody
+	public BaseResult eidt(@Validated EditAdminParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.eidt(param, request, response);
+	}
+
+	/**
+	 * 删除管理员
+	 **/
+	@RequestMapping("/v1/del")
+	@ResponseBody
+	public BaseResult del(@Validated DelAdminParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.del(param, request, response);
 	}
 }

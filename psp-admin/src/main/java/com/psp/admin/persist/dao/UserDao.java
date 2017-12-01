@@ -10,9 +10,9 @@ public interface UserDao {
 	UserBean selectUserById(String uid);
 
 	// -======= admin ======
-	int selectUserCount(int filteType, int stype, String key, int status);
+	int selectUserCount(int filteType, int stype, String key, int isALlot);
 
-	List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int status);
+	List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot);
 
 	int allotUser(UserBean user);
 

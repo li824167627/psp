@@ -17,6 +17,7 @@ import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
 import com.psp.util.AppTextUtil;
 import com.psp.util.MD5Util;
+import com.psp.util.StringUtil;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -68,7 +69,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum) {
 		boolean flag = false;
-		if(sid == null || "".equals(sid)) {
+		if(StringUtil.isEmpty(sid)) {
 			SellerBean seller = sellerImpl.selectOneByPhone(phoneNum);
 			if(seller != null) {// 新建
 				throw new ServiceException("object_is_exist", "绑定手机号");

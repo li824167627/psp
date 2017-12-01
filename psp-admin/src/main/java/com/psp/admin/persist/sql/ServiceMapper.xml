@@ -107,16 +107,16 @@
 				name = #{name},
 			</if>
 			<if test="parentId != null">
-				,parentId = #{parentId}
+				parentId = #{parentId},
 			</if>
 			<if test="sort != null">
-				,sort = #{sort}
+				sort = #{sort},
 			</if>
 			<if test="adminId != null">
-				,adminId = #{adminId}
+				adminId = #{adminId},
 			</if>
 			<if test="isService != null">
-				,isService = #{isService}
+				isService = #{isService},
 			</if>
 		</set> 
 		WHERE

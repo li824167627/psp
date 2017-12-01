@@ -172,4 +172,23 @@
 		</attrs>
 	</bean>
 	
+	<!-- 园区信息 -->
+	<bean className="RParkBean" notes="园区信息">
+		<attrs>
+			<attr type="string" name="pid" notes="园区id" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="name" notes="园区" demoValue="海淀区" />
+			<attr type="string" name="adminId" notes="管理员id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="contact" notes="联系人" demoValue="杨娜" />
+			<attr type="string" name="phoneNum" notes="联系电话" demoValue="17610075502" />
+			<attr type="string" name="cityCode" notes="城市code" demoValue="123" />
+			<attr type="string" name="province" notes="省，直辖市" demoValue="北京" />
+			<attr type="string" name="city" notes="市" demoValue="北京市" />
+			<attr type="string" name="district" notes="区" demoValue="海淀区" />
+			<attr type="string" name="coordinate" notes="坐标经纬度" demoValue="{l:112,t:213}" />
+			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
+			<attr type="int" name="status" notes="状态" demoValue="0:正常 1 禁用" />
+			<attr type="string" name="brief" notes="园区简介" demoValue="1" />
+		</attrs>
+	</bean>
+	
 </beans>
