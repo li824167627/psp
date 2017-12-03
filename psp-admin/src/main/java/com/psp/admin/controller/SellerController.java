@@ -33,10 +33,12 @@ public class SellerController {
 			HttpServletResponse response) {
 		ListResult<RSellerBean> result = new ListResult<>();
 		try {
+			String pid = param.getPid();
+			String key = param.getKey();
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			
-			PageResult<RSellerBean> resList = sellerServiceImpl.getSellers(page, pageSize);
+			PageResult<RSellerBean> resList = sellerServiceImpl.getSellers(page, pageSize, pid, key);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
@@ -58,9 +60,11 @@ public class SellerController {
 			String adminId = (String)request.getAttribute("adminId");
 			String sid = param.getSid();
 			String name = param.getName();
+			String pid = param.getPid();
+			int type = NumUtil.toInt(param.getType(), 0);
 			String password = param.getPassword();
 			String phoneNum = param.getPhoneNum();
-			boolean flag = sellerServiceImpl.EditSeller(adminId, sid, name, password, phoneNum);
+			boolean flag = sellerServiceImpl.EditSeller(adminId, sid, name, password, phoneNum, pid, type);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

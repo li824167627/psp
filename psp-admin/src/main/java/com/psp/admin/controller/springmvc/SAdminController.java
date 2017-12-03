@@ -119,6 +119,22 @@ public class SAdminController {
 	}
 
 	/**
+	 * 重置服务商账户密码
+	 **/
+	@RequestMapping("/v1/restPwd")
+	@ResponseBody
+	public BaseResult resetPwd(@Validated ResetAdminPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.resetPwd(param, request, response);
+	}
+
+	/**
 	 * 删除管理员
 	 **/
 	@RequestMapping("/v1/del")

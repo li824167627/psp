@@ -9,10 +9,13 @@ public class AdminBean {
 	private String aid; // 管理员id
 	private String phoneNum; // 销售手机号
 	private String username; // 销售昵称
+	private String password; // 密码
 	private Integer status; // 状态1：正常，0：禁用
 	private Timestamp lastLoginTime; // 最后登录时间
 	private Timestamp createTime; // 创建时间
 	private Integer type; // 管理员类型：0 园区运营人员 1超级管理员
+	private String pid;// 与园区id
+	private String resources;// 可管理资源
 
 	public void setAid(String aid) {
  		this.aid = aid;
@@ -68,6 +71,30 @@ public class AdminBean {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String getResources() {
+		return resources;
+	}
+
+	public void setResources(String resources) {
+		this.resources = resources;
 	}
 
 }

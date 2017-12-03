@@ -5,9 +5,9 @@ import com.psp.admin.service.res.PageResult;
 
 public interface SellerService {
 
-	PageResult<RSellerBean> getSellers(int page, int pageSize);
+	PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key);
 
-	boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum);
+	boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum, String pid, int type);
 
 	boolean resetPwd(String adminId, String sid);
 

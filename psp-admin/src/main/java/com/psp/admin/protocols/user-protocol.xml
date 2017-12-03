@@ -25,8 +25,7 @@
 	<protocol name="getUserNum" requestMapping="/v1/getUserNum" resType="json" notes="获取客户数量" state="1" requestName="GetUserNumParam"
 		resDataType="object" responseName="Integer">
 		<request>
-			<param name="status" type="string" demoValue="0" notes="搜索客户状态，0:全部1:待沟通客户">
-				<pattern regexp="^0|1$" message="状态错误：0:全部1:待沟通客户" />
+			<param name="isAllot" type="string" demoValue="0" notes="搜索客户状态，0:全部1:待分配，2已分配">
 			</param>
 		</request>
 	</protocol>

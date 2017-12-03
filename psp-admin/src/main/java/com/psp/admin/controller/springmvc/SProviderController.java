@@ -107,7 +107,7 @@ public class SProviderController {
 	 **/
 	@RequestMapping("/v1/addAccount")
 	@ResponseBody
-	public BaseResult addAccount(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult addAccount(@Validated AddProviderAccountParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

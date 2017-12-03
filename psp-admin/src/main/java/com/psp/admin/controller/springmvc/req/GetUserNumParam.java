@@ -1,21 +1,19 @@
 package com.psp.admin.controller.springmvc.req;
 
 
-import javax.validation.constraints.Pattern;
 
 /**
  * 获取客户数量
  **/
 public class GetUserNumParam {
-	@Pattern(regexp = "^0|1$", message = "状态错误：0:全部1:待沟通客户")
-	private String status; // 搜索客户状态，0:全部1:待沟通客户
+	private String isAllot; // 搜索客户状态，0:全部1:待分配，2已分配
 
-	public void setStatus(String status) {
- 		this.status = status;
+	public void setIsAllot(String isAllot) {
+ 		this.isAllot = isAllot;
 	}
 
-	public String getStatus() {
- 		return status;
+	public String getIsAllot() {
+ 		return isAllot;
 	}
 
 }

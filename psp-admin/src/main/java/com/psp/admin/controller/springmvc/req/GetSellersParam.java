@@ -7,6 +7,7 @@ package com.psp.admin.controller.springmvc.req;
  **/
 public class GetSellersParam {
 	private String key; // 关键字检索
+	private String pid; // 园区id
 	private Integer page; // 页码，默认从0开始
 	private Integer pagesize; // 每页数量，默认20
 
@@ -16,6 +17,14 @@ public class GetSellersParam {
 
 	public String getKey() {
  		return key;
+	}
+
+	public void setPid(String pid) {
+ 		this.pid = pid;
+	}
+
+	public String getPid() {
+ 		return pid;
 	}
 
 	public void setPage(Integer page) {

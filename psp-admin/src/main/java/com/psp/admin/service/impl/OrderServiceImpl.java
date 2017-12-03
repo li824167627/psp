@@ -14,6 +14,7 @@ import com.psp.admin.controller.res.bean.ROrderLogsBean;
 import com.psp.admin.model.OrderBean;
 import com.psp.admin.model.OrderLogBean;
 import com.psp.admin.model.ProviderBean;
+import com.psp.admin.model.UserBean;
 import com.psp.admin.persist.dao.OrderDao;
 import com.psp.admin.persist.dao.OrderLogDao;
 import com.psp.admin.service.OrderService;
@@ -91,11 +92,20 @@ public class OrderServiceImpl implements OrderService {
 			providerJson.put("contact", proBean.getContact());
 			order.setProviderJson(providerJson.toJSONString());
 		}
+		
+
+		if(bean.getUser() != null) {
+			UserBean userBean = bean.getUser();
+			JSONObject userJson = new JSONObject();
+			userJson.put("name", userBean.getName());
+			userJson.put("phone", userBean.getPhoneNum());
+			userJson.put("companyName", userBean.getCompanyName());
+			order.setUserJson(userJson.toJSONString());
+		}
 		order.setSid(bean.getSid());
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
 		order.setUid(bean.getUid());
-		order.setUserJson(bean.getUserJson());
 		order.setContent(bean.getContent());
 		return order;
 	}
@@ -147,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
 		log.setLid(bean.getLid());
 		log.setOid(bean.getOid());
 		log.setPid(bean.getPid());
-		log.setProviderJon(bean.getProviderJson());
+		log.setProviderJson(bean.getProviderJson());
 		log.setSellerJson(bean.getSellerJson());
 		log.setSid(bean.getSid());
 		log.setType(bean.getType());

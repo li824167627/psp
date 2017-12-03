@@ -54,6 +54,25 @@
 	</protocol>
 	
 	
+	<!-- 获取园区下管理客户数量 -->
+	<protocol name="getUserNum" requestMapping="/v1/getUserNum" resType="json" notes="获取园区列表" state="1" requestName="GetParkUserNumParam"
+		resDataType="object" responseName="int">
+		<request>
+			<param name="pid" type="String" demoValue="1" notes="园区id">
+				<notEmpty message="园区id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取园区下管理工单数量 -->
+	<protocol name="getOrderNum" requestMapping="/v1/getOrderNum" resType="json" notes="获取园区列表" state="1" requestName="GetParkOrderNumParam"
+		resDataType="object" responseName="int">
+		<request>
+			<param name="pid" type="String" demoValue="1" notes="园区id">
+				<notEmpty message="园区id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
 	
 	
 </protocols>

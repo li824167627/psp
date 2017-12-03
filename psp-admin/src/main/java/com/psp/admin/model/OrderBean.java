@@ -26,6 +26,7 @@ public class OrderBean {
 	private Timestamp updateTime; // 操作更新
 	private Long isNeedInvoice; // 是否需要发票
 	private ProviderBean provider;// 服务商信息
+	private UserBean user;// 用户信息
 	public String getOid() {
 		return oid;
 	}
@@ -145,6 +146,12 @@ public class OrderBean {
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	public UserBean getUser() {
+		return user;
+	}
+	public void setUser(UserBean user) {
+		this.user = user;
 	}
 
 }

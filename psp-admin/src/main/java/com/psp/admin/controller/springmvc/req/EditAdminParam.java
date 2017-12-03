@@ -12,6 +12,7 @@ public class EditAdminParam {
 	private String username; // 管理员名称
 	private String phoneNum; // 手机号
 	private String password; // 密码
+	private String confirmPwd; // 确认密码
 	private Integer type; // 类型：0 园区运营人员 1 超级管理员
 	private String pid; // 
 
@@ -45,6 +46,14 @@ public class EditAdminParam {
 
 	public String getPassword() {
  		return password;
+	}
+
+	public void setConfirmPwd(String confirmPwd) {
+ 		this.confirmPwd = confirmPwd;
+	}
+
+	public String getConfirmPwd() {
+ 		return confirmPwd;
 	}
 
 	public void setType(Integer type) {

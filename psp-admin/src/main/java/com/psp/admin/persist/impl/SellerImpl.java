@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.psp.admin.model.SellerBean;
 import com.psp.admin.persist.dao.SellerDao;
+import com.psp.util.StringUtil;
 
 @Repository
 public class SellerImpl extends BaseImpl implements SellerDao {
@@ -20,16 +21,29 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 	}
 
 	@Override
-	public int selectSellerCount() {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectSellerCount");
+	public int selectSellerCount(String pid, String key) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		if(!StringUtil.isEmpty(pid)) {
+			params.put("pid", pid);
+		}
+		if(!StringUtil.isEmpty(key)) {
+			params.put("key", key);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectSellerCount", params);
 
 	}
 
 	@Override
-	public List<SellerBean> selectSellers(int page, int pageSize) {
+	public List<SellerBean> selectSellers(int page, int pageSize, String pid, String key) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("start", page * pageSize);
 		params.put("length", pageSize);
+		if(!StringUtil.isEmpty(pid)) {
+			params.put("pid", pid);
+		}
+		if(!StringUtil.isEmpty(key)) {
+			params.put("key", key);
+		}
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectSellers", params);
 	
 	}

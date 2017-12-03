@@ -69,4 +69,36 @@ public class SParkController {
 
 		return parkController.del(param, request, response);
 	}
+
+	/**
+	 * 获取园区列表
+	 **/
+	@RequestMapping("/v1/getUserNum")
+	@ResponseBody
+	public ObjectResult<Integer> getUserNum(@Validated GetParkUserNumParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<Integer> res = new ObjectResult<Integer>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return parkController.getUserNum(param, request, response);
+	}
+
+	/**
+	 * 获取园区列表
+	 **/
+	@RequestMapping("/v1/getOrderNum")
+	@ResponseBody
+	public ObjectResult<Integer> getOrderNum(@Validated GetParkOrderNumParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<Integer> res = new ObjectResult<Integer>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return parkController.getOrderNum(param, request, response);
+	}
 }

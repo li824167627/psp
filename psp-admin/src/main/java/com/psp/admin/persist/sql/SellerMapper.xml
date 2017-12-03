@@ -8,9 +8,23 @@
 		WHERE sid = #{sid}
 	</select>
 	
+	<resultMap type="SellerBean" id="SellerMap" autoMapping="true">
+		<id property="sid" column="sid"/>
+		<result property="phoneNum"  column="phoneNum"/>
+		<result property="username"  column="username"/>
+		<result property="createTime"  column="createTime"/>
+		<result property="status"  column="status"/>
+		<result property="pid"  column="pid"/>
+		<result property="type"  column="type"/>
+		<result property="lastLoginTime"  column="lastLoginTime"/>
+		<result property="parkName"  column="parkName"/>
+	</resultMap>
+	
 	<!-- 根据手机号获取销售信息 -->
-	<select id="selectOneByPhone" resultType="SellerBean">
-		SELECT * FROM psp_sale_center 
+	<select id="selectOneByPhone" resultMap="SellerMap">
+		SELECT s.*,p.name as parkName FROM psp_sale_center s
+		left join psp_park p
+		on s.pid = p.pid
 		WHERE phoneNum = #{phoneNum}
 	</select>
 	
@@ -20,15 +34,30 @@
 			count(*)
 		FROM
 			psp_sale_center 
+		<where>
+			<if test="key != null">
+				username like CONCAT('%', '${key}' ,'%')
+			</if>
+			<if test="pid != null">
+				and pid = #{pid}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 查询销售列表 -->
-	<select id="selectSellers" resultType="SellerBean">
-		SELECT
-			*
-		FROM
-			psp_sale_center 
-		order by createTime DESC
+	<select id="selectSellers" resultMap="SellerMap">
+		SELECT s.*,p.name as parkName FROM psp_sale_center s
+		left join psp_park p
+		on s.pid = p.pid
+		<where>
+			<if test="key != null">
+				s.username like CONCAT('%', '${key}' ,'%')
+			</if>
+			<if test="pid != null">
+				and s.pid = #{pid}
+			</if>
+		</where>
+		order by s.createTime DESC
 		LIMIT #{start},#{length}
 	</select>
 	
@@ -36,10 +65,10 @@
 	<insert id="insert">
 		INSERT INTO psp_sale_center
 		(sid, username, phoneNum, password,
-			 status, createTime, lastLoginTime)
+			 status, pid, type, createTime, lastLoginTime)
 		VALUES
 		(#{sid}, #{username}, #{phoneNum}, #{password},
-			 #{status}, now(), now());
+			 #{status}, #{pid}, #{type} now(), now());
 	</insert>
 	
 	<!-- 更新销售 -->
@@ -57,6 +86,12 @@
 			</if>
 			<if test="status != null">
 				status = #{status},
+			</if>
+			<if test="pid != null">
+				pid = #{pid},
+			</if>
+			<if test="type != null">
+				type = #{type},
 			</if>
 		</set> 
 		WHERE

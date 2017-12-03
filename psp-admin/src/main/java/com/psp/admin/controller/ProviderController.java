@@ -14,13 +14,13 @@ import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RAccountBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
+import com.psp.admin.controller.springmvc.req.AddProviderAccountParam;
 import com.psp.admin.controller.springmvc.req.AddProviderParam;
 import com.psp.admin.controller.springmvc.req.DelProviderAccountParam;
 import com.psp.admin.controller.springmvc.req.GetProviderAccountListParam;
 import com.psp.admin.controller.springmvc.req.GetProviderDetailParam;
 import com.psp.admin.controller.springmvc.req.GetProviderListParam;
 import com.psp.admin.controller.springmvc.req.ResetProviderPwdParam;
-import com.psp.admin.controller.springmvc.req.UpdateNameParam;
 import com.psp.admin.service.ProviderService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
@@ -163,7 +163,7 @@ public class ProviderController {
 	 * @param response
 	 * @return
 	 */
-	public BaseResult addAccount(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult addAccount(AddProviderAccountParam param, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {
 			String adminId = (String)request.getAttribute("adminId");

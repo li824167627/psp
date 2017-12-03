@@ -28,8 +28,11 @@
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 分配状态 -->
-			<if test="isALlot != -1">
-				and isALlot = #{isALlot}
+			<if test="isALlot == 1">
+				and isALlot = 1
+			</if>
+			<if test="isALlot == 2">
+				and isALlot = 0
 			</if>
 		</where> 
 	</select>
@@ -53,8 +56,11 @@
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 分配状态 -->
-			<if test="isALlot != -1">
-				and isALlot = #{isALlot}
+			<if test="isALlot == 1">
+				and isALlot = 1
+			</if>
+			<if test="isALlot == 2">
+				and isALlot = 0
 			</if>
 		</where> 
 		ORDER BY isAllot, createTime desc

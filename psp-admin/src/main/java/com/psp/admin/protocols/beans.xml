@@ -24,6 +24,9 @@
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
+			<attr type="int" name="type" notes="类型 1：总销售，0：园区销售" demoValue="1" />
+			<attr type="string" name="parkName" notes="所属园区" demoValue="海淀区" />
+			<attr type="string" name="pid" notes="所属园区id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 		</attrs>
 	</bean>
 	
@@ -166,7 +169,7 @@
 			<attr type="string" name="sellerJson" notes="销售信息" demoValue="{'销售名称':'钱哲','销售电话':'18553351967'}" />
 			<attr type="string" name="content" notes="操作文本" demoValue="【杨娜】分配客户给【崔海东】" />
 			<attr type="string" name="pid" notes="服务商id" demoValue="abc123249f77f4f25a1d530f6ce2399fd" />
-			<attr type="string" name="providerJon" notes="服务商JSON" demoValue="{'管理员名称':'杨娜','管理员电话':'18553351967'}" />
+			<attr type="string" name="providerJson" notes="服务商JSON" demoValue="{'管理员名称':'杨娜','管理员电话':'18553351967'}" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="int" name="type" notes="操作类型0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档" demoValue="1" />
 		</attrs>

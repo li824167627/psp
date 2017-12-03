@@ -7,6 +7,8 @@
 		<request>
 			<param name="key" type="String" demoValue="" notes="关键字检索">
 			</param>
+			<param name="pid" type="string" demoValue="" notes="园区id">
+			</param>
 			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
 			</param>
 			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
@@ -22,6 +24,12 @@
 			</param>
 			<param name="name" type="string" demoValue="崔海东" notes="销售名称">
 				<notEmpty message="名称不能为空"></notEmpty>
+			</param>
+			<param name="pid" type="string" demoValue="" notes="园区id">
+				<notEmpty message="选择所属园区"></notEmpty>
+			</param>
+			<param name="type" type="string" demoValue="1" notes="类型">
+				<pattern regexp="^0|1$" message="类型错误：0 园区管理 1 总管理" />
 			</param>
 			<param name="password" type="string" demoValue="123123" notes="密码">
 			</param>
@@ -50,8 +58,5 @@
 			</param>
 		</request>
 	</protocol>
-	
-	
-	
 	
 </protocols>

@@ -75,7 +75,7 @@
 	</protocol>
 	
 	<!-- 创建服务商账户 -->
-	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="1" requestName="UpdateNameParam"
+	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="1" requestName="AddProviderAccountParam"
 		resDataType="base" >
 		<request>
 			<param name="pid" type="String" demoValue="1" notes="服务商id">

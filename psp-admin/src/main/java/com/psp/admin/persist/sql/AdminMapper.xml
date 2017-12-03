@@ -7,5 +7,67 @@
 		SELECT * FROM psp_admin
 		WHERE aid = #{aid}
 	</select>
-
+	
+	<!-- 根据手机号获取管理员信息 -->
+	<select id="selectOneByPhone" resultType="AdminBean">
+		SELECT * FROM psp_admin 
+		WHERE phoneNum = #{phoneNum}
+	</select>
+	
+	
+	<!-- 查询管理员总数 -->
+	<select id="selectAdminCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_admin 
+	</select>
+	
+	<!-- 查询管理员列表 -->
+	<select id="selectAdmins" resultType="AdminBean">
+		SELECT
+			*
+		FROM
+			psp_admin 
+		order by createTime DESC
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 插入管理员-->
+	<insert id="insert">
+		INSERT INTO psp_admin
+		(aid, username, phoneNum, password, type, pid,
+			 resources, status, createTime, lastLoginTime)
+		VALUES
+		(#{aid}, #{username}, #{phoneNum}, #{password},
+			 #{type}, #{pid}, #{resources}, #{status}, now(), now());
+	</insert>
+	
+	<!-- 更新管理员 -->
+	<update id="update">
+		UPDATE psp_admin
+		<set>
+			<if test="username != null">
+				username = #{username},
+			</if>
+			<if test="phoneNum != null">
+				phoneNum = #{phoneNum},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="resources != null">
+				resources = #{resources},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
+	
 </mapper>

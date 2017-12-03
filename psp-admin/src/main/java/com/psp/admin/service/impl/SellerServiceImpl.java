@@ -28,14 +28,14 @@ public class SellerServiceImpl implements SellerService {
 	SellerDao sellerImpl;
 
 	@Override
-	public PageResult<RSellerBean> getSellers(int page, int pageSize) {
+	public PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key) {
 		PageResult<RSellerBean> result = new PageResult<RSellerBean>();
 		
-		int count = sellerImpl.selectSellerCount();
+		int count = sellerImpl.selectSellerCount(pid, key);
 		if(count == 0) {
 			return null;
 		}
-		List<SellerBean> resList = sellerImpl.selectSellers(page, pageSize);
+		List<SellerBean> resList = sellerImpl.selectSellers(page, pageSize, pid, key);
 		List<RSellerBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -61,13 +61,16 @@ public class SellerServiceImpl implements SellerService {
 		if(bean.getLastLoginTime() != null) {
 			seller.setLastLoginTime(bean.getLastLoginTime().getTime() / 1000);
 		}
+		seller.setParkName(bean.getParkName());
+		seller.setPid(bean.getPid());
+		seller.setType(bean.getType());
 		return seller;
 	}
 	
 	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum) {
+	public boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum, String pid, int type) {
 		boolean flag = false;
 		if(StringUtil.isEmpty(sid)) {
 			SellerBean seller = sellerImpl.selectOneByPhone(phoneNum);
@@ -75,10 +78,12 @@ public class SellerServiceImpl implements SellerService {
 				throw new ServiceException("object_is_exist", "绑定手机号");
 			}
 			seller = new SellerBean();
+			seller.setPid(pid);
 			seller.setSid(AppTextUtil.getPrimaryKey());
 			seller.setPhoneNum(phoneNum);
 			seller.setUsername(name);
 			seller.setStatus(0);
+			seller.setType(type);
 			seller.setPassword(MD5Util.md5(password));
 			flag = sellerImpl.insert(seller) > 0;
 			if(!flag) {
@@ -96,6 +101,8 @@ public class SellerServiceImpl implements SellerService {
 			}
 			seller.setPhoneNum(phoneNum);
 			seller.setUsername(name);
+			seller.setPid(pid);
+			seller.setType(type);
 			seller.setPassword(MD5Util.md5(password));
 			flag = sellerImpl.update(seller) > 0;
 			if(!flag) {

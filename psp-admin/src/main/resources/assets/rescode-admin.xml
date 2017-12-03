@@ -5,4 +5,17 @@
 		<code>100001</code>
 		<msg>该账户已被冻结</msg>
 	</result>
+	
+	<result name="admin_pwd_error">
+		<code>100002</code>
+		<msg>两次输入密码不一致</msg>
+	</result>
+	
+	<result name="add_admin_error">
+		<code>100003</code>
+		<msg>新建管理员失败</msg>
+	</result>
+
+
+	 
 </results>

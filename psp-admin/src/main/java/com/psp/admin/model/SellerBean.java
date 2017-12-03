@@ -13,6 +13,9 @@ public class SellerBean {
 	private Timestamp createTime; // 创建时间
 	private Timestamp lastLoginTime; // 最后登录时间
 	private String password;//密码
+	private Integer type; // 状态1：正常，0：禁用
+	private String pid;
+	private String parkName;
 
 	public void setSid(String sid) {
  		this.sid = sid;
@@ -69,4 +72,29 @@ public class SellerBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String getParkName() {
+		return parkName;
+	}
+
+	public void setParkName(String parkName) {
+		this.parkName = parkName;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	
 }

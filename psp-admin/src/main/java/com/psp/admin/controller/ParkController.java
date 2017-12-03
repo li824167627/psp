@@ -11,9 +11,12 @@ import org.springframework.stereotype.Component;
 
 import com.psp.admin.controller.res.BaseResult;
 import com.psp.admin.controller.res.ListResult;
+import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RParkBean;
 import com.psp.admin.controller.springmvc.req.DelParkParam;
 import com.psp.admin.controller.springmvc.req.EditParkParam;
+import com.psp.admin.controller.springmvc.req.GetParkOrderNumParam;
+import com.psp.admin.controller.springmvc.req.GetParkUserNumParam;
 import com.psp.admin.controller.springmvc.req.GetParksParam;
 import com.psp.admin.service.ParkService;
 import com.psp.admin.service.exception.ServiceException;
@@ -117,6 +120,32 @@ public class ParkController {
 			result.setMsg(e.getMessage());
 		}
 		return result;
+	}
+	
+	/**
+	 * 获取园区下用户数量
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ObjectResult<Integer> getUserNum(GetParkUserNumParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * 获取园区下工单数量
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ObjectResult<Integer> getOrderNum(GetParkOrderNumParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

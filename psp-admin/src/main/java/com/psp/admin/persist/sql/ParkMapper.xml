@@ -53,16 +53,13 @@
 		UPDATE psp_park
 		<set>
 			<if test="name != null">
-				name = #{name}
+				name = #{name},
 			</if>
 			<if test="contact != null">
 				contact = #{contact},
 			</if>
 			<if test="phoneNum != null">
 				phoneNum = #{phoneNum},
-			</if>
-			<if test="cityCode != null">
-				cityCode = #{cityCode},
 			</if>
 			<if test="province != null">
 				province = #{province},

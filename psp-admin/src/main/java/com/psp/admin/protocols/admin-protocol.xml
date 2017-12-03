@@ -79,9 +79,21 @@
 			</param>
 			<param name="password" type="string" demoValue="123123" notes="密码">
 			</param>
+			<param name="confirmPwd" type="string" demoValue="123123" notes="确认密码">
+			</param>
 			<param name="type" type="int" demoValue="1" notes="类型：0 园区运营人员 1 超级管理员">
 			</param>
 			<param name="pid" type="string" demoValue="园区id" notes="">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 重置密码 -->
+	<protocol name="resetPwd" requestMapping="/v1/restPwd" resType="json" notes="重置服务商账户密码" state="1" requestName="ResetAdminPwdParam"
+		resDataType="base" >
+		<request>
+			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
+				<notEmpty message="服务商账号id不能为空"></notEmpty>
 			</param>
 		</request>
 	</protocol>

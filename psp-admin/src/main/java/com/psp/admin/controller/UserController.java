@@ -50,7 +50,7 @@ public class UserController {
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
-			int isALlot = NumUtil.toInt(param.getIsAllot(), -1);// 沟通状态
+			int isALlot = NumUtil.toInt(param.getIsAllot(), 0);// 沟通状态
 			String key = param.getKey();//关键字
 			
 			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot);
@@ -80,7 +80,7 @@ public class UserController {
 			HttpServletResponse response) {
 		ObjectResult<Integer> result = new ObjectResult<>();
 		try {
-			int isAllot = NumUtil.toInt(param.getStatus(), 0);
+			int isAllot = NumUtil.toInt(param.getIsAllot(), 0);
 			int userNum = userServiceImpl.getUserNum(isAllot);
 			result.setData(userNum);
 		} catch (ServiceException e) {
