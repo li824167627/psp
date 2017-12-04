@@ -54,4 +54,9 @@ public class AdminImpl extends BaseImpl implements AdminDao {
 
 	}
 
+	@Override
+	public int updateLoginTime(String aid) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateLoginTime", aid);
+	}
+
 }

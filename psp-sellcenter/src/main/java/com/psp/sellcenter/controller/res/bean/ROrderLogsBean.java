@@ -11,7 +11,7 @@ public class ROrderLogsBean {
 	private String sellerJson; // 销售信息
 	private String content; // 操作文本
 	private String pid; // 服务商id
-	private String providerJon; // 服务商JSON
+	private String providerJson; // 服务商JSON
 	private Long createTime; // 创建时间
 	private Integer type; // 操作类型0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
 
@@ -63,12 +63,12 @@ public class ROrderLogsBean {
  		return pid;
 	}
 
-	public void setProviderJon(String providerJon) {
- 		this.providerJon = providerJon;
+	public void setProviderJson(String providerJson) {
+ 		this.providerJson = providerJson;
 	}
 
-	public String getProviderJon() {
- 		return providerJon;
+	public String getProviderJson() {
+ 		return providerJson;
 	}
 
 	public void setCreateTime(Long createTime) {

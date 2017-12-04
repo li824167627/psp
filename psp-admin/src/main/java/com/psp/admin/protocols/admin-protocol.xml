@@ -17,6 +17,80 @@
 		</request>
 	</protocol>
 	
+	<!-- 发送验证码 -->
+	<protocol name="sendVCode" requestMapping="/v1/sendVCode"
+		resType="json" notes="发送验证码" state="1" requestName="SendVCodeParam"
+		resDataType="base">
+		<request>
+			<param name="phone" type="String" demoValue="18553351967"
+				notes="手机号码">
+				<notEmpty message="手机号不能为空！" />
+				<pattern regexp="^(1)\\d{10}$" message="手机号格式不正确！" />
+			</param>
+			<param name="type" type="String" demoValue="1" notes="类型，1 更新手机号2 找回密码3 重置个人密码">
+				<pattern regexp="^1|2|3$" message="类型不正确，1 更新手机号2 找回密码3 重置个人密码" />
+			</param>
+			<param name="imgKey" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="获取时返回的key">
+			</param>
+			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 发送找回密码验证手机 -->
+	<protocol name="sendFindPwdCode" requestMapping="/v1/sendFindPwdCode"
+		resType="json" notes="找回密码验证手机" state="1" requestName="SendFindPwdCodeParam"
+		resDataType="object" responseName="RUserBean">
+		<request>
+			<param name="account" type="String" demoValue="15654724214" notes="手机或邮箱">
+				<notEmpty message="账号不能为空"></notEmpty>
+			</param>
+			<param name="imgKey" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="获取时返回的key">
+			</param>
+			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码">
+				<notEmpty message="图形验证码不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 确认找回密码验证码 -->
+	<protocol name="confirmFindPwdCode" requestMapping="/v1/confirmFindPwdCode"
+		resType="json" notes="确认找回密码验证码" state="1" requestName="ConfirmFindPwdCodeParam"
+		resDataType="object" responseName="RUserBean">
+		<request>
+			<param name="account" type="String" demoValue="15654724214" notes="手机或邮箱">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="vcode" type="String" demoValue="1234" notes="验证码">
+				<notEmpty message="验证码不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 重设个人密码 -->
+	<protocol name="resetPwd" requestMapping="/v1/resetPwd"
+		resType="json" notes="重设密码" state="1" requestName="ResetPwdParam"
+		resDataType="base">
+		<request>
+			<param name="account" type="String" demoValue="15654724214" notes="手机或邮箱">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="oldPwd" type="String" demoValue="111111" notes="密码">
+				<notEmpty message="密码不能为空"></notEmpty>
+			</param>
+			<param name="password" type="String" demoValue="123123" notes="新密码">
+				<notEmpty message="新密码不能为空"></notEmpty>
+			</param>
+			<param name="confirmPwd" type="String" demoValue="123123" notes="确认新密码">
+				<notEmpty message="确认密码不能为空"></notEmpty>
+			</param>
+			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码">
+			</param>
+			<param name="imgKey" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="获取时返回的key">
+			</param>
+		</request>
+	</protocol>
+	
 	<!-- 根据token获取管理员人员信息 -->
 	<protocol name="getAdmin" requestMapping="/v1/getAdmin" resType="json" notes="获取管理员信息" state="1" requestName="GetAdminParam"
 		resDataType="object" responseName="RAdminBean">
@@ -89,12 +163,13 @@
 	</protocol>
 	
 	<!-- 重置密码 -->
-	<protocol name="resetPwd" requestMapping="/v1/restPwd" resType="json" notes="重置服务商账户密码" state="1" requestName="ResetAdminPwdParam"
+	<protocol name="resetAdminPwd" requestMapping="/v1/restAdminPwd" resType="json" notes="重置服务商账户密码" state="1" requestName="ResetAdminPwdParam"
 		resDataType="base" >
 		<request>
 			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
 				<notEmpty message="服务商账号id不能为空"></notEmpty>
 			</param>
+			
 		</request>
 	</protocol>
 	

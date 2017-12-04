@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+	<!-- 七牛-获取七牛token -->
+	<protocol name="getQINIUToken" requestMapping="/v1/getQINIUToken" resType="json"
+			  notes="文件-获取七牛token" state="1" resDataType="object" responseName="String">
+	</protocol>
+	
+	<!-- 文件-上传图片到七牛云 -->
+	<protocol name="uploadImage" requestMapping="/v1/uploadImage" resType="json"
+			  notes="文件-上传文件" state="1" resDataType="object" responseName="RQiniuFileBean">
+	</protocol>
+	
+	<!-- 文件-获取图片验证码 -->
+	<protocol name="getImgCode" requestMapping="/v1/getImgCode" resType="json"
+			  notes="文件-获取图片验证码" state="1" requestName="getImgcodeParam" resDataType="object" responseName="RImgCodeBean">
+		<request>
+			<param name="w" type="String" demoValue="100" notes="验证码的宽"></param>
+			<param name="h" type="String" demoValue="40" notes="验证码的高"></param>
+		</request>
+	</protocol>
+	
+	<!-- 文件-获取图片验证码 -->
+	<protocol name="getLoginImgCode" requestMapping="/v1/getLoginImgCode" resType="json"
+			  notes="文件-获取登录时图片验证码" state="1" requestName="getLoginImgcodeParam" resDataType="base">
+		<request>
+			<param name="userId" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="登陆用户id">
+				<notEmpty message="用户id不能为空"></notEmpty>
+			</param>
+			<param name="w" type="String" demoValue="100" notes="验证码的宽"></param>
+			<param name="h" type="String" demoValue="40" notes="验证码的高"></param>
+		</request>
+	</protocol>
+	
+</protocols>

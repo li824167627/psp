@@ -10,6 +10,7 @@ public class RSellerBean {
 	private String username; // 销售昵称
 	private Integer status; // 状态1：正常，0：禁用
 	private Long lastLoginTime; // 最后登录时间
+	private String password;
 
 	public void setSid(String sid) {
  		this.sid = sid;
@@ -51,9 +52,12 @@ public class RSellerBean {
  		return lastLoginTime;
 	}
 
-	public RSellerBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

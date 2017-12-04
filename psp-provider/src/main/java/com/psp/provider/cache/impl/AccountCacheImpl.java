@@ -5,8 +5,10 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.stereotype.Repository;
 
+import com.alibaba.fastjson.JSON;
 import com.psp.provider.cache.BaseCacheImpl;
 import com.psp.provider.cache.dao.AccountCacheDao;
+import com.psp.provider.model.Code;
 
 @Repository
 public class AccountCacheImpl extends BaseCacheImpl implements AccountCacheDao {
@@ -48,6 +50,60 @@ public class AccountCacheImpl extends BaseCacheImpl implements AccountCacheDao {
 				return null;
 			}
 		});
+	}
+	
+	@Override
+	public boolean setLoginCode(String phone, Code vcode) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) {
+				String key = KEY_LOGIN_CODE + phone;
+				String data = JSON.toJSONString(vcode);
+				connection.set(key.getBytes(), data.getBytes());
+				connection.expire(key.getBytes(), 5 * 60);
+				return Boolean.valueOf(true);
+			}
+		});
+	}
+
+	@Override
+	public Code getLoginCode(String phone) {
+		return redisTemplate.execute(new RedisCallback<Code>() {
+			@Override
+			public Code doInRedis(RedisConnection connection) {
+				Code code = new Code();
+				String key = KEY_LOGIN_CODE + phone;
+				byte[] value = connection.get(key.getBytes());
+				if (value != null) {
+					code = (Code) JSON.parseObject(value, Code.class);
+					return code;
+				}
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public boolean setAccountIdTOKEN(String sessionId, String aid, long expireSeconds) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) {
+				String key = KEY_UID_TOKEN + aid;
+
+				byte[] value = connection.get(key.getBytes());
+				if (value != null) {
+					connection.del(new byte[][] { (KEY_TOKEN_UID + new String(value)).getBytes() });
+				}
+				connection.set(key.getBytes(), sessionId.getBytes());
+				connection.expire(key.getBytes(), expireSeconds);
+
+				key = KEY_TOKEN_UID + sessionId;
+				connection.set(key.getBytes(), aid.getBytes());
+				connection.expire(key.getBytes(), expireSeconds);
+				return Boolean.valueOf(true);
+			}
+		});
+		
 	}
 
 }

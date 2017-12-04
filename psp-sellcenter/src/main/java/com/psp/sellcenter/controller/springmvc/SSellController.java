@@ -34,8 +34,72 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RSellerBean().getDemoValue());
-		return res;
+
+		return sellController.login(param, request, response);
+	}
+
+	/**
+	 * 发送验证码
+	 **/
+	@RequestMapping("/v1/sendVCode")
+	@ResponseBody
+	public BaseResult sendVCode(@Validated SendVCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return sellController.sendVCode(param, request, response);
+	}
+
+	/**
+	 * 找回密码验证手机
+	 **/
+	@RequestMapping("/v1/sendFindPwdCode")
+	@ResponseBody
+	public ObjectResult<RSellerBean> sendFindPwdCode(@Validated SendFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return sellController.sendFindPwdCode(param, request, response);
+	}
+
+	/**
+	 * 确认找回密码验证码
+	 **/
+	@RequestMapping("/v1/confirmFindPwdCode")
+	@ResponseBody
+	public ObjectResult<RSellerBean> confirmFindPwdCode(@Validated ConfirmFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return sellController.confirmFindPwdCode(param, request, response);
+	}
+
+	/**
+	 * 重设密码
+	 **/
+	@RequestMapping("/v1/resetPwd")
+	@ResponseBody
+	public BaseResult resetPwd(@Validated ResetPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return sellController.resetPwd(param, request, response);
 	}
 
 	/**
@@ -50,8 +114,8 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setData(new RSellerBean().getDemoValue());
-		return res;
+
+		return sellController.getSeller(param, request, response);
 	}
 
 	/**
@@ -66,8 +130,8 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return sellController.updateName(param, request, response);
 	}
 
 	/**
@@ -82,7 +146,7 @@ public class SSellController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return sellController.updatePassWord(param, request, response);
 	}
 }

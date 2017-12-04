@@ -1,5 +1,6 @@
 package com.psp.provider.service;
 
+import com.psp.provider.controller.res.bean.RAccountBean;
 import com.psp.provider.model.AccountBean;
 
 public interface AccountService {
@@ -17,5 +18,7 @@ public interface AccountService {
 	 * @return
 	 */
 	AccountBean getAccountById(String id);
+
+	RAccountBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip);
 
 }

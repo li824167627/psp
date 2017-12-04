@@ -69,9 +69,4 @@ public class RAccountBean {
  		return lastLoginTime;
 	}
 
-	public RAccountBean getDemoValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -31,6 +31,14 @@
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/area/**"/><!--全国地址-->
+			<mvc:exclude-mapping path="/file/**"/><!--文件相关-->
+			<mvc:exclude-mapping path="/user/v1/login"/><!--登录-->
+			<mvc:exclude-mapping path="/user/v1/sendFindPwdCode"/><!-- 找回密碼 -->
+			<mvc:exclude-mapping path="/user/v1/confirmFindPwdCode"/><!-- 设置密码 -->
+			<mvc:exclude-mapping path="/user/v1/resetPwd"/><!-- 设置密码 -->
+			<mvc:exclude-mapping path="/user/v1/sendVCode"/><!-- 发送手机验证码 -->
+			
 			<bean class="com.psp.admin.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
@@ -43,6 +51,13 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- 指定所上传文件的总大小不能超过10M。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="10000000"/>
 	</bean>
 
 	<!-- json转换 -->

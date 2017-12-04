@@ -194,4 +194,38 @@
 		</attrs>
 	</bean>
 	
+	<!-- 文件材料信息 -->
+	<bean className="RQiniuFileBean" notes="七牛返回的信息">
+		<attrs>
+			<attr type="string" name="key" notes="key" demoValue="key" />
+			<attr type="string" name="url" notes="图片url地址"
+				demoValue="http://pic.58pic.com/58pic/14/00/69/66858PICNfJ_1024.jpg" />
+			<attr type="int" name="imgH" notes="高度" demoValue="100" />
+			<attr type="int" name="imgW" notes="宽度" demoValue="100" />
+			<attr type="string" name="format" notes="文件格式" demoValue="jpeg" />
+		</attrs>
+	</bean>
+
+	<!-- 图片验证码 -->
+	<bean className="RImgCodeBean" notes="图片验证码">
+		<attrs>
+			<attr type="string" name="key" notes="key" demoValue="key" />
+			<attr type="string" name="url" notes="图片url地址"
+				demoValue="http://pic.58pic.com/58pic/14/00/69/66858PICNfJ_1024.jpg" />
+			<attr type="int" name="imgH" notes="高度" demoValue="100" />
+			<attr type="int" name="imgW" notes="宽度" demoValue="100" />
+			<attr type="string" name="format" notes="文件格式" demoValue="jpeg" />
+		</attrs>
+	</bean>
+	
+	<!-- 区域列表bean -->
+	<bean className="RAreaListBean" notes="区域列表bean">
+		<attrs>
+			<attr type="string" name="label" notes="区域名称" demoValue="北京市" />
+			<attr type="string" name="value" notes="区域code" demoValue="350424" />
+			<attr type="list" name="children" notes="下级区域" objName="RAreaListBean" />
+		</attrs>
+	</bean>
+	
+	
 </beans>

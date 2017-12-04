@@ -15,6 +15,48 @@
 		<code>100003</code>
 		<msg>新建管理员失败</msg>
 	</result>
+	
+	<result name="imgcode_is_error">
+		<code>100004</code>
+		<msg>图像验证码不正确！</msg>
+	</result>
+
+	<result name="imgcode_is_expire">
+		<code>100005</code>
+		<msg>图像验证码已经过期！</msg>
+	</result>
+	
+	<result name="imgcode_is_cross">
+		<code>100006</code>
+		<msg>错误已超过5次，请重新获取</msg>
+	</result>
+	
+	<result name="user_password_is_not_same">
+		<code>100007</code>
+		<msg>两次密码输入不一致！</msg>
+	</result>
+	
+	<result name="user_password_is_error">
+		<code>100008</code>
+		<msg>输入密码有误！</msg>
+	</result>
+	
+	<result name="user_log_insert_error">
+		<code>100009</code>
+		<msg>插入登录日志失败！</msg>
+	</result>
+	
+	<result name="user_update_error">
+		<code>100010</code>
+		<msg>更新用户失败！</msg>
+	</result>
+	
+	
+	
+
+
+
+
 
 
 	 

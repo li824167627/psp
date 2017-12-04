@@ -108,7 +108,7 @@ public class UserNewsServiceImpl implements UserNewsService{
 			throw new ServiceException("seller_has_no_auth");
 		}
 		UserNewsBean news = new UserNewsBean();
-		news.setOrigin(2);// 主动沟通
+		news.setOrigin(2);// 来源：主动沟通
 		news.setContent(content);
 		news.setLabel(label);
 		news.setSellerJson(sellerJson.toJSONString());
@@ -126,7 +126,7 @@ public class UserNewsServiceImpl implements UserNewsService{
 			throw new ServiceException("create_user_news_error");
 		}
 		// 更改用户状态为已沟通
-		if(user.getStatus() == 0) {
+		if(user.getStatus() != 1) {
 			user.setStatus(1);
 			flag = userImpl.updateStatus(user) > 0;
 			if(!flag) {

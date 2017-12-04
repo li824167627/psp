@@ -70,4 +70,14 @@
 			aid = #{aid};
 	</update>
 	
+	
+	<update id="updateLoginTime">
+		UPDATE psp_admin
+		<set>
+			lastLoginTime = now()
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
+	
 </mapper>

@@ -23,8 +23,11 @@
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
+			<if test="status == 1">
+				and status = 0
+			</if>
+			<if test="status == 2">
+				and status = 1
 			</if>
 		</where> 
 	</select>
@@ -50,8 +53,11 @@
 				AND (companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 沟通状态 -->
-			<if test="status != 0">
-				and status = #{status}
+			<if test="status == 1">
+				and status = 0
+			</if>
+			<if test="status == 2">
+				and status = 1
 			</if>
 		</where> 
 		ORDER BY createTime desc

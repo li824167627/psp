@@ -39,6 +39,70 @@ public class SAdminController {
 	}
 
 	/**
+	 * 发送验证码
+	 **/
+	@RequestMapping("/v1/sendVCode")
+	@ResponseBody
+	public BaseResult sendVCode(@Validated SendVCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.sendVCode(param, request, response);
+	}
+
+	/**
+	 * 找回密码验证手机
+	 **/
+	@RequestMapping("/v1/sendFindPwdCode")
+	@ResponseBody
+	public ObjectResult<RUserBean> sendFindPwdCode(@Validated SendFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.sendFindPwdCode(param, request, response);
+	}
+
+	/**
+	 * 确认找回密码验证码
+	 **/
+	@RequestMapping("/v1/confirmFindPwdCode")
+	@ResponseBody
+	public ObjectResult<RUserBean> confirmFindPwdCode(@Validated ConfirmFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.confirmFindPwdCode(param, request, response);
+	}
+
+	/**
+	 * 重设密码
+	 **/
+	@RequestMapping("/v1/resetPwd")
+	@ResponseBody
+	public BaseResult resetPwd(@Validated ResetPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return adminController.resetPwd(param, request, response);
+	}
+
+	/**
 	 * 获取管理员信息
 	 **/
 	@RequestMapping("/v1/getAdmin")
@@ -121,9 +185,9 @@ public class SAdminController {
 	/**
 	 * 重置服务商账户密码
 	 **/
-	@RequestMapping("/v1/restPwd")
+	@RequestMapping("/v1/restAdminPwd")
 	@ResponseBody
-	public BaseResult resetPwd(@Validated ResetAdminPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult resetAdminPwd(@Validated ResetAdminPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -131,7 +195,7 @@ public class SAdminController {
 			return res;
 		}
 
-		return adminController.resetPwd(param, request, response);
+		return adminController.resetAdminPwd(param, request, response);
 	}
 
 	/**

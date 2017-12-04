@@ -7,5 +7,19 @@
 		SELECT * FROM psp_provider_account
 		WHERE aid = #{aid}
 	</select>
+	
+	<!-- 根据手机号获取管理员信息 -->
+	<select id="selectOneByPhone" resultType="AccountBean">
+		SELECT * FROM psp_provider_account 
+		WHERE phoneNum = #{phoneNum}
+	</select>
 
+	<update id="updateLoginTime">
+		UPDATE psp_provider_account
+		<set>
+			lastLoginTime = now()
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
 </mapper>

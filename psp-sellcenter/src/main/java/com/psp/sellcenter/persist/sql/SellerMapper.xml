@@ -7,5 +7,20 @@
 		SELECT * FROM psp_sale_center 
 		WHERE sid = #{sid}
 	</select>
+	
+	<!-- 根据手机号获取管理员信息 -->
+	<select id="selectOneByPhone" resultType="SellerBean">
+		SELECT * FROM psp_sale_center 
+		WHERE phoneNum = #{phoneNum}
+	</select>
+
+	<update id="updateLoginTime">
+		UPDATE psp_sale_center
+		<set>
+			lastLoginTime = now()
+		</set> 
+		WHERE
+			sid = #{sid};
+	</update>
 
 </mapper>

@@ -11,10 +11,15 @@ import com.psp.sellcenter.cache.dao.SellerCacheDao;
 import com.psp.sellcenter.controller.res.BaseResult;
 import com.psp.sellcenter.controller.res.ObjectResult;
 import com.psp.sellcenter.controller.res.bean.RSellerBean;
+import com.psp.sellcenter.controller.springmvc.req.ConfirmFindPwdCodeParam;
 import com.psp.sellcenter.controller.springmvc.req.GetSellerParam;
 import com.psp.sellcenter.controller.springmvc.req.LoginParam;
+import com.psp.sellcenter.controller.springmvc.req.ResetPwdParam;
+import com.psp.sellcenter.controller.springmvc.req.SendFindPwdCodeParam;
+import com.psp.sellcenter.controller.springmvc.req.SendVCodeParam;
 import com.psp.sellcenter.controller.springmvc.req.UpdateNameParam;
 import com.psp.sellcenter.controller.springmvc.req.UpdatePasswordParam;
+import com.psp.sellcenter.model.Code;
 import com.psp.sellcenter.service.SellerService;
 import com.psp.sellcenter.service.exception.ServiceException;
 import com.psp.util.AppTextUtil;
@@ -32,20 +37,29 @@ public class SellController {
 	public ObjectResult<RSellerBean> login(LoginParam param, HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RSellerBean> result = new ObjectResult<RSellerBean>();
 
+		String phone = param.getPhoneNum();
+		String pwd = param.getPassword();
 		String vcode = param.getImgCode();
 		String device = param.getDevice();
 		try {
 			String sessionId = request.getSession().getId();
 			String ip = AppTextUtil.getIpAddr(request);
+			RSellerBean user = sellerServiceImpl.login(sessionId, phone, pwd, vcode, device, ip);
+			logger.info("login user is:" + user);
+			if (user != null) {
+				result.setToken(sessionId);
+				result.setData(user);
+				result.setFlag(true);
+			} else {
+				Code code = sellerCacheImpl.getLoginCode(phone);
+				if (code != null) {
+					result.setErrorCount(code.getNum());
+				}
+			}
 		} catch (ServiceException e) {
 			result.setFlag(false);
 			result.setRescode(e.getServiceCode());
 			result.setMsg(e.getServiceMsg());
-		} catch (Exception e) {
-			logger.info(e);
-			e.printStackTrace();
-			result.setFlag(false);
-			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
@@ -63,6 +77,28 @@ public class SellController {
 
 	public ObjectResult<RSellerBean> getSeller(GetSellerParam param, HttpServletRequest request,
 			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public BaseResult sendVCode(SendVCodeParam param, HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ObjectResult<RSellerBean> sendFindPwdCode(SendFindPwdCodeParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ObjectResult<RSellerBean> confirmFindPwdCode(ConfirmFindPwdCodeParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public BaseResult resetPwd(ResetPwdParam param, HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -14,6 +14,7 @@ public class AccountBean {
 	private Timestamp createTime; // 创建时间
 	private Integer type; // 服务商账号类型：0 员工 1管理账号
 	private String pid;// 关联服务商
+	private String password;// 服务商
 
 	public void setAid(String aid) {
  		this.aid = aid;
@@ -77,6 +78,14 @@ public class AccountBean {
 
 	public void setPid(String pid) {
 		this.pid = pid;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

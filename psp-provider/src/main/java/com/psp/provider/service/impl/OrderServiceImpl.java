@@ -185,7 +185,7 @@ public class OrderServiceImpl implements OrderService {
 		log.setLid(bean.getLid());
 		log.setOid(bean.getOid());
 		log.setPid(bean.getPid());
-		log.setProviderJon(bean.getProviderJson());
+		log.setProviderJson(bean.getProviderJson());
 		log.setSellerJson(bean.getSellerJson());
 		log.setSid(bean.getSid());
 		log.setType(bean.getType());
@@ -281,6 +281,7 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("order_can_not_handle");
 		}
 		order.setStatus(3);//已接收，status=3
+		order.setStage(1);
 		flag = orderImpl.updateStatus(order) > 0;
 		if(!flag) {
 			throw new ServiceException("update_order_status_error");
@@ -315,6 +316,7 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("order_can_not_submit");
 		}
 		order.setStatus(8);//申请终止，status=8
+		order.setStage(1);
 		flag = orderImpl.updateStatus(order) > 0;
 		if(!flag) {
 			throw new ServiceException("update_order_status_error");

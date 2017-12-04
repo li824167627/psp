@@ -15,4 +15,14 @@ public class AccountImpl extends BaseImpl implements AccountDao {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOneById", sid);
 	}
 
+	@Override
+	public AccountBean selectOneByPhone(String phone) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOneByPhone", phone);
+	}
+
+	@Override
+	public int updateLoginTime(String aid) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateLoginTime", aid);
+	}
+
 }

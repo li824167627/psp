@@ -30,12 +30,6 @@
 		<constructor-arg index="3" value="${sms_rd}" />
 	</bean>
 
-	<!-- 七牛 -->
-	<bean id="qiniuManager" class="com.psp.util.qiniu.QiniuManager">
-		<constructor-arg index="0" value="${qiniu.key}" />
-		<constructor-arg index="1" value="${qiniu.secret}" />
-	</bean>
-
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 

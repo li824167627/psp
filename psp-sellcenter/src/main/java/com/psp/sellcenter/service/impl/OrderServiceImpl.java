@@ -345,7 +345,7 @@ public class OrderServiceImpl implements OrderService {
 		log.setLid(bean.getLid());
 		log.setOid(bean.getOid());
 		log.setPid(bean.getPid());
-		log.setProviderJon(bean.getProviderJson());
+		log.setProviderJson(bean.getProviderJson());
 		log.setSellerJson(bean.getSellerJson());
 		log.setSid(bean.getSid());
 		log.setType(bean.getType());

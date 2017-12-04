@@ -52,7 +52,7 @@ public interface AdminService {
 	 * @param aid
 	 * @return
 	 */
-	boolean resetPwd(String adminId, String aid);
+	boolean resetAdminPwd(String adminId, String aid);
 	
 	/**
 	 * 新建编辑管理员账号
@@ -68,5 +68,42 @@ public interface AdminService {
 	 */
 	boolean editAdmin(String adminId, String aid, String pid, String name, String password, String confirmPwd,
 			String phone, int type);
+	
+	/**
+	 * 检查图形验证码
+	 * @param imgkey
+	 * @param imgcode
+	 */
+	void checkImgCode(String imgkey, String imgcode);
+	
+	/**
+	 * 发送短息验证码
+	 * @param type
+	 * @param phone
+	 * @return
+	 */
+	boolean sendVCode(int type, String phone);
+	
+	/**
+	 * 登录接口
+	 * @param sessionId
+	 * @param phone
+	 * @param pwd
+	 * @param vcode
+	 * @param device
+	 * @param ip
+	 * @return
+	 */
+	RAdminBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip);
+	
+	/**
+	 * 更改个人密码
+	 * @param adminId
+	 * @param pwd
+	 * @param newPwd
+	 * @param subPwd
+	 * @return
+	 */
+	boolean updatePassWord(String adminId, String pwd, String newPwd, String subPwd);
 
 }

@@ -19,6 +19,14 @@
 		<protocols-file fileName="order-protocol.xml" toCreate="true"
 			className="OrderController" requestMapping="/order" version="1.0"
 			notes="工单相关接口" />
+		
+		<protocols-file fileName="area-protocol.xml" toCreate="true"
+			className="AreaController" requestMapping="/area" version="1.0"
+			notes="地区相关接口" />
+		
+		<protocols-file fileName="file-protocol.xml" toCreate="true"
+			className="FileController" requestMapping="/file" version="1.0"
+			notes="文件相关接口" />
 			
 	</protocolFiles>
 	

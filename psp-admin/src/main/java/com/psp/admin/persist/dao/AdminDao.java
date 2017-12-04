@@ -18,4 +18,6 @@ public interface AdminDao {
 
 	int insert(AdminBean admin);
 
+	int updateLoginTime(String aid);
+
 }

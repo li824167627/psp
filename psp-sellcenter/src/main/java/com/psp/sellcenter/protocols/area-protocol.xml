@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+
+	<!-- 获取区域 -->
+	<protocol name="getAllArea" requestMapping="/v1/getAllArea"
+		resType="json" notes="获取区域" state="1"
+		resDataType="list" responseName="RAreaListBean">
+		<request></request>
+	</protocol>
+
+</protocols>

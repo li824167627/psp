@@ -9,23 +9,30 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.psp.admin.cache.dao.AdminCacheDao;
 import com.psp.admin.controller.res.BaseResult;
 import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RAdminBean;
-import com.psp.admin.controller.res.bean.RProviderBean;
+import com.psp.admin.controller.res.bean.RUserBean;
+import com.psp.admin.controller.springmvc.req.ConfirmFindPwdCodeParam;
 import com.psp.admin.controller.springmvc.req.DelAdminParam;
 import com.psp.admin.controller.springmvc.req.EditAdminParam;
 import com.psp.admin.controller.springmvc.req.GetAdminParam;
 import com.psp.admin.controller.springmvc.req.GetAdminsParam;
 import com.psp.admin.controller.springmvc.req.LoginParam;
 import com.psp.admin.controller.springmvc.req.ResetAdminPwdParam;
+import com.psp.admin.controller.springmvc.req.ResetPwdParam;
+import com.psp.admin.controller.springmvc.req.SendFindPwdCodeParam;
+import com.psp.admin.controller.springmvc.req.SendVCodeParam;
 import com.psp.admin.controller.springmvc.req.UpdateNameParam;
 import com.psp.admin.controller.springmvc.req.UpdatePasswordParam;
 import com.psp.admin.model.AdminBean;
+import com.psp.admin.model.Code;
 import com.psp.admin.service.AdminService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
+import com.psp.util.AppTextUtil;
 import com.psp.util.NumUtil;
 
 @Component
@@ -35,6 +42,9 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminServiceImpl;
+	
+	@Autowired
+	AdminCacheDao adminCacheImpl;
 	/**
 	 * 获取管理员详情
 	 * @param param
@@ -113,16 +123,18 @@ public class AdminController {
 			HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {
+
 			String adminId = (String)request.getAttribute("adminId");
-			boolean flag = false;//adminServiceImpl.update(adminId);
-			result.setFlag(flag);
+			String pwd = param.getOldPwd();
+			String newPwd = param.getNewPwd();
+			String subPwd = param.getSubmitPwd();
+			boolean flag = adminServiceImpl.updatePassWord(adminId, pwd, newPwd, subPwd);
+			if (flag) {
+				result.setFlag(true);
+			}
 		} catch (ServiceException e) {
-			result.setServiceException(e);
-		} catch (Exception e) {
-			logger.info(e);
-			e.printStackTrace();
 			result.setFlag(false);
-			result.setMsg(e.getMessage());
+			result.setMsg(e.getServiceMsg());
 		}
 		return result;
 	}
@@ -135,8 +147,33 @@ public class AdminController {
 	 * @return
 	 */
 	public ObjectResult<RAdminBean> login(LoginParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectResult<RAdminBean> result = new ObjectResult<RAdminBean>();
+
+		String phone = param.getPhoneNum();
+		String pwd = param.getPassword();
+		String vcode = param.getImgCode();
+		String device = param.getDevice();
+		try {
+			String sessionId = request.getSession().getId();
+			String ip = AppTextUtil.getIpAddr(request);
+			RAdminBean user = adminServiceImpl.login(sessionId, phone, pwd, vcode, device, ip);
+			logger.info("login user is:" + user);
+			if (user != null) {
+				result.setToken(sessionId);
+				result.setData(user);
+				result.setFlag(true);
+			} else {
+				Code code = adminCacheImpl.getLoginCode(phone);
+				if (code != null) {
+					result.setErrorCount(code.getNum());
+				}
+			}
+		} catch (ServiceException e) {
+			result.setFlag(false);
+			result.setRescode(e.getServiceCode());
+			result.setMsg(e.getServiceMsg());
+		}
+		return result;
 	}
 	
 	/**
@@ -233,12 +270,12 @@ public class AdminController {
 	 * @param response
 	 * @return
 	 */
-	public BaseResult resetPwd(ResetAdminPwdParam param, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult resetAdminPwd(ResetAdminPwdParam param, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {
 			String adminId = (String)request.getAttribute("adminId");
 			String aid = param.getAid();
-			boolean flag = adminServiceImpl.resetPwd(adminId, aid);
+			boolean flag = adminServiceImpl.resetAdminPwd(adminId, aid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -250,5 +287,44 @@ public class AdminController {
 		}
 		return result;
 	}
+
+	public BaseResult sendVCode(SendVCodeParam param, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+
+		String phone = param.getPhone();
+		int type = NumUtil.toInt(param.getType(), 0);
+		String imgcode = param.getImgCode();
+		String imgkey = param.getImgKey();
+		try {
+			if (type != 3) {// 重置密码不需要图形验证码
+				adminServiceImpl.checkImgCode(imgkey, imgcode);
+			}
+			boolean flag = adminServiceImpl.sendVCode(type, phone);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		}
+		return result;
+	}
+
+	public ObjectResult<RUserBean> sendFindPwdCode(SendFindPwdCodeParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ObjectResult<RUserBean> confirmFindPwdCode(ConfirmFindPwdCodeParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+	public BaseResult resetPwd(ResetPwdParam param, HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
 
 }

@@ -111,7 +111,7 @@
 	<update id="refuseOrder">
 		UPDATE psp_order 
 		SET 
-			pid = #{pid},status = #{status},isAllot = #{isAllot}  
+			pid = #{pid},status = #{status},isAllot = #{isAllot},stage = #{stage} 
 		WHERE
 			oid = #{oid};
 	</update>

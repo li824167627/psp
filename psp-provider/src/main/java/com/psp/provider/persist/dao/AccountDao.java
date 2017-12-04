@@ -6,4 +6,8 @@ public interface AccountDao {
 
 	AccountBean selectOneById(String sid);
 
+	AccountBean selectOneByPhone(String phone);
+
+	int updateLoginTime(String aid);
+
 }

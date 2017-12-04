@@ -14,27 +14,21 @@ import com.psp.provider.controller.res.bean.*;
 import com.psp.provider.controller.springmvc.req.*;
 
 /**
- * 用户相关接口
+ * 地区相关接口
  **/
 @Controller
-@RequestMapping(value = "/wapp/user", produces = "application/json")
-public class SUserController {
+@RequestMapping(value = "/area", produces = "application/json")
+public class SAreaController {
 	@Autowired
-	com.psp.provider.controller.UserController userController;
+	com.psp.provider.controller.AreaController areaController;
 
 	/**
-	 * 登录
+	 * 获取区域
 	 **/
-	@RequestMapping("/v1/login")
+	@RequestMapping("/v1/getAllArea")
 	@ResponseBody
-	public ObjectResult<RUserBean> login(@Validated LoginParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
-		if (error.hasErrors()) {
-			res.setRescode(BaseResult.param.getCode());
-			res.setMsg(error.getFieldError().getDefaultMessage());
-			return res;
-		}
+	public ListResult<RAreaListBean> getAllArea(HttpServletRequest request, HttpServletResponse response) {
 
-		return userController.login(param, request, response);
+		return areaController.getAllArea(request, response);
 	}
 }

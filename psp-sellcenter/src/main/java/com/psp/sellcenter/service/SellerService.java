@@ -1,5 +1,6 @@
 package com.psp.sellcenter.service;
 
+import com.psp.sellcenter.controller.res.bean.RSellerBean;
 import com.psp.sellcenter.model.SellerBean;
 
 public interface SellerService {
@@ -17,5 +18,7 @@ public interface SellerService {
 	 * @return
 	 */
 	SellerBean getSellerById(String id);
+
+	RSellerBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip);
 
 }

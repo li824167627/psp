@@ -58,6 +58,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		Map<String, Object> where = new HashMap<>();
 		where.put("oid", order.getOid());
 		where.put("status", order.getStatus());
+		where.put("stage", order.getStage());
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateStatus", where);
 	}
 
@@ -68,6 +69,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("status", order.getStatus());
 		where.put("pid", order.getPid());
 		where.put("isAllot", order.getIsAllot());
+		where.put("stage", order.getStage());
 		return sqlSessionTemplate.update(NAME_SPACE + ".refuseOrder", where);
 	}
 
