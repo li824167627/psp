@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.psp.sellcenter.model.OrderBean;
 import com.psp.sellcenter.model.OrderContractBean;
+import com.psp.sellcenter.model.OrderFeedbackBean;
 
 public interface OrderDao {
 	
@@ -22,6 +23,8 @@ public interface OrderDao {
 	int updateStatus(OrderBean order);
 
 	int insertContract(OrderContractBean contract);
+
+	int insertFeedBack(OrderFeedbackBean feedback);
 
 
 }

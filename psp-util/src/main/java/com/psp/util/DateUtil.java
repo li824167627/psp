@@ -39,6 +39,11 @@ public class DateUtil {
 			return null;
 		}
 	}
+	
+	public static void main(String[] args) {
+		Timestamp t = getTimestamp("2017-10-11","yyyy-MM-dd");
+		System.out.println(t.getTime());
+	}
 
 	public static final int getAge(Timestamp date) {
 		if (date == null) {

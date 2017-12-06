@@ -15,37 +15,60 @@
 		<code>100003</code>
 		<msg>客户没有被认领，%s。</msg>
 	</result>
+	<result name="imgcode_is_error">
+		<code>100004</code>
+		<msg>图像验证码不正确！</msg>
+	</result>
+
+	<result name="imgcode_is_expire">
+		<code>100005</code>
+		<msg>图像验证码已经过期！</msg>
+	</result>
+	
+	<result name="imgcode_is_cross">
+		<code>100006</code>
+		<msg>错误已超过5次，请重新获取</msg>
+	</result>
 	
 	<result name="user_is_claimed_by_u">
-		<code>100004</code>
+		<code>100007</code>
 		<msg>您已认领该客户，%s。</msg>
 	</result>
 	
 	<result name="user_is_claimed">
-		<code>100005</code>
+		<code>100008</code>
 		<msg>该客户已经被认领，销售信息：%s。</msg>
 	</result>
 	
 	<result name="update_user_error">
-		<code>100006</code>
+		<code>100009</code>
 		<msg>更新用户信息失败！</msg>
 	</result>
 	
 	<result name="create_user_log_error">
-		<code>100007</code>
+		<code>100010</code>
 		<msg>新建用户操作日志失败！</msg>
 	</result>
 	
 	<result name="seller_has_no_auth">
-		<code>100008</code>
+		<code>100011</code>
 		<msg>您没有权限修改该客户！</msg>
 	</result>
 	
 	<result name="create_user_news_error">
-		<code>100009</code>
+		<code>100012</code>
 		<msg>创建客户消息失败！</msg>
 	</result>
 	
+	<result name="user_password_is_not_same">
+		<code>100013</code>
+		<msg>两次密码输入不一致！</msg>
+	</result>
+	
+	<result name="user_password_is_error">
+		<code>100014</code>
+		<msg>账号或密码错误！</msg>
+	</result>
 	
 	
 	

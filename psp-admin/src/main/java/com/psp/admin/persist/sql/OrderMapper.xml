@@ -61,6 +61,30 @@
 			<result property="phoneNum"  column="uphoneNum"/>
 			<result property="companyName"  column="ucompanyName"/>
 		</association> 
+		<association property="feedback" javaType="OrderFeedbackBean">
+			<id property="fid" column="fid"/>
+			<result property="averageScore"  column="averageScore"/>
+			<result property="content"  column="fcontent"/>
+		</association> 
+		<collection property="contracts" column="oid" ofType="OrderContractBean" >
+			<id property="cid" column="ccid"/>
+			<result property="oid"  column="coid"/>
+			<result property="name"  column="cname"/>
+			<result property="contractNo"  column="contractNo"/>
+			<result property="partyA"  column="partyA"/>
+			<result property="partyB"  column="partyB"/>
+			<result property="contractUrl"  column="contractUrl"/>
+			<result property="signTime"  column="signTime"/>
+			<result property="startTime"  column="startTime"/>
+			<result property="endTime"  column="endTime"/>
+			<result property="createTime"  column="createTime"/>
+			<result property="service"  column="service"/>
+			<result property="money"  column="money"/>
+			<result property="payment"  column="payment"/>
+			<result property="paymentWay"  column="paymentWay"/>
+			<result property="paymentDesc"  column="paymentDesc"/>
+		</collection>
+		
 	</resultMap>
 	
 	<!-- 根据搜索条件获取管理的客户 -->
@@ -108,12 +132,19 @@
 	<select id="selectOrderById" resultMap="OrderMap">
 		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum,
 		 p.contact as ppcontact, u.uid as uuid, u.name as uuname,
-		 u.phoneNum as uphoneNum, u.companyName as ucompanyName
+		 u.phoneNum as uphoneNum, u.companyName as ucompanyName,
+		 c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
+		 c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
+		 f.fid, f.content as fcontent, f.averageScore
 		FROM psp_order o 
 		left join psp_provider p
 		on o.pid = p.pid
 		left join psp_user u
 		on o.uid = u.uid
+		left join psp_order_contract c
+		on o.oid = c.oid
+		left join psp_order_feedback f
+		on o.oid = f.oid
 		where o.oid = #{oid}
 	</select>
 	

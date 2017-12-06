@@ -6,6 +6,7 @@ package com.psp.provider.controller.res.bean;
  **/
 public class RAccountBean {
 	private String aid; // 账户aid
+	private String letter; // 名称首字母
 	private String phoneNum; // 用户手机号
 	private String nickName; // 用户昵称
 	private Integer status; // 状态1：正常，0：禁用
@@ -19,6 +20,14 @@ public class RAccountBean {
 
 	public String getAid() {
  		return aid;
+	}
+
+	public void setLetter(String letter) {
+ 		this.letter = letter;
+	}
+
+	public String getLetter() {
+ 		return letter;
 	}
 
 	public void setPhoneNum(String phoneNum) {

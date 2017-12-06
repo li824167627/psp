@@ -1,6 +1,5 @@
 package com.psp.sellcenter.persist.dao;
 
-import com.psp.sellcenter.controller.res.bean.RSellerBean;
 import com.psp.sellcenter.model.SellerBean;
 
 public interface SellerDao {
@@ -9,6 +8,6 @@ public interface SellerDao {
 
 	int updateLoginTime(String sid);
 
-	RSellerBean selectOneByPhone(String phone);
+	SellerBean selectOneByPhone(String phone);
 
 }

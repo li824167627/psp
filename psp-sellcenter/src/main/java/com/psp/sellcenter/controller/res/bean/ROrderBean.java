@@ -1,5 +1,7 @@
 package com.psp.sellcenter.controller.res.bean;
 
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 工单信息
@@ -23,6 +25,8 @@ public class ROrderBean {
 	private Long closeTime; // 关闭时间
 	private Long updateime; // 操作更新时间
 	private Long isNeedInvoice; // 是否需要发票
+	private List<ROrderContractBean> contracts; // 合同信息
+	private ROrderFeedbackBean feedback; // 反馈意见
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -166,6 +170,22 @@ public class ROrderBean {
 
 	public Long getIsNeedInvoice() {
  		return isNeedInvoice;
+	}
+
+	public void setContracts(List<ROrderContractBean> contracts) {
+ 		this.contracts = contracts;
+	}
+
+	public List<ROrderContractBean> getContracts() {
+ 		return contracts;
+	}
+
+	public void setFeedback(ROrderFeedbackBean feedback) {
+ 		this.feedback = feedback;
+	}
+
+	public ROrderFeedbackBean getFeedback() {
+ 		return feedback;
 	}
 
 }

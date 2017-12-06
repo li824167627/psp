@@ -6,6 +6,7 @@
 		<attrs>
 			<attr type="string" name="sid" notes="销售id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="phoneNum" notes="销售手机号" demoValue="18553351967" />
+			<attr type="string" name="letter" notes="名称首字母" demoValue="C" />
 			<attr type="string" name="username" notes="销售昵称" demoValue="candy" />
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
@@ -87,6 +88,41 @@
 			<attr  type="long" name="closeTime" notes="关闭时间" demoValue="unix时间戳" ></attr>
 			<attr  type="long" name="updateime" notes="操作更新时间" demoValue="unix时间戳" ></attr>
 			<attr  type="long" name="isNeedInvoice" notes="是否需要发票" demoValue="1" ></attr>
+			<attr  type="list" objName="ROrderContractBean" name="contracts" notes="合同信息" demoValue="1" ></attr>
+			<attr  type="ROrderFeedbackBean" name="feedback" notes="反馈意见" demoValue="1" ></attr>
+			
+			
+		</attrs>
+	</bean>
+	
+	<!-- 合同工单详情 -->
+	<bean className="ROrderContractBean" notes="合同工单详情信息">
+		<attrs>
+			<attr type="int" name="cid" notes="cid" demoValue="1" />
+			<attr type="string" name="name" notes="工单名称" demoValue="技术开发合同" />
+			<attr type="string" name="oid" notes="工单ID" demoValue="efa252324f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="contractNo" notes="合同编号"  demoValue="HT123123"/>
+			<attr type="string" name="contractUrl" notes="合同附件地址" demoValue="http://pic.58pic.com/58pic/14/00/69/66858PICNfJ_1024.jpg" />
+			<attr name="signTime" type="long" demoValue="123123123123" notes="合同签订时间"/>
+			<attr name="startTime" type="long" demoValue="123123123123" notes="合同开始时间"/>
+			<attr name="endTime" type="long" demoValue="123123123123" notes="合同开始时间"/>
+			<attr name="partyA" type="string" demoValue="123123123123" notes="合同甲方JSON"/>
+			<attr name="partyB" type="string" demoValue="123123123123" notes="合同乙方JSON"/>
+			<attr name="money" type="double" demoValue="100" notes="金额"/>
+			<attr name="service" type="string" demoValue="服务事项" notes="服务事项"/>
+			<attr name="payment" type="int" demoValue="1" notes="付款方式：0一次性 1分期 2其他"/>
+			<attr name="paymentWay" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案"/>
+			<attr name="paymentDesc" type="string" demoValue="付款描述" notes="付款描述"/>
+		</attrs>
+	</bean>
+	
+	<!-- 合同反馈详情 -->
+	<bean className="ROrderFeedbackBean" notes="合同反馈详情信息">
+		<attrs>
+			<attr type="int" name="fid" notes="fid" demoValue="1" />
+			<attr type="string" name="content" notes="反馈内容" demoValue="技术可以" />
+			<attr type="double" name="averageScore" notes="平均得分" demoValue="10" />
+			<attr type="string" name="suggestion" notes="反馈意见" demoValue="继续努力" />
 		</attrs>
 	</bean>
 	

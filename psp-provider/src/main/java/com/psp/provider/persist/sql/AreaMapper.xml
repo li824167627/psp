@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.provider.persist.sql.AreaMapper">
+
+	<select id="selectListById" resultType="AreaBean">
+		SELECT * FROM psp_area WHERE
+		id=#{id}
+	</select>
+
+	<resultMap type="AreaBean" id="selectListByPCDResultMap">
+		<id column="t1id" property="id" />
+		<result column="pName" property="name" />
+		<result column="padcode" property="adcode" />
+		<collection property="subArea" ofType="AreaBean">
+			<id column="t2id" property="id" />
+			<result column="cName" property="name" />
+			<result column="cadcode" property="adcode" />
+			<collection property="subArea" ofType="AreaBean">
+				<id column="t3id" property="id" />
+				<result column="dName" property="name" />
+				<result column="dadcode" property="adcode" />
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="selectListByPCD" resultMap="selectListByPCDResultMap">
+		SELECT 
+			t1.id as t1id,t1.name as pName,t1.adcode as padcode,
+			t2.id as t2id,t2.name as cName,t2.adcode as cadcode,
+			t3.id as t3id,t3.name as dName,t3.adcode as dadcode
+		FROM psp_area t1 
+		LEFT JOIN psp_area t2 
+			ON t2.pid=t1.id
+		LEFT JOIN psp_area t3
+			ON t3.pid=t2.id
+		WHERE t1.level=1
+		ORDER BY t1.sort
+	</select>
+
+</mapper>

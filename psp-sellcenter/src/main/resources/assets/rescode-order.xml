@@ -47,9 +47,16 @@
 	</result>
 	
 	<result name="order_can_not_feedback">
-		<code>200009</code>
+		<code>200010</code>
 		<msg>该工单状态不能反馈！</msg>
 	</result>
+	
+	<result name="insert_feedback_error">
+		<code>200011</code>
+		<msg>该工单反馈失败！</msg>
+	</result>
+	
+	
 	
 	
 	

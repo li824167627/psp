@@ -46,14 +46,55 @@
 			<result property="phoneNum"  column="pphoneNum"/>
 			<result property="contact"  column="pcontact"/>
 		</association> 
+		<association property="user" javaType="UserBean">
+			<id property="uid" column="upid"/>
+			<result property="name"  column="uname"/>
+			<result property="phoneNum"  column="uphoneNum"/>
+		</association> 
+		<association property="seller" javaType="SellerBean">
+			<id property="sid" column="ssid"/>
+			<result property="username"  column="sname"/>
+			<result property="phoneNum"  column="sphoneNum"/>
+		</association> 
+		<association property="feedback" javaType="OrderFeedbackBean">
+			<id property="fid" column="fid"/>
+			<result property="averageScore"  column="averageScore"/>
+			<result property="content"  column="fcontent"/>
+		</association> 
+		<collection property="contracts" column="oid" ofType="OrderContractBean" >
+			<id property="cid" column="ccid"/>
+			<result property="oid"  column="coid"/>
+			<result property="name"  column="cname"/>
+			<result property="contractNo"  column="contractNo"/>
+			<result property="partyA"  column="partyA"/>
+			<result property="partyB"  column="partyB"/>
+			<result property="contractUrl"  column="contractUrl"/>
+			<result property="signTime"  column="signTime"/>
+			<result property="startTime"  column="startTime"/>
+			<result property="endTime"  column="endTime"/>
+			<result property="createTime"  column="createTime"/>
+			<result property="service"  column="service"/>
+			<result property="money"  column="money"/>
+			<result property="payment"  column="payment"/>
+			<result property="paymentWay"  column="paymentWay"/>
+			<result property="paymentDesc"  column="paymentDesc"/>
+		</collection>
+		
 	</resultMap>
 	
 	<!-- 根据搜索条件获取管理的客户 -->
 	<select id="selectOrders" resultMap="OrderMap">
-		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact
+		SELECT o.*,
+			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
+			s.sid as ssid,s.username as sname, s.phoneNum as sphoneNum,
+			u.uid as uuid,u.name as uname, u.phoneNum as uphoneNum
 		FROM psp_order o 
 		left join psp_provider p
 		on o.pid = p.pid
+		left join psp_sale_center s
+		on o.sid = s.sid
+		left join psp_user u
+		on o.uid = u.uid
 		<where>
 			o.pid = #{pid}
 			<!-- 筛选 -->
@@ -89,8 +130,25 @@
 	</select>
 	
 	<!-- 根据id获取工单信息 -->
-	<select id="selectOrderById" resultType="OrderBean">
-		SELECT * FROM psp_order 
+	<select id="selectOrderById" resultMap="OrderMap">
+		SELECT o.*,
+			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
+			s.sid as ssid,s.username as sname, s.phoneNum as sphoneNum,
+			u.uid as uuid,u.name as uname, u.phoneNum as uphoneNum,
+			c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
+			c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
+			f.fid, f.content as fcontent, f.averageScore
+		FROM psp_order o 
+		left join psp_provider p
+		on o.pid = p.pid
+		left join psp_sale_center s
+		on o.sid = s.sid
+		left join psp_user u
+		on o.uid = u.uid
+		left join psp_order_contract c
+		on o.oid = c.oid
+		left join psp_order_feedback f
+		on o.oid = f.oid
 		where oid = #{oid}
 	</select>
 	
@@ -98,9 +156,12 @@
 	<update id="updateStatus">
 		UPDATE psp_order 
 		<set>
-			status = #{status},stage = #{stage} 
+			status = #{status},
+			<if test="stage != null">
+			stage = #{stage},
+			</if> 
 			<if test="status == 4">
-			,expectedTime = #{expectedTime}
+			expectedTime = #{expectedTime},
 			</if>
 		</set>
 		WHERE
@@ -111,7 +172,10 @@
 	<update id="refuseOrder">
 		UPDATE psp_order 
 		SET 
-			pid = #{pid},status = #{status},isAllot = #{isAllot},stage = #{stage} 
+			pid = #{pid},
+			status = #{status},
+			isAllot = #{isAllot},
+			stage = #{stage} 
 		WHERE
 			oid = #{oid};
 	</update>

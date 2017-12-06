@@ -290,18 +290,19 @@ public class OrderController {
 			String oid = param.getOid();
 			String contractNo = param.getContractNo();
 			String name = param.getName();
-			long signTime = param.getSignTime();
-			long startTime = param.getStartTime();
-			long endTime = param.getEndTime();
+			String signTime = param.getSignTime();
+			String startTime = param.getStartTime();
+			String endTime = param.getEndTime();
 			String partyA = param.getPartyA();
 			String partyB = param.getPartyB();
 			String contractUrl = param.getContractUrl();
 			int payment = NumUtil.toInt(param.getPayment(), 0);// 付款方式：0一次性 1分期
 			String paymentWay = param.getPaymentWay();//分期方式JSON 
 			String service = param.getService();
+			String paymentDesc = param.getPayDesc();
 			double money = param.getMoney() == null ? 0 :param.getMoney();
 			boolean flag = orderServiceImpl.uploadContract(sid, oid, contractNo, name, signTime, startTime, 
-					endTime, partyA, partyB, contractUrl, payment, paymentWay, service, money);
+					endTime, partyA, partyB, contractUrl, payment, paymentWay, service, money, paymentDesc);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -341,7 +342,14 @@ public class OrderController {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 反馈
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public BaseResult feedback(FeedbackParam param, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {

@@ -12,11 +12,11 @@ import com.psp.sellcenter.model.Code;
 
 @Repository
 public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
-	String KEY_IMG_CODE = "psp:2.0:seller:imgcode:";
-	String KEY_LOGIN_CODE = "psp:2.0:seller:logincode:";
-	String KEY_VCODE = "psp:2.0:seller:vcode:";
-	String KEY_TOKEN_UID = "psp:2.0:seller:token:sellerId:";
-	String KEY_UID_TOKEN = "psp:2.0:seller:sellerId:token:";
+	String KEY_IMG_CODE = NAME_SPACE + "imgcode:";
+	String KEY_LOGIN_CODE = NAME_SPACE + "logincode:";
+	String KEY_VCODE = NAME_SPACE + "vcode:";
+	String KEY_TOKEN_UID = NAME_SPACE + "token:sellerId:";
+	String KEY_UID_TOKEN = NAME_SPACE + "sellerId:token:";
 	
 	@Override
 	public String getSellerIdByToken(String token) {
@@ -104,6 +104,39 @@ public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
 			}
 		});
 		
+	}
+
+	@Override
+	public boolean setImgCode(String imgToken, Code code) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) {
+				String key = KEY_IMG_CODE + imgToken;
+				if (!connection.exists(key.getBytes())) {
+					String data = JSON.toJSONString(code);
+					connection.set(key.getBytes(), data.getBytes());
+					connection.expire(key.getBytes(), 5 * 60);
+				}
+				return Boolean.valueOf(true);
+			}
+		});
+	}
+
+	@Override
+	public Code getImgCode(String username) {
+		return redisTemplate.execute(new RedisCallback<Code>() {
+			@Override
+			public Code doInRedis(RedisConnection connection) {
+				Code code = new Code();
+				String key = KEY_IMG_CODE + username;
+				byte[] value = connection.get(key.getBytes());
+				if (value != null) {
+					code = (Code) JSON.parseObject(value, Code.class);
+					return code;
+				}
+				return null;
+			}
+		});
 	}
 
 

@@ -1,5 +1,7 @@
 package com.psp.provider.controller.res.bean;
 
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 工单信息
@@ -8,6 +10,7 @@ public class ROrderBean {
 	private String oid; // 工单信息id
 	private String orderNo; // 工单号
 	private String sid; // 当前销售id
+	private String sellerJson; // 销售信息
 	private String uid; // 客户id
 	private String userJson; // 客户信息
 	private String label; // 工单标签
@@ -23,6 +26,8 @@ public class ROrderBean {
 	private Long closeTime; // 关闭时间
 	private Long updateime; // 操作更新时间
 	private Long isNeedInvoice; // 是否需要发票
+	private List<ROrderContractBean> contracts; // 合同信息
+	private ROrderFeedbackBean feedback; // 反馈意见
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -46,6 +51,14 @@ public class ROrderBean {
 
 	public String getSid() {
  		return sid;
+	}
+
+	public void setSellerJson(String sellerJson) {
+ 		this.sellerJson = sellerJson;
+	}
+
+	public String getSellerJson() {
+ 		return sellerJson;
 	}
 
 	public void setUid(String uid) {
@@ -166,6 +179,22 @@ public class ROrderBean {
 
 	public Long getIsNeedInvoice() {
  		return isNeedInvoice;
+	}
+
+	public void setContracts(List<ROrderContractBean> contracts) {
+ 		this.contracts = contracts;
+	}
+
+	public List<ROrderContractBean> getContracts() {
+ 		return contracts;
+	}
+
+	public void setFeedback(ROrderFeedbackBean feedback) {
+ 		this.feedback = feedback;
+	}
+
+	public ROrderFeedbackBean getFeedback() {
+ 		return feedback;
 	}
 
 }

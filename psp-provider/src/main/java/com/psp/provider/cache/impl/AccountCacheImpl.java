@@ -106,4 +106,37 @@ public class AccountCacheImpl extends BaseCacheImpl implements AccountCacheDao {
 		
 	}
 
+	@Override
+	public boolean setImgCode(String imgToken, Code code) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) {
+				String key = KEY_IMG_CODE + imgToken;
+				if (!connection.exists(key.getBytes())) {
+					String data = JSON.toJSONString(code);
+					connection.set(key.getBytes(), data.getBytes());
+					connection.expire(key.getBytes(), 5 * 60);
+				}
+				return Boolean.valueOf(true);
+			}
+		});
+	}
+
+	@Override
+	public Code getImgCode(String username) {
+		return redisTemplate.execute(new RedisCallback<Code>() {
+			@Override
+			public Code doInRedis(RedisConnection connection) {
+				Code code = new Code();
+				String key = KEY_IMG_CODE + username;
+				byte[] value = connection.get(key.getBytes());
+				if (value != null) {
+					code = (Code) JSON.parseObject(value, Code.class);
+					return code;
+				}
+				return null;
+			}
+		});
+	}
+
 }

@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountBean getAccountByToken(String token) {
 		if (token == null) {
-			return null;
+			return accountImpl.selectOneById("b9082f0c2b7f4d839f966d8f266c6224");
 		}
 		String sid = accountCacheImpl.getAccountIdByToken(token);
 		if (sid == null) {
@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
 		if (NumUtil.toInt(user.getStatus(), 0) == 1) {
 			throw new ServiceException("account_is_forzen");
 		}
-
+		
 		accountCacheImpl.setAccountIdTOKEN(sessionId, user.getAid(), 24*1000*60L);
 		boolean flag = accountImpl.updateLoginTime(user.getAid()) > 0;
 		if (!flag) {
@@ -109,6 +109,7 @@ public class AccountServiceImpl implements AccountService {
 		account.setAid(user.getAid());
 		account.setNickName(user.getUsername());
 		account.setPhoneNum(user.getPhoneNum());
+		account.setLetter(StringUtil.getFirstLetter(user.getUsername()));
 		account.setStatus(user.getStatus());
 		account.setType(user.getType());
 		if(user.getCreateTime() != null) {

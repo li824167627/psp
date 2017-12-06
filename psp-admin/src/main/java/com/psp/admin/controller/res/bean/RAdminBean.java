@@ -6,7 +6,8 @@ package com.psp.admin.controller.res.bean;
  **/
 public class RAdminBean {
 	private String aid; // 管理员id
-	private String phoneNum; // 销售手机号
+	private String letter; // 名称首字母
+	private String phoneNum; // 用户手机号
 	private String username; // 销售昵称
 	private Integer status; // 状态1：正常，0：禁用
 	private Long createTime; // 创建时间
@@ -19,6 +20,14 @@ public class RAdminBean {
 
 	public String getAid() {
  		return aid;
+	}
+
+	public void setLetter(String letter) {
+ 		this.letter = letter;
+	}
+
+	public String getLetter() {
+ 		return letter;
 	}
 
 	public void setPhoneNum(String phoneNum) {

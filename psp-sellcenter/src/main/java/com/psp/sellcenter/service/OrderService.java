@@ -97,11 +97,12 @@ public interface OrderService {
 	 * @param paymentWay
 	 * @param service
 	 * @param money
+	 * @param paymentDesc 
 	 * @return
 	 */
-	boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
-			long endTime, String partA, String partB, String contractUrl, int payment, String paymentWay,
-			String service, double money);
+	boolean uploadContract(String sid, String oid, String contractNo, String name, String signTime, String startTime,
+			String endTime, String partA, String partB, String contractUrl, int payment, String paymentWay,
+			String service, double money, String paymentDesc);
 	
 	/**
 	 * 确认完成

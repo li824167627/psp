@@ -33,7 +33,7 @@
 	
 	<result name="user_password_is_error">
 		<code>100008</code>
-		<msg>输入密码有误！</msg>
+		<msg>账号或密码错误！</msg>
 	</result>
 	
 	<result name="user_log_insert_error">

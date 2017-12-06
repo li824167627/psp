@@ -21,14 +21,6 @@
 		</property>
 	</bean>
 
-	<!-- 短信发送 -->
-	<bean id="smsSender" class="com.psp.util.SMSSender">
-		<constructor-arg index="0" value="${sms_url}" />
-		<constructor-arg index="1" value="${sms_un}" />
-		<constructor-arg index="2" value="${sms_pw}" />
-		<constructor-arg index="3" value="${sms_rd}" />
-	</bean>
-
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 

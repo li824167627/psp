@@ -39,16 +39,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("adminid is :" + admin.getAid());
 			}
-		} else {
-			AdminBean admin = adminServiceImpl.getAdminById("54cbb57addff448a9fde74402c7b383e");
-			if (admin != null) {
-				request.setAttribute("adminId", admin.getAid());
-				request.setAttribute("token", token);
-				request.setAttribute("admin", admin);
-				flag = true;
-				logger.info("adminid is :" + admin.getAid());
-			}
-		}
+		} 
 		if (!flag) {
 			BaseResult result = new BaseResult();
 			Rescode rescode = RescodeConstants.getInstance().get("token_fail");

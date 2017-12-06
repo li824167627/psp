@@ -1,6 +1,7 @@
 package com.psp.provider.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 工单信息
@@ -26,6 +27,12 @@ public class OrderBean {
 	private Timestamp updateTime; // 操作更新
 	private Long isNeedInvoice; // 是否需要发票
 	private ProviderBean provider;// 服务商信息
+	private List<OrderContractBean> contracts; // 合同信息
+	private UserBean user;
+	private SellerBean seller;
+	private OrderFeedbackBean feedback;// 反馈
+	
+	
 	public String getOid() {
 		return oid;
 	}
@@ -145,6 +152,30 @@ public class OrderBean {
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	public List<OrderContractBean> getContracts() {
+		return contracts;
+	}
+	public void setContracts(List<OrderContractBean> contracts) {
+		this.contracts = contracts;
+	}
+	public UserBean getUser() {
+		return user;
+	}
+	public void setUser(UserBean user) {
+		this.user = user;
+	}
+	public SellerBean getSeller() {
+		return seller;
+	}
+	public void setSeller(SellerBean seller) {
+		this.seller = seller;
+	}
+	public OrderFeedbackBean getFeedback() {
+		return feedback;
+	}
+	public void setFeedback(OrderFeedbackBean feedback) {
+		this.feedback = feedback;
 	}
 
 }

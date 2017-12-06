@@ -14,4 +14,7 @@ public abstract interface AccountCacheDao {
 
 	boolean setAccountIdTOKEN(String sessionId, String aid, long l);
 
+	boolean setImgCode(String imgToken, Code code);
+	
+	Code getImgCode(String username);
 }

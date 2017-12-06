@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.psp.sellcenter.model.OrderBean;
 import com.psp.sellcenter.model.OrderContractBean;
+import com.psp.sellcenter.model.OrderFeedbackBean;
 import com.psp.sellcenter.persist.dao.OrderDao;
 import com.psp.util.StringUtil;
 
@@ -90,6 +91,11 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	@Override
 	public int insertContract(OrderContractBean contract) {
 		return sqlSessionTemplate.insert(NAME_SPACE + ".insertContract", contract);
+	}
+
+	@Override
+	public int insertFeedBack(OrderFeedbackBean feedback) {
+		return sqlSessionTemplate.insert(NAME_SPACE + ".insertFeedBack", feedback);
 	}
 
 

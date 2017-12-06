@@ -211,7 +211,9 @@ public class UserServiceImpl implements UserService {
 		user.setPhoneNum(phoneNum);
 		user.setCompanyName(companyName);
 		user.setPosition(position);
-		user.setLabel(label);
+		if(!StringUtil.isEmpty(label)) {
+			user.setLabel(label);
+		}
 		flag = userImpl.update(user) > 0;
 		if(!flag) {
 			throw new ServiceException("update_user_error");

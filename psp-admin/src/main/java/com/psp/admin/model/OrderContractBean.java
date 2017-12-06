@@ -21,6 +21,8 @@ public class OrderContractBean {
 	private Double money; // 销售信息
 	private Integer payment; // 付款方式
 	private String paymentWay; // JSON
+	private String paymentDesc;
+	private String name;// 合同名称
 	
 	public Integer getCid() {
 		return cid;
@@ -106,4 +108,17 @@ public class OrderContractBean {
 	public void setPaymentWay(String paymentWay) {
 		this.paymentWay = paymentWay;
 	}
+	public String getPaymentDesc() {
+		return paymentDesc;
+	}
+	public void setPaymentDesc(String paymentDesc) {
+		this.paymentDesc = paymentDesc;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

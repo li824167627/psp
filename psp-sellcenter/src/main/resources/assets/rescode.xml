@@ -55,10 +55,21 @@
 		<msg>用户已经被禁用！</msg>
 	</result>
 	
-	<result name="account_is_forzen">
+	
+	<result name="fileType_not_allow">
 		<code>110</code>
-		<msg>该账户已被冻结</msg>
+		<msg>文件类型不支持！</msg>
 	</result>
+	
+	
+	<result name="file_too_large">
+		<code>111</code>
+		<msg>文件太大！</msg>
+	</result>
+	
+	
+	
+	
 	
 	
 

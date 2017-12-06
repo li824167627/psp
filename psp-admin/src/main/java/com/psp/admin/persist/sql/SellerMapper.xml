@@ -25,7 +25,7 @@
 		SELECT s.*,p.name as parkName FROM psp_sale_center s
 		left join psp_park p
 		on s.pid = p.pid
-		WHERE phoneNum = #{phoneNum}
+		WHERE s.phoneNum = #{phoneNum}
 	</select>
 	
 	<!-- 查询销售总数 -->
@@ -68,7 +68,7 @@
 			 status, pid, type, createTime, lastLoginTime)
 		VALUES
 		(#{sid}, #{username}, #{phoneNum}, #{password},
-			 #{status}, #{pid}, #{type} now(), now());
+			 #{status}, #{pid}, #{type}, now(), now());
 	</insert>
 	
 	<!-- 更新销售 -->

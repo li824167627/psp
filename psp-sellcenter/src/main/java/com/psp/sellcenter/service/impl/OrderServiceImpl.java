@@ -1,6 +1,5 @@
 package com.psp.sellcenter.service.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +15,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.sellcenter.cache.dao.ServiceCacheDao;
 import com.psp.sellcenter.controller.res.bean.ROrderBean;
+import com.psp.sellcenter.controller.res.bean.ROrderContractBean;
+import com.psp.sellcenter.controller.res.bean.ROrderFeedbackBean;
 import com.psp.sellcenter.controller.res.bean.ROrderLogsBean;
 import com.psp.sellcenter.controller.res.bean.RServiceProviderBean;
 import com.psp.sellcenter.model.CategoryBean;
 import com.psp.sellcenter.model.OrderBean;
 import com.psp.sellcenter.model.OrderContractBean;
+import com.psp.sellcenter.model.OrderFeedbackBean;
 import com.psp.sellcenter.model.OrderLogBean;
 import com.psp.sellcenter.model.ProviderBean;
 import com.psp.sellcenter.model.SellerBean;
@@ -34,13 +36,21 @@ import com.psp.sellcenter.service.OrderService;
 import com.psp.sellcenter.service.exception.ServiceException;
 import com.psp.sellcenter.service.res.PageResult;
 import com.psp.util.AppTextUtil;
+import com.psp.util.DateUtil;
+import com.psp.util.NumUtil;
 import com.psp.util.StringUtil;
+import com.psp.util.VCodeSender;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 	
 	Logger logger = Logger.getLogger(this.getClass());
+
+	final String qiniulinkurl = "http://os4z3g2v6.bkt.clouddn.com/";
 	
+	// 发送手机验证码
+	VCodeSender phoneCode = VCodeSender.getInstance("N1330628", "t7NYh90uB");
+
 	@Autowired
 	SellerDao sellerImpl;
 	
@@ -121,10 +131,30 @@ public class OrderServiceImpl implements OrderService {
 			providerJson.put("name", proBean.getName());
 			providerJson.put("phone", proBean.getPhoneNum());
 			providerJson.put("contact", proBean.getContact());
-			logger.info(providerJson);
-			logger.info(JSON.toJSONString(proBean));
+			
 			order.setProviderJson(providerJson.toJSONString());
 		}
+		if(bean.getContracts() != null) {
+			List<OrderContractBean> contracts = bean.getContracts();
+			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
+			logger.info("合同：" + JSON.toJSON(contracts));
+			if(contracts.size() > 0) {
+				for(OrderContractBean con : contracts) {
+					recontracts.add(parse(con));
+				}
+			}
+			order.setContracts(recontracts);
+		}
+		if(bean.getFeedback() != null) {
+			OrderFeedbackBean feed = bean.getFeedback();
+			ROrderFeedbackBean rfeed = new ROrderFeedbackBean();
+			rfeed.setAverageScore(feed.getAverageScore());
+			rfeed.setFid(feed.getFid());
+			rfeed.setContent(feed.getContent());
+			rfeed.setSuggestion(feed.getSuggestion());
+			order.setFeedback(rfeed);
+		}
+		
 		order.setSid(bean.getSid());
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
@@ -132,6 +162,33 @@ public class OrderServiceImpl implements OrderService {
 		order.setUserJson(bean.getUserJson());
 		order.setContent(bean.getContent());
 		return order;
+	}
+
+	private ROrderContractBean parse(OrderContractBean con) {
+		ROrderContractBean rcontract = new ROrderContractBean();
+		rcontract.setCid(con.getCid());
+		rcontract.setContractNo(con.getContractNo());
+		rcontract.setContractUrl(qiniulinkurl + con.getContractUrl());
+		if(con.getEndTime() != null) {
+			rcontract.setEndTime(con.getEndTime().getTime() / 1000);
+		}
+		if(con.getSignTime() != null) {
+			rcontract.setSignTime(con.getSignTime().getTime() / 1000);
+		}
+		if(con.getStartTime() != null) {
+			rcontract.setStartTime(con.getStartTime().getTime() / 1000);
+		}
+		rcontract.setMoney(con.getMoney());
+		rcontract.setOid(con.getOid());
+		rcontract.setPartyA(con.getPartyA());
+		rcontract.setPartyB(con.getPartyB());
+		rcontract.setPayment(con.getPayment());
+		rcontract.setPaymentDesc(con.getPaymentDesc());
+		rcontract.setPaymentWay(con.getPaymentWay());
+		rcontract.setName(con.getName());
+		
+		
+		return rcontract;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -176,7 +233,8 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("create_order_error");
 		}
 
-		// TODO: 派单完发送短信
+		// 派单完发送短信
+		phoneCode.send(proBean.getPhoneNum(), "您有新的工单待处理，请登录到科技服务平台查看", null);
 		flag = insertOrderLog(oid, orderNo, sid, sellerJson.toJSONString(),
 				pid, providerJson.toJSONString(), 0, null);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
 		if(!flag) {
@@ -228,7 +286,7 @@ public class OrderServiceImpl implements OrderService {
 	public RServiceProviderBean getServiceProviders() {
 		RServiceProviderBean bean = new RServiceProviderBean();
 		JSONArray jsonArray = new JSONArray();
-		String cateStr = serviceCacheImpl.getCategoryCache();
+		String cateStr = null;//serviceCacheImpl.getCategoryCache();
 		if (StringUtil.isEmpty(cateStr)) {
 			List<CategoryBean> cates = providerImpl.selectAllCates();
 			if(cates == null) {
@@ -276,8 +334,8 @@ public class OrderServiceImpl implements OrderService {
 				firstObject.put("name", ca.getName());
 				firstObject.put("cid", ca.getCid());
 				List<CategoryBean> children = ca.getChildern();
+				JSONArray secondCates = new JSONArray();
 				if(children != null && children.size() > 0) {
-					JSONArray secondCates = new JSONArray();
 					for(CategoryBean c : children){
 						JSONObject secondObject = new JSONObject();
 						secondObject.put("name", c.getName());
@@ -285,8 +343,8 @@ public class OrderServiceImpl implements OrderService {
 						secondObject.put("children", AllServices.get(c.getCid()));
 						secondCates.add(secondObject);
 					}
-					firstObject.put("children", secondCates);
 				}
+				firstObject.put("children", secondCates);
 				jsonArray.add(firstObject);
 			}
 			String jsonMenu = JSON.toJSONString(jsonArray);
@@ -388,7 +446,8 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("allot_order_error");
 		}
 		
-		// TODO: 派单完发送短信
+		// 派单完发送短信
+		phoneCode.send(proBean.getPhoneNum(), "您有新的工单待处理，请快去科技服务平台查看", null);
 		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
 				pid, providerJson.toJSONString(), 2, null);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
 		if(!flag) {
@@ -434,9 +493,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean uploadContract(String sid, String oid, String contractNo, String name, long signTime, long startTime,
-			long endTime, String partyA, String partyB, String contractUrl, int payment, String paymentWay,
-			String service, double money) {
+	public boolean uploadContract(String sid, String oid, String contractNo, String name,  String signTime, String startTime,
+			String endTime, String partyA, String partyB, String contractUrl, int payment, String paymentWay,
+			String service, double money, String paymentDesc) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
 		if(seller == null) {
@@ -452,24 +511,39 @@ public class OrderServiceImpl implements OrderService {
 		}
 		OrderContractBean contract = new OrderContractBean();
 		contract.setContractNo(contractNo);
+		
+		
 		contract.setContractUrl(contractUrl);
-		contract.setEndTime(new Timestamp(endTime));
+		if(!StringUtil.isEmpty(endTime)) {
+			contract.setEndTime(DateUtil.getTimestamp(endTime,"yyyy-MM-dd HH:mm:ss"));
+		}
 		contract.setMoney(money);
+		contract.setName(name);
 		contract.setOid(oid);
 		contract.setPartyA(partyA);
 		contract.setPartyB(partyB);
 		contract.setPayment(payment);
 		contract.setPaymentWay(paymentWay);
 		contract.setService(service);
-		contract.setSignTime(new Timestamp(signTime));
-		contract.setStartTime(new Timestamp(startTime));
+		if(!StringUtil.isEmpty(startTime)) {
+			contract.setStartTime(DateUtil.getTimestamp(startTime,"yyyy-MM-dd HH:mm:ss"));
+		}
+		if(!StringUtil.isEmpty(signTime)) {
+			contract.setSignTime(DateUtil.getTimestamp(signTime,"yyyy-MM-dd HH:mm:ss"));
+		}
+		contract.setPaymentDesc(paymentDesc);
 		flag = orderImpl.insertContract(contract) > 0;
 		if(!flag) {
 			throw new ServiceException("upload_contract_error");
 		}
 		order.setStatus(4);// 合同已上传
-		order.setExpectedTime(new Timestamp(endTime));// 合同结束时间更新到工单预计完成时间
-		//TODO： 发送短信给服务商
+		if(!StringUtil.isEmpty(endTime)) {
+			order.setExpectedTime(DateUtil.getTimestamp(endTime,"yyyy-MM-dd HH:mm:ss"));// 合同结束时间更新到工单预计完成时间
+		}
+		//发送短信给服务商
+		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
+		phoneCode.send(proBean.getPhoneNum(), "您的工单已上传完合同，请快去科技服务平台查看", null);
+		
 		flag = orderImpl.updateStatus(order) > 0;
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
@@ -523,7 +597,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return flag;
 	}
-
+	
+	/**
+	 * 调查反馈
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean feedback(String sid, String oid, String content, String score) {
@@ -543,6 +620,24 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(1);// 1 已完成
 		order.setStage(2);// 阶段已完成
 		flag = orderImpl.updateStatus(order) > 0;
+		
+		JSONObject obj = JSON.parseObject(score);
+		int s1 = NumUtil.toInt(obj.getIntValue(""), 0);
+		int s2 = NumUtil.toInt(obj.getIntValue(""), 0);
+		int s3 = NumUtil.toInt(obj.getIntValue(""), 0);
+		double averageScore = (s1 + s2 + s3) / 3;
+		// 插入调查反馈表
+		OrderFeedbackBean feedback = new OrderFeedbackBean();
+		feedback.setAverageScore(averageScore);
+		feedback.setContent(content);
+		feedback.setOid(oid);
+		feedback.setPid(order.getPid());
+		feedback.setSid(sid);
+		feedback.setServiceScore(score);
+		flag = orderImpl.insertFeedBack(feedback) > 0;
+		if(!flag) {
+			throw new ServiceException("insert_feedback_error");
+		}
 		// TODO：给服务商评分
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
@@ -553,8 +648,13 @@ public class OrderServiceImpl implements OrderService {
 		JSONObject contentJson = new JSONObject();
 		contentJson.put("score", JSON.parse(score));
 		contentJson.put("describe", content);
+		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
+		JSONObject providerJson = new JSONObject();
+		providerJson.put("name", proBean.getName());
+		providerJson.put("phone", proBean.getPhoneNum());
+		providerJson.put("contact", proBean.getContact());
 		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				null, null, 6, contentJson.toJSONString());//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
+				order.getPid(), providerJson.toJSONString(), 6, contentJson.toJSONString());//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
 		if(!flag) {
 			throw new ServiceException("create_order_log_error");
 		}

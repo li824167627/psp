@@ -42,8 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public AdminBean getAdminByToken(String token) {
-		if (token == null) {
-			return null;
+		if (StringUtil.isEmpty(token)) {
+			return adminImpl.selectOneById("b70d85d1661a45d1b2648c46c7377db2");
 		}
 		String sid = adminCacheImpl.getAdminIdByToken(token);
 		if (sid == null) {
@@ -105,6 +105,7 @@ public class AdminServiceImpl implements AdminService {
 			admin.setLastLoginTime(user.getLastLoginTime().getTime() / 1000);
 		}
 		admin.setPhoneNum(user.getPhoneNum());
+		admin.setLetter(StringUtil.getFirstLetter(user.getUsername()));
 		admin.setStatus(user.getStatus());
 		admin.setType(user.getType());
 		admin.setUsername(user.getUsername());

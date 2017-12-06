@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.controller.res.bean.ROrderBean;
+import com.psp.admin.controller.res.bean.ROrderContractBean;
+import com.psp.admin.controller.res.bean.ROrderFeedbackBean;
 import com.psp.admin.controller.res.bean.ROrderLogsBean;
 import com.psp.admin.model.OrderBean;
+import com.psp.admin.model.OrderContractBean;
+import com.psp.admin.model.OrderFeedbackBean;
 import com.psp.admin.model.OrderLogBean;
 import com.psp.admin.model.ProviderBean;
 import com.psp.admin.model.UserBean;
@@ -31,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	OrderLogDao orderLogImpl;
+
+	final String qiniulinkurl = "http://os4z3g2v6.bkt.clouddn.com/";
 
 	@Override
 	public PageResult<ROrderBean> getOrders(String adminId, int page, int pageSize, int filteType, int stype,
@@ -102,12 +108,62 @@ public class OrderServiceImpl implements OrderService {
 			userJson.put("companyName", userBean.getCompanyName());
 			order.setUserJson(userJson.toJSONString());
 		}
+		
+		if(bean.getContracts() != null) {
+			List<OrderContractBean> contracts = bean.getContracts();
+			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
+			logger.info("合同：" + JSON.toJSON(contracts));
+			if(contracts.size() > 0) {
+				for(OrderContractBean con : contracts) {
+					recontracts.add(parse(con));
+				}
+			}
+			order.setContracts(recontracts);
+		}
+		
+		if(bean.getFeedback() != null) {
+			OrderFeedbackBean feed = bean.getFeedback();
+			ROrderFeedbackBean rfeed = new ROrderFeedbackBean();
+			rfeed.setAverageScore(feed.getAverageScore());
+			rfeed.setFid(feed.getFid());
+			rfeed.setContent(feed.getContent());
+			rfeed.setSuggestion(feed.getSuggestion());
+			order.setFeedback(rfeed);
+		}
+		
 		order.setSid(bean.getSid());
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
 		order.setUid(bean.getUid());
 		order.setContent(bean.getContent());
 		return order;
+	}
+	
+	private ROrderContractBean parse(OrderContractBean con) {
+		ROrderContractBean rcontract = new ROrderContractBean();
+		rcontract.setCid(con.getCid());
+		rcontract.setContractNo(con.getContractNo());
+		rcontract.setContractUrl(qiniulinkurl + con.getContractUrl());
+		if(con.getEndTime() != null) {
+			rcontract.setEndTime(con.getEndTime().getTime() / 1000);
+		}
+		if(con.getSignTime() != null) {
+			rcontract.setSignTime(con.getSignTime().getTime() / 1000);
+		}
+		if(con.getStartTime() != null) {
+			rcontract.setStartTime(con.getStartTime().getTime() / 1000);
+		}
+		rcontract.setMoney(con.getMoney());
+		rcontract.setOid(con.getOid());
+		rcontract.setPartyA(con.getPartyA());
+		rcontract.setPartyB(con.getPartyB());
+		rcontract.setPayment(con.getPayment());
+		rcontract.setPaymentDesc(con.getPaymentDesc());
+		rcontract.setPaymentWay(con.getPaymentWay());
+		rcontract.setName(con.getName());
+		
+		
+		return rcontract;
 	}
 
 	@Override

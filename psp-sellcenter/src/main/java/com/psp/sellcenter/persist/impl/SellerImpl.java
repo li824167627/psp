@@ -2,7 +2,6 @@ package com.psp.sellcenter.persist.impl;
 
 import org.springframework.stereotype.Repository;
 
-import com.psp.sellcenter.controller.res.bean.RSellerBean;
 import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.persist.dao.SellerDao;
 
@@ -23,7 +22,7 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 	}
 
 	@Override
-	public RSellerBean selectOneByPhone(String phone) {
+	public SellerBean selectOneByPhone(String phone) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOneByPhone", phone);
 	}
 

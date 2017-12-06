@@ -40,7 +40,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				logger.info("sellerid is :" + seller.getSid());
 			}
 		} else {
-			SellerBean seller = sellerServiceImpl.getSellerById("9a4609a38cb84d62a5fcde2c83c8e98c");
+			SellerBean seller = sellerServiceImpl.getSellerById("1862a08ec8a94e0ab1c47f91503396a5");
 			if (seller != null) {
 				request.setAttribute("sellerId", seller.getSid());
 				request.setAttribute("token", token);
@@ -48,6 +48,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("sellerid is :" + seller.getSid());
 			}
+			
 		}
 		if (!flag) {
 			BaseResult result = new BaseResult();

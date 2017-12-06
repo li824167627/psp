@@ -11,11 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.provider.controller.res.bean.ROrderBean;
+import com.psp.provider.controller.res.bean.ROrderContractBean;
+import com.psp.provider.controller.res.bean.ROrderFeedbackBean;
 import com.psp.provider.controller.res.bean.ROrderLogsBean;
 import com.psp.provider.model.AccountBean;
 import com.psp.provider.model.OrderBean;
+import com.psp.provider.model.OrderContractBean;
+import com.psp.provider.model.OrderFeedbackBean;
 import com.psp.provider.model.OrderLogBean;
 import com.psp.provider.model.ProviderBean;
+import com.psp.provider.model.SellerBean;
+import com.psp.provider.model.UserBean;
 import com.psp.provider.persist.dao.OrderDao;
 import com.psp.provider.persist.dao.OrderLogDao;
 import com.psp.provider.persist.dao.ProviderDao;
@@ -37,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	ProviderDao providerImpl;
+	
+	final String qiniulinkurl = "http://os4z3g2v6.bkt.clouddn.com/";
 
 
 	@Override
@@ -105,18 +113,81 @@ public class OrderServiceImpl implements OrderService {
 			providerJson.put("name", proBean.getName());
 			providerJson.put("phone", proBean.getPhoneNum());
 			providerJson.put("contact", proBean.getContact());
-			logger.info(providerJson);
-			logger.info(JSON.toJSONString(proBean));
 			order.setProviderJson(providerJson.toJSONString());
+		}
+		
+		if(bean.getSeller() != null) {
+			SellerBean seller = bean.getSeller();
+			JSONObject sellerJson = new JSONObject();
+			sellerJson.put("sid", seller.getSid());
+			sellerJson.put("name", seller.getUsername());
+			sellerJson.put("phone", seller.getPhoneNum());
+			order.setSellerJson(sellerJson.toJSONString());
+		}
+		
+		if(bean.getUser() != null) {
+			UserBean userBean = bean.getUser();
+			JSONObject userJson = new JSONObject();
+			userJson.put("name", userBean.getName());
+			userJson.put("phone", userBean.getPhoneNum());
+			order.setUserJson(userJson.toJSONString());
+		}
+		
+		if(bean.getContracts() != null) {
+			List<OrderContractBean> contracts = bean.getContracts();
+			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
+			logger.info("合同：" + JSON.toJSON(contracts));
+			if(contracts.size() > 0) {
+				for(OrderContractBean con : contracts) {
+					recontracts.add(parse(con));
+				}
+			}
+			order.setContracts(recontracts);
+		}
+		if(bean.getFeedback() != null) {
+			OrderFeedbackBean feed = bean.getFeedback();
+			ROrderFeedbackBean rfeed = new ROrderFeedbackBean();
+			rfeed.setAverageScore(feed.getAverageScore());
+			rfeed.setFid(feed.getFid());
+			rfeed.setContent(feed.getContent());
+			rfeed.setSuggestion(feed.getSuggestion());
+			order.setFeedback(rfeed);
 		}
 		order.setSid(bean.getSid());
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
 		order.setUid(bean.getUid());
-		order.setUserJson(bean.getUserJson());
 		order.setContent(bean.getContent());
 		return order;
 	}
+	private ROrderContractBean parse(OrderContractBean con) {
+		ROrderContractBean rcontract = new ROrderContractBean();
+		rcontract.setCid(con.getCid());
+		rcontract.setContractNo(con.getContractNo());
+		rcontract.setContractUrl(qiniulinkurl + con.getContractUrl());
+		if(con.getEndTime() != null) {
+			rcontract.setEndTime(con.getEndTime().getTime() / 1000);
+		}
+		if(con.getSignTime() != null) {
+			rcontract.setSignTime(con.getSignTime().getTime() / 1000);
+		}
+		if(con.getStartTime() != null) {
+			rcontract.setStartTime(con.getStartTime().getTime() / 1000);
+		}
+		rcontract.setMoney(con.getMoney());
+		rcontract.setOid(con.getOid());
+		rcontract.setPartyA(con.getPartyA());
+		rcontract.setPartyB(con.getPartyB());
+		rcontract.setPayment(con.getPayment());
+		rcontract.setPaymentDesc(con.getPaymentDesc());
+		rcontract.setPaymentWay(con.getPaymentWay());
+		rcontract.setName(con.getName());
+		
+		
+		return rcontract;
+	}
+
+	
 
 	@Override
 	public int getOrderNum2Provider(AccountBean account, int stage) {

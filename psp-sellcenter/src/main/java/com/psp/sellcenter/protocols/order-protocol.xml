@@ -120,11 +120,11 @@
 			<param name="name" type="string" demoValue="软件开发服务合同" notes="合同名称">
 				<notEmpty message="合同名称不能为空"></notEmpty>
 			</param>
-			<param name="signTime" type="long" demoValue="123123123123" notes="合同签订时间">
+			<param name="signTime" type="string" demoValue="123123123123" notes="合同签订时间">
 			</param>
-			<param name="startTime" type="long" demoValue="123123123123" notes="合同开始时间">
+			<param name="startTime" type="string" demoValue="123123123123" notes="合同开始时间">
 			</param>
-			<param name="endTime" type="long" demoValue="123123123123" notes="合同开始时间">
+			<param name="endTime" type="string" demoValue="123123123123" notes="合同开始时间">
 			</param>
 			<param name="partyA" type="string" demoValue="123123123123" notes="合同甲方JSON">
 			</param>
@@ -132,9 +132,11 @@
 			</param>
 			<param name="contractUrl" type="string" demoValue="1123" notes="合同地址">
 			</param>
-			<param name="payment" type="string" demoValue="1" notes="付款方式：0一次性 1分期">
+			<param name="payment" type="string" demoValue="1" notes="付款方式：0一次性 1分期 2其他">
 			</param>
 			<param name="paymentWay" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案">
+			</param>
+			<param name="payDesc" type="string" demoValue="付款描述" notes="付款描述">
 			</param>
 			<param name="service" type="string" demoValue="服务事项" notes="服务事项">
 			</param>

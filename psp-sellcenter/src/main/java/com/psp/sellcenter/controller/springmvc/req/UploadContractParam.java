@@ -12,14 +12,15 @@ public class UploadContractParam {
 	private String contractNo; // 合同编号
 	@NotEmpty(message = "合同名称不能为空")
 	private String name; // 合同名称
-	private Long signTime; // 合同签订时间
-	private Long startTime; // 合同开始时间
-	private Long endTime; // 合同开始时间
+	private String signTime; // 合同签订时间
+	private String startTime; // 合同开始时间
+	private String endTime; // 合同开始时间
 	private String partyA; // 合同甲方JSON
 	private String partyB; // 合同乙方JSON
 	private String contractUrl; // 合同地址
-	private String payment; // 付款方式：0一次性 1分期
+	private String payment; // 付款方式：0一次性 1分期 2其他
 	private String paymentWay; // 分期方案
+	private String payDesc; // 付款描述
 	private String service; // 服务事项
 	private Double money; // 合同金额
 
@@ -47,27 +48,27 @@ public class UploadContractParam {
  		return name;
 	}
 
-	public void setSignTime(Long signTime) {
+	public void setSignTime(String signTime) {
  		this.signTime = signTime;
 	}
 
-	public Long getSignTime() {
+	public String getSignTime() {
  		return signTime;
 	}
 
-	public void setStartTime(Long startTime) {
+	public void setStartTime(String startTime) {
  		this.startTime = startTime;
 	}
 
-	public Long getStartTime() {
+	public String getStartTime() {
  		return startTime;
 	}
 
-	public void setEndTime(Long endTime) {
+	public void setEndTime(String endTime) {
  		this.endTime = endTime;
 	}
 
-	public Long getEndTime() {
+	public String getEndTime() {
  		return endTime;
 	}
 
@@ -109,6 +110,14 @@ public class UploadContractParam {
 
 	public String getPaymentWay() {
  		return paymentWay;
+	}
+
+	public void setPayDesc(String payDesc) {
+ 		this.payDesc = payDesc;
+	}
+
+	public String getPayDesc() {
+ 		return payDesc;
 	}
 
 	public void setService(String service) {

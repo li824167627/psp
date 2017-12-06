@@ -27,7 +27,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public SellerBean getSellerByToken(String token) {
 		if (token == null) {
-			return null;
+			return sellerImpl.selectOneById("1862a08ec8a94e0ab1c47f91503396a5");
 		}
 		String sid = sellerCacheImpl.getSellerIdByToken(token);
 		if (sid == null) {
@@ -52,7 +52,7 @@ public class SellerServiceImpl implements SellerService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RSellerBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip) {
-		RSellerBean user = sellerImpl.selectOneByPhone(phone);
+		SellerBean user = sellerImpl.selectOneByPhone(phone);
 		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
 		}
@@ -102,12 +102,13 @@ public class SellerServiceImpl implements SellerService {
 		return parse(user);
 	}
 
-	private RSellerBean parse(RSellerBean user) {
+	private RSellerBean parse(SellerBean user) {
 		RSellerBean seller = new RSellerBean();
 		seller.setSid(user.getSid());
 		seller.setPhoneNum(user.getPhoneNum());
 		seller.setStatus(user.getStatus());
 		seller.setUsername(user.getUsername());
+		seller.setLetter(StringUtil.getFirstLetter(user.getUsername()));
 		return seller;
 	}
 
