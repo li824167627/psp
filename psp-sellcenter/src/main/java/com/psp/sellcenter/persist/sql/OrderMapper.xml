@@ -50,6 +50,12 @@
 			<result property="phoneNum"  column="pphoneNum"/>
 			<result property="contact"  column="pcontact"/>
 		</association> 
+		<association property="user" javaType="UserBean">
+			<id property="uid" column="uuid"/>
+			<result property="name"  column="uname"/>
+			<result property="phoneNum"  column="uphoneNum"/>
+			<result property="companyName"  column="ucompanyName"/>
+		</association> 
 		<association property="feedback" javaType="OrderFeedbackBean">
 			<id property="fid" column="fid"/>
 			<result property="averageScore"  column="averageScore"/>
@@ -78,10 +84,14 @@
 	<!-- 根据搜索条件获取管理的客户 -->
 	<select id="selectOrders" resultMap="OrderMap">
 		SELECT o.*,
-			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact
+			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
+			u.uid as uuid, u.name as uuname,u.phoneNum as uphoneNum, 
+		 u.companyName as ucompanyName
 		FROM psp_order o 
 		left join psp_provider p
 		on o.pid = p.pid
+		left join psp_user u
+		on o.uid = u.uid
 		<where>
 			o.sid = #{sid}
 			<!-- 筛选 -->

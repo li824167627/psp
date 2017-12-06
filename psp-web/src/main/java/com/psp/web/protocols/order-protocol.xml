@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocols>
+
+	<!-- 按层级获取所有服务 -->
+	<protocol name="getAllService" requestMapping="/v1/getAllServices" resType="json" notes="按层级获取所有服务分类JSON" state="1" 
+		resDataType="object" responseName="RCategoryJSONBean">
+	</protocol>
+	
+	<!-- 获取服务分类 -->
+	<protocol name="getCategories" requestMapping="/v1/getCategories" resType="json" notes="获取服务分类JSON" state="1" 
+		resDataType="object" responseName="RCategoryJSONBean">
+	</protocol>
+	
+	
+	<!-- 获取服务列表 -->
+	<protocol name="getService" requestMapping="/v1/getService" resType="json" notes="获取服务列表" state="1" requestName="GetServiceParam"
+		resDataType="list" responseName="RCategoryBean">
+		<request>
+			<param name="parentId" type="string" demoValue="1" notes="服务所属的二级服务分类">
+				<notEmpty message="请选择服务分类"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 提交工单 -->
+	<protocol name="submitOrder" requestMapping="/v1/submitOrder" resType="json" notes="提交工单" state="1" requestName="SubmitOrderParam"
+		resDataType="base" >
+		<request>
+			<param name="cid" type="int" demoValue="1" notes="所选服务分类">
+			</param>
+			<param name="userName" type="String" demoValue="账单" notes="姓名">
+				<notEmpty message="姓名不能为空"></notEmpty>
+			</param>
+			<param name="phoneNum" type="String" demoValue="123123" notes="手机号">
+				<notEmpty message="手机号不能为空"></notEmpty>
+			</param>
+			<param name="content" type="String" demoValue="需要做一个软件" notes="需求描述">
+			</param>
+		</request>
+	</protocol>
+</protocols>

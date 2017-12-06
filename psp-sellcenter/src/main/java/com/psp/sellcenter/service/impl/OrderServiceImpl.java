@@ -124,7 +124,14 @@ public class OrderServiceImpl implements OrderService {
 		order.setOid(bean.getOid());
 		order.setOrderNo(bean.getOrderNo());
 		order.setPid(bean.getPid());
-		
+		if(bean.getUser() != null) {
+			UserBean userBean = bean.getUser();
+			JSONObject userJson = new JSONObject();
+			userJson.put("name", userBean.getName());
+			userJson.put("phone", userBean.getPhoneNum());
+			userJson.put("companyName", userBean.getCompanyName());
+			order.setUserJson(userJson.toJSONString());
+		}
 		if(bean.getProvider() != null) {
 			ProviderBean proBean = bean.getProvider();
 			JSONObject providerJson = new JSONObject();
@@ -272,10 +279,8 @@ public class OrderServiceImpl implements OrderService {
 		contentJson.put("orderNo", orderNo);
 		if(type == 3) {
 			contentJson.put("contractNo", content);// 上传合同的合同编号
-		} else if(type == 7) {
-			contentJson.put("reason", content);// 归档关闭的原因
-		} else if(type == 4 || type == 5) {
-			contentJson.put("opinion", content); // 销售对工单的完成意见
+		} else {
+			contentJson.put("content", content);
 		}
 		orderlog.setContent(contentJson.toJSONString());
 		orderlog.setType(type);
@@ -286,7 +291,7 @@ public class OrderServiceImpl implements OrderService {
 	public RServiceProviderBean getServiceProviders() {
 		RServiceProviderBean bean = new RServiceProviderBean();
 		JSONArray jsonArray = new JSONArray();
-		String cateStr = null;//serviceCacheImpl.getCategoryCache();
+		String cateStr = serviceCacheImpl.getCategoryCache();
 		if (StringUtil.isEmpty(cateStr)) {
 			List<CategoryBean> cates = providerImpl.selectAllCates();
 			if(cates == null) {
@@ -294,16 +299,19 @@ public class OrderServiceImpl implements OrderService {
 			}
 			List<ProviderBean> providers = providerImpl.selectAll();
 			logger.info(JSON.toJSON("获取所有服务商：" + providers));
-			Map<Integer, List<ProviderBean>> AllProviders = new HashMap<Integer, List<ProviderBean>>();  
+			Map<Integer, JSONArray> AllProviders = new HashMap<Integer, JSONArray>();  
 			
-			List<ProviderBean> subProviders = new ArrayList<ProviderBean>();
+			JSONArray subProviders = new JSONArray();
 		    for (ProviderBean provider : providers) { 
 		    		if(provider.getCid() != null) {
+		    			JSONObject providerObject = new JSONObject();
+		    			providerObject.put("label", provider.getName());
+		    			providerObject.put("value", provider.getPid());
 		    			if(AllProviders.containsKey(provider.getCid())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
-		    				AllProviders.get(provider.getCid()).add(provider);
+		    				AllProviders.get(provider.getCid()).add(providerObject);
 		    			}else{//map中不存在，新建key，用来存放数据 
-		    				subProviders = new ArrayList<ProviderBean>();
-		    				subProviders.add(provider);
+		    				subProviders = new JSONArray();
+		    				subProviders.add(providerObject);
 				    		AllProviders.put(provider.getCid(), subProviders);  
 		    			}  
 		    		}
@@ -315,8 +323,11 @@ public class OrderServiceImpl implements OrderService {
 			JSONArray subCates = new JSONArray();
 		    for (CategoryBean cate : Services) { 
 			    	JSONObject serviceObject = new JSONObject();
-		    		serviceObject.put("name", cate.getName());
-		    		serviceObject.put("cid", cate.getCid());
+		    		serviceObject.put("label", cate.getName());
+		    		serviceObject.put("value", cate.getCid());
+		    		if(AllProviders.get(cate.getCid()) == null) {
+		    			serviceObject.put("disabled", true);
+		    		} 
 		    		serviceObject.put("children", AllProviders.get(cate.getCid()));
 		    		
 			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
@@ -331,15 +342,15 @@ public class OrderServiceImpl implements OrderService {
 		    // 构造三级树
 			for(CategoryBean ca : cates) {
 				JSONObject firstObject = new JSONObject();
-				firstObject.put("name", ca.getName());
-				firstObject.put("cid", ca.getCid());
+				firstObject.put("label", ca.getName());
+				firstObject.put("value", ca.getCid());
 				List<CategoryBean> children = ca.getChildern();
 				JSONArray secondCates = new JSONArray();
 				if(children != null && children.size() > 0) {
 					for(CategoryBean c : children){
 						JSONObject secondObject = new JSONObject();
-						secondObject.put("name", c.getName());
-						secondObject.put("cid", c.getCid());
+						secondObject.put("label", c.getName());
+						secondObject.put("value", c.getCid());
 						secondObject.put("children", AllServices.get(c.getCid()));
 						secondCates.add(secondObject);
 					}
@@ -348,6 +359,7 @@ public class OrderServiceImpl implements OrderService {
 				jsonArray.add(firstObject);
 			}
 			String jsonMenu = JSON.toJSONString(jsonArray);
+			logger.info(JSON.toJSON("服务json：" + jsonMenu));
 			serviceCacheImpl.setCategoryCache(jsonMenu);
 		} else {
 			jsonArray = JSON.parseArray(cateStr);
@@ -622,9 +634,9 @@ public class OrderServiceImpl implements OrderService {
 		flag = orderImpl.updateStatus(order) > 0;
 		
 		JSONObject obj = JSON.parseObject(score);
-		int s1 = NumUtil.toInt(obj.getIntValue(""), 0);
-		int s2 = NumUtil.toInt(obj.getIntValue(""), 0);
-		int s3 = NumUtil.toInt(obj.getIntValue(""), 0);
+		double s1 = NumUtil.toDouble(obj.get("quality"), 0d);
+		double s2 = NumUtil.toDouble(obj.get("speed"), 0d);
+		double s3 = NumUtil.toDouble(obj.get("attribute"), 0d);
 		double averageScore = (s1 + s2 + s3) / 3;
 		// 插入调查反馈表
 		OrderFeedbackBean feedback = new OrderFeedbackBean();

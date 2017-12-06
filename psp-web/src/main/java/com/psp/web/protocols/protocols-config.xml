@@ -4,9 +4,9 @@
 	reqPackageName="req" xmlPath="src/main/java/com/psp/web/protocols">
 
 	<protocolFiles>
-		<protocols-file fileName="user-protocol.xml" toCreate="true"
-			className="UserController" requestMapping="/wapp/user" version="1.0"
-			notes="用户相关接口" />
+		<protocols-file fileName="order-protocol.xml" toCreate="true"
+			className="OrderController" requestMapping="/order" version="1.0"
+			notes="工单相关接口" />
 	</protocolFiles>
 
 	<beanFiles>

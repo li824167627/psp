@@ -1,4 +1,4 @@
-package com.psp.admin.service.impl;
+package com.psp.web.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,33 +8,36 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.psp.admin.cache.dao.ServiceCacheDao;
-import com.psp.admin.controller.res.bean.RCategoryBean;
-import com.psp.admin.controller.res.bean.RCategoryJSONBean;
-import com.psp.admin.model.CategoryBean;
-import com.psp.admin.persist.dao.AdminDao;
-import com.psp.admin.persist.dao.ServiceDao;
-import com.psp.admin.service.CategoryService;
-import com.psp.admin.service.exception.ServiceException;
-import com.psp.admin.service.res.PageResult;
+import com.psp.util.AppTextUtil;
 import com.psp.util.StringUtil;
+import com.psp.web.cache.dao.ServiceCacheDao;
+import com.psp.web.controller.res.bean.RCategoryBean;
+import com.psp.web.controller.res.bean.RCategoryJSONBean;
+import com.psp.web.model.CategoryBean;
+import com.psp.web.model.UserBean;
+import com.psp.web.model.UserLogBean;
+import com.psp.web.model.UserNewsBean;
+import com.psp.web.persist.dao.ServiceDao;
+import com.psp.web.persist.dao.UserDao;
+import com.psp.web.service.OrderService;
+import com.psp.web.service.exception.ServiceException;
+import com.psp.web.service.res.PageResult;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
-
+public class OrderServiceImpl implements OrderService {
+	
 	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	ServiceDao serviceImpl;
+	UserDao userImpl;
 	
 	@Autowired
-	AdminDao adminImpl;
-	
+	ServiceDao serviceImpl;
+
 	@Autowired
 	ServiceCacheDao serviceCacheImpl;
 
@@ -149,7 +152,7 @@ public class CategoryServiceImpl implements CategoryService {
 		result.setData(resData);
 		return result;
 	}
-	
+
 	/**
 	 * 格式化数据
 	 * @param bean
@@ -167,54 +170,53 @@ public class CategoryServiceImpl implements CategoryService {
 		return cate;
 	}
 
-	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean addService(String aid, int parentId, String name, int sort, int isService) {
+	public boolean submitOrder(int cid, String name, String phoneNum, String content) {
+		String uid = null;
 		boolean flag = false;
-		CategoryBean cate = new CategoryBean();
-		cate.setAdminId(aid);
-		cate.setName(name);
-		cate.setParentId(parentId);
-		cate.setSort(sort);        
-		cate.setIsService(isService);
-		
-		flag = serviceImpl.insert(cate) > 0;
+		// 判断用户手机号是否存在
+		UserBean user = userImpl.selectOneByPhone(phoneNum);
+		if(user == null) {
+			// 创建用户信息（来源线上）
+			user = new UserBean();
+			uid = AppTextUtil.getPrimaryKey();
+			user.setUid(uid);
+			user.setName(name);
+			user.setPhoneNum(phoneNum);
+			user.setIsAllot(0);
+			user.setOrigin(1);// 线上
+			user.setLevel(1);//有效
+			logger.info("新建用户："+JSON.toJSONString(user));
+			flag = userImpl.insert(user) > 0;
+			if(!flag) {
+				throw new ServiceException("create_user_error");
+			}
+			
+		} else {
+			uid = user.getUid();
+			user.setStatus(0);// 等待沟通
+			flag = userImpl.updateStatus(user) > 0;
+			if(!flag) {
+				throw new ServiceException("create_user_log_error");
+			}
+		}
+		UserLogBean log = new UserLogBean();
+		log.setUid(uid);
+		log.setContent(content);
+		log.setType(99);// 线上提交新需求
+		flag = userImpl.insertUserLog(log) > 0;
 		if(!flag) {
-			throw new ServiceException("add_service_error");
+			throw new ServiceException("create_user_log_error");
 		}
-		
-		// 清除服务分类缓存
-		flag = serviceCacheImpl.setAllCategoryCache(null);
-		flag = serviceCacheImpl.setCategoryCache(null);
-		flag = serviceCacheImpl.setSellerCategoryCache(null);
-		return flag;
-	}
-	
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public boolean editService(String aid, int cid, int parentId, String name, int sort, int isService) {
-		boolean flag = false;
-		CategoryBean cate = serviceImpl.selectServiceById(cid);
-		if(cate == null) {
-			throw new ServiceException("object_is_not_exist", "服务");
-		}
-		cate.setAdminId(aid);
-		cate.setName(name);
-		cate.setParentId(parentId);
-		cate.setSort(sort);        
-		cate.setIsService(isService);
-		
-		flag = serviceImpl.update(cate) > 0;
+		UserNewsBean news = new UserNewsBean();
+		news.setUid(uid);
+		news.setContent(content);
+		news.setOrigin(1);// 线上
+		flag = userImpl.insertUserNews(news) > 0;
 		if(!flag) {
-			throw new ServiceException("add_service_error");
+			throw new ServiceException("create_user_news_error");
 		}
-		
-		// 清除服务分类缓存
-		flag = serviceCacheImpl.setAllCategoryCache(null);
-		flag = serviceCacheImpl.setCategoryCache(null);
-		flag = serviceCacheImpl.setSellerCategoryCache(null);
-		return flag;
+		return false;
 	}
-	
 
 }

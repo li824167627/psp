@@ -9,7 +9,7 @@ import com.psp.sellcenter.cache.dao.ServiceCacheDao;
 
 @Repository
 public class ServiceCacheImpl extends BaseCacheImpl implements ServiceCacheDao {
-	String KEY_CATEGOTY = NAME_SPACE + ":category:";
+	String KEY_CATEGOTY = NAME_SPACE + "category";
 
 	@Override
 	public boolean setCategoryCache(String cates) {

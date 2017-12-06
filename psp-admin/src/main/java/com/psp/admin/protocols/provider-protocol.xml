@@ -27,6 +27,20 @@
 		</request>
 	</protocol>
 	
+	<!-- 设置服务商所选服务 -->
+	<protocol name="addProviderService" requestMapping="/v1/addService" resType="json" notes="设置服务商可完成服务" state="1" requestName="AddProviderServiceParam"
+		resDataType="base" >
+		<request>
+			<param name="pid" type="string" demoValue="1" notes="服务商id">
+				<notEmpty message="设置服务商不能为空"></notEmpty>
+			</param>
+			<param name="contact" type="string" demoValue="崔海东" notes="联系人，根据联系人和手机号生成服务商管理账号">
+				<notEmpty message="联系人不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	
 	<!-- 获取服务商列表 -->
 	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取服务商列表" state="1" requestName="GetProviderListParam"
 		resDataType="list" responseName="RProviderBean">

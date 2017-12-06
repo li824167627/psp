@@ -1,4 +1,4 @@
-package com.psp.sellcenter.model;
+package com.psp.web.model;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -26,10 +26,6 @@ public class OrderBean {
 	private Timestamp closeTime; // 关闭时间
 	private Timestamp updateTime; // 操作更新
 	private Long isNeedInvoice; // 是否需要发票
-	private ProviderBean provider;// 服务商信息
-	private List<OrderContractBean> contracts; // 合同信息
-	private OrderFeedbackBean feedback;// 反馈
-	private UserBean user;
 	public String getOid() {
 		return oid;
 	}
@@ -47,6 +43,12 @@ public class OrderBean {
 	}
 	public void setSid(String sid) {
 		this.sid = sid;
+	}
+	public String getSellerJson() {
+		return sellerJson;
+	}
+	public void setSellerJson(String sellerJson) {
+		this.sellerJson = sellerJson;
 	}
 	public String getUid() {
 		return uid;
@@ -120,24 +122,6 @@ public class OrderBean {
 	public void setCompleteTime(Timestamp completeTime) {
 		this.completeTime = completeTime;
 	}
-	public Long getIsNeedInvoice() {
-		return isNeedInvoice;
-	}
-	public void setIsNeedInvoice(Long isNeedInvoice) {
-		this.isNeedInvoice = isNeedInvoice;
-	}
-	public String getSellerJson() {
-		return sellerJson;
-	}
-	public void setSellerJson(String sellerJson) {
-		this.sellerJson = sellerJson;
-	}
-	public ProviderBean getProvider() {
-		return provider;
-	}
-	public void setProvider(ProviderBean provider) {
-		this.provider = provider;
-	}
 	public Timestamp getCloseTime() {
 		return closeTime;
 	}
@@ -150,23 +134,11 @@ public class OrderBean {
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
-	public List<OrderContractBean> getContracts() {
-		return contracts;
+	public Long getIsNeedInvoice() {
+		return isNeedInvoice;
 	}
-	public void setContracts(List<OrderContractBean> contracts) {
-		this.contracts = contracts;
+	public void setIsNeedInvoice(Long isNeedInvoice) {
+		this.isNeedInvoice = isNeedInvoice;
 	}
-	public OrderFeedbackBean getFeedback() {
-		return feedback;
-	}
-	public void setFeedback(OrderFeedbackBean feedback) {
-		this.feedback = feedback;
-	}
-	public UserBean getUser() {
-		return user;
-	}
-	public void setUser(UserBean user) {
-		this.user = user;
-	}
-	
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <protocols>
-<!-- 登录 -->
+	<!-- 登录 -->
 	<protocol name="login" requestMapping="/v1/login" resType="json" notes="登录" state="1" requestName="LoginParam"
 		resDataType="object" responseName="RUserBean">
 		<request>
@@ -16,5 +16,8 @@
 			</param>
 		</request>
 	</protocol>
+	
+	
+	
 
 </protocols>

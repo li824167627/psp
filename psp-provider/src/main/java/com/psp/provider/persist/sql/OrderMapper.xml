@@ -12,8 +12,8 @@
 			<if test="filteType != 0">
 				and status = #{filteType}
 			</if>
-			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
-				and status > 1
+			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and status = 2
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 1">
@@ -101,8 +101,8 @@
 			<if test="filteType != 0">
 				and o.status = #{filteType}
 			</if>
-			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
-				and o.status > 1
+			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
+				and o.status = 2
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 1">
@@ -149,7 +149,7 @@
 		on o.oid = c.oid
 		left join psp_order_feedback f
 		on o.oid = f.oid
-		where oid = #{oid}
+		where o.oid = #{oid}
 	</select>
 	
 	<!-- 更新工单的服务商 -->

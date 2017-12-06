@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.web.persist.sql.UserMapper">
+
+	<!-- 新增客户 -->
+	<insert id="insert">
+		INSERT INTO psp_user
+		(uid, name, phoneNum, companyName, position, sid, sellerJson,
+		orderNum, createTime, communityTime, label, origin, level,
+		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>)
+		VALUES
+		(#{uid}, #{name}, #{phoneNum}, #{companyName}, #{position}, #{sid}, #{sellerJson},
+		0, now(), now(), #{label}, #{origin}, #{level},
+		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>);
+	</insert>
+	
+	<!-- 新增客户日志 -->
+	<insert id="insertUserLog">
+		INSERT INTO psp_user_log
+		(uid, sid, sellerJson, aid, 
+		adminJson, type, createTime, content)
+		VALUES
+		(#{uid}, #{sid}, #{sellerJson}, #{aid}, 
+		#{adminJson}, #{type}, now(), #{content});
+	</insert>
+	
+	<!-- 新增客户消息流 -->
+	<insert id="insertUserNews">
+		INSERT INTO psp_user_news
+		(uid, sid, sellerJson, userJson, 
+		label, origin, createTime, content)
+		VALUES
+		(#{uid}, #{sid}, #{sellerJson}, #{userJson}, 
+		#{label}, #{origin}, now(), #{content});
+	</insert>
+	
+	<!-- 根据手机号获取客户信息 -->
+	<select id="selectUserByPhone" resultType="UserBean">
+		SELECT * FROM psp_user 
+		where phoneNum = #{phoneNum}
+	</select>
+	
+	<!-- 更新客户状态 0 待沟通 1已沟通 -->
+	<update id="updateStatus">
+		UPDATE psp_user 
+		SET 
+			status = #{status}
+		WHERE
+			uid = #{uid};
+	</update>
+	
+	
+	
+</mapper>

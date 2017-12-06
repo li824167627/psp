@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psp.web.persist.sql.ServiceMapper">
+
+	<resultMap type="CategoryBean" id="CategoryMap" autoMapping="true">
+		<id property="cid" column="cid"/>
+		<result property="name"  column="name"/>
+		<result property="parentId"  column="parentId"/>
+		<collection property="childern" ofType="CategoryBean">
+          	<id property="cid" column="scid"/>
+			<result property="name"  column="sname"/>
+			<result property="parentId"  column="sparentId"/>
+   		</collection>
+	</resultMap>
+	
+	<!-- 获取所有分类 -->
+	<select id="selectAllCates" resultMap="CategoryMap">
+		SELECT
+			sc.cid,
+			sc.NAME,
+			sc.parentId,
+			c.cid AS scid,
+			c.NAME AS sname,
+			c.parentId AS sparentId
+		FROM
+			psp_category sc
+			LEFT JOIN psp_category c ON sc.cid = c.parentId 
+		WHERE
+			c.isService = 0
+			and  sc.parentId = 0 
+			
+		ORDER BY
+			sc.sort,
+			c.parentId,
+			c.sort
+	</select>
+	
+	<!-- 获取所有服务 -->
+	<select id="selectService" resultType="CategoryBean">
+		SELECT
+			cid,
+			name,
+			parentId
+		FROM
+			psp_category
+		<where>
+			<if test="parentId != null">
+			parentId = #{parentId}
+			</if>
+			and isService = 1
+		</where>
+		ORDER BY
+			parentId,
+			sort
+	</select>
+	
+	<!-- 获取服务数量 -->
+	<select id="selectServiceCountByPid" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_category
+		<where>
+			<if test="parentId != null">
+			parentId = #{parentId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取服务 -->
+	<select id="selectServiceByPid" resultType="CategoryBean">
+		SELECT
+			*
+		FROM
+			psp_category
+		<where>
+			<if test="parentId != null">
+			parentId = #{parentId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 插入服务分类 -->
+	<insert id="insert">
+		INSERT INTO psp_category
+		(name, parentId, sort, createTime, adminId, isService)
+		VALUES
+		(#{name}, #{parentId}, #{sort}, now(), #{adminId}, #{isService});
+	</insert>
+	
+	<!-- 根据id 获取服务详情 -->
+	<select id="selectServiceById" resultType="CategoryBean">
+		SELECT
+			*
+		FROM
+			psp_category
+		<where>
+			cid = #{cid}
+		</where>
+	</select>
+	
+	<!-- 更新服务 -->
+	<update id="update">
+		UPDATE psp_category
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="parentId != null">
+				parentId = #{parentId},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="adminId != null">
+				adminId = #{adminId},
+			</if>
+			<if test="isService != null">
+				isService = #{isService},
+			</if>
+		</set> 
+		WHERE
+			cid = #{cid};
+	</update>
+	
+</mapper>

@@ -71,6 +71,10 @@ public class NumUtil {
 	public static float toFloat(Object value, float def) {
 		return toFloat(String.valueOf(value), def);
 	}
+	
+	public static double toDouble(Object value, double def) {
+		return toDouble(String.valueOf(value), def);
+	}
 
 	public static Double toDouble(String value, double def) {
 		if (value == null)
