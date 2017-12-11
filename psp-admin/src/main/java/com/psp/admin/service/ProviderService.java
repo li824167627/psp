@@ -15,9 +15,11 @@ public interface ProviderService {
 	 * @param content
 	 * @param confirmPwd 
 	 * @param password 
+	 * @param cids 
+	 * @param adminId 
 	 * @return
 	 */
-	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd);
+	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd, String cids, String adminId);
 	
 	
 	/**
@@ -74,5 +76,22 @@ public interface ProviderService {
 	 * @return
 	 */
 	boolean delAccount(String adminId, String aid);
+
+	/**
+	 * 编辑服务商
+	 * @param name
+	 * @param address
+	 * @param contact
+	 * @param phoneNum
+	 * @param content
+	 * @return
+	 */
+	boolean editProvider(String pid, String name, String address, String contact, String phoneNum, String content);
+
+
+	boolean addService(String pid, String cid);
+
+
+	boolean delService(String pid, String cid);
 
 }

@@ -16,9 +16,10 @@ public interface UserService {
 	 * @param stype 
 	 * @param filteType 
 	 * @param isALlot 
+	 * @param sid 
 	 * @return
 	 */
-	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot);
+	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid);
 	
 	/**
 	 * 获取客户详情

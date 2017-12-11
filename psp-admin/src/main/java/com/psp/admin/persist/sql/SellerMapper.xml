@@ -4,8 +4,11 @@
 	
 	<!-- 根据id获取销售信息 -->
 	<select id="selectOneById" resultType="SellerBean">
-		SELECT * FROM psp_sale_center 
-		WHERE sid = #{sid}
+		SELECT s.*,a.username as admin 
+		FROM psp_sale_center s
+		left join psp_admin a
+		on s.aid = a.aid
+		WHERE s.sid = #{sid}
 	</select>
 	
 	<resultMap type="SellerBean" id="SellerMap" autoMapping="true">
@@ -18,13 +21,17 @@
 		<result property="type"  column="type"/>
 		<result property="lastLoginTime"  column="lastLoginTime"/>
 		<result property="parkName"  column="parkName"/>
+		<result property="admin"  column="admin"/>
 	</resultMap>
 	
 	<!-- 根据手机号获取销售信息 -->
 	<select id="selectOneByPhone" resultMap="SellerMap">
-		SELECT s.*,p.name as parkName FROM psp_sale_center s
+		SELECT s.*,p.name as parkName, a.username as admin
+		FROM psp_sale_center s
 		left join psp_park p
 		on s.pid = p.pid
+		left join psp_admin a
+		on s.aid = a.aid
 		WHERE s.phoneNum = #{phoneNum}
 	</select>
 	
@@ -46,9 +53,12 @@
 	
 	<!-- 查询销售列表 -->
 	<select id="selectSellers" resultMap="SellerMap">
-		SELECT s.*,p.name as parkName FROM psp_sale_center s
+		SELECT s.*,p.name as parkName, a.username as admin
+		FROM psp_sale_center s
 		left join psp_park p
 		on s.pid = p.pid
+		left join psp_admin a
+		on s.aid = a.aid
 		<where>
 			<if test="key != null">
 				s.username like CONCAT('%', '${key}' ,'%')
@@ -65,10 +75,10 @@
 	<insert id="insert">
 		INSERT INTO psp_sale_center
 		(sid, username, phoneNum, password,
-			 status, pid, type, createTime, lastLoginTime)
+			 status, pid, type, createTime, lastLoginTime,aid )
 		VALUES
 		(#{sid}, #{username}, #{phoneNum}, #{password},
-			 #{status}, #{pid}, #{type}, now(), now());
+			 #{status}, #{pid}, #{type}, now(), now(),#{aid});
 	</insert>
 	
 	<!-- 更新销售 -->

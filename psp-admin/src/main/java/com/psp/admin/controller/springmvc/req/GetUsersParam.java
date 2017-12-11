@@ -15,6 +15,7 @@ public class GetUsersParam {
 	@Pattern(regexp = "^0|1|2|3$", message = "搜索条件错误：0全部1:有效2:无效3:待定级")
 	private String filteType; // 筛选客户等级，0全部1:有效2:无效3:待定级
 	private String isAllot; // 搜索客户状态，0:待分配1:已分配客户
+	private String sid; // 销售ID
 
 	public void setPage(Integer page) {
  		this.page = page;
@@ -62,6 +63,14 @@ public class GetUsersParam {
 
 	public String getIsAllot() {
  		return isAllot;
+	}
+
+	public void setSid(String sid) {
+ 		this.sid = sid;
+	}
+
+	public String getSid() {
+ 		return sid;
 	}
 
 }

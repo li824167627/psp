@@ -82,9 +82,10 @@ public class ParkController {
 			String city = param.getCity();
 			String district = param.getDistrict();
 			String coordinate = param.getCoordinate();
+			String areaArr = param.getAreaArray();
 			String brief = param.getBrief();
 			boolean flag = parkServiceImpl.eidtPark(adminId, name, pid, contact,
-					phoneNum, cityCode, province, city, district, coordinate, brief);
+					phoneNum, cityCode, province, city, district, coordinate, brief, areaArr);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -131,8 +132,22 @@ public class ParkController {
 	 */
 	public ObjectResult<Integer> getUserNum(GetParkUserNumParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectResult<Integer> result = new ObjectResult<>();
+		try {
+
+			String adminId = (String)request.getAttribute("adminId");
+			String pid = param.getPid();
+			int userNum = parkServiceImpl.getUserNum(adminId, pid);
+			result.setData(userNum);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 	
 	/**
@@ -144,8 +159,22 @@ public class ParkController {
 	 */
 	public ObjectResult<Integer> getOrderNum(GetParkOrderNumParam param, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectResult<Integer> result = new ObjectResult<>();
+		try {
+
+			String adminId = (String)request.getAttribute("adminId");
+			String pid = param.getPid();
+			int userNum = parkServiceImpl.getOrderNum(adminId, pid);
+			result.setData(userNum);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
 	}
 
 }

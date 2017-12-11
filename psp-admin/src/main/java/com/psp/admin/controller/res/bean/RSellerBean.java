@@ -8,6 +8,7 @@ public class RSellerBean {
 	private String sid; // 销售id
 	private String phoneNum; // 销售手机号
 	private String username; // 销售昵称
+	private String admin; // 创建人
 	private Integer status; // 状态1：正常，0：禁用
 	private Long createTime; // 创建时间
 	private Long lastLoginTime; // 最后登录时间
@@ -37,6 +38,14 @@ public class RSellerBean {
 
 	public String getUsername() {
  		return username;
+	}
+
+	public void setAdmin(String admin) {
+ 		this.admin = admin;
+	}
+
+	public String getAdmin() {
+ 		return admin;
 	}
 
 	public void setStatus(Integer status) {

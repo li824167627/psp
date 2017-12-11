@@ -26,6 +26,11 @@
 		<msg>密码与确认密码不一致</msg>
 	</result>
 	
+	<result name="update_provider_error">
+		<code>300006</code>
+		<msg>更新服务商失败</msg>
+	</result>
+	
 	
 	
 	

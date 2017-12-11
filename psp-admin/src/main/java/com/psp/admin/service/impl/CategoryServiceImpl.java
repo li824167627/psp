@@ -215,6 +215,48 @@ public class CategoryServiceImpl implements CategoryService {
 		flag = serviceCacheImpl.setSellerCategoryCache(null);
 		return flag;
 	}
+
+	@Override
+	public RCategoryJSONBean getServiceList(String pid) {
+		RCategoryJSONBean bean = new RCategoryJSONBean();
+	    JSONArray serviceCates = new JSONArray();
+		List<CategoryBean> provider = serviceImpl.selectProviderCates(pid);
+		if(provider != null && provider.size() > 0) {
+			List<CategoryBean> Cates = serviceImpl.selectServiceByCids(provider);
+			Map<Integer, JSONArray> AllServices = new HashMap<Integer, JSONArray>();  
+			JSONArray subCates = new JSONArray();
+		    for (CategoryBean cate : provider) { 
+			 	JSONObject serviceObject = new JSONObject();
+		    		serviceObject.put("name", cate.getName());
+		    		serviceObject.put("cid", cate.getCid());
+			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
+			    		AllServices.get(cate.getParentId()).add(serviceObject);
+	            }else{//map中不存在，新建key，用来存放数据  
+	            		subCates = new JSONArray();
+	            		subCates.add(serviceObject);
+			    		AllServices.put(cate.getParentId(), subCates); 
+	            }  
+		    }  
+
+		    for(CategoryBean c : Cates) {
+				JSONArray cates = AllServices.get(c.getCid());
+				if(cates.size() > 0) {
+					for(int i = 0; i < cates.size(); i++) {
+						JSONObject serviceObeject = new JSONObject();
+				    		serviceObeject.put("name", c.getName());
+						serviceObeject.put("parent", c.getParent().getName());
+						JSONObject cate = cates.getJSONObject(i);
+						serviceObeject.put("cid", cate.get("cid"));
+						serviceObeject.put("children", cate.get("name"));
+						serviceCates.add(serviceObeject);
+					}
+				}
+		    }
+		    
+		}
+		bean.setCategory(serviceCates);
+		return bean;
+	}
 	
 
 }

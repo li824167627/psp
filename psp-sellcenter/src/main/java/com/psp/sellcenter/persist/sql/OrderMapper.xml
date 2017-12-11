@@ -85,7 +85,7 @@
 	<select id="selectOrders" resultMap="OrderMap">
 		SELECT o.*,
 			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
-			u.uid as uuid, u.name as uuname,u.phoneNum as uphoneNum, 
+			u.uid as uuid, u.name as uname,u.phoneNum as uphoneNum, 
 		 u.companyName as ucompanyName
 		FROM psp_order o 
 		left join psp_provider p
@@ -145,7 +145,8 @@
 		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
 			c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
 			c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
-			f.fid, f.content as fcontent, f.averageScore
+			f.fid, f.content as fcontent, f.averageScore,
+			u.uid as uuid, u.name as uname,u.phoneNum as uphoneNum, u.companyName as ucompanyName
 		FROM psp_order o 
 		left join psp_provider p
 		on o.pid = p.pid
@@ -153,6 +154,8 @@
 		on o.oid = c.oid
 		left join psp_order_feedback f
 		on o.oid = f.oid
+		left join psp_user u
+		on o.uid = u.uid
 		where o.oid = #{oid}
 	</select>
 	
@@ -198,5 +201,16 @@
 		VALUES
 		(#{oid}, #{sid}, #{pid}, #{content}, #{averageScore}, #{serviceScore}, now());
 	</insert>
+	
+	<!-- 根据分配状态获取管理的工单总数 -->
+	<select id="selectStageCount2User" resultType="int">
+		SELECT count(*) 
+		FROM psp_order
+		<where>
+			uid = #{uid} and stage = #{stage}
+		</where> 
+	</select>
+	
+	
 	
 </mapper>

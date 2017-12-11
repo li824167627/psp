@@ -55,6 +55,7 @@ public class SellerServiceImpl implements SellerService {
 		seller.setPhoneNum(bean.getPhoneNum());
 		seller.setStatus(bean.getStatus());
 		seller.setUsername(bean.getUsername());
+		seller.setAdmin(bean.getAdmin());
 		if(bean.getCreateTime() != null) {
 			seller.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
@@ -84,6 +85,7 @@ public class SellerServiceImpl implements SellerService {
 			seller.setUsername(name);
 			seller.setStatus(0);
 			seller.setType(type);
+			seller.setAid(adminId);
 			seller.setPassword(MD5Util.md5(password));
 			flag = sellerImpl.insert(seller) > 0;
 			if(!flag) {

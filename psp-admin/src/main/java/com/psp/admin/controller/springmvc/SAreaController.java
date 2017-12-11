@@ -27,7 +27,7 @@ public class SAreaController {
 	 **/
 	@RequestMapping("/v1/getAllArea")
 	@ResponseBody
-	public ListResult<RAreaListBean> getAllArea(HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RAreaListBean> getAllArea(HttpServletRequest request, HttpServletResponse response) {
 
 		return areaController.getAllArea(request, response);
 	}

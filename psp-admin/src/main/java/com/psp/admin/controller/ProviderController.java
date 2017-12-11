@@ -13,14 +13,20 @@ import com.psp.admin.controller.res.BaseResult;
 import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RAccountBean;
+import com.psp.admin.controller.res.bean.RCategoryJSONBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
 import com.psp.admin.controller.springmvc.req.AddProviderAccountParam;
 import com.psp.admin.controller.springmvc.req.AddProviderParam;
+import com.psp.admin.controller.springmvc.req.AddProviderServiceParam;
 import com.psp.admin.controller.springmvc.req.DelProviderAccountParam;
+import com.psp.admin.controller.springmvc.req.DelProviderServiceParam;
+import com.psp.admin.controller.springmvc.req.EditProviderParam;
 import com.psp.admin.controller.springmvc.req.GetProviderAccountListParam;
 import com.psp.admin.controller.springmvc.req.GetProviderDetailParam;
 import com.psp.admin.controller.springmvc.req.GetProviderListParam;
+import com.psp.admin.controller.springmvc.req.GetProviderServiceListParam;
 import com.psp.admin.controller.springmvc.req.ResetProviderPwdParam;
+import com.psp.admin.service.CategoryService;
 import com.psp.admin.service.ProviderService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
@@ -35,6 +41,9 @@ public class ProviderController {
 	@Autowired
 	ProviderService providerServiceImpl;
 	
+	@Autowired
+	CategoryService categoryServiceImpl;
+	
 	/**
 	 * 新建服务商，返回账户
 	 * @param param
@@ -46,6 +55,7 @@ public class ProviderController {
 			HttpServletResponse response) {
 		ObjectResult<RAccountBean> result = new ObjectResult<RAccountBean>();
 		try {
+			String adminId = (String)request.getAttribute("adminId");
 			String name = param.getName();
 			String address = param.getAddress();
 			String contact = param.getContact();
@@ -53,7 +63,8 @@ public class ProviderController {
 			String content = param.getContent();
 			String password = param.getPassword();
 			String confirmPwd = param.getConfirmPwd();
-			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content, password, confirmPwd);
+			String cids = param.getCid();
+			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content, password, confirmPwd, cids, adminId);
 			if (bean != null) {
 				result.setData(bean);
 			}
@@ -227,6 +238,80 @@ public class ProviderController {
 		} catch (ServiceException e) {
 			result.setServiceException(e);
 		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+
+	public BaseResult eidtProvider(EditProviderParam param, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+			String name = param.getName();
+			String pid = param.getPid();
+			String address = param.getAddress();
+			String contact = param.getContact();
+			String phoneNum = param.getPhoneNum();
+			String content = param.getContent();
+			boolean flag = providerServiceImpl.editProvider(pid, name, address, contact, phoneNum, content);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+
+	public BaseResult addService(AddProviderServiceParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+			String pid = param.getPid();
+			String cid = param.getCid();
+			boolean flag = providerServiceImpl.addService(pid, cid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+
+	public BaseResult delService(DelProviderServiceParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+			String pid = param.getPid();
+			String cid = param.getCid();
+			boolean flag = providerServiceImpl.delService(pid, cid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+
+	
+	
+	public ObjectResult<RCategoryJSONBean> getServiceList(GetProviderServiceListParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+		ObjectResult<RCategoryJSONBean> result = new ObjectResult<>();
+		try {
+			String pid = param.getPid();
+			RCategoryJSONBean bean = categoryServiceImpl.getServiceList(pid);
+			if (bean != null) {
+				result.setData(bean);
+			}
+		} catch (ServiceException e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);

@@ -13,5 +13,7 @@ public interface OrderDao {
 
 	OrderBean selectOrderById(String oid);
 
+	int selectParkOrderNum(String pid);
+
 
 }

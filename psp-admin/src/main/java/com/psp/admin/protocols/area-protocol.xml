@@ -4,7 +4,7 @@
 	<!-- 获取区域 -->
 	<protocol name="getAllArea" requestMapping="/v1/getAllArea"
 		resType="json" notes="获取区域" state="1"
-		resDataType="list" responseName="RAreaListBean">
+		resDataType="object" responseName="RAreaListBean" >
 		<request></request>
 	</protocol>
 

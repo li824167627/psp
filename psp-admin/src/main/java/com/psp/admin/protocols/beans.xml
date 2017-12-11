@@ -22,6 +22,7 @@
 			<attr type="string" name="sid" notes="销售id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 			<attr type="string" name="phoneNum" notes="销售手机号" demoValue="18553351967" />
 			<attr type="string" name="username" notes="销售昵称" demoValue="candy" />
+			<attr type="string" name="admin" notes="创建人" demoValue="王欣" />
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
@@ -115,6 +116,7 @@
 			<attr type="string" name="name" notes="服务商名称" demoValue="北京硬创云加" />
 			<attr type="string" name="address" notes="地址" demoValue="中观村智造大街" />、
 			<attr type="string" name="contact" notes="联系人" demoValue="瑞讯" />
+			<attr type="string" name="admin" notes="创建人" demoValue="王欣" />
 			<attr type="string" name="phoneNum" notes="联系电话" demoValue="16723412341" />
 			<attr type="string" name="content" notes="服务商服务内容简介" demoValue="北京硬创云加做软件开发" />
 			<attr type="double" name="score" notes="评价得分" demoValue="4.8" />
@@ -217,9 +219,11 @@
 			<attr type="string" name="pid" notes="园区id" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
 			<attr type="string" name="name" notes="园区" demoValue="海淀区" />
 			<attr type="string" name="adminId" notes="管理员id" demoValue="3cfd3249f77f4f25a1d530f6ce2399fd" />
+			<attr type="string" name="admin" notes="创建人" demoValue="王欣" />
 			<attr type="string" name="contact" notes="联系人" demoValue="杨娜" />
 			<attr type="string" name="phoneNum" notes="联系电话" demoValue="17610075502" />
 			<attr type="string" name="cityCode" notes="城市code" demoValue="123" />
+			<attr type="string" name="areaArray" notes="地区数组" demoValue="123" />
 			<attr type="string" name="province" notes="省，直辖市" demoValue="北京" />
 			<attr type="string" name="city" notes="市" demoValue="北京市" />
 			<attr type="string" name="district" notes="区" demoValue="海淀区" />
@@ -257,9 +261,9 @@
 	<!-- 区域列表bean -->
 	<bean className="RAreaListBean" notes="区域列表bean">
 		<attrs>
-			<attr type="string" name="label" notes="区域名称" demoValue="北京市" />
-			<attr type="string" name="value" notes="区域code" demoValue="350424" />
-			<attr type="list" name="children" notes="下级区域" objName="RAreaListBean" />
+			<attr type="JSONArray" name="area"
+				notes="服务类型:cid 分类的值，name：分类标题，children：子分类，"
+				demoValue="[{cid:1,name:'敏捷制造',children:[{cid:1,name:'工商服务'}]}]" />
 		</attrs>
 	</bean>
 	

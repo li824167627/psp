@@ -98,5 +98,13 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		return sqlSessionTemplate.insert(NAME_SPACE + ".insertFeedBack", feedback);
 	}
 
+	@Override
+	public int selectStageCount2User(String uid, int stage) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("uid", uid);
+		where.put("stage", stage);
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectStageCount2User", where);
+	}
+
 
 }

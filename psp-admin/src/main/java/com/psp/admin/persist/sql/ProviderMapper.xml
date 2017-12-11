@@ -5,10 +5,10 @@
 	<insert id="insert">
 		INSERT INTO psp_provider
 		(pid, name, address, contact, phoneNum,
-			 content, score, createTime, status)
+			 content, score, createTime, status, aid)
 		VALUES
 		(#{pid}, #{name}, #{address}, #{contact}, #{phoneNum},
-			 #{content}, #{score}, now(), #{status});
+			 #{content}, #{score}, now(), #{status}, #{aid});
 	</insert>
 	
 	<!-- 查询服务商总数 -->
@@ -31,13 +31,15 @@
 	<!-- 查询服务商 -->
 	<select id="selectProviders" resultType="ProviderBean">
 		SELECT
-			*
+			p.*, a.username as admin
 		FROM
 			psp_provider p
 			<if test="cid != 0">
 			LEFT JOIN psp_provider_category_relation r
 			ON p.pid = r.pid
 			</if>
+			left join psp_admin a
+			on p.aid = a.aid
 		<where>
 			<if test="cid != 0">
 				r.cid = #{r.cid}
@@ -50,11 +52,13 @@
 	<!-- 根据id 获取服务商详情 -->
 	<select id="selectOneById" resultType="ProviderBean">
 		SELECT
-			*
+			p.*, a.username as admin
 		FROM
-			psp_provider
+			psp_provider p
+		left join psp_admin a
+		on p.aid = a.aid
 		<where>
-			pid = #{pid}
+			p.pid = #{pid}
 		</where>
 	</select>
 	
@@ -128,6 +132,66 @@
 		WHERE
 			aid = #{aid};
 	</update>
+	
+	<!-- 插入服务商服务账号 -->
+	<insert id="insertService" parameterType="java.util.List">
+        insert into psp_provider_category_relation (pid, cid)
+        values
+        <foreach collection="pservices" item="item" index="index" separator=",">
+            (#{item.pid}, #{item.cid})
+        </foreach>
+	</insert>
+	
+	<!-- 更新服务商 -->
+	<update id="update">
+		UPDATE psp_provider
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="contact != null">
+				contact = #{contact},
+			</if>
+			<if test="phoneNum != null">
+				phoneNum = #{phoneNum},
+			</if>
+			<if test="content != null">
+				content = #{content},
+			</if>
+		</set> 
+		WHERE
+			pid = #{pid};
+	</update>
+	<delete id="delHisService">
+		delete from psp_provider_category_relation
+        where pid = #{pid} 
+	</delete>
+	
+	<delete id="delService">
+		delete from psp_provider_category_relation
+        where pid = #{pid} and cid = #{cid}
+	</delete>
+	
+	<!-- 插入服务商服务账号 -->
+	<insert id="addService">
+        insert into psp_provider_category_relation
+         (pid, cid)
+        values  (#{pid}, #{cid})
+	</insert>
+	
+	<!-- 根据id 获取服务商账号 -->
+	<select id="selectServiceByPidCid" resultType="ProviderServiceBean">
+		SELECT
+			*
+		FROM
+			psp_provider_category_relation
+		<where>
+			 pid = #{pid} and cid = #{cid}
+		</where>
+	</select>
 	
 	
 </mapper>

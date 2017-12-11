@@ -182,4 +182,17 @@
 			</param>
 		</request>
 	</protocol>
+	
+	<!-- 获取管理员列表 -->
+	<protocol name="getList" requestMapping="/v1/getList" resType="json" notes="获取管理员列表" state="1" requestName="GetAdminsParam"
+		resDataType="list" responseName="RAdminBean">
+		<request>
+			<param name="key" type="String" demoValue="" notes="关键字检索">
+			</param>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+		</request>
+	</protocol>
 </protocols>

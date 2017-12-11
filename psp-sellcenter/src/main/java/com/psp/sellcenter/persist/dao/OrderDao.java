@@ -26,5 +26,7 @@ public interface OrderDao {
 
 	int insertFeedBack(OrderFeedbackBean feedback);
 
+	int selectStageCount2User(String uid, int i);
+
 
 }

@@ -10,6 +10,7 @@ public class ParkBean {
 	private String name; // 园区
 	private String adminId; // 管理员id
 	private String contact; // 联系人
+	private String admin;// 创建人
 	private String phoneNum; // 联系电话
 	private String cityCode; // 城市code
 	private String province; // 省，直辖市
@@ -19,6 +20,7 @@ public class ParkBean {
 	private Timestamp createTime; // 创建时间
 	private String brief; // 园区简介
 	private Integer status;// 状态
+	private String areaArray;// 地区数组
 	
 	public String getPid() {
 		return pid;
@@ -98,4 +100,17 @@ public class ParkBean {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public String getAdmin() {
+		return admin;
+	}
+	public void setAdmin(String admin) {
+		this.admin = admin;
+	}
+	public String getAreaArray() {
+		return areaArray;
+	}
+	public void setAreaArray(String areaArray) {
+		this.areaArray = areaArray;
+	}
+	
 }

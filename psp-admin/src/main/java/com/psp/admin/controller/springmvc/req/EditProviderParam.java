@@ -4,22 +4,27 @@ package com.psp.admin.controller.springmvc.req;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * 创建服务商并生成管理员账户
+ * 编辑服务商
  **/
-public class AddProviderParam {
+public class EditProviderParam {
+	@NotEmpty(message = "设置服务商不能为空")
+	private String pid; // 服务商id
 	@NotEmpty(message = "名称不能为空")
 	private String name; // 服务商名称
-	@NotEmpty(message = "密码不能为空")
-	private String password; // 密码
-	@NotEmpty(message = "确认密码不能为空")
-	private String confirmPwd; // 确认密码
 	private String address; // 服务商地址
 	@NotEmpty(message = "联系人不能为空")
 	private String contact; // 联系人，根据联系人和手机号生成服务商管理账号
 	@NotEmpty(message = "手机号不能为空")
 	private String phoneNum; // 手机号，根据联系人和手机号生成服务商管理账号
 	private String content; // 服务内容
-	private String cid; // 所选分类
+
+	public void setPid(String pid) {
+ 		this.pid = pid;
+	}
+
+	public String getPid() {
+ 		return pid;
+	}
 
 	public void setName(String name) {
  		this.name = name;
@@ -27,22 +32,6 @@ public class AddProviderParam {
 
 	public String getName() {
  		return name;
-	}
-
-	public void setPassword(String password) {
- 		this.password = password;
-	}
-
-	public String getPassword() {
- 		return password;
-	}
-
-	public void setConfirmPwd(String confirmPwd) {
- 		this.confirmPwd = confirmPwd;
-	}
-
-	public String getConfirmPwd() {
- 		return confirmPwd;
 	}
 
 	public void setAddress(String address) {
@@ -75,14 +64,6 @@ public class AddProviderParam {
 
 	public String getContent() {
  		return content;
-	}
-
-	public void setCid(String cid) {
- 		this.cid = cid;
-	}
-
-	public String getCid() {
- 		return cid;
 	}
 
 }

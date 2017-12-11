@@ -56,5 +56,18 @@ public class ServiceImpl extends BaseImpl implements ServiceDao {
 		return sqlSessionTemplate.update(NAME_SPACE + ".update", cate);
 	}
 
+	@Override
+	public List<CategoryBean> selectProviderCates(String pid) {
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectProviderCates", pid);
+	}
+
+	@Override
+	public List<CategoryBean> selectServiceByCids(List<CategoryBean> provider) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		if(provider.size() > 0 )
+			params.put("provider", provider);
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectServiceByCids", params);
+	}
+
 
 }

@@ -28,10 +28,11 @@ public interface ParkService {
 	 * @param district
 	 * @param coordinate
 	 * @param brief
+	 * @param areaArr 
 	 * @return
 	 */
 	boolean eidtPark(String adminId, String name, String pid, String contact, String phoneNum, String cityCode,
-			String province, String city, String district, String coordinate, String brief);
+			String province, String city, String district, String coordinate, String brief, String areaArr);
 	
 	/**
 	 * 删除园区
@@ -40,6 +41,16 @@ public interface ParkService {
 	 * @return
 	 */
 	boolean del(String adminId, String pid);
+	
+	/**
+	 * 
+	 * @param adminId
+	 * @param pid
+	 * @return
+	 */
+	int getUserNum(String adminId, String pid);
+
+	int getOrderNum(String adminId, String pid);
 	
 
 }

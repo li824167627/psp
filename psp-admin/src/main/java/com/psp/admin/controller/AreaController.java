@@ -7,10 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.psp.admin.controller.res.ListResult;
+import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RAreaListBean;
 import com.psp.admin.service.AreaService;
-import com.psp.admin.service.res.PageResult;
+import com.psp.admin.service.exception.ServiceException;
 @Component
 public class AreaController {
 	
@@ -20,14 +20,19 @@ public class AreaController {
 	AreaService areaServiceImpl;
 	
 	
-	public ListResult<RAreaListBean> getAllArea(HttpServletRequest request, HttpServletResponse response) {
-		ListResult<RAreaListBean> result = new ListResult<>();
-		PageResult<RAreaListBean> resData = areaServiceImpl.getAreas();
-		if (resData != null) {
-			result.setTotalSize(resData.getCount());
-			result.setData(resData.getData());
+	public ObjectResult<RAreaListBean> getAllArea(HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RAreaListBean> result = new ObjectResult<>();
+		try {
+			RAreaListBean bean = areaServiceImpl.getAreas();
+			if (bean != null) {
+				result.setData(bean);
+			}
+		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
-		result.setFlag(true);
 		return result;
 	}
 

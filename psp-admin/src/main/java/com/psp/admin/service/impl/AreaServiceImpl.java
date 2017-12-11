@@ -1,6 +1,5 @@
 package com.psp.admin.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.cache.dao.AreaCache;
 import com.psp.admin.controller.res.bean.RAreaListBean;
 import com.psp.admin.model.AreaBean;
 import com.psp.admin.persist.dao.AreaDao;
 import com.psp.admin.service.AreaService;
-import com.psp.admin.service.res.PageResult;
 import com.psp.util.StringUtil;
 
 @Service
@@ -28,48 +28,47 @@ public class AreaServiceImpl implements AreaService {
 	AreaCache areaCacheImpl;
 
 	@Override
-	public PageResult<RAreaListBean> getAreas() {
-		PageResult<RAreaListBean> result = new PageResult<>();
-
+	public RAreaListBean getAreas() {
+		RAreaListBean result = new RAreaListBean();
 		String areapcd = areaCacheImpl.getAreaPCD();
-		List<RAreaListBean> resultList;
+		JSONArray areaList = new JSONArray();
 		if (!StringUtil.isEmpty(areapcd)) {
-			resultList = JSON.parseArray(areapcd, RAreaListBean.class);
+			areaList = JSON.parseArray(areapcd);
 		} else {
 			List<AreaBean> lists = areaImpl.selectListByPCD();
-			resultList = new ArrayList<>();
 			if (lists != null && lists.size() > 0) {
 				for (AreaBean pArea : lists) {
 					if (pArea.getSubArea() != null && pArea.getSubArea().size() > 0) {
-						RAreaListBean pAreaList = new RAreaListBean();
-						pAreaList.setLabel(pArea.getName());
-						pAreaList.setValue(pArea.getId());
-						List<RAreaListBean> pSubList = new ArrayList<>();
+
+						JSONObject pAreaList = new JSONObject();
+						pAreaList.put("label", pArea.getName());
+						pAreaList.put("value", pArea.getId());
+						JSONArray pSubList = new JSONArray();
 						for (AreaBean cArea : pArea.getSubArea()) {
-							RAreaListBean cArealist = new RAreaListBean();
-							cArealist.setLabel(cArea.getName());
-							cArealist.setValue(cArea.getId());
+							JSONObject cArealist = new JSONObject();
+							cArealist.put("label", cArea.getName());
+							cArealist.put("value", cArea.getId());
 							pSubList.add(cArealist);
 							if (cArea.getSubArea() != null && cArea.getSubArea().size() > 0) {
-								List<RAreaListBean> cSubList = new ArrayList<>();
-								cArealist.setChildren(cSubList);
+								JSONArray cSubList = new JSONArray();
 								for (AreaBean dArea : cArea.getSubArea()) {
-									RAreaListBean dAreaList = new RAreaListBean();
-									dAreaList.setLabel(dArea.getName());
-									dAreaList.setValue(dArea.getId());
+									JSONObject dAreaList = new  JSONObject();
+									dAreaList.put("label", dArea.getName());
+									dAreaList.put("value", dArea.getId());
 									cSubList.add(dAreaList);
 								}
+								cArealist.put("children", cSubList);
 							}
 						}
-						pAreaList.setChildren(pSubList);
-						resultList.add(pAreaList);
+						pAreaList.put("children", pSubList);
+						areaList.add(pAreaList);
 					}
 				}
-				areaCacheImpl.setAreaPCD(JSON.toJSON(resultList).toString());
+				areaCacheImpl.setAreaPCD(JSON.toJSONString(areaList));
 			}
 		}
 
-		result.setData(resultList);
+		result.setArea(areaList);
 		return result;
 	}
 	

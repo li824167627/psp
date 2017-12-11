@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.psp.admin.model.AccountBean;
 import com.psp.admin.model.ProviderBean;
+import com.psp.admin.model.ProviderServiceBean;
 
 public interface ProviderDao {
 
@@ -26,6 +27,18 @@ public interface ProviderDao {
 	AccountBean selectAccountById(String aid);
 
 	int updateAccount(AccountBean account);
+
+	int insertService(List<ProviderServiceBean> pservices);
+
+	int update(ProviderBean provider);
+
+	int delHisService(String pid);
+
+	int addService(String pid, String cid);
+
+	int delService(String pid, String cid);
+
+	ProviderServiceBean selectServiceByPidCid(String pid, String cid);
 
 
 }

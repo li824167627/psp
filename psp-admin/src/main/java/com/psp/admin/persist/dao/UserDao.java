@@ -10,10 +10,12 @@ public interface UserDao {
 	UserBean selectUserById(String uid);
 
 	// -======= admin ======
-	int selectUserCount(int filteType, int stype, String key, int isALlot);
+	int selectUserCount(int filteType, int stype, String key, int isALlot, String sid);
 
-	List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot);
+	List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid);
 
 	int allotUser(UserBean user);
+
+	int selectParkUserNum(String pid);
 
 }

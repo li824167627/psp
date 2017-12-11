@@ -16,6 +16,8 @@ public class SellerBean {
 	private Integer type; // 状态1：正常，0：禁用
 	private String pid;
 	private String parkName;
+	private String aid;// adiminId
+	private String admin;// 创建人
 
 	public void setSid(String sid) {
  		this.sid = sid;
@@ -95,6 +97,22 @@ public class SellerBean {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(String admin) {
+		this.admin = admin;
+	}
+
+	public String getAid() {
+		return aid;
+	}
+
+	public void setAid(String aid) {
+		this.aid = aid;
 	}
 	
 }

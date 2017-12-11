@@ -36,6 +36,8 @@
 			</param>
 			<param name="district" type="string" demoValue="海淀区" notes="区">
 			</param>
+			<param name="areaArray" type="string" demoValue="地区数组" notes="地区数组">
+			</param>
 			<param name="coordinate" type="string" demoValue="{l:12312,t:112.1}" notes="坐标">
 			</param>
 			<param name="brief" type="string" demoValue="海淀园区位于中关村智造大街，坐落在五道口宇宙中心" notes="园区简介">

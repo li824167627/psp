@@ -123,4 +123,53 @@
 			cid = #{cid};
 	</update>
 	
+	<resultMap type="CategoryBean" id="CategoryParentMap" autoMapping="true">
+		<id property="cid" column="cid"/>
+		<result property="name"  column="name"/>
+		<association property="parent" javaType="CategoryBean">
+			<id property="cid" column="pcid"/>
+			<result property="name"  column="pname"/>
+		</association> 
+	</resultMap>
+	
+	<!-- 获取所有分类 -->
+	<select id="selectServiceByCids" resultMap="CategoryParentMap">
+		SELECT
+			sc.cid,
+			sc.NAME,
+			p.cid AS pcid,
+			p.NAME AS pname
+		FROM
+			psp_category sc
+		LEFT JOIN psp_category p 
+		ON sc.parentId = p.cid
+		LEFT JOIN psp_category t 
+		ON t.parentId = sc.cid
+		<where>
+			<if test="provider != null">
+				and t.cid in
+				<foreach collection="provider" item="item" index="index" open="(" separator="," close=")">
+		             #{item.cid}
+		        </foreach>
+			</if>
+		</where>
+		ORDER BY
+			p.sort,
+			sc.sort
+	</select>
+	
+	<select id="selectProviderCates" resultType="CategoryBean">
+		SELECT
+			c.*
+			
+		FROM
+			psp_category c
+		LEFT JOIN psp_provider_category_relation r
+		ON c.cid = r.cid
+		WHERE
+			r.pid = #{pid}
+		ORDER BY
+			c.parentId,
+			c.sort
+	</select>
 </mapper>

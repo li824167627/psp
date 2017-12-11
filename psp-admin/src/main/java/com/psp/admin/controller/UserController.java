@@ -52,8 +52,9 @@ public class UserController {
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
 			int isALlot = NumUtil.toInt(param.getIsAllot(), 0);// 沟通状态
 			String key = param.getKey();//关键字
+			String sid = param.getSid();
 			
-			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot);
+			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot, sid);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
@@ -68,6 +69,7 @@ public class UserController {
 		}
 		return result;
 	}
+	
 	
 	/**
 	 * 根据状态获取客户数量

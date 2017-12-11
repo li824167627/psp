@@ -17,6 +17,7 @@ public class EditParkParam {
 	private String province; // 省(直辖市)
 	private String city; // 市
 	private String district; // 区
+	private String areaArray; // 地区数组
 	private String coordinate; // 坐标
 	private String brief; // 园区简介
 
@@ -82,6 +83,14 @@ public class EditParkParam {
 
 	public String getDistrict() {
  		return district;
+	}
+
+	public void setAreaArray(String areaArray) {
+ 		this.areaArray = areaArray;
+	}
+
+	public String getAreaArray() {
+ 		return areaArray;
 	}
 
 	public void setCoordinate(String coordinate) {

@@ -18,6 +18,8 @@
 			</param>
 			<param name="isAllot" type="string" demoValue="0" notes="搜索客户状态，0:待分配1:已分配客户">
 			</param>
+			<param name="sid" type="String" demoValue="" notes="销售ID">
+			</param>
 		</request>
 	</protocol>
 	

@@ -19,6 +19,8 @@ public class CategoryBean {
 	
 	private List<CategoryBean> childern;
 	
+	private CategoryBean parent;
+	
 	public Integer getCid() {
 		return cid;
 	}
@@ -66,6 +68,12 @@ public class CategoryBean {
 	}
 	public void setIsService(Integer isService) {
 		this.isService = isService;
+	}
+	public CategoryBean getParent() {
+		return parent;
+	}
+	public void setParent(CategoryBean parent) {
+		this.parent = parent;
 	}
 	
 }

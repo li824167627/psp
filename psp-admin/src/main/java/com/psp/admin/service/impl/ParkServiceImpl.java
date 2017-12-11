@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.psp.admin.controller.res.bean.RParkBean;
 import com.psp.admin.model.ParkBean;
+import com.psp.admin.persist.dao.OrderDao;
 import com.psp.admin.persist.dao.ParkDao;
+import com.psp.admin.persist.dao.UserDao;
 import com.psp.admin.service.ParkService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
@@ -24,6 +26,12 @@ public class ParkServiceImpl implements ParkService {
 	
 	@Autowired
 	ParkDao parkImpl;
+
+	@Autowired
+	UserDao userImpl;
+	
+	@Autowired
+	OrderDao orderImpl;
 
 	@Override
 	public PageResult<RParkBean> getList(String adminId, int page, int pageSize, String key) {
@@ -65,6 +73,8 @@ public class ParkServiceImpl implements ParkService {
 		park.setPid(bean.getPid());
 		park.setProvince(bean.getProvince());
 		park.setStatus(bean.getStatus());
+		park.setAdmin(bean.getAdmin());
+		park.setAreaArray(bean.getAreaArray());
 		if(bean.getCreateTime() != null) {
 			park.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
@@ -73,7 +83,7 @@ public class ParkServiceImpl implements ParkService {
 
 	@Override
 	public boolean eidtPark(String adminId, String name, String pid, String contact, String phoneNum, String cityCode,
-			String province, String city, String district, String coordinate, String brief) {
+			String province, String city, String district, String coordinate, String brief, String areaArr) {
 		boolean flag = false;
 		if(StringUtil.isEmpty(pid)) { // 新建
 			ParkBean park = new ParkBean();
@@ -90,6 +100,7 @@ public class ParkServiceImpl implements ParkService {
 			park.setPhoneNum(phoneNum);
 			park.setProvince(province);
 			park.setStatus(0);
+			park.setAreaArray(areaArr);
 			flag = parkImpl.insert(park) > 0;
 			if(!flag) {
 				throw new ServiceException("add_park_error");
@@ -134,6 +145,26 @@ public class ParkServiceImpl implements ParkService {
 			throw new ServiceException("update_park_error");
 		}
 		return flag;
+	}
+
+	@Override
+	public int getUserNum(String adminId, String pid) {
+		ParkBean park = parkImpl.selectOneById(pid);
+		if(park == null) {// 编辑
+			throw new ServiceException("object_is_not_exist", "园区");
+		}
+		
+		return userImpl.selectParkUserNum(pid);
+	}
+
+	@Override
+	public int getOrderNum(String adminId, String pid) {
+		ParkBean park = parkImpl.selectOneById(pid);
+		if(park == null) {// 编辑
+			throw new ServiceException("object_is_not_exist", "园区");
+		}
+		
+		return orderImpl.selectParkOrderNum(pid);
 	}
 	
 	

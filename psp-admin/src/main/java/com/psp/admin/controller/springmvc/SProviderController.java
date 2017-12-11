@@ -39,6 +39,70 @@ public class SProviderController {
 	}
 
 	/**
+	 * 编辑服务商
+	 **/
+	@RequestMapping("/v1/eidtProvider")
+	@ResponseBody
+	public BaseResult eidtProvider(@Validated EditProviderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.eidtProvider(param, request, response);
+	}
+
+	/**
+	 * 添加服务商服务
+	 **/
+	@RequestMapping("/v1/addService")
+	@ResponseBody
+	public BaseResult addService(@Validated AddProviderServiceParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.addService(param, request, response);
+	}
+
+	/**
+	 * 删除服务商服务
+	 **/
+	@RequestMapping("/v1/delService")
+	@ResponseBody
+	public BaseResult delService(@Validated DelProviderServiceParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.delService(param, request, response);
+	}
+
+	/**
+	 * 获取服务商列表
+	 **/
+	@RequestMapping("/v1/getServiceList")
+	@ResponseBody
+	public ObjectResult<RCategoryJSONBean> getServiceList(@Validated GetProviderServiceListParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RCategoryJSONBean> res = new ObjectResult<RCategoryJSONBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return providerController.getServiceList(param, request, response);
+	}
+
+	/**
 	 * 获取服务商列表
 	 **/
 	@RequestMapping("/v1/getList")

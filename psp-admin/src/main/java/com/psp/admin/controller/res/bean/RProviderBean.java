@@ -9,6 +9,7 @@ public class RProviderBean {
 	private String name; // 服务商名称
 	private String address; // 地址
 	private String contact; // 联系人
+	private String admin; // 创建人
 	private String phoneNum; // 联系电话
 	private String content; // 服务商服务内容简介
 	private Double score; // 评价得分
@@ -45,6 +46,14 @@ public class RProviderBean {
 
 	public String getContact() {
  		return contact;
+	}
+
+	public void setAdmin(String admin) {
+ 		this.admin = admin;
+	}
+
+	public String getAdmin() {
+ 		return admin;
 	}
 
 	public void setPhoneNum(String phoneNum) {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.psp.admin.model.AccountBean;
 import com.psp.admin.model.ProviderBean;
+import com.psp.admin.model.ProviderServiceBean;
 import com.psp.admin.persist.dao.ProviderDao;
 
 @Repository
@@ -83,6 +84,47 @@ public class ProviderImpl extends BaseImpl implements ProviderDao {
 	public int updateAccount(AccountBean account) {
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateAccount", account);
 
+	}
+
+	@Override
+	public int insertService(List<ProviderServiceBean> pservices) {
+		return sqlSessionTemplate.insert(NAME_SPACE + ".insertService", pservices);
+
+	}
+
+	@Override
+	public int update(ProviderBean provider) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".update", provider);
+
+	}
+
+	@Override
+	public int delHisService(String pid) {
+		return sqlSessionTemplate.delete(NAME_SPACE + ".delHisService", pid);
+	}
+
+	@Override
+	public int addService(String pid, String cid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pid", pid);
+		params.put("cid", cid);
+		return sqlSessionTemplate.insert(NAME_SPACE + ".addService", params);
+	}
+
+	@Override
+	public int delService(String pid, String cid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pid", pid);
+		params.put("cid", cid);
+		return sqlSessionTemplate.delete(NAME_SPACE + ".delService", params);
+	}
+
+	@Override
+	public ProviderServiceBean selectServiceByPidCid(String pid, String cid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pid", pid);
+		params.put("cid", cid);
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectServiceByPidCid", params);
 	}
 
 

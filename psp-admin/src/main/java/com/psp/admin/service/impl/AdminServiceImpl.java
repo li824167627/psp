@@ -271,7 +271,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new ServiceException("account_is_forzen");
 		}
 
-		adminCacheImpl.setAdminIdTOKEN(sessionId, user.getAid(), 24*1000*60L);
+		adminCacheImpl.setAdminIdTOKEN(sessionId, user.getAid(), 24*60*60L);
 		boolean flag = adminImpl.updateLoginTime(user.getAid()) > 0;
 		if (!flag) {
 			throw new ServiceException("user_update_error");

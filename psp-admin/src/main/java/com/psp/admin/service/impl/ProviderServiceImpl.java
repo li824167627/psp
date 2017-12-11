@@ -14,6 +14,7 @@ import com.psp.admin.controller.res.bean.RProviderBean;
 import com.psp.admin.model.AccountBean;
 import com.psp.admin.model.CategoryBean;
 import com.psp.admin.model.ProviderBean;
+import com.psp.admin.model.ProviderServiceBean;
 import com.psp.admin.persist.dao.ProviderDao;
 import com.psp.admin.persist.dao.ServiceDao;
 import com.psp.admin.service.ProviderService;
@@ -21,6 +22,7 @@ import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
 import com.psp.util.AppTextUtil;
 import com.psp.util.MD5Util;
+import com.psp.util.NumUtil;
 
 @Service
 public class ProviderServiceImpl implements ProviderService {
@@ -35,7 +37,8 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd) {
+	public RAccountBean addProvider(String name, String address, String contact, String phoneNum,
+			String content, String password, String confirmPwd, String cids, String adminId) {
 		boolean flag = false;
 		ProviderBean provider = new ProviderBean();
 		String pid = AppTextUtil.getPrimaryKey();
@@ -46,9 +49,26 @@ public class ProviderServiceImpl implements ProviderService {
 		provider.setContent(content);
 		provider.setPhoneNum(phoneNum);
 		provider.setStatus(0);
+		provider.setAid(adminId);
 		flag = providerImpl.insert(provider) > 0;
 		if(!flag) {
 			throw new ServiceException("add_provider_error");
+		}
+		// 创建 服务商可操作服务
+		if(cids != null) {
+			String[] ids = cids.split(",");
+			List<ProviderServiceBean> pservices = new ArrayList<ProviderServiceBean>();
+			for(String cid : ids) {
+				ProviderServiceBean ps = new ProviderServiceBean();
+				ps.setPid(pid);
+				ps.setCid(NumUtil.toInt(cid, -1));
+				pservices.add(ps);
+			}
+			flag = providerImpl.insertService(pservices) > 0;
+			if(!flag) {
+				throw new ServiceException("add_provider_service_error");
+			}
+			
 		}
 		AccountBean account = providerImpl.selectAccountByPhone(phoneNum);
 		if(account != null) {
@@ -66,6 +86,7 @@ public class ProviderServiceImpl implements ProviderService {
 		if(!password.equals(confirmPwd)) {
 			throw new ServiceException("provider_password_not_same");
 		}
+		
 		// TODO：验证密码
 		account.setPassword(MD5Util.md5(password));
 		flag = providerImpl.insertAccount(account) > 0;
@@ -134,6 +155,7 @@ public class ProviderServiceImpl implements ProviderService {
 		provider.setPhoneNum(bean.getPhoneNum());
 		provider.setScore(bean.getScore());
 		provider.setStatus(bean.getStatus());
+		provider.setAdmin(bean.getAdmin());
 		if(bean.getCreateTime() != null) {
 			provider.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
@@ -227,6 +249,80 @@ public class ProviderServiceImpl implements ProviderService {
 		flag = providerImpl.updateAccount(account) > 0;
 		if(!flag) {
 			throw new ServiceException("update_provider_account_error");
+		}
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean editProvider(String pid, String name, String address, String contact, String phoneNum, String content) {
+		boolean flag = false;
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider != null) {
+			throw new ServiceException("object_is_not_exist", "服务商");
+		}
+		provider = new ProviderBean();
+		provider.setName(name);
+		provider.setAddress(address);
+		provider.setContact(contact);
+		provider.setContent(content);
+		provider.setPhoneNum(phoneNum);
+		flag = providerImpl.update(provider) > 0;
+		if(!flag) {
+			throw new ServiceException("update_provider_error");
+		}
+		AccountBean account = providerImpl.selectAccountByPhone(phoneNum);
+		if(account == null) {
+			account = new AccountBean();
+			String aid = AppTextUtil.getPrimaryKey();
+			account.setAid(aid);
+			account.setUsername(contact);
+			account.setPid(pid);
+			account.setPhoneNum(phoneNum);
+			account.setType(1);//0 员工 1 服务商管理员
+			account.setStatus(0);// 0 正常
+			account.setPassword(MD5Util.md5("000000"));
+			flag = providerImpl.insertAccount(account) > 0;
+			if(!flag) {
+				throw new ServiceException("add_provider_account_error");
+			}
+		}
+		
+		return flag;
+	}
+
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean addService(String pid, String cid) {
+		boolean flag = false;
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider == null) {
+			throw new ServiceException("object_is_not_exist", "服务商");
+		}
+		
+		ProviderServiceBean ps = providerImpl.selectServiceByPidCid(pid, cid);
+		if(ps != null) {
+			throw new ServiceException("object_is_exist", "服务商提供的服务");
+		}
+		flag = providerImpl.addService(pid, cid) > 0;
+		if(!flag) {
+			throw new ServiceException("add_provider_service_error");
+		}
+		return flag;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean delService(String pid, String cid) {
+		boolean flag = false;
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider == null) {
+			throw new ServiceException("object_is_not_exist", "服务商");
+		}
+		flag = providerImpl.delService(pid, cid) > 0;
+		if(!flag) {
+			throw new ServiceException("add_provider_service_error");
 		}
 		return flag;
 	}

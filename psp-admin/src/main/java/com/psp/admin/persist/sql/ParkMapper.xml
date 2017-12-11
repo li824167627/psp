@@ -24,15 +24,17 @@
 	<!-- 查询园区列表 -->
 	<select id="selectList" resultType="ParkBean">
 		SELECT
-			*
+			p.*, a.username as admin
 		FROM
-			psp_park 
+			psp_park p
+		left join psp_admin a
+		on p.adminId = a.aid
 		<where>
 			<if test="key != null">
-				name like CONCAT('%', '${key}' ,'%')
+				p.name like CONCAT('%', '${key}' ,'%')
 			</if>
 		</where>
-		ORDER BY createTime desc
+		ORDER BY p.createTime desc
 		LIMIT #{start},#{length}
 	</select>
 	
@@ -41,11 +43,11 @@
 	<insert id="insert">
 		INSERT INTO psp_park
 		(pid, name,createTime,adminId,contact,phoneNum,
-			cityCode,province,city,district,coordinate,brief,status)
+			cityCode,province,city,district,coordinate,brief,status,areaArray)
 		VALUES
 		(#{pid}, #{name}, now(), #{adminId}, #{contact}, #{phoneNum}, 
 			#{cityCode}, #{province}, #{city}, #{district}, #{coordinate}, 
-			#{brief}, #{status});
+			#{brief}, #{status}, #{areaArray});
 	</insert>
 	
 	<!-- 更新园区 -->
@@ -78,6 +80,9 @@
 			</if>
 			<if test="status != null">
 				status = #{status},
+			</if>
+			<if test="areaArray != null">
+				areaArray = #{areaArray},
 			</if>
 		</set> 
 		WHERE

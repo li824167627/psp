@@ -69,4 +69,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderById", oid);
 	}
 
+	@Override
+	public int selectParkOrderNum(String pid) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectParkOrderCount", pid);
+	}
+
 }

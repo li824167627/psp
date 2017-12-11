@@ -166,7 +166,6 @@ public class OrderServiceImpl implements OrderService {
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
 		order.setUid(bean.getUid());
-		order.setUserJson(bean.getUserJson());
 		order.setContent(bean.getContent());
 		return order;
 	}
@@ -496,7 +495,7 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("allot_order_error");
 		}
 		flag = insertOrderLog(oid, order.getOrderNo(), sid, sellerJson.toJSONString(),
-				null, null, 6, content);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
+				null, null, 7, content);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 确认完成 5 拒绝完成 6 调查反馈 7 归档关闭
 		if(!flag) {
 			throw new ServiceException("create_order_log_error");
 		}

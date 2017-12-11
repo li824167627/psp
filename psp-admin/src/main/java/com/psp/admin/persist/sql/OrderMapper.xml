@@ -91,7 +91,7 @@
 	<select id="selectOrders" resultMap="OrderMap">
 		SELECT o.*,p.pid as ppid,p.name as pname,
 		 p.phoneNum as pphoneNum, p.contact as ppcontact,
-		 u.uid as uuid, u.name as uuname,u.phoneNum as uphoneNum, 
+		 u.uid as uuid, u.name as uname,u.phoneNum as uphoneNum, 
 		 u.companyName as ucompanyName
 		FROM psp_order o 
 		left join psp_provider p
@@ -131,7 +131,7 @@
 	<!-- 根据id获取客户信息 -->
 	<select id="selectOrderById" resultMap="OrderMap">
 		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum,
-		 p.contact as ppcontact, u.uid as uuid, u.name as uuname,
+		 p.contact as ppcontact, u.uid as uuid, u.name as uname,
 		 u.phoneNum as uphoneNum, u.companyName as ucompanyName,
 		 c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
 		 c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
@@ -146,6 +146,17 @@
 		left join psp_order_feedback f
 		on o.oid = f.oid
 		where o.oid = #{oid}
+	</select>
+	
+		<!-- 根据分配状态获取管理的工单总数 -->
+	<select id="selectParkOrderCount" resultType="int">
+		SELECT count(*) 
+		FROM psp_order p
+		left join psp_sale_center s 
+		on p.sid = s.sid
+		<where>
+			s.pid = #{pid}
+		</where> 
 	</select>
 	
 </mapper>

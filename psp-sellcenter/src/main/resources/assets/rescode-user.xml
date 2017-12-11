@@ -55,6 +55,11 @@
 		<msg>您没有权限修改该客户！</msg>
 	</result>
 	
+	<result name="can_no_archive">
+		<code>100015</code>
+		<msg>客户有进行中工单，不能被归档！</msg>
+	</result>
+	
 	<result name="create_user_news_error">
 		<code>100012</code>
 		<msg>创建客户消息失败！</msg>

@@ -8,9 +8,11 @@ public class RParkBean {
 	private String pid; // 园区id
 	private String name; // 园区
 	private String adminId; // 管理员id
+	private String admin; // 创建人
 	private String contact; // 联系人
 	private String phoneNum; // 联系电话
 	private String cityCode; // 城市code
+	private String areaArray; // 地区数组
 	private String province; // 省，直辖市
 	private String city; // 市
 	private String district; // 区
@@ -43,6 +45,14 @@ public class RParkBean {
  		return adminId;
 	}
 
+	public void setAdmin(String admin) {
+ 		this.admin = admin;
+	}
+
+	public String getAdmin() {
+ 		return admin;
+	}
+
 	public void setContact(String contact) {
  		this.contact = contact;
 	}
@@ -65,6 +75,14 @@ public class RParkBean {
 
 	public String getCityCode() {
  		return cityCode;
+	}
+
+	public void setAreaArray(String areaArray) {
+ 		this.areaArray = areaArray;
+	}
+
+	public String getAreaArray() {
+ 		return areaArray;
 	}
 
 	public void setProvince(String province) {

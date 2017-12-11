@@ -20,5 +20,9 @@ public interface ServiceDao {
 
 	int update(CategoryBean cate);
 
+	List<CategoryBean> selectProviderCates(String pid);
+
+	List<CategoryBean> selectServiceByCids(List<CategoryBean> provider);
+
 
 }

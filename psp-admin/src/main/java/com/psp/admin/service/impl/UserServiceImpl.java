@@ -49,13 +49,13 @@ public class UserServiceImpl implements UserService {
 	UserNewsDao userNewsImpl;
 
 	@Override
-	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot) {
+	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid) {
 		PageResult<RUserBean> result = new PageResult<RUserBean>();
-		int count = userImpl.selectUserCount(filteType, stype, key, isALlot);
+		int count = userImpl.selectUserCount(filteType, stype, key, isALlot, sid);
 		if(count == 0) {
 			return null;
 		}
-		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot);
+		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot, sid);
 		List<RUserBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -230,7 +230,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int getUserNum(int isAllot) {
 		//TODO:存入缓存 客户数量存入缓存
-		int count = userImpl.selectUserCount(0, 0, null, isAllot);
+		int count = userImpl.selectUserCount(0, 0, null, isAllot, null);
 		return count;
 	}
 

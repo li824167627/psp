@@ -15,6 +15,7 @@ import com.psp.sellcenter.controller.res.bean.RUserLogsBean;
 import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.model.UserBean;
 import com.psp.sellcenter.model.UserLogBean;
+import com.psp.sellcenter.persist.dao.OrderDao;
 import com.psp.sellcenter.persist.dao.SellerDao;
 import com.psp.sellcenter.persist.dao.UserDao;
 import com.psp.sellcenter.persist.dao.UserLogDao;
@@ -37,6 +38,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserLogDao userLogImpl;
+	
+	@Autowired
+	OrderDao orderImpl;
 	
 
 	@Override
@@ -308,6 +312,10 @@ public class UserServiceImpl implements UserService {
 		UserBean user = userImpl.selectUserById(uid);
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
+		}
+		int userOrders = orderImpl.selectStageCount2User(uid, 1);
+		if(userOrders > 0) {
+			throw new ServiceException("can_no_archive");
 		}
 		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
