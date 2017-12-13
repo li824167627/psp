@@ -18,7 +18,6 @@ import com.psp.sellcenter.controller.springmvc.req.ResetPwdParam;
 import com.psp.sellcenter.controller.springmvc.req.SendFindPwdCodeParam;
 import com.psp.sellcenter.controller.springmvc.req.SendVCodeParam;
 import com.psp.sellcenter.controller.springmvc.req.UpdateNameParam;
-import com.psp.sellcenter.controller.springmvc.req.UpdatePasswordParam;
 import com.psp.sellcenter.model.Code;
 import com.psp.sellcenter.service.SellerService;
 import com.psp.sellcenter.service.exception.ServiceException;
@@ -69,12 +68,6 @@ public class SellController {
 		return null;
 	}
 
-	public BaseResult updatePassWord(UpdatePasswordParam param, HttpServletRequest request,
-			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public ObjectResult<RSellerBean> getSeller(GetSellerParam param, HttpServletRequest request,
 			HttpServletResponse response) {
 		// TODO Auto-generated method stub
@@ -99,8 +92,22 @@ public class SellController {
 	}
 
 	public BaseResult resetPwd(ResetPwdParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		BaseResult result = new BaseResult();
+		try {
+
+			String uid = (String)request.getAttribute("sellerId");
+			String pwd = param.getOldPwd();
+			String newPwd = param.getPassword();
+			String subPwd = param.getConfirmPwd();
+			boolean flag = sellerServiceImpl.resetPwd(uid, pwd, newPwd, subPwd);
+			if (flag) {
+				result.setFlag(true);
+			}
+		} catch (ServiceException e) {
+			result.setFlag(false);
+			result.setMsg(e.getServiceMsg());
+		}
+		return result;
 	}
 
 }

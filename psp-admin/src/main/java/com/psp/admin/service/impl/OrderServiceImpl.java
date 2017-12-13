@@ -13,12 +13,14 @@ import com.psp.admin.controller.res.bean.ROrderBean;
 import com.psp.admin.controller.res.bean.ROrderContractBean;
 import com.psp.admin.controller.res.bean.ROrderFeedbackBean;
 import com.psp.admin.controller.res.bean.ROrderLogsBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.OrderBean;
 import com.psp.admin.model.OrderContractBean;
 import com.psp.admin.model.OrderFeedbackBean;
 import com.psp.admin.model.OrderLogBean;
 import com.psp.admin.model.ProviderBean;
 import com.psp.admin.model.UserBean;
+import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.OrderDao;
 import com.psp.admin.persist.dao.OrderLogDao;
 import com.psp.admin.service.OrderService;
@@ -32,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	OrderDao orderImpl;
+
+	@Autowired
+	AdminDao adminImpl;
 	
 	@Autowired
 	OrderLogDao orderLogImpl;
@@ -42,11 +47,16 @@ public class OrderServiceImpl implements OrderService {
 	public PageResult<ROrderBean> getOrders(String adminId, int page, int pageSize, int filteType, int stype,
 			String key, String targetId, int ttype, int stage) {
 		PageResult<ROrderBean> result = new PageResult<ROrderBean>();
-		int count = orderImpl.selectOrderCount(filteType, stype, key, stage, ttype, targetId);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 1) {
+			parkId = admin.getPid();
+		}
+		int count = orderImpl.selectOrderCount(filteType, stype, key, stage, ttype, targetId, parkId);
 		if(count == 0) {
 			return null;
 		}
-		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize,filteType, stype, key, stage, ttype, targetId);
+		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize,filteType, stype, key, stage, ttype, targetId, parkId);
 		List<ROrderBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -168,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public int getOrderNum(String adminId, int stage) {
-		int count = orderImpl.selectOrderCount(0, 0, null, stage, 0, null);
+		int count = orderImpl.selectOrderCount(0, 0, null, stage, 0, null, null);
 		return count;
 	}
 

@@ -11,6 +11,7 @@ public class RUserBean {
 	private String companyName; // 公司名称
 	private String position; // 职位
 	private String sid; // 当前销售
+	private String createrJson; // 创建人
 	private String sellerJson; // 当前销售JSON
 	private Integer orderNum; // 工单数量
 	private Long createTime; // 创建时间
@@ -69,6 +70,14 @@ public class RUserBean {
 
 	public String getSid() {
  		return sid;
+	}
+
+	public void setCreaterJson(String createrJson) {
+ 		this.createrJson = createrJson;
+	}
+
+	public String getCreaterJson() {
+ 		return createrJson;
 	}
 
 	public void setSellerJson(String sellerJson) {

@@ -10,4 +10,6 @@ public interface SellerDao {
 
 	SellerBean selectOneByPhone(String phone);
 
+	int updatePwd(SellerBean user);
+
 }

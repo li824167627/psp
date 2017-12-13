@@ -1,6 +1,8 @@
 package com.psp.admin.service;
 
 import com.psp.admin.controller.res.bean.RAdminBean;
+import com.psp.admin.controller.res.bean.ROrderStatisticsBean;
+import com.psp.admin.controller.res.bean.RUserStatisticsBean;
 import com.psp.admin.model.AdminBean;
 import com.psp.admin.service.res.PageResult;
 
@@ -105,5 +107,9 @@ public interface AdminService {
 	 * @return
 	 */
 	boolean updatePassWord(String adminId, String pwd, String newPwd, String subPwd);
+
+	ROrderStatisticsBean getOrderStatistics(String adminId);
+
+	RUserStatisticsBean getUserStatistics(String adminId);
 
 }

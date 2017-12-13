@@ -20,6 +20,7 @@ public class ROrderContractBean {
 	private Integer payment; // 付款方式：0一次性 1分期 2其他
 	private String paymentWay; // 分期方案
 	private String paymentDesc; // 付款描述
+	private Integer type; // 所属类型：1客户合同2服务商合同
 
 	public void setCid(Integer cid) {
  		this.cid = cid;
@@ -139,6 +140,14 @@ public class ROrderContractBean {
 
 	public String getPaymentDesc() {
  		return paymentDesc;
+	}
+
+	public void setType(Integer type) {
+ 		this.type = type;
+	}
+
+	public Integer getType() {
+ 		return type;
 	}
 
 }

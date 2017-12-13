@@ -14,7 +14,9 @@ import com.psp.admin.controller.res.BaseResult;
 import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RAdminBean;
+import com.psp.admin.controller.res.bean.ROrderStatisticsBean;
 import com.psp.admin.controller.res.bean.RUserBean;
+import com.psp.admin.controller.res.bean.RUserStatisticsBean;
 import com.psp.admin.controller.springmvc.req.ConfirmFindPwdCodeParam;
 import com.psp.admin.controller.springmvc.req.DelAdminParam;
 import com.psp.admin.controller.springmvc.req.EditAdminParam;
@@ -323,6 +325,40 @@ public class AdminController {
 	public BaseResult resetPwd(ResetPwdParam param, HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ObjectResult<ROrderStatisticsBean> getOrderStatistics(HttpServletRequest request,
+			HttpServletResponse response) {
+		ObjectResult<ROrderStatisticsBean> result = new ObjectResult<ROrderStatisticsBean>();
+
+		try {
+			String adminId = (String)request.getAttribute("adminId");
+			ROrderStatisticsBean user = adminServiceImpl.getOrderStatistics(adminId);
+			result.setData(user);
+			result.setFlag(true);
+		} catch (ServiceException e) {
+			result.setFlag(false);
+			result.setRescode(e.getServiceCode());
+			result.setMsg(e.getServiceMsg());
+		}
+		return result;
+	}
+
+	public ObjectResult<RUserStatisticsBean> getUserStatistics(HttpServletRequest request,
+			HttpServletResponse response) {
+		ObjectResult<RUserStatisticsBean> result = new ObjectResult<RUserStatisticsBean>();
+
+		try {
+			String adminId = (String)request.getAttribute("adminId");
+			RUserStatisticsBean user = adminServiceImpl.getUserStatistics(adminId);
+			result.setData(user);
+			result.setFlag(true);
+		} catch (ServiceException e) {
+			result.setFlag(false);
+			result.setRescode(e.getServiceCode());
+			result.setMsg(e.getServiceMsg());
+		}
+		return result;
 	}
 	
 

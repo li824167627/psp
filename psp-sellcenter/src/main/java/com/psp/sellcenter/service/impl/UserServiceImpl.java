@@ -93,7 +93,14 @@ public class UserServiceImpl implements UserService {
 		res.setOrigin(user.getOrigin());
 		res.setPhoneNum(user.getPhoneNum());
 		res.setPosition(user.getPosition());
-		res.setSellerJson(user.getSellerJson());
+		res.setCreaterJson(user.getSellerJson());
+		if(user.getSeller() != null) {
+			SellerBean selBean = user.getSeller();
+			JSONObject sellerJson = new JSONObject();
+			sellerJson.put("name", selBean.getUsername());
+			sellerJson.put("phone", selBean.getPhoneNum());
+			res.setSellerJson(sellerJson.toJSONString());
+		}
 		res.setSid(user.getSid());
 		res.setUid(user.getUid());
 		res.setStatus(user.getStatus());
@@ -313,10 +320,10 @@ public class UserServiceImpl implements UserService {
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}
-		int userOrders = orderImpl.selectStageCount2User(uid, 1);
-		if(userOrders > 0) {
-			throw new ServiceException("can_no_archive");
-		}
+//		int userOrders = orderImpl.selectStageCount2User(uid, 1);
+//		if(userOrders > 0) {
+//			throw new ServiceException("can_no_archive");
+//		}
 		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
 		}

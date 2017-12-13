@@ -63,8 +63,7 @@ public class ProviderController {
 			String content = param.getContent();
 			String password = param.getPassword();
 			String confirmPwd = param.getConfirmPwd();
-			String cids = param.getCid();
-			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content, password, confirmPwd, cids, adminId);
+			RAccountBean bean = providerServiceImpl.addProvider(name, address, contact, phoneNum, content, password, confirmPwd, adminId);
 			if (bean != null) {
 				result.setData(bean);
 			}
@@ -73,6 +72,7 @@ public class ProviderController {
 			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
+			result.setServiceException(e);
 		}
 		return result;
 	}

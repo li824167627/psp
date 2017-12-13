@@ -16,10 +16,9 @@ public interface ProviderService {
 	 * @param confirmPwd 
 	 * @param password 
 	 * @param cids 
-	 * @param adminId 
 	 * @return
 	 */
-	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd, String cids, String adminId);
+	RAccountBean addProvider(String name, String address, String contact, String phoneNum, String content, String password, String confirmPwd, String cids);
 	
 	
 	/**

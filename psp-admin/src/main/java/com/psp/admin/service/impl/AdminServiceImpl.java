@@ -9,12 +9,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.cache.dao.AdminCacheDao;
 import com.psp.admin.constants.StringConstants;
 import com.psp.admin.controller.res.bean.RAdminBean;
+import com.psp.admin.controller.res.bean.ROrderStatisticsBean;
+import com.psp.admin.controller.res.bean.RUserLevelStatisticsBean;
+import com.psp.admin.controller.res.bean.RUserOnlineStatisticsBean;
+import com.psp.admin.controller.res.bean.RUserStatisticsBean;
+import com.psp.admin.controller.res.bean.RUserStatusStatisticsBean;
 import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.Code;
+import com.psp.admin.model.OrderStageStatisticsBean;
+import com.psp.admin.model.OrderStatusStatisticsBean;
+import com.psp.admin.model.UserLevelStatisticsBean;
+import com.psp.admin.model.UserOnlineStatisticsBean;
+import com.psp.admin.model.UserStatusStatisticsBean;
 import com.psp.admin.persist.dao.AdminDao;
+import com.psp.admin.persist.dao.OrderDao;
+import com.psp.admin.persist.dao.UserDao;
 import com.psp.admin.service.AdminService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
@@ -35,6 +49,13 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	AdminCacheDao adminCacheImpl;
+	
+	@Autowired
+	OrderDao orderImpl;
+
+	@Autowired
+	UserDao userImpl;
+	
 	
 	// 发送手机验证码
 	VCodeSender phoneCode = VCodeSender.getInstance("N1330628", "t7NYh90uB");
@@ -298,7 +319,7 @@ public class AdminServiceImpl implements AdminService {
 		if (admin == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
 		}
-		if (!pwd.equals(admin.getPassword())) {
+		if (!MD5Util.md5(pwd).equals(admin.getPassword())) {
 			throw new ServiceException("user_password_is_error");
 		}
 		
@@ -306,11 +327,117 @@ public class AdminServiceImpl implements AdminService {
 			throw new ServiceException("user_password_is_not_same");
 		}
 		
-		admin.setPassword(newPwd);
+		admin.setPassword(MD5Util.md5(newPwd));
 		boolean flag = adminImpl.update(admin) > 0;
 		if(!flag) {
 			throw new ServiceException("update_seller_error");
 		}
 		return flag;
 	}
+
+	@Override
+	public ROrderStatisticsBean getOrderStatistics(String adminId) { 
+		OrderStatusStatisticsBean orderStatus = orderImpl.selectOrderStatusCount(adminId);
+		OrderStageStatisticsBean orderStage = orderImpl.selectOrderStagesCount(adminId);
+		
+		
+		
+		logger.info(JSON.toJSONString(orderStage));
+		JSONArray status = new JSONArray();
+		
+		JSONObject obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getCompleted(), 0));
+		obj.put("name", "已完成");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getToAllot(), 0));
+		obj.put("name", "待分配");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getPending(), 0));
+		obj.put("name", "待处理");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getAccept(), 0));
+		obj.put("name", "已接收");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getToContract(), 0));
+		obj.put("name", "合同已上传");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getToApplyCompelete(), 0));
+		obj.put("name", "申请完成");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getToFeedback(), 0));
+		obj.put("name", "待反馈");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getRefuse(), 0));
+		obj.put("name", "拒绝完成");
+		status.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getToApplyFinished(), 0));
+		obj.put("name", "申请终止");
+		status.add(obj);
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStatus.getClosed(), 0));
+		obj.put("name", "已关闭");
+		status.add(obj);
+		
+		JSONArray stage = new JSONArray();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStage.getCompleted(), 0));
+		obj.put("name", "已完成");
+		stage.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStage.getUnderway(), 0));
+		obj.put("name", "进行中");
+		stage.add(obj);obj = new JSONObject();
+		
+		obj = new JSONObject();
+		obj.put("value", NumUtil.toInt(orderStage.getClosed(), 0));
+		obj.put("name", "已关闭");
+		stage.add(obj);obj = new JSONObject();
+		ROrderStatisticsBean order = new ROrderStatisticsBean();
+		
+		order.setStage(stage);
+		order.setStatus(status);
+		return order;
+	}
+
+	@Override
+	public RUserStatisticsBean getUserStatistics(String adminId) {
+		UserLevelStatisticsBean level = userImpl.selectLevelCount(adminId);
+		UserStatusStatisticsBean status = userImpl.selectStatusCount(adminId);
+		UserOnlineStatisticsBean online = userImpl.selectOnlineCount(adminId);
+		RUserLevelStatisticsBean rlevel = new RUserLevelStatisticsBean();
+		rlevel.setUnrated(level.getUnrated());
+		rlevel.setValid(level.getValid());
+		rlevel.setUnvalid(level.getUnvalid());
+		RUserStatusStatisticsBean rstatus = new RUserStatusStatisticsBean();
+		rstatus.setCommunicate(status.getCommunicate());
+		rstatus.setUncommunicate(status.getUncommunicate());
+		RUserOnlineStatisticsBean ronline = new RUserOnlineStatisticsBean();
+		ronline.setOffline(online.getOffline());
+		ronline.setOnline(online.getOnline());
+		RUserStatisticsBean user = new RUserStatisticsBean();
+		user.setLevel(rlevel);
+		user.setStatus(rstatus);
+		user.setOnline(ronline);
+		return user;
+	}
 }
+                                                                                     

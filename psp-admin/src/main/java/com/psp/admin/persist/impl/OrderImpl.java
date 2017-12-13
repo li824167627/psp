@@ -6,7 +6,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.northend.api.go.util.StringUtil;
 import com.psp.admin.model.OrderBean;
+import com.psp.admin.model.OrderStageStatisticsBean;
+import com.psp.admin.model.OrderStatusStatisticsBean;
 import com.psp.admin.persist.dao.OrderDao;
 
 @Repository
@@ -15,7 +18,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".OrderMapper";
 
 	@Override
-	public int selectOrderCount(int filteType, int stype, String key, int stage, int ttype, String targetId) {
+	public int selectOrderCount(int filteType, int stype, String key, int stage, int ttype, String targetId, String parkId) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("filteType", filteType);
 		where.put("stype", stype);
@@ -34,12 +37,15 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 			default:
 				break;
 		}
+		if(StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderCount", where);
 	}
 
 	@Override
 	public List<OrderBean> selectOrders(int page, int pageSize, int filteType, int stype, String key, int stage,
-			int ttype, String targetId) {
+			int ttype, String targetId, String parkId) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("start", page * pageSize);
 		where.put("length", pageSize);
@@ -60,6 +66,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 			default:
 				break;
 		}
+		if(StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectOrders", where);
 	}
 
@@ -72,6 +81,18 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	@Override
 	public int selectParkOrderNum(String pid) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectParkOrderCount", pid);
+	}
+
+	@Override
+	public OrderStatusStatisticsBean selectOrderStatusCount(String aid) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStatusCount", aid);
+
+	}
+
+	@Override
+	public OrderStageStatisticsBean selectOrderStagesCount(String aid) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStagesCount", aid);
+
 	}
 
 }

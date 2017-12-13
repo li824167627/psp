@@ -5,26 +5,28 @@
 	<!-- 根据分配状态获取管理的工单总数 -->
 	<select id="selectOrderCount" resultType="int">
 		SELECT count(*) 
-		FROM psp_order
+		FROM psp_order o
+		left join psp_user u
+		on o.uid = u.uid
 		<where>
-			sid = #{sid}
+			u.sid = #{sid}
 			<!-- 筛选 -->
-			<if test="filteType != 0">
-				and status = #{filteType}
+			<if test="filteType != 99">
+				and o.status = #{filteType}
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
-				and status > 1
+				and (o.status = 0 or o.status > 1)
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 1">
-				AND (content like CONCAT('%', '${key}' ,'%'))
+				AND (o.content like CONCAT('%', '${key}' ,'%'))
 			</if>
 			<if test="stype == 2">
-				AND (label like CONCAT('%', '${key}' ,'%')) 
+				AND (o.label like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 用户详情下-->
 			<if test="uid != null">
-				and uid = #{uid}
+				and o.uid = #{uid}
 			</if>
 		</where> 
 	</select>
@@ -39,6 +41,7 @@
 		<result property="pid"  column="pid"/>
 		<result property="createTime"  column="createTime"/>
 		<result property="status"  column="status"/>
+		<result property="contractStatus"  column="contractStatus"/>
 		<result property="stage"  column="stage"/>
 		<result property="isAllot"  column="isAllot"/>
 		<result property="expectedTime"  column="expectedTime"/>
@@ -78,6 +81,7 @@
 			<result property="payment"  column="payment"/>
 			<result property="paymentWay"  column="paymentWay"/>
 			<result property="paymentDesc"  column="paymentDesc"/>
+			<result property="type"  column="type"/>
 		</collection>
 	</resultMap>
 	
@@ -93,13 +97,13 @@
 		left join psp_user u
 		on o.uid = u.uid
 		<where>
-			o.sid = #{sid}
+			u.sid = #{sid}
 			<!-- 筛选 -->
-			<if test="filteType != 0">
+			<if test="filteType != 99">
 				and o.status = #{filteType}
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
-				and o.status > 1
+				and (o.status = 0 or o.status > 1)
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 1">
@@ -120,12 +124,14 @@
 	<!-- 根据阶段搜索数量 -->
 	<select id="selectOrderCount2Seller" resultType="int">
 		SELECT count(*) 
-		FROM psp_order
+		FROM psp_order o
+		left join psp_user u
+		on o.uid = u.uid
 		<where>
-			sid = #{sid}
+			u.sid = #{sid}
 			<!-- 筛选 -->
 			<if test="stage != 0"><!-- 1进行中 2 已完成 3 关闭 -->
-				and stage = #{stage}
+				and o.stage = #{stage}
 			</if>
 		</where> 
 	</select>
@@ -134,10 +140,10 @@
 	<insert id="insert">
 		INSERT INTO psp_order
 		(oid, orderNo, sid, sellerJson, uid, label, content,
-		pid, status, stage, createTime, isAllot, updateTime)
+		pid, status, stage, createTime, isAllot, updateTime, contractStatus)
 		VALUES
 		(#{oid}, #{orderNo}, #{sid}, #{sellerJson}, #{uid}, #{label}, #{content},
-		#{pid}, #{status}, #{stage}, now(), #{isAllot}, now());
+		#{pid}, #{status}, #{stage}, now(), #{isAllot}, now(), #{contractStatus});
 	</insert>
 	
 	<!-- 根据id获取客户信息 -->
@@ -145,7 +151,7 @@
 		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
 			c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
 			c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
-			f.fid, f.content as fcontent, f.averageScore,
+			f.fid, f.content as fcontent, f.averageScore, c.type,
 			u.uid as uuid, u.name as uname,u.phoneNum as uphoneNum, u.companyName as ucompanyName
 		FROM psp_order o 
 		left join psp_provider p
@@ -172,12 +178,14 @@
 	<update id="updateStatus">
 		UPDATE psp_order 
 		<set>
-			status = #{status},stage = #{stage} 
+			status = #{status},
+			stage = #{stage},
+			contractStatus = #{contractStatus},
 			<if test="status == 4">
-			,expectedTime = #{expectedTime}
+			expectedTime = #{expectedTime},
 			</if>
 			<if test="stage == 2">
-			,closeTime = now()
+			closeTime = now(),
 			</if>
 		</set>
 		WHERE
@@ -188,10 +196,10 @@
 	<insert id="insertContract">
 		INSERT INTO psp_order_contract
 		(oid, name, contractNo, partyA, partyB, contractUrl, signTime, startTime,
-		endTime, createTime, service, money, payment, paymentWay, paymentDesc)
+		endTime, createTime, service, money, payment, paymentWay, paymentDesc, type)
 		VALUES
 		(#{oid}, #{name}, #{contractNo}, #{partyA}, #{partyB}, #{contractUrl}, #{signTime}, #{startTime},
-		#{endTime}, now(), #{service}, #{money}, #{payment}, #{paymentWay}, #{paymentDesc});
+		#{endTime}, now(), #{service}, #{money}, #{payment}, #{paymentWay}, #{paymentDesc}, #{type});
 	</insert>
 	
 	<!-- 反馈 -->
@@ -211,6 +219,37 @@
 		</where> 
 	</select>
 	
+	<!-- 根据合同类型和工单查询合同 -->
+	<select id="selectOrderContractInType" resultType="OrderContractBean">
+		SELECT *
+		FROM psp_order_contract
+		<where>
+			oid = #{oid} and type = #{type}
+		</where> 
+	</select>
+	
+	<update id="updateContract">
+		UPDATE psp_order_contract 
+		<set>
+			oid = #{oid},
+			name = #{name}, 
+			contractNo = #{contractNo}, 
+			partyA = #{partyA}, 
+			partyB = #{partyB}, 
+			contractUrl = #{contractUrl}, 
+			signTime = #{signTime}, 
+			startTime = #{startTime},
+			endTime = #{endTime}, 
+			service = #{service}, 
+			money = #{money}, 
+			payment = #{payment}, 
+			paymentWay = #{paymentWay}, 
+			paymentDesc = #{paymentDesc}, 
+			type = #{type}
+		</set>
+		WHERE
+			cid = #{cid};
+	</update>
 	
 	
 </mapper>

@@ -23,6 +23,7 @@ public class OrderContractBean {
 	private String paymentWay; // JSON
 	private String paymentDesc;
 	private String name;// 合同名称
+	private Integer type;// 合同类型：1客户合同2服务商合同
 	
 	public Integer getCid() {
 		return cid;
@@ -119,6 +120,12 @@ public class OrderContractBean {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }

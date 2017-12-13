@@ -22,5 +22,16 @@
 		WHERE
 			sid = #{sid};
 	</update>
+	
+	<update id="updatePwd">
+		UPDATE psp_sale_center
+		<set>
+			password = #{password}
+		</set> 
+		WHERE
+			sid = #{sid};
+	</update>
+
+
 
 </mapper>

@@ -28,5 +28,9 @@ public interface OrderDao {
 
 	int selectStageCount2User(String uid, int i);
 
+	OrderContractBean selectOrderContractInType(String oid, int contractType);
+
+	int updateContract(OrderContractBean contract);
+
 
 }

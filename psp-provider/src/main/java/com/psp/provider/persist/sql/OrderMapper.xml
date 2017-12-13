@@ -9,7 +9,7 @@
 		<where>
 			pid = #{pid}
 			<!-- 筛选 -->
-			<if test="filteType != 0">
+			<if test="filteType != 99">
 				and status = #{filteType}
 			</if>
 			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
@@ -78,6 +78,7 @@
 			<result property="payment"  column="payment"/>
 			<result property="paymentWay"  column="paymentWay"/>
 			<result property="paymentDesc"  column="paymentDesc"/>
+			<result property="type"  column="type"/>
 		</collection>
 		
 	</resultMap>
@@ -98,7 +99,7 @@
 		<where>
 			o.pid = #{pid}
 			<!-- 筛选 -->
-			<if test="filteType != 0">
+			<if test="filteType != 99">
 				and o.status = #{filteType}
 			</if>
 			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
@@ -135,7 +136,7 @@
 			p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum, p.contact as ppcontact,
 			s.sid as ssid,s.username as sname, s.phoneNum as sphoneNum,
 			u.uid as uuid,u.name as uname, u.phoneNum as uphoneNum,
-			c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
+			c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, c.type,
 			c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
 			f.fid, f.content as fcontent, f.averageScore
 		FROM psp_order o 
@@ -146,10 +147,10 @@
 		left join psp_user u
 		on o.uid = u.uid
 		left join psp_order_contract c
-		on o.oid = c.oid
+		on o.oid = c.oid and c.type = 2
 		left join psp_order_feedback f
 		on o.oid = f.oid
-		where o.oid = #{oid}
+		where o.oid = #{oid} 
 	</select>
 	
 	<!-- 更新工单的服务商 -->

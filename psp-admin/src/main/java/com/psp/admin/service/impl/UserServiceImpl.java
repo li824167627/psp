@@ -91,11 +91,17 @@ public class UserServiceImpl implements UserService {
 		res.setOrigin(user.getOrigin());
 		res.setPhoneNum(user.getPhoneNum());
 		res.setPosition(user.getPosition());
-		res.setSellerJson(user.getSellerJson());
+		res.setCreaterJson(user.getSellerJson());
+		if(user.getSeller() != null) {
+			SellerBean selBean = user.getSeller();
+			JSONObject sellerJson = new JSONObject();
+			sellerJson.put("name", selBean.getUsername());
+			sellerJson.put("phone", selBean.getPhoneNum());
+			res.setSellerJson(sellerJson.toJSONString());
+		}
 		res.setSid(user.getSid());
 		res.setUid(user.getUid());
 		res.setStatus(user.getStatus());
-		logger.info(JSON.toJSONString(res));
 		return res;
 	}
 

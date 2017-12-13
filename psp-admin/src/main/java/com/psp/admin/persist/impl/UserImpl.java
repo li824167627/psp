@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.psp.admin.model.UserBean;
+import com.psp.admin.model.UserLevelStatisticsBean;
+import com.psp.admin.model.UserOnlineStatisticsBean;
+import com.psp.admin.model.UserStatusStatisticsBean;
 import com.psp.admin.persist.dao.UserDao;
 import com.psp.util.StringUtil;
 
@@ -57,6 +60,24 @@ public class UserImpl extends BaseImpl implements UserDao {
 	@Override
 	public int selectParkUserNum(String pid) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectParkUserCount", pid);
+	}
+
+	@Override
+	public UserLevelStatisticsBean selectLevelCount(String adminId) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectLevelCount", adminId);
+
+	}
+
+	@Override
+	public UserStatusStatisticsBean selectStatusCount(String adminId) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectStatusCount", adminId);
+
+	}
+
+	@Override
+	public UserOnlineStatisticsBean selectOnlineCount(String adminId) {
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOnlineCount", adminId);
+
 	}
 
 }

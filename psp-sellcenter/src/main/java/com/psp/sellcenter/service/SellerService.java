@@ -21,4 +21,6 @@ public interface SellerService {
 
 	RSellerBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip);
 
+	boolean resetPwd(String uid, String pwd, String newPwd, String subPwd);
+
 }

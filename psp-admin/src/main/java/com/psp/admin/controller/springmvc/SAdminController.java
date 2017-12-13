@@ -213,4 +213,24 @@ public class SAdminController {
 
 		return adminController.del(param, request, response);
 	}
+
+	/**
+	 * 获取工单统计数量
+	 **/
+	@RequestMapping("/v1/getOrderStatistics")
+	@ResponseBody
+	public ObjectResult<ROrderStatisticsBean> getOrderStatistics(HttpServletRequest request, HttpServletResponse response) {
+
+		return adminController.getOrderStatistics(request, response);
+	}
+
+	/**
+	 * 获取用户统计数量
+	 **/
+	@RequestMapping("/v1/getUserStatistics")
+	@ResponseBody
+	public ObjectResult<RUserStatisticsBean> getUserStatistics(HttpServletRequest request, HttpServletResponse response) {
+
+		return adminController.getUserStatistics(request, response);
+	}
 }

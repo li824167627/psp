@@ -19,7 +19,6 @@ public class AddProviderParam {
 	@NotEmpty(message = "手机号不能为空")
 	private String phoneNum; // 手机号，根据联系人和手机号生成服务商管理账号
 	private String content; // 服务内容
-	private String cid; // 所选分类
 
 	public void setName(String name) {
  		this.name = name;
@@ -75,14 +74,6 @@ public class AddProviderParam {
 
 	public String getContent() {
  		return content;
-	}
-
-	public void setCid(String cid) {
- 		this.cid = cid;
-	}
-
-	public String getCid() {
- 		return cid;
 	}
 
 }

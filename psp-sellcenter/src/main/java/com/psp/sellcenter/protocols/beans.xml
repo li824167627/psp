@@ -22,6 +22,7 @@
 			<attr type="string" name="companyName" notes="公司名称" demoValue="18553351967" />
 			<attr type="string" name="position" notes="职位" demoValue="ceo" />
 			<attr type="string" name="sid" notes="当前销售" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="createrJson" notes="创建人" demoValue="{'name':'钱哲','phoneNum':'15762888888'}" />
 			<attr type="string" name="sellerJson" notes="当前销售JSON" demoValue="{'name':'钱哲','phoneNum':'15762888888'}" />
 			<attr type="int" name="orderNum" notes="工单数量" demoValue="10" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
@@ -81,6 +82,7 @@
 			<attr type="string" name="providerJson" notes="服务商信息" demoValue="{'服务商名称':'北京硬创云加','服务商电话':'18553351967'}" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="int" name="status" notes="状态" demoValue="0:待分配 1已完成 2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
+			<attr type="int" name="contractStatus" notes="合同状态：0等待上传1上传客户合同2上传服务商合同3合同上传完毕" demoValue="1" />
 			<attr type="int" name="stage" notes="所处阶段" demoValue="0:待分配 1已完成 2:进行中 3已终止" />
 			<attr type="int" name="isAllot" notes="是否被分配" demoValue="1"></attr>
 			<attr  type="long" name="expectedTime" notes="预计完成时间" demoValue="unix时间戳" ></attr>
@@ -113,6 +115,7 @@
 			<attr name="payment" type="int" demoValue="1" notes="付款方式：0一次性 1分期 2其他"/>
 			<attr name="paymentWay" type="string" demoValue="[{1,50%},{2,20%},{3,30%}]" notes="分期方案"/>
 			<attr name="paymentDesc" type="string" demoValue="付款描述" notes="付款描述"/>
+			<attr name="type" type="int" notes="所属类型：1客户合同2服务商合同" demoValue="1" />
 		</attrs>
 	</bean>
 	

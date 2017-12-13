@@ -24,6 +24,8 @@ public class UserBean {
 	private String aid; // 当前分配人
 	private String adminJson; // 管理人员Json
 	private Timestamp allotTime; // 分配时间
+	private SellerBean seller;
+	
 	public String getUid() {
 		return uid;
 	}
@@ -131,6 +133,12 @@ public class UserBean {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public SellerBean getSeller() {
+		return seller;
+	}
+	public void setSeller(SellerBean seller) {
+		this.seller = seller;
 	}
 	
 }

@@ -18,6 +18,7 @@ public class ROrderBean {
 	private String providerJson; // 服务商信息
 	private Long createTime; // 创建时间
 	private Integer status; // 状态
+	private Integer contractStatus; // 合同状态：0等待上传1上传客户合同2上传服务商合同3合同上传完毕
 	private Integer stage; // 所处阶段
 	private Integer isAllot; // 是否被分配
 	private Long expectedTime; // 预计完成时间
@@ -114,6 +115,14 @@ public class ROrderBean {
 
 	public Integer getStatus() {
  		return status;
+	}
+
+	public void setContractStatus(Integer contractStatus) {
+ 		this.contractStatus = contractStatus;
+	}
+
+	public Integer getContractStatus() {
+ 		return contractStatus;
 	}
 
 	public void setStage(Integer stage) {

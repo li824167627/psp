@@ -111,5 +111,28 @@ public class SellerServiceImpl implements SellerService {
 		seller.setLetter(StringUtil.getFirstLetter(user.getUsername()));
 		return seller;
 	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean resetPwd(String sid, String pwd, String newPwd, String subPwd) {
+		SellerBean user = sellerImpl.selectOneById(sid);
+		if (user == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		if (!MD5Util.md5(pwd).equals(user.getPassword())) {
+			throw new ServiceException("user_password_is_error");
+		}
+		
+		if (newPwd != null && !newPwd.equals(subPwd)) {
+			throw new ServiceException("user_password_is_not_same");
+		}
+		
+		user.setPassword(MD5Util.md5(newPwd));
+		boolean flag = sellerImpl.updatePwd(user) > 0;
+		if(!flag) {
+			throw new ServiceException("update_seller_error");
+		}
+		return flag;
+	}
 
 }

@@ -133,20 +133,4 @@ public class SSellController {
 
 		return sellController.updateName(param, request, response);
 	}
-
-	/**
-	 * 更改密码
-	 **/
-	@RequestMapping("/v1/updatePassWord")
-	@ResponseBody
-	public BaseResult updatePassWord(@Validated UpdatePasswordParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult res = new BaseResult();
-		if (error.hasErrors()) {
-			res.setRescode(BaseResult.param.getCode());
-			res.setMsg(error.getFieldError().getDefaultMessage());
-			return res;
-		}
-
-		return sellController.updatePassWord(param, request, response);
-	}
 }

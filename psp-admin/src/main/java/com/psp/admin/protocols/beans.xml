@@ -41,6 +41,7 @@
 			<attr type="string" name="companyName" notes="公司名称" demoValue="18553351967" />
 			<attr type="string" name="position" notes="职位" demoValue="ceo" />
 			<attr type="string" name="sid" notes="当前销售" demoValue="be5f9249f77f4f25a1d530f6ce2399af" />
+			<attr type="string" name="createrJson" notes="创建人" demoValue="{'name':'钱哲','phoneNum':'15762888888'}" />
 			<attr type="string" name="sellerJson" notes="当前销售JSON" demoValue="{'name':'钱哲','phoneNum':'15762888888'}" />
 			<attr type="int" name="orderNum" notes="工单数量" demoValue="10" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
@@ -266,6 +267,49 @@
 				demoValue="[{cid:1,name:'敏捷制造',children:[{cid:1,name:'工商服务'}]}]" />
 		</attrs>
 	</bean>
+	
+	<!-- 工单统计信息 -->
+	<bean className="ROrderStatisticsBean" notes="工单统计信息">
+		<attrs>
+			<attr type="JSONArray" name="status" notes="工单统计状态数量信息" demoValue="" />
+			<attr type="JSONArray" name="stage" notes="工单统计阶段数量信息" demoValue="" />
+		</attrs>
+	</bean>
+	
+	<!-- 客户统计信息 -->
+	<bean className="RUserStatisticsBean" notes="客户统计信息">
+		<attrs>
+			<attr type="RUserLevelStatisticsBean" name="level" notes="客户级别数量信息" demoValue="" />
+			<attr type="RUserStatusStatisticsBean" name="status" notes="客户状态数量信息" demoValue="" />
+			<attr type="RUserOnlineStatisticsBean" name="online" notes="客户线上线下数量信息" demoValue="" />
+		</attrs>
+	</bean>
+	
+	<!-- 客户级别数量信息 -->
+	<bean className="RUserLevelStatisticsBean" notes="客户级别数量信息">
+		<attrs>
+			<attr type="int" name="unrated" notes="未定级" demoValue="2" />
+			<attr type="int" name="valid" notes="有效" demoValue="3" />
+			<attr type="int" name="unvalid" notes="无效" demoValue="12" />
+		</attrs>
+	</bean>
+	
+	<!-- 客户状态数量信息 -->
+	<bean className="RUserStatusStatisticsBean" notes="客户状态数量信息">
+		<attrs>
+			<attr type="int" name="communicate" notes="已沟通" demoValue="1" />
+			<attr type="int" name="uncommunicate" notes="待沟通" demoValue="2" />
+		</attrs>
+	</bean>
+	
+	<!-- 客户线上线下数量信息 -->
+	<bean className="RUserOnlineStatisticsBean" notes="客户线上线下数量信息">
+		<attrs>
+			<attr type="int" name="online" notes="线上" demoValue="123" />
+			<attr type="int" name="offline" notes="线下" demoValue="22" />
+		</attrs>
+	</bean>
+	
 	
 	
 </beans>

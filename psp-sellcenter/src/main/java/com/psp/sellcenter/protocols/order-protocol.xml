@@ -142,6 +142,8 @@
 			</param>
 			<param name="money" type="double" demoValue="100" notes="合同金额">
 			</param>
+			<param name="type" type="int" demoValue="1" notes="合同状态：1客户合同2服务商合同">
+			</param>
 		</request>
 	</protocol>
 	

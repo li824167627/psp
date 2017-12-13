@@ -24,8 +24,6 @@
 			</param>
 			<param name="content" type="string" demoValue="北京硬创云加信息技术有限公司是致力于技术开发、网站建设、公众号、H5、小程序开发，Android，iosAPP开发的初创公司" notes="服务内容">
 			</param>
-			<param name="cid" type="string" demoValue="[1,2,3,4]" notes="所选分类">
-			</param>
 		</request>
 	</protocol>
 	

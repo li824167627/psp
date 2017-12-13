@@ -23,6 +23,7 @@ public class UploadContractParam {
 	private String payDesc; // 付款描述
 	private String service; // 服务事项
 	private Double money; // 合同金额
+	private Integer type; // 合同状态：1客户合同2服务商合同
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -134,6 +135,14 @@ public class UploadContractParam {
 
 	public Double getMoney() {
  		return money;
+	}
+
+	public void setType(Integer type) {
+ 		this.type = type;
+	}
+
+	public Integer getType() {
+ 		return type;
 	}
 
 }

@@ -5,31 +5,36 @@
 	<!-- 根据分配状态获取管理的工单总数 -->
 	<select id="selectOrderCount" resultType="int">
 		SELECT count(*) 
-		FROM psp_order
-		<where>
+		FROM psp_order o
+		left join psp_sale_center s
+		on u.sid = s.sid
+		<where>           
 			<!-- 筛选 -->
-			<if test="filteType != 0">
-				and status = #{filteType}
+			<if test="filteType != 99">
+				and o.status = #{filteType}
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
-				and status > 1
+				and o.status > 1
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 1">
-				AND (content like CONCAT('%', '${key}' ,'%'))
+				AND (o.content like CONCAT('%', '${key}' ,'%'))
 			</if>
 			<if test="stype == 2">
-				AND (label like CONCAT('%', '${key}' ,'%')) 
+				AND (o.label like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 用户详情下-->
 			<if test="uid != null">
-				and uid = #{uid}
+				and o.uid = #{uid}
 			</if>
 			<if test="sid != null">
-				and sid = #{sid}
+				and o.sid = #{sid}
 			</if>
 			<if test="pid != null">
-				and pid = #{pid}
+				and o.pid = #{pid}
+			</if>
+			<if test="parkId != null">
+				and s.pid = #{parkId}
 			</if>
 		</where> 
 	</select>
@@ -98,9 +103,11 @@
 		on o.pid = p.pid
 		left join psp_user u
 		on o.uid = u.uid
+		left join psp_sale_center s
+		on u.sid = s.sid
 		<where>
 			<!-- 筛选 -->
-			<if test="filteType != 0">
+			<if test="filteType != 99">
 				and o.status = #{filteType}
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
@@ -122,6 +129,9 @@
 			</if>
 			<if test="pid != null">
 				and o.pid = #{pid}
+			</if>
+			<if test="parkId != null">
+				and s.pid = #{parkId}
 			</if>
 		</where> 
 		ORDER BY o.stage, o.updateTime desc, o.createTime desc
@@ -159,4 +169,27 @@
 		</where> 
 	</select>
 	
+	<!--  0:待分配 1已完成 2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止 -->
+	<select id="selectOrderStatusCount" resultType="OrderStatusStatisticsBean">
+		SELECT
+			(SELECT count(*) FROM psp_order where status = 0) as toAllot,
+			(SELECT count(*) FROM psp_order where status = 2) as pending,
+			(SELECT count(*) FROM psp_order where status = 3) as accept,
+			(SELECT count(*) FROM psp_order where status = 4) as toContract,
+			(SELECT count(*) FROM psp_order where status = 5) as toApplyCompelete,
+			(SELECT count(*) FROM psp_order where status = 6) as toFeedback,
+			(SELECT count(*) FROM psp_order where status = 7) as refuse,
+			(SELECT count(*) FROM psp_order where status = 8) as toApplyFinished,
+			(SELECT count(*) FROM psp_order where status = 1) as completed,
+			(SELECT count(*) FROM psp_order where status &lt; 0) as closed
+		from dual;
+	</select>
+	
+	<select id="selectOrderStagesCount" resultType="OrderStageStatisticsBean">
+		SELECT
+			(SELECT count(*) FROM psp_order where stage = 1) as underway,
+			(SELECT count(*) FROM psp_order where stage = 2) as completed,
+			(SELECT count(*) FROM psp_order where stage = 3) as closed
+		from dual;
+	</select>
 </mapper>

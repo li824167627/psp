@@ -3,10 +3,24 @@
 <mapper namespace="com.psp.admin.persist.sql.UserMapper">
 
 	<!-- 根据id获取客户信息 -->
-	<select id="selectUserById" resultType="UserBean">
-		SELECT * FROM psp_user 
-		where uid = #{uid}
+	<select id="selectUserById" resultMap="UserMap">
+		SELECT u.*, s.username as susername, s.phoneNum as sphoneNum
+		FROM psp_user u
+		left join
+		psp_sale_center s
+		on u.sid = s.sid
+		where u.uid = #{uid}
 	</select>
+	
+		
+	<resultMap type="UserBean" id="UserMap" autoMapping="true">
+		<id property="oid" column="oid"/>
+		<association property="seller" javaType="SellerBean">
+			<id property="sid" column="sid"/>
+			<result property="username"  column="susername"/>
+			<result property="phoneNum"  column="sphoneNum"/>
+		</association> 
+	</resultMap>
 
 	<!-- 根据分配状态获取客户总数 -->
 	<select id="selectUserCount" resultType="int">
@@ -41,35 +55,39 @@
 	</select>
 	
 	<!-- 根据搜索条件获取客户 -->
-	<select id="selectUsers" resultType="UserBean">
-		SELECT * FROM psp_user 
+	<select id="selectUsers" resultMap="UserMap">
+		SELECT u.*, s.username as susername, s.phoneNum as sphoneNum
+		FROM psp_user u
+		left join
+		psp_sale_center s
+		on u.sid = s.sid
 		<where>
 			<!-- 筛选 -->
 			<if test="filteType != 0">
-				and level = #{filteType}
+				and u.level = #{filteType}
 			</if>
 			<!-- 关键字搜索 -->
 			<if test="stype == 1">
-				AND (name like CONCAT('%', '${key}' ,'%'))
+				AND (u.name like CONCAT('%', '${key}' ,'%'))
 			</if>
 			<if test="stype == 2">
-				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+				AND (u.phoneNum like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<if test="stype == 3">
-				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+				AND (u.companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 分配状态 -->
 			<if test="isALlot == 1">
-				and isALlot = 1
+				and u.isALlot = 1
 			</if>
 			<if test="isALlot == 2">
-				and isALlot = 0
+				and u.isALlot = 0
 			</if>
 			<if test="sid != null">
-				and sid = #{sid}
+				and u.sid = #{sid}
 			</if>
 		</where> 
-		ORDER BY isAllot, createTime desc
+		ORDER BY u.isAllot, u.createTime desc
 		LIMIT #{start},#{length}
 	</select>
 	
@@ -78,7 +96,6 @@
 		UPDATE psp_user 
 		SET 
 			sid = #{sid},
-			sellerJson = #{sellerJson},
 			isAllot = 1,
 			aid = #{aid},
 			adminJson = #{adminJson},
@@ -99,6 +116,26 @@
 		</where> 
 	</select>
 	
+	<select id="selectLevelCount" resultType="UserLevelStatisticsBean">
+		SELECT
+			(SELECT count(*) FROM psp_user where level = 1) as valid,
+			(SELECT count(*) FROM psp_user where level = 2) as unvalid,
+			(SELECT count(*) FROM psp_user where level = 3) as unrated
+		from dual;
+	</select>
 	
+	<select id="selectStatusCount" resultType="UserStatusStatisticsBean">
+		SELECT
+			(SELECT count(*) FROM psp_user where isAllot = 1) as communicate,
+			(SELECT count(*) FROM psp_user where isAllot = 0) as uncommunicate
+		from dual;
+	</select>
+	
+	<select id="selectOnlineCount" resultType="UserOnlineStatisticsBean">
+		SELECT
+			(SELECT count(*) FROM psp_user where origin = 0) as online,
+			(SELECT count(*) FROM psp_user where origin = 2) as offline
+		from dual;
+	</select>
 	
 </mapper>

@@ -32,35 +32,44 @@
 		</where> 
 	</select>
 	
+	<resultMap type="UserBean" id="UserMap" autoMapping="true">
+		<id property="oid" column="oid"/>
+		<association property="seller" javaType="SellerBean">
+			<id property="sid" column="sid"/>
+			<result property="username"  column="susername"/>
+			<result property="phoneNum"  column="sphoneNum"/>
+		</association> 
+	</resultMap>
 	
 	<!-- 根据搜索条件获取管理的客户 -->
-	<select id="selectUsers2Seller" resultType="UserBean">
-		SELECT * FROM psp_user 
+	<select id="selectUsers2Seller" resultMap="UserMap">
+		SELECT u.*, s.username as susername, s.phoneNum as sphoneNum
+		FROM psp_user u
 		<where>
-			sid = #{sid}
+			u.sid = #{sid}
 			<!-- 筛选 -->
 			<if test="filteType != 0">
-				and level = #{filteType}
+				and u.level = #{filteType}
 			</if>
 			<!-- 关键字搜索 -->
 			<if test="stype == 1">
-				AND (name like CONCAT('%', '${key}' ,'%'))
+				AND (u.name like CONCAT('%', '${key}' ,'%'))
 			</if>
 			<if test="stype == 2">
-				AND (phoneNum like CONCAT('%', '${key}' ,'%')) 
+				AND (u.phoneNum like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<if test="stype == 3">
-				AND (companyName like CONCAT('%', '${key}' ,'%')) 
+				AND (u.companyName like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 沟通状态 -->
 			<if test="status == 1">
-				and status = 0
+				and u.status = 0
 			</if>
 			<if test="status == 2">
-				and status = 1
+				and u.status = 1
 			</if>
 		</where> 
-		ORDER BY createTime desc
+		ORDER BY u.createTime desc
 		LIMIT #{start},#{length}
 	</select>
 	
@@ -86,7 +95,7 @@
 	<update id="updateSeller">
 		UPDATE psp_user 
 		SET 
-			sid = #{sid},sellerJson = #{sellerJson} 
+			sid = #{sid}
 		WHERE
 			uid = #{uid};
 	</update>
@@ -106,9 +115,13 @@
 	</update>
 	
 	<!-- 根据id获取客户信息 -->
-	<select id="selectUserById" resultType="UserBean">
-		SELECT * FROM psp_user 
-		where uid = #{uid}
+	<select id="selectUserById" resultMap="UserMap">
+		SELECT u.*, s.username as susername, s.phoneNum as sphoneNum
+		FROM psp_user u
+		left join
+		psp_sale_center s
+		on u.sid = s.sid
+		where u.uid = #{uid}
 	</select>
 	
 	<!-- 更新客户评级 -->
@@ -133,7 +146,7 @@
 	<update id="archive">
 		UPDATE psp_user 
 		SET 
-			sid = null,sellerJson = null, isAllot=0
+			sid = null, isAllot=0
 		WHERE
 			uid = #{uid};
 	</update>

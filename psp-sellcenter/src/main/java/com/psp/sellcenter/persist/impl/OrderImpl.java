@@ -81,6 +81,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	public int updateStatus(OrderBean order) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("oid", order.getOid());
+		where.put("contractStatus", order.getContractStatus());
 		where.put("status", order.getStatus());
 		where.put("stage", order.getStage());
 		where.put("expectedTime", order.getExpectedTime());
@@ -104,6 +105,19 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("uid", uid);
 		where.put("stage", stage);
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectStageCount2User", where);
+	}
+
+	@Override
+	public OrderContractBean selectOrderContractInType(String oid, int contractType) {
+		Map<String, Object> where = new HashMap<>();
+		where.put("oid", oid);
+		where.put("type", contractType);
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderContractInType", where);
+	}
+
+	@Override
+	public int updateContract(OrderContractBean contract) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateContract", contract);
 	}
 
 

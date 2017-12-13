@@ -19,6 +19,7 @@ public class OrderBean {
 	private String providerJson; // 服务商信息
 	private Timestamp createTime; // 创建时间
 	private Integer status; // 状态
+	private Integer contractStatus; // 状态
 	private Integer stage; // 所处阶段
 	private Integer isAllot; // 是否被分配
 	private Timestamp expectedTime; // 预计完成时间
@@ -167,6 +168,12 @@ public class OrderBean {
 	}
 	public void setUser(UserBean user) {
 		this.user = user;
+	}
+	public Integer getContractStatus() {
+		return contractStatus;
+	}
+	public void setContractStatus(Integer contractStatus) {
+		this.contractStatus = contractStatus;
 	}
 	
 }

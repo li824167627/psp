@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.psp.admin.cache.dao.ServiceCacheDao;
 import com.psp.admin.controller.res.bean.RAccountBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
 import com.psp.admin.model.AccountBean;
@@ -22,7 +23,6 @@ import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
 import com.psp.util.AppTextUtil;
 import com.psp.util.MD5Util;
-import com.psp.util.NumUtil;
 
 @Service
 public class ProviderServiceImpl implements ProviderService {
@@ -34,11 +34,14 @@ public class ProviderServiceImpl implements ProviderService {
 	
 	@Autowired
 	ServiceDao serviceImpl;
+	
+	@Autowired
+	ServiceCacheDao serviceCacheImpl;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RAccountBean addProvider(String name, String address, String contact, String phoneNum,
-			String content, String password, String confirmPwd, String cids, String adminId) {
+			String content, String password, String confirmPwd, String adminId) {
 		boolean flag = false;
 		ProviderBean provider = new ProviderBean();
 		String pid = AppTextUtil.getPrimaryKey();
@@ -55,21 +58,6 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new ServiceException("add_provider_error");
 		}
 		// 创建 服务商可操作服务
-		if(cids != null) {
-			String[] ids = cids.split(",");
-			List<ProviderServiceBean> pservices = new ArrayList<ProviderServiceBean>();
-			for(String cid : ids) {
-				ProviderServiceBean ps = new ProviderServiceBean();
-				ps.setPid(pid);
-				ps.setCid(NumUtil.toInt(cid, -1));
-				pservices.add(ps);
-			}
-			flag = providerImpl.insertService(pservices) > 0;
-			if(!flag) {
-				throw new ServiceException("add_provider_service_error");
-			}
-			
-		}
 		AccountBean account = providerImpl.selectAccountByPhone(phoneNum);
 		if(account != null) {
 			throw new ServiceException("object_is_exist", "当前手机账号");
@@ -309,6 +297,12 @@ public class ProviderServiceImpl implements ProviderService {
 		if(!flag) {
 			throw new ServiceException("add_provider_service_error");
 		}
+		
+		// 清除服务分类缓存
+		flag = serviceCacheImpl.setAllCategoryCache(null);
+		flag = serviceCacheImpl.setCategoryCache(null);
+		flag = serviceCacheImpl.setSellerCategoryCache(null);
+				
 		return flag;
 	}
 	
@@ -324,6 +318,11 @@ public class ProviderServiceImpl implements ProviderService {
 		if(!flag) {
 			throw new ServiceException("add_provider_service_error");
 		}
+		
+		// 清除服务分类缓存
+		flag = serviceCacheImpl.setAllCategoryCache(null);
+		flag = serviceCacheImpl.setCategoryCache(null);
+		flag = serviceCacheImpl.setSellerCategoryCache(null);
 		return flag;
 	}
 
