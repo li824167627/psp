@@ -112,9 +112,6 @@
 			</param>
 			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
 			</param>
-			<param name="pid" type="String" demoValue="1" notes="服务商id">
-				<notEmpty message="服务商id不能为空"></notEmpty>
-			</param>
 		</request>
 	</protocol>
 	
@@ -122,9 +119,6 @@
 	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="1" requestName="AddProviderAccountParam"
 		resDataType="base" >
 		<request>
-			<param name="pid" type="String" demoValue="1" notes="服务商id">
-				<notEmpty message="服务商id不能为空"></notEmpty>
-			</param>
 			<param name="name" type="string" demoValue="服务商1" notes="账户名">
 			</param>
 			<param name="phone" type="string" demoValue="17617005502" notes="手机号">
@@ -154,56 +148,6 @@
 			</param>
 		</request>
 	</protocol>
-	
-	
-	<!-- 查询服务商账号总数 -->
-	<select id="selectAccountCount" resultType="int">
-		SELECT
-			count(*)
-		FROM
-			psp_provider_account
-		<where>
-			pid = #{pid} and status != 1
-		</where>
-	</select>
-	
-	<!-- 查询服务商账号 -->
-	<select id="selectAccounts" resultType="AccountBean">
-		SELECT
-			*
-		FROM
-			psp_provider_account
-		<where>
-			pid = #{pid} and status != 1
-		</where>
-		order by status, createTime DESC
-		LIMIT #{start},#{length}
-	</select>
-	
-	<!-- 插入服务商账号 -->
-	<insert id="insertAccount">
-		INSERT INTO psp_provider_account
-		(aid, username, phoneNum, password, type,
-			 pid, status, createTime, lastLoginTime)
-		VALUES
-		(#{aid}, #{username}, #{phoneNum}, #{password}, #{type},
-			 #{pid}, #{status}, now(), now());
-	</insert>
-	
-	<!-- 更新服务商账号 -->
-	<update id="updateAccount">
-		UPDATE psp_provider_account
-		<set>
-			<if test="password != null">
-				password = #{password},
-			</if>
-			<if test="status != null">
-				status = #{status},
-			</if>
-		</set> 
-		WHERE
-			aid = #{aid};
-	</update>
 	
 
 </protocols>

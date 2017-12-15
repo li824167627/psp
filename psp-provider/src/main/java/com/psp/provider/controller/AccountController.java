@@ -151,8 +151,7 @@ public class AccountController {
 			AccountBean account = (AccountBean)request.getAttribute("account");
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			String pid =param.getPid();
-			PageResult<RAccountBean> resList = accountServiceImpl.getAccountList(account, page, pageSize, pid);
+			PageResult<RAccountBean> resList = accountServiceImpl.getAccountList(account, page, pageSize);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
@@ -206,11 +205,10 @@ public class AccountController {
 		BaseResult result = new BaseResult();
 		try {
 			AccountBean account = (AccountBean)request.getAttribute("account");
-			String pid = param.getPid();
 			String name = param.getName();
 			String phone = param.getPhone();
 			String password = param.getPassword();
-			boolean flag = accountServiceImpl.addAccount(account, name, phone, password, pid);
+			boolean flag = accountServiceImpl.addAccount(account, name, phone, password);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

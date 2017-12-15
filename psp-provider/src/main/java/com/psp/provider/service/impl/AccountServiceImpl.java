@@ -166,7 +166,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public PageResult<RAccountBean> getAccountList(AccountBean account, int page, int pageSize, String pid) {
+	public PageResult<RAccountBean> getAccountList(AccountBean account, int page, int pageSize) {
 		PageResult<RAccountBean> result = new PageResult<RAccountBean>();
 		if(account == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
@@ -196,8 +196,8 @@ public class AccountServiceImpl implements AccountService {
 		if(oa == null) {
 			throw new ServiceException("object_is_not_exist", "服务商账号");
 		}
-		account.setPassword(MD5Util.md5("000000"));
-		flag = accountImpl.updateAccount(account) > 0;
+		oa.setPassword(MD5Util.md5("000000"));
+		flag = accountImpl.updateAccount(oa) > 0;
 		if(!flag) {
 			throw new ServiceException("update_provider_account_error");
 		}
@@ -205,7 +205,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean addAccount(AccountBean account, String name, String phone, String password, String pid) {
+	public boolean addAccount(AccountBean account, String name, String phone, String password) {
 		boolean flag = false;
 		if(account == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
@@ -215,7 +215,7 @@ public class AccountServiceImpl implements AccountService {
 			throw new ServiceException("object_is_exist", "当前手机账号");
 		}
 		newaccount = new AccountBean();
-		newaccount.setPid(pid);
+		newaccount.setPid(account.getPid());
 		newaccount.setAid(AppTextUtil.getPrimaryKey());
 		newaccount.setUsername(name);
 		newaccount.setPhoneNum(phone);
@@ -238,8 +238,8 @@ public class AccountServiceImpl implements AccountService {
 			throw new ServiceException("object_is_not_exist", "服务商账号");
 		}
 		//account.setPassword(MD5Util.md5("000000"));
-		account.setStatus(1);// 禁用
-		flag = accountImpl.updateAccount(account) > 0;
+		oa.setStatus(1);// 禁用
+		flag = accountImpl.updateAccount(oa) > 0;
 		if(!flag) {
 			throw new ServiceException("update_provider_account_error");
 		}

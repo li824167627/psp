@@ -268,13 +268,18 @@ public class ProviderServiceImpl implements ProviderService {
 			account.setUsername(contact);
 			account.setPid(pid);
 			account.setPhoneNum(phoneNum);
-			account.setType(1);//0 员工 1 服务商管理员
+			account.setType(1); //0 员工 1 服务商管理员
 			account.setStatus(0);// 0 正常
 			account.setPassword(MD5Util.md5("000000"));
 			flag = providerImpl.insertAccount(account) > 0;
 			if(!flag) {
 				throw new ServiceException("add_provider_account_error");
 			}
+		} else {
+			if(!pid.equals(account.getPid())) {
+				throw new ServiceException("object_is_exist", "手机账号");
+			}
+			
 		}
 		
 		return flag;

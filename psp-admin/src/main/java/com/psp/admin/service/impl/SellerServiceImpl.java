@@ -107,7 +107,7 @@ public class SellerServiceImpl implements SellerService {
 			}
 			
 			SellerBean phoneseller = sellerImpl.selectOneByPhone(phoneNum);
-			if(phoneseller != null) {// 新建
+			if(phoneseller != null && sid.equals(phoneseller.getAid())) {// 编辑
 				throw new ServiceException("object_is_exist", "绑定手机号");
 			}
 			seller.setPhoneNum(phoneNum);

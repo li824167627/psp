@@ -25,6 +25,9 @@
 				and o.status > 1
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 0 and key != null">
+				AND (o.content like CONCAT('%', '${key}' ,'%') or o.label like CONCAT('%', '${key}' ,'%'))
+			</if>
 			<if test="stype == 1">
 				AND (o.content like CONCAT('%', '${key}' ,'%'))
 			</if>
@@ -129,6 +132,9 @@
 				and o.status > 1
 			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
+			<if test="stype == 0 and key != null">
+				AND (o.content like CONCAT('%', '${key}' ,'%') or o.label like CONCAT('%', '${key}' ,'%'))
+			</if>
 			<if test="stype == 1">
 				AND (o.content like CONCAT('%', '${key}' ,'%'))
 			</if>

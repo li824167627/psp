@@ -34,6 +34,9 @@
 				and u.level = #{filteType}
 			</if>
 			<!-- 关键字搜索 -->
+			<if test="stype == 0 and key != null">
+				AND (u.name like CONCAT('%', '${key}' ,'%') or u.phoneNum like CONCAT('%', '${key}' ,'%') or u.companyName like CONCAT('%', '${key}' ,'%'))
+			</if>
 			<if test="stype == 1">
 				AND (u.name like CONCAT('%', '${key}' ,'%'))
 			</if>
@@ -72,6 +75,9 @@
 				and u.level = #{filteType}
 			</if>
 			<!-- 关键字搜索 -->
+			<if test="stype == 0 and key != null">
+				AND (u.name like CONCAT('%', '${key}' ,'%') or u.phoneNum like CONCAT('%', '${key}' ,'%') or u.companyName like CONCAT('%', '${key}' ,'%'))
+			</if>
 			<if test="stype == 1">
 				AND (u.name like CONCAT('%', '${key}' ,'%'))
 			</if>

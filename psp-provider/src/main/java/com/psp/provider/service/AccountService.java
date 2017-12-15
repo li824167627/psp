@@ -50,11 +50,11 @@ public interface AccountService {
 	 */
 	RAccountBean updateName(AccountBean account, String name);
 
-	PageResult<RAccountBean> getAccountList(AccountBean account, int page, int pageSize, String pid);
+	PageResult<RAccountBean> getAccountList(AccountBean account, int page, int pageSize);
 
 	boolean resetAccountPwd(AccountBean account, String aid);
 
-	boolean addAccount(AccountBean account, String name, String phone, String password, String pid);
+	boolean addAccount(AccountBean account, String name, String phone, String password);
 
 	boolean delAccount(AccountBean account, String aid);
 

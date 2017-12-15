@@ -22,7 +22,7 @@
 			ON p.pid = r.pid
 			</if>
 		<where>
-			status != 1
+			p.status != 1
 			<if test="cid != 0">
 				and r.cid = #{r.cid}
 			</if>
@@ -42,7 +42,7 @@
 			left join psp_admin a
 			on p.aid = a.aid
 		<where>
-			status != 1
+			p.status != 1
 			<if test="cid != 0">
 				and r.cid = #{r.cid}
 			</if>
