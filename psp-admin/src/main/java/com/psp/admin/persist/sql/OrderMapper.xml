@@ -6,12 +6,20 @@
 	<select id="selectOrderCount" resultType="int">
 		SELECT count(*) 
 		FROM psp_order o
+		left join psp_user u
+		on o.uid = u.uid
 		left join psp_sale_center s
 		on u.sid = s.sid
 		<where>           
 			<!-- 筛选 -->
-			<if test="filteType != 99">
+			<if test="filteType != 99 and filteType != 10 and filteType != 11">
 				and o.status = #{filteType}
+			</if>
+			<if test="filteType == 10">
+				and o.stage = 1
+			</if>
+			<if test="filteType == 11">
+				and o.stage = 3
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status > 1
@@ -50,6 +58,7 @@
 		<result property="createTime"  column="createTime"/>
 		<result property="status"  column="status"/>
 		<result property="stage"  column="stage"/>
+		<result property="type"  column="type"/>
 		<result property="isAllot"  column="isAllot"/>
 		<result property="expectedTime"  column="expectedTime"/>
 		<result property="completeTime"  column="completeTime"/>
@@ -107,8 +116,14 @@
 		on u.sid = s.sid
 		<where>
 			<!-- 筛选 -->
-			<if test="filteType != 99">
+			<if test="filteType != 99 and filteType != 10 and filteType != 11">
 				and o.status = #{filteType}
+			</if>
+			<if test="filteType == 10">
+				and o.stage = 1
+			</if>
+			<if test="filteType == 11">
+				and o.stage = 3
 			</if>
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status > 1
@@ -172,24 +187,167 @@
 	<!--  0:待分配 1已完成 2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止 -->
 	<select id="selectOrderStatusCount" resultType="OrderStatusStatisticsBean">
 		SELECT
-			(SELECT count(*) FROM psp_order where status = 0) as toAllot,
-			(SELECT count(*) FROM psp_order where status = 2) as pending,
-			(SELECT count(*) FROM psp_order where status = 3) as accept,
-			(SELECT count(*) FROM psp_order where status = 4) as toContract,
-			(SELECT count(*) FROM psp_order where status = 5) as toApplyCompelete,
-			(SELECT count(*) FROM psp_order where status = 6) as toFeedback,
-			(SELECT count(*) FROM psp_order where status = 7) as refuse,
-			(SELECT count(*) FROM psp_order where status = 8) as toApplyFinished,
-			(SELECT count(*) FROM psp_order where status = 1) as completed,
-			(SELECT count(*) FROM psp_order where status &lt; 0) as closed
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 0
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as toAllot,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 2
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as pending,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 3
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as accept,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 4
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as toContract,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 5
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as toApplyCompelete,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 6
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as toFeedback,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 7
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as refuse,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 8
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as toApplyFinished,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status = 1
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as completed,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.status &lt; 0
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as closed
 		from dual;
 	</select>
 	
 	<select id="selectOrderStagesCount" resultType="OrderStageStatisticsBean">
 		SELECT
-			(SELECT count(*) FROM psp_order where stage = 1) as underway,
-			(SELECT count(*) FROM psp_order where stage = 2) as completed,
-			(SELECT count(*) FROM psp_order where stage = 3) as closed
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.stage = 1
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as underway,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.stage = 2
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as completed,
+			(SELECT count(*) FROM 
+				psp_order o
+			 left join psp_user u
+			 on o.uid = u.uid
+			 left join psp_sale_center s
+			 on u.sid = s.sid
+			 <where>
+				o.stage = 3
+				<if test="parkId != null">
+				and s.pid = #{parkId}
+				</if>
+			</where>) as closed
 		from dual;
 	</select>
 </mapper>

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.psp.admin.controller.res.bean.RParkBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.ParkBean;
+import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.OrderDao;
 import com.psp.admin.persist.dao.ParkDao;
 import com.psp.admin.persist.dao.UserDao;
@@ -31,16 +33,24 @@ public class ParkServiceImpl implements ParkService {
 	UserDao userImpl;
 	
 	@Autowired
+	AdminDao adminImpl;
+	
+	@Autowired
 	OrderDao orderImpl;
 
 	@Override
 	public PageResult<RParkBean> getList(String adminId, int page, int pageSize, String key) {
 		PageResult<RParkBean> result = new PageResult<RParkBean>();
-		int count = parkImpl.selectCount(key);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		int count = parkImpl.selectCount(key, parkId);
 		if(count == 0) {
 			return null;
 		}
-		List<ParkBean> resList = parkImpl.selectList(page, pageSize, key);
+		List<ParkBean> resList = parkImpl.selectList(page, pageSize, key, parkId);
 		List<RParkBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {

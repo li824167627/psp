@@ -18,6 +18,9 @@
 			<if test="key != null">
 				name like CONCAT('%', '${key}' ,'%')
 			</if>
+			<if test="parkId != null">
+				and pid = #{parkId}
+			</if>
 		</where>
 	</select>
 	
@@ -32,6 +35,9 @@
 		<where>
 			<if test="key != null">
 				p.name like CONCAT('%', '${key}' ,'%')
+			</if>
+			<if test="parkId != null">
+				and p.pid = #{parkId}
 			</if>
 		</where>
 		ORDER BY p.createTime desc

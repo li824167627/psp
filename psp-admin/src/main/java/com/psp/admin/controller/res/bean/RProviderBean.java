@@ -15,6 +15,7 @@ public class RProviderBean {
 	private Double score; // 评价得分
 	private Long createTime; // 创建时间
 	private Integer status; // 状态 0 正常 1 禁用
+	private Integer type; // 类型 0：测试 1正式
 
 	public void setPid(String pid) {
  		this.pid = pid;
@@ -94,6 +95,14 @@ public class RProviderBean {
 
 	public Integer getStatus() {
  		return status;
+	}
+
+	public void setType(Integer type) {
+ 		this.type = type;
+	}
+
+	public Integer getType() {
+ 		return type;
 	}
 
 }

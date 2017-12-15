@@ -45,7 +45,7 @@ public class OrderController {
 			int ttype = NumUtil.toInt(param.getTtype(), 0);
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
+			int filteType = NumUtil.toInt(param.getFilteType(), 99);//筛选类型
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
 			int stage = NumUtil.toInt(param.getStage(), 0);//阶段搜索
 			String key = param.getKey();//关键字

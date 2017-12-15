@@ -72,21 +72,14 @@
 		resType="json" notes="重设密码" state="1" requestName="ResetPwdParam"
 		resDataType="base">
 		<request>
-			<param name="account" type="String" demoValue="15654724214" notes="手机或邮箱">
-				<notEmpty message="手机号不能为空"></notEmpty>
-			</param>
 			<param name="oldPwd" type="String" demoValue="111111" notes="密码">
 				<notEmpty message="密码不能为空"></notEmpty>
 			</param>
 			<param name="password" type="String" demoValue="123123" notes="新密码">
 				<notEmpty message="新密码不能为空"></notEmpty>
 			</param>
-			<param name="confirmPwd" type="String" demoValue="123123" notes="确认新密码">
-				<notEmpty message="确认密码不能为空"></notEmpty>
-			</param>
-			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码">
-			</param>
-			<param name="imgKey" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="获取时返回的key">
+			<param name="confirmPwd" type="String" demoValue="123123" notes="新密码">
+				<notEmpty message="确定密码不能为空"></notEmpty>
 			</param>
 		</request>
 	</protocol>
@@ -100,5 +93,117 @@
 			</param>
 		</request>
 	</protocol>
+	
+	<!-- 更新用户名 -->
+	<protocol name="updateName" requestMapping="/v1/updateName" resType="json" notes="更新用户名" state="1" requestName="UpdateAccountNameParam"
+		resDataType="object" responseName="RAccountBean">
+		<request>
+			<param name="name" type="String" demoValue="账号" notes="姓名">
+				<notEmpty message="更改姓名不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 获取服务商账户列表 -->
+	<protocol name="getAccountList" requestMapping="/v1/getAccountList" resType="json" notes="获取服务商账户列表" state="1" requestName="GetProviderAccountListParam"
+		resDataType="list" responseName="RAccountBean">
+		<request>
+			<param name="page" type="int" demoValue="0" notes="页码，默认从0开始">
+			</param>
+			<param name="pagesize" type="int" demoValue="20" notes="每页数量，默认20">
+			</param>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 创建服务商账户 -->
+	<protocol name="addAccount" requestMapping="/v1/addAccount" resType="json" notes="创建服务商账户" state="1" requestName="AddProviderAccountParam"
+		resDataType="base" >
+		<request>
+			<param name="pid" type="String" demoValue="1" notes="服务商id">
+				<notEmpty message="服务商id不能为空"></notEmpty>
+			</param>
+			<param name="name" type="string" demoValue="服务商1" notes="账户名">
+			</param>
+			<param name="phone" type="string" demoValue="17617005502" notes="手机号">
+				<notEmpty message="手机号"></notEmpty>
+			</param>
+			<param name="password" type="string" demoValue="123123" notes="密码">
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 重置密码 -->
+	<protocol name="resetAccountPwd" requestMapping="/v1/resetAccountPwd" resType="json" notes="重置服务商账户密码" state="1" requestName="ResetProviderPwdParam"
+		resDataType="base" >
+		<request>
+			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
+				<notEmpty message="服务商账号id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	<!-- 删除账号 -->
+	<protocol name="delAccount" requestMapping="/v1/delAccount" resType="json" notes="删除服务商账户" state="1" requestName="DelProviderAccountParam"
+		resDataType="base" >
+		<request>
+			<param name="aid" type="String" demoValue="1" notes="服务商账号id">
+				<notEmpty message="服务商账号id不能为空"></notEmpty>
+			</param>
+		</request>
+	</protocol>
+	
+	
+	<!-- 查询服务商账号总数 -->
+	<select id="selectAccountCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_provider_account
+		<where>
+			pid = #{pid} and status != 1
+		</where>
+	</select>
+	
+	<!-- 查询服务商账号 -->
+	<select id="selectAccounts" resultType="AccountBean">
+		SELECT
+			*
+		FROM
+			psp_provider_account
+		<where>
+			pid = #{pid} and status != 1
+		</where>
+		order by status, createTime DESC
+		LIMIT #{start},#{length}
+	</select>
+	
+	<!-- 插入服务商账号 -->
+	<insert id="insertAccount">
+		INSERT INTO psp_provider_account
+		(aid, username, phoneNum, password, type,
+			 pid, status, createTime, lastLoginTime)
+		VALUES
+		(#{aid}, #{username}, #{phoneNum}, #{password}, #{type},
+			 #{pid}, #{status}, now(), now());
+	</insert>
+	
+	<!-- 更新服务商账号 -->
+	<update id="updateAccount">
+		UPDATE psp_provider_account
+		<set>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
+	
 
 </protocols>

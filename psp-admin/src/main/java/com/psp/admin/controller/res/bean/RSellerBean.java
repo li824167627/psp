@@ -12,7 +12,7 @@ public class RSellerBean {
 	private Integer status; // 状态1：正常，0：禁用
 	private Long createTime; // 创建时间
 	private Long lastLoginTime; // 最后登录时间
-	private Integer type; // 类型 1：总销售，0：园区销售
+	private Integer type; // 类型 0：测试 1正式
 	private String parkName; // 所属园区
 	private String pid; // 所属园区id
 

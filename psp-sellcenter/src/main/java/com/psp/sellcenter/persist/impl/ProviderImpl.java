@@ -38,5 +38,10 @@ public class ProviderImpl extends BaseImpl implements ProviderDao {
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectAllProvider");
 	}
 
+	@Override
+	public int updateScore(ProviderBean proBean) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateScore", proBean);
+	}
+
 
 }

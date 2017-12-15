@@ -10,7 +10,11 @@ public class ProviderBean {
 	private String phoneNum;
 	private String content;
 	private Double score;
+	private Double TotalScore;
+	private Integer scoreNum;
 	private Timestamp createTime;
+	
+	private Integer type;
 	
 	private Integer cid;// 服务
 	
@@ -67,6 +71,24 @@ public class ProviderBean {
 	}
 	public void setCid(Integer cid) {
 		this.cid = cid;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	public Double getTotalScore() {
+		return TotalScore;
+	}
+	public void setTotalScore(Double totalScore) {
+		TotalScore = totalScore;
+	}
+	public Integer getScoreNum() {
+		return scoreNum;
+	}
+	public void setScoreNum(Integer scoreNum) {
+		this.scoreNum = scoreNum;
 	}
 
 }

@@ -37,7 +37,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 			default:
 				break;
 		}
-		if(StringUtil.isEmpty(parkId)) {
+		if(!StringUtil.isEmpty(parkId)) {
 			where.put("parkId", parkId);
 		}
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderCount", where);
@@ -66,7 +66,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 			default:
 				break;
 		}
-		if(StringUtil.isEmpty(parkId)) {
+		if(!StringUtil.isEmpty(parkId)) {
 			where.put("parkId", parkId);
 		}
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectOrders", where);
@@ -84,14 +84,22 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	}
 
 	@Override
-	public OrderStatusStatisticsBean selectOrderStatusCount(String aid) {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStatusCount", aid);
+	public OrderStatusStatisticsBean selectOrderStatusCount(String parkId) {
+		Map<String, Object> where = new HashMap<>();
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStatusCount", where);
 
 	}
 
 	@Override
-	public OrderStageStatisticsBean selectOrderStagesCount(String aid) {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStagesCount", aid);
+	public OrderStageStatisticsBean selectOrderStagesCount(String parkId) {
+		Map<String, Object> where = new HashMap<>();
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOrderStagesCount", where);
 
 	}
 

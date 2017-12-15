@@ -63,9 +63,24 @@ public class SellController {
 		return result;
 	}
 
-	public BaseResult updateName(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+	public ObjectResult<RSellerBean> updateName(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RSellerBean> result = new ObjectResult<RSellerBean>();
+		try {
+
+			String uid = (String)request.getAttribute("sellerId");
+			String name = param.getName();
+			RSellerBean user = sellerServiceImpl.updateName(uid, name);
+			logger.info("login user is:" + user);
+			if (user != null) {
+				result.setData(user);
+				result.setFlag(true);
+			} 
+		} catch (ServiceException e) {
+			result.setFlag(false);
+			result.setRescode(e.getServiceCode());
+			result.setMsg(e.getServiceMsg());
+		}
+		return result;
 	}
 
 	public ObjectResult<RSellerBean> getSeller(GetSellerParam param, HttpServletRequest request,

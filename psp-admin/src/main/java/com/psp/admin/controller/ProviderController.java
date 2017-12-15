@@ -19,6 +19,7 @@ import com.psp.admin.controller.springmvc.req.AddProviderAccountParam;
 import com.psp.admin.controller.springmvc.req.AddProviderParam;
 import com.psp.admin.controller.springmvc.req.AddProviderServiceParam;
 import com.psp.admin.controller.springmvc.req.DelProviderAccountParam;
+import com.psp.admin.controller.springmvc.req.DelProviderParam;
 import com.psp.admin.controller.springmvc.req.DelProviderServiceParam;
 import com.psp.admin.controller.springmvc.req.EditProviderParam;
 import com.psp.admin.controller.springmvc.req.GetProviderAccountListParam;
@@ -26,6 +27,7 @@ import com.psp.admin.controller.springmvc.req.GetProviderDetailParam;
 import com.psp.admin.controller.springmvc.req.GetProviderListParam;
 import com.psp.admin.controller.springmvc.req.GetProviderServiceListParam;
 import com.psp.admin.controller.springmvc.req.ResetProviderPwdParam;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.service.CategoryService;
 import com.psp.admin.service.ProviderService;
 import com.psp.admin.service.exception.ServiceException;
@@ -241,7 +243,8 @@ public class ProviderController {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);
-			result.setMsg(e.getMessage());
+			result.setMsg(e.toString());
+			
 		}
 		return result;
 	}
@@ -301,7 +304,13 @@ public class ProviderController {
 	}
 
 	
-	
+	/**
+	 * 获取服务列表
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ObjectResult<RCategoryJSONBean> getServiceList(GetProviderServiceListParam param, HttpServletRequest request,
 			HttpServletResponse response) {
 		ObjectResult<RCategoryJSONBean> result = new ObjectResult<>();
@@ -312,6 +321,31 @@ public class ProviderController {
 				result.setData(bean);
 			}
 		} catch (ServiceException e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除服务商
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public BaseResult delProvider(DelProviderParam param, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+			AdminBean admin = (AdminBean)request.getAttribute("admin");
+			String pid = param.getPid();
+			boolean flag = providerServiceImpl.delProvider(admin, pid);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);

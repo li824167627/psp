@@ -28,6 +28,7 @@ public class ROrderBean {
 	private Long isNeedInvoice; // 是否需要发票
 	private List<ROrderContractBean> contracts; // 合同信息
 	private ROrderFeedbackBean feedback; // 反馈意见
+	private Integer dataType; // 类型 0：测试 1正式 2补录
 
 	public void setOid(String oid) {
  		this.oid = oid;
@@ -195,6 +196,14 @@ public class ROrderBean {
 
 	public ROrderFeedbackBean getFeedback() {
  		return feedback;
+	}
+
+	public void setDataType(Integer dataType) {
+ 		this.dataType = dataType;
+	}
+
+	public Integer getDataType() {
+ 		return dataType;
 	}
 
 }

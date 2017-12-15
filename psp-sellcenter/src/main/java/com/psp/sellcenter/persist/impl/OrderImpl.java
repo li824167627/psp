@@ -84,6 +84,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("contractStatus", order.getContractStatus());
 		where.put("status", order.getStatus());
 		where.put("stage", order.getStage());
+		where.put("money", order.getMoney());
 		where.put("expectedTime", order.getExpectedTime());
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateStatus", where);
 

@@ -14,6 +14,7 @@ import com.psp.sellcenter.constants.RescodeConstants;
 import com.psp.sellcenter.controller.res.BaseResult;
 import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.service.SellerService;
+import com.psp.util.StringUtil;
 
 public class UserInterceptor extends HandlerInterceptorAdapter {
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -29,7 +30,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		request.setCharacterEncoding("utf-8");
 		boolean flag = false;
 		String token = request.getHeader("token");
-		if (token != null) {
+		if (!StringUtil.isEmpty(token)) {
 			logger.info("token is:" + token);
 			SellerBean seller = sellerServiceImpl.getSellerByToken(token);
 			if (seller != null) {
@@ -39,17 +40,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("sellerid is :" + seller.getSid());
 			}
-		} else {
-			SellerBean seller = sellerServiceImpl.getSellerById("1862a08ec8a94e0ab1c47f91503396a5");
-			if (seller != null) {
-				request.setAttribute("sellerId", seller.getSid());
-				request.setAttribute("token", token);
-				request.setAttribute("seller", seller);
-				flag = true;
-				logger.info("sellerid is :" + seller.getSid());
-			}
-			
-		}
+		} 
 		if (!flag) {
 			BaseResult result = new BaseResult();
 			Rescode rescode = RescodeConstants.getInstance().get("token_fail");

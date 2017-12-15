@@ -202,11 +202,13 @@ public class OrderServiceImpl implements OrderService {
 		
 		return rcontract;
 	}
-
+	
+	/**
+	 * 新建工单
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean addOrder(String sid, String pid, String uid, String label, String content) {
-		SellerBean seller = sellerImpl.selectOneById(sid);
+	public boolean addOrder(SellerBean seller, String pid, String uid, String label, String content) {
 		boolean flag = false;
 		if(seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
@@ -233,7 +235,7 @@ public class OrderServiceImpl implements OrderService {
 		providerJson.put("contact", proBean.getContact());
 		order.setProviderJson(providerJson.toJSONString());
 		order.setUid(uid);
-		order.setSid(sid);
+		order.setSid(seller.getSid());
 		order.setSellerJson(sellerJson.toJSONString());
 		order.setLabel(label);
 		order.setContent(content);
@@ -241,6 +243,8 @@ public class OrderServiceImpl implements OrderService {
 		order.setStage(1);// 进行中
 		order.setIsAllot(1);// 已分配
 		order.setContractStatus(0);// 合同待上传
+		order.setDataType(seller.getType() == 0 ? 0 : 1);
+		
 		flag = orderImpl.insert(order) > 0;
 		if(!flag) {
 			throw new ServiceException("create_order_error");
@@ -248,7 +252,7 @@ public class OrderServiceImpl implements OrderService {
 
 		// 派单完发送短信
 		//phoneCode.send(proBean.getPhoneNum(), "您有新的工单待处理，请登录到科技服务平台查看", null);
-		flag = insertOrderLog(oid, orderNo, sid, sellerJson.toJSONString(),
+		flag = insertOrderLog(oid, orderNo, seller.getSid(), sellerJson.toJSONString(),
 				pid, providerJson.toJSONString(), 0, null, 0);//0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
 		if(!flag) {
 			throw new ServiceException("create_order_log_error");
@@ -570,7 +574,9 @@ public class OrderServiceImpl implements OrderService {
 		if(contractStatus != 0 && contractStatus != contractType) {
 			order.setStatus(4);// 合同已上传
 		}
-		
+		if(contractType == 1) {// 客户合同的时候
+			order.setMoney(money);
+		}
 		if(!StringUtil.isEmpty(endTime)) {
 			order.setExpectedTime(DateUtil.getTimestamp(endTime,"yyyy-MM-dd"));// 合同结束时间更新到工单预计完成时间
 		}
@@ -683,6 +689,15 @@ public class OrderServiceImpl implements OrderService {
 		contentJson.put("score", JSON.parse(score));
 		contentJson.put("describe", content);
 		ProviderBean proBean = providerImpl.selectOneById(order.getPid());
+		Double totalScore = NumUtil.toDouble(proBean.getTotalScore(), 0) + averageScore;
+		int num = NumUtil.toInt(proBean.getTotalScore(), 0) + 1;
+		proBean.setScore(totalScore/num);
+		proBean.setTotalScore(totalScore);
+		proBean.setScoreNum(num);
+		flag = providerImpl.updateScore(proBean) > 0;
+		if(!flag) {
+			throw new ServiceException("update_provider_score_error");
+		}
 		JSONObject providerJson = new JSONObject();
 		providerJson.put("name", proBean.getName());
 		providerJson.put("phone", proBean.getPhoneNum());

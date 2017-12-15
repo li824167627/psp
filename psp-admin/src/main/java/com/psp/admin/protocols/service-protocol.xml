@@ -58,5 +58,12 @@
 		</request>
 	</protocol>
 	
+	<protocol name="delService" requestMapping="/v1/delService" resType="json" notes="删除服务" state="1" requestName="DelServiceParam"
+		resDataType="base" >
+		<request>
+			<param name="cid" type="string" demoValue="1" notes="所选分类">
+			</param>
+		</request>
+	</protocol>
 	
 </protocols>

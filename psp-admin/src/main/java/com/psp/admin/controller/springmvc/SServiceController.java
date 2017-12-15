@@ -89,4 +89,20 @@ public class SServiceController {
 
 		return serviceController.editService(param, request, response);
 	}
+
+	/**
+	 * 删除服务
+	 **/
+	@RequestMapping("/v1/delService")
+	@ResponseBody
+	public BaseResult delService(@Validated DelServiceParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return serviceController.delService(param, request, response);
+	}
 }

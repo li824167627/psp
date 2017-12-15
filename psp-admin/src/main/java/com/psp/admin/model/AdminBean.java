@@ -16,6 +16,7 @@ public class AdminBean {
 	private Integer type; // 管理员类型：0 园区运营人员 1超级管理员
 	private String pid;// 与园区id
 	private String resources;// 可管理资源
+	private String park;
 
 	public void setAid(String aid) {
  		this.aid = aid;
@@ -95,6 +96,14 @@ public class AdminBean {
 
 	public void setResources(String resources) {
 		this.resources = resources;
+	}
+
+	public String getPark() {
+		return park;
+	}
+
+	public void setPark(String park) {
+		this.park = park;
 	}
 
 }

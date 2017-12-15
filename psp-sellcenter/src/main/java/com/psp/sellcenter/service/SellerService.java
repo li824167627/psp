@@ -22,5 +22,13 @@ public interface SellerService {
 	RSellerBean login(String sessionId, String phone, String pwd, String vcode, String device, String ip);
 
 	boolean resetPwd(String uid, String pwd, String newPwd, String subPwd);
+	
+	/**
+	 * 更新用户名
+	 * @param uid
+	 * @param name
+	 * @return
+	 */
+	RSellerBean updateName(String uid, String name);
 
 }

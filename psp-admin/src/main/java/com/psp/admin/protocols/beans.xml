@@ -12,6 +12,8 @@
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
 			<attr type="int" name="type" notes="管理员类型：0 园区运营人员 1超级管理员" demoValue="1" />
+			<attr type="string" name="park" notes="园区" demoValue="海淀区" />
+			<attr type="string" name="pid" notes="园区id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 			
 		</attrs>
 	</bean>
@@ -26,7 +28,7 @@
 			<attr type="int" name="status" notes="状态1：正常，0：禁用" demoValue="1" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="long" name="lastLoginTime" notes="最后登录时间" demoValue="unix时间戳" />
-			<attr type="int" name="type" notes="类型 1：总销售，0：园区销售" demoValue="1" />
+			<attr type="int" name="type" notes="类型 0：测试 1正式" demoValue="1" />
 			<attr type="string" name="parkName" notes="所属园区" demoValue="海淀区" />
 			<attr type="string" name="pid" notes="所属园区id" demoValue="ad5f9249f77f4f25a1d530f6ce2399fd" />
 		</attrs>
@@ -53,6 +55,7 @@
 			<attr type="string" name="aid" notes="当前分配人" demoValue="1" />
 			<attr type="string" name="adminJson" notes="管理人员Json" demoValue="{'name':'杨娜','phoneNum':'188123123123'}" />
 			<attr type="long" name="allotTime" notes="分配时间" demoValue="unix时间戳" />
+			<attr type="int" name="type" notes="类型 0：测试 1正式" demoValue="1" />
 		</attrs>
 	</bean>
 	
@@ -123,6 +126,7 @@
 			<attr type="double" name="score" notes="评价得分" demoValue="4.8" />
 			<attr type="long" name="createTime" notes="创建时间" demoValue="unix时间戳" />
 			<attr type="int" name="status" notes="状态 0 正常 1 禁用" demoValue="0" />
+			<attr type="int" name="type" notes="类型 0：测试 1正式" demoValue="1" />
 		</attrs>
 	</bean>
 	
@@ -164,6 +168,7 @@
 			<attr  type="long" name="isNeedInvoice" notes="是否需要发票" demoValue="1" ></attr>
 			<attr  type="list" objName="ROrderContractBean" name="contracts" notes="合同信息" demoValue="1" ></attr>
 			<attr  type="ROrderFeedbackBean" name="feedback" notes="反馈意见" demoValue="1" ></attr>
+			<attr type="int" name="dataType" notes="类型 0：测试 1正式 2补录"  demoValue="1" />
 			
 		</attrs>
 	</bean>

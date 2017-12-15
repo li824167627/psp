@@ -21,7 +21,7 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 	}
 
 	@Override
-	public int selectSellerCount(String pid, String key) {
+	public int selectSellerCount(String pid, String key, String parkId) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		if(!StringUtil.isEmpty(pid)) {
 			params.put("pid", pid);
@@ -29,12 +29,15 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 		if(!StringUtil.isEmpty(key)) {
 			params.put("key", key);
 		}
+		if(!StringUtil.isEmpty(parkId)) {
+			params.put("parkId", parkId);
+		}
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectSellerCount", params);
 
 	}
 
 	@Override
-	public List<SellerBean> selectSellers(int page, int pageSize, String pid, String key) {
+	public List<SellerBean> selectSellers(int page, int pageSize, String pid, String key, String parkId) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("start", page * pageSize);
 		params.put("length", pageSize);
@@ -43,6 +46,9 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 		}
 		if(!StringUtil.isEmpty(key)) {
 			params.put("key", key);
+		}
+		if(!StringUtil.isEmpty(parkId)) {
+			params.put("parkId", parkId);
 		}
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectSellers", params);
 	

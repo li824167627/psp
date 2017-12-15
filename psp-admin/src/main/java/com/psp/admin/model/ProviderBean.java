@@ -17,6 +17,7 @@ public class ProviderBean {
 	private Double score; // 评价得分
 	private Timestamp createTime; // 创建时间
 	private Integer status; // 状态 0 正常 1 禁用
+	private Integer type;// 0 测试 1 正常
 	public String getPid() {
 		return pid;
 	}
@@ -83,5 +84,10 @@ public class ProviderBean {
 	public void setAid(String aid) {
 		this.aid = aid;
 	}
-	
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
 }

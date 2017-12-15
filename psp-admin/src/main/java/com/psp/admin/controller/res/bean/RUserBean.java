@@ -23,6 +23,7 @@ public class RUserBean {
 	private String aid; // 当前分配人
 	private String adminJson; // 管理人员Json
 	private Long allotTime; // 分配时间
+	private Integer type; // 类型 0：测试 1正式
 
 	public void setUid(String uid) {
  		this.uid = uid;
@@ -166,6 +167,14 @@ public class RUserBean {
 
 	public Long getAllotTime() {
  		return allotTime;
+	}
+
+	public void setType(Integer type) {
+ 		this.type = type;
+	}
+
+	public Integer getType() {
+ 		return type;
 	}
 
 }

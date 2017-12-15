@@ -33,12 +33,13 @@ public class SellerController {
 			HttpServletResponse response) {
 		ListResult<RSellerBean> result = new ListResult<>();
 		try {
+			String adminId = (String)request.getAttribute("adminId");
 			String pid = param.getPid();
 			String key = param.getKey();
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			
-			PageResult<RSellerBean> resList = sellerServiceImpl.getSellers(page, pageSize, pid, key);
+			PageResult<RSellerBean> resList = sellerServiceImpl.getSellers(page, pageSize, pid, key, adminId);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);

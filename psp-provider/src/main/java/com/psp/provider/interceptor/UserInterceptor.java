@@ -14,6 +14,7 @@ import com.psp.provider.constants.RescodeConstants;
 import com.psp.provider.controller.res.BaseResult;
 import com.psp.provider.model.AccountBean;
 import com.psp.provider.service.AccountService;
+import com.psp.util.StringUtil;
 
 public class UserInterceptor extends HandlerInterceptorAdapter {
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -29,7 +30,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		request.setCharacterEncoding("utf-8");
 		boolean flag = false;
 		String token = request.getHeader("token");
-		if (token != null) {
+		if (!StringUtil.isEmpty(token)) {
 			logger.info("token is:" + token);
 			AccountBean account = accountServiceImpl.getAccountByToken(token);
 			if (account != null) {
@@ -39,16 +40,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("accountid is :" + account.getAid());
 			}
-		} else {
-			AccountBean account = accountServiceImpl.getAccountById("b9082f0c2b7f4d839f966d8f266c6224");
-			if (account != null) {
-				request.setAttribute("accountId", account.getAid());
-				request.setAttribute("token", token);
-				request.setAttribute("account", account);
-				flag = true;
-				logger.info("accountid is :" + account.getAid());
-			}
-		}
+		} 
 		if (!flag) {
 			BaseResult result = new BaseResult();
 			Rescode rescode = RescodeConstants.getInstance().get("token_fail");

@@ -13,6 +13,7 @@ import com.psp.admin.cache.dao.ServiceCacheDao;
 import com.psp.admin.controller.res.bean.RAccountBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
 import com.psp.admin.model.AccountBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.CategoryBean;
 import com.psp.admin.model.ProviderBean;
 import com.psp.admin.model.ProviderServiceBean;
@@ -323,6 +324,27 @@ public class ProviderServiceImpl implements ProviderService {
 		flag = serviceCacheImpl.setAllCategoryCache(null);
 		flag = serviceCacheImpl.setCategoryCache(null);
 		flag = serviceCacheImpl.setSellerCategoryCache(null);
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean delProvider(AdminBean admin, String pid) {
+		boolean flag = false;
+		ProviderBean provider = providerImpl.selectOneById(pid);
+		if(provider == null) {
+			throw new ServiceException("object_is_not_exist", "服务商");
+		}
+		provider.setStatus(1);// 禁用
+		flag = providerImpl.updateStatus(provider) > 0;
+		if(!flag) {
+			throw new ServiceException("del_provider_error");
+		}
+		// 清除服务分类缓存
+		flag = serviceCacheImpl.setAllCategoryCache(null);
+		flag = serviceCacheImpl.setCategoryCache(null);
+		flag = serviceCacheImpl.setSellerCategoryCache(null);
+				
 		return flag;
 	}
 

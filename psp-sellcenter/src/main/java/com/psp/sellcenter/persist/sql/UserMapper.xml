@@ -45,6 +45,8 @@
 	<select id="selectUsers2Seller" resultMap="UserMap">
 		SELECT u.*, s.username as susername, s.phoneNum as sphoneNum
 		FROM psp_user u
+		left join psp_sale_center s
+		on u.sid = s.sid
 		<where>
 			u.sid = #{sid}
 			<!-- 筛选 -->
@@ -83,11 +85,11 @@
 	<insert id="insert">
 		INSERT INTO psp_user
 		(uid, name, phoneNum, companyName, position, sid, sellerJson,
-		orderNum, createTime, communityTime, label, origin, level,
+		orderNum, createTime, communityTime, label, origin, level, type,
 		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>)
 		VALUES
 		(#{uid}, #{name}, #{phoneNum}, #{companyName}, #{position}, #{sid}, #{sellerJson},
-		0, now(), now(), #{label}, #{origin}, #{level},
+		0, now(), now(), #{label}, #{origin}, #{level}, #{type},
 		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>);
 	</insert>
 	

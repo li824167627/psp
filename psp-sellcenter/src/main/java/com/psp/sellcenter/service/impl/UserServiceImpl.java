@@ -136,6 +136,7 @@ public class UserServiceImpl implements UserService {
 			user.setLabel(label);
 			user.setOrigin(2);// 线下
 			user.setLevel(1);//有效
+			user.setType(seller.getType() == 0 ? 0 : 1);
 			logger.info("新建用户："+JSON.toJSONString(user));
 			flag = userImpl.insert(user) > 0;
 			if(!flag) {

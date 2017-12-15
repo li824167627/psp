@@ -3,6 +3,7 @@ package com.psp.sellcenter.service;
 import com.psp.sellcenter.controller.res.bean.ROrderBean;
 import com.psp.sellcenter.controller.res.bean.ROrderLogsBean;
 import com.psp.sellcenter.controller.res.bean.RServiceProviderBean;
+import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.service.res.PageResult;
 
 public interface OrderService {
@@ -22,14 +23,14 @@ public interface OrderService {
 	
 	/**
 	 * 新建工单
-	 * @param sid
+	 * @param seller
 	 * @param pid
 	 * @param provider
 	 * @param uid
 	 * @param label
 	 * @return
 	 */
-	boolean addOrder(String sid, String pid, String provider, String uid, String label);
+	boolean addOrder(SellerBean seller, String pid, String provider, String uid, String label);
 	
 	/**
 	 * 获取服务商列表Json

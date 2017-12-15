@@ -31,11 +31,25 @@
 		<msg>更新服务商失败</msg>
 	</result>
 	
+	<result name="service_has_child">
+		<code>300007</code>
+		<msg>请先删除下级关联分类或服务商才能删除此分类</msg>
+	</result>
 	
+	<result name="service_delete_error">
+		<code>300008</code>
+		<msg>删除分类失败</msg>
+	</result>
 	
+	<result name="update_provider_score_error">
+		<code>300009</code>
+		<msg>更新服务商分数失败</msg>
+	</result>
 	
-	
-	
+	<result name="del_provider_error">
+		<code>300010</code>
+		<msg>删除服务商</msg>
+	</result>
 	
 	
 	

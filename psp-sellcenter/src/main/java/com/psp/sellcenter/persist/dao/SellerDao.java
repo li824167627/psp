@@ -12,4 +12,6 @@ public interface SellerDao {
 
 	int updatePwd(SellerBean user);
 
+	int updateName(SellerBean user);
+
 }

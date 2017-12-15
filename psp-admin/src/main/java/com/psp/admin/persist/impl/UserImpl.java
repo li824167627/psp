@@ -25,7 +25,7 @@ public class UserImpl extends BaseImpl implements UserDao {
 	}
 
 	@Override
-	public int selectUserCount(int filteType, int stype, String key, int isALlot, String sid) {
+	public int selectUserCount(int filteType, int stype, String key, int isALlot, String sid, String parkId) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("filteType", filteType);
 		where.put("stype", stype);
@@ -34,11 +34,14 @@ public class UserImpl extends BaseImpl implements UserDao {
 		if(!StringUtil.isEmpty(sid)) {
 			where.put("sid", sid);
 		}
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectUserCount", where);
 	}
 
 	@Override
-	public List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid) {
+	public List<UserBean> selectUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid, String parkId) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("start", page * pageSize);
 		where.put("length", pageSize);
@@ -48,6 +51,9 @@ public class UserImpl extends BaseImpl implements UserDao {
 		where.put("isALlot", isALlot);
 		if(!StringUtil.isEmpty(sid)) {
 			where.put("sid", sid);
+		}
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
 		}
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectUsers", where);
 	}
@@ -63,20 +69,32 @@ public class UserImpl extends BaseImpl implements UserDao {
 	}
 
 	@Override
-	public UserLevelStatisticsBean selectLevelCount(String adminId) {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectLevelCount", adminId);
+	public UserLevelStatisticsBean selectLevelCount(String parkId) {
+		Map<String, Object> where = new HashMap<>();
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectLevelCount", where);
 
 	}
 
 	@Override
-	public UserStatusStatisticsBean selectStatusCount(String adminId) {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectStatusCount", adminId);
+	public UserStatusStatisticsBean selectStatusCount(String parkId) {
+		Map<String, Object> where = new HashMap<>();
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectStatusCount", where);
 
 	}
 
 	@Override
-	public UserOnlineStatisticsBean selectOnlineCount(String adminId) {
-		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOnlineCount", adminId);
+	public UserOnlineStatisticsBean selectOnlineCount(String parkId) {
+		Map<String, Object> where = new HashMap<>();
+		if(!StringUtil.isEmpty(parkId)) {
+			where.put("parkId", parkId);
+		}
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectOnlineCount", where);
 
 	}
 

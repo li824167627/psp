@@ -25,7 +25,7 @@ public class UserBean {
 	private String adminJson; // 管理人员Json
 	private Timestamp allotTime; // 分配时间
 	private SellerBean seller;
-	
+	private Integer type;
 	public String getUid() {
 		return uid;
 	}
@@ -139,6 +139,12 @@ public class UserBean {
 	}
 	public void setSeller(SellerBean seller) {
 		this.seller = seller;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }

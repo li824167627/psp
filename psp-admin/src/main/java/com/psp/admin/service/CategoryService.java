@@ -17,6 +17,8 @@ public interface CategoryService {
 	boolean editService(String aid, int cid, int parentId, String name, int sort, int isService);
 
 	RCategoryJSONBean getServiceList(String pid);
+
+	boolean delService(String aid, int cid);
 	
 
 }

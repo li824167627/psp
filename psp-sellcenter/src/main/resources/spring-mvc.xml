@@ -32,15 +32,15 @@
 		<mvc:interceptor>
 			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
 			<mvc:mapping path="/user/**" />
+			<mvc:mapping path="/seller/**" />
 			<mvc:mapping path="/usernews/**" />
 			<mvc:mapping path="/order/**" />
 			<mvc:exclude-mapping path="/area/**"/><!--全国地址-->
 			<mvc:exclude-mapping path="/file/**"/><!--文件相关-->
-			<mvc:exclude-mapping path="/user/v1/login"/><!--登录-->
-			<mvc:exclude-mapping path="/user/v1/sendFindPwdCode"/><!-- 找回密碼 -->
-			<mvc:exclude-mapping path="/user/v1/confirmFindPwdCode"/><!-- 设置密码 -->
-			<mvc:exclude-mapping path="/user/v1/resetPwd"/><!-- 设置密码 -->
-			<mvc:exclude-mapping path="/user/v1/sendVCode"/><!-- 发送手机验证码 -->
+			<mvc:exclude-mapping path="/seller/v1/login"/><!--登录-->
+			<mvc:exclude-mapping path="/seller/v1/sendFindPwdCode"/><!-- 找回密碼 -->
+			<mvc:exclude-mapping path="/seller/v1/confirmFindPwdCode"/><!-- 设置密码 -->
+			<mvc:exclude-mapping path="/seller/v1/sendVCode"/><!-- 发送手机验证码 -->
 			<bean class="com.psp.sellcenter.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 

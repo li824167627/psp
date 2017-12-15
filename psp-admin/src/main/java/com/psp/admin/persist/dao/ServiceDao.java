@@ -24,5 +24,9 @@ public interface ServiceDao {
 
 	List<CategoryBean> selectServiceByCids(List<CategoryBean> provider);
 
+	int selectProviderCountByCid(int cid);
+
+	int deleteService(int cid);
+
 
 }

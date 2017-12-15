@@ -96,7 +96,7 @@
 	
 	<!-- 更新用户名 -->
 	<protocol name="updateName" requestMapping="/v1/updateName" resType="json" notes="更新用户名" state="1" requestName="UpdateNameParam"
-		resDataType="base" >
+		resDataType="object" responseName="RSellerBean">
 		<request>
 			<param name="name" type="String" demoValue="销售一" notes="姓名">
 				<notEmpty message="更改姓名不能为空"></notEmpty>

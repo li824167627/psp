@@ -67,30 +67,6 @@
 		</request>
 	</protocol>
 	
-	<!-- 重设个人密码 -->
-	<protocol name="resetPwd" requestMapping="/v1/resetPwd"
-		resType="json" notes="重设密码" state="1" requestName="ResetPwdParam"
-		resDataType="base">
-		<request>
-			<param name="account" type="String" demoValue="15654724214" notes="手机或邮箱">
-				<notEmpty message="手机号不能为空"></notEmpty>
-			</param>
-			<param name="oldPwd" type="String" demoValue="111111" notes="密码">
-				<notEmpty message="密码不能为空"></notEmpty>
-			</param>
-			<param name="password" type="String" demoValue="123123" notes="新密码">
-				<notEmpty message="新密码不能为空"></notEmpty>
-			</param>
-			<param name="confirmPwd" type="String" demoValue="123123" notes="确认新密码">
-				<notEmpty message="确认密码不能为空"></notEmpty>
-			</param>
-			<param name="imgCode" type="String" demoValue="1234" notes="图形验证码">
-			</param>
-			<param name="imgKey" type="String" demoValue="4632d47eb8004a0aad2de26b4d1adf64" notes="获取时返回的key">
-			</param>
-		</request>
-	</protocol>
-	
 	<!-- 根据token获取管理员人员信息 -->
 	<protocol name="getAdmin" requestMapping="/v1/getAdmin" resType="json" notes="获取管理员信息" state="1" requestName="GetAdminParam"
 		resDataType="object" responseName="RAdminBean">
@@ -103,7 +79,7 @@
 	
 	<!-- 更新用户名 -->
 	<protocol name="updateName" requestMapping="/v1/updateName" resType="json" notes="更新用户名" state="1" requestName="UpdateNameParam"
-		resDataType="base" >
+		resDataType="object" responseName="RAdminBean" >
 		<request>
 			<param name="name" type="String" demoValue="管理员一" notes="姓名">
 				<notEmpty message="更改姓名不能为空"></notEmpty>
@@ -115,14 +91,14 @@
 	<protocol name="updatePassWord" requestMapping="/v1/updatePassWord" resType="json" notes="更改密码" state="1" requestName="UpdatePasswordParam"
 		resDataType="base" >
 		<request>
-			<param name="oldPwd" type="String" demoValue="123123" notes="历史密码">
-				<notEmpty message="历史密码不能为空"></notEmpty>
+			<param name="oldPwd" type="String" demoValue="111111" notes="密码">
+				<notEmpty message="密码不能为空"></notEmpty>
 			</param>
-			<param name="newPwd" type="String" demoValue="123123" notes="新密码">
+			<param name="password" type="String" demoValue="123123" notes="新密码">
 				<notEmpty message="新密码不能为空"></notEmpty>
 			</param>
-			<param name="submitPwd" type="String" demoValue="123123" notes="确认密码">
-				<notEmpty message="确认密码不能为空"></notEmpty>
+			<param name="confirmPwd" type="String" demoValue="123123" notes="新密码">
+				<notEmpty message="确定密码不能为空"></notEmpty>
 			</param>
 		</request>
 	</protocol>

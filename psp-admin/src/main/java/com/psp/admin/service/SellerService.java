@@ -5,7 +5,7 @@ import com.psp.admin.service.res.PageResult;
 
 public interface SellerService {
 
-	PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key);
+	PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key, String adminId);
 
 	boolean EditSeller(String adminId, String sid, String name, String password, String phoneNum, String pid, int type);
 

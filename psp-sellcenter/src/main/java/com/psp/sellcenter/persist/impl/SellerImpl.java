@@ -31,4 +31,9 @@ public class SellerImpl extends BaseImpl implements SellerDao {
 		return sqlSessionTemplate.update(NAME_SPACE + ".updatePwd", user);
 	}
 
+	@Override
+	public int updateName(SellerBean user) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateName", user);
+	}
+
 }

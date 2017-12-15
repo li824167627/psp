@@ -9,8 +9,14 @@
 		<where>
 			pid = #{pid}
 			<!-- 筛选 -->
-			<if test="filteType != 99">
+			<if test="filteType != 99 and filteType != 10 and filteType != 11">
 				and status = #{filteType}
+			</if>
+			<if test="filteType == 10">
+				and stage = 1
+			</if>
+			<if test="filteType == 11">
+				and stage = 3
 			</if>
 			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and status = 2
@@ -99,8 +105,14 @@
 		<where>
 			o.pid = #{pid}
 			<!-- 筛选 -->
-			<if test="filteType != 99">
+			<if test="filteType != 99 and filteType != 10 and filteType != 11">
 				and o.status = #{filteType}
+			</if>
+			<if test="filteType == 10">
+				and o.stage = 1
+			</if>
+			<if test="filteType == 11">
+				and o.stage = 3
 			</if>
 			<if test="stage == 1"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status = 2

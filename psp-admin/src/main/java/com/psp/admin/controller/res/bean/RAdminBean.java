@@ -13,6 +13,8 @@ public class RAdminBean {
 	private Long createTime; // 创建时间
 	private Long lastLoginTime; // 最后登录时间
 	private Integer type; // 管理员类型：0 园区运营人员 1超级管理员
+	private String park; // 园区
+	private String pid; // 园区id
 
 	public void setAid(String aid) {
  		this.aid = aid;
@@ -76,6 +78,22 @@ public class RAdminBean {
 
 	public Integer getType() {
  		return type;
+	}
+
+	public void setPark(String park) {
+ 		this.park = park;
+	}
+
+	public String getPark() {
+ 		return park;
+	}
+
+	public void setPid(String pid) {
+ 		this.pid = pid;
+	}
+
+	public String getPid() {
+ 		return pid;
 	}
 
 }

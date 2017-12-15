@@ -2,6 +2,7 @@ package com.psp.admin.service;
 
 import com.psp.admin.controller.res.bean.RAccountBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.service.res.PageResult;
 
 public interface ProviderService {
@@ -92,5 +93,8 @@ public interface ProviderService {
 
 
 	boolean delService(String pid, String cid);
+
+
+	boolean delProvider(AdminBean admin, String pid);
 
 }

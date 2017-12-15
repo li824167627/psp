@@ -40,7 +40,6 @@
 			<mvc:exclude-mapping path="/admin/v1/login"/><!--登录-->
 			<mvc:exclude-mapping path="/admin/v1/sendFindPwdCode"/><!-- 找回密碼 -->
 			<mvc:exclude-mapping path="/admin/v1/confirmFindPwdCode"/><!-- 设置密码 -->
-			<mvc:exclude-mapping path="/admin/v1/resetPwd"/><!-- 设置密码 -->
 			<mvc:exclude-mapping path="/admin/v1/sendVCode"/><!-- 发送手机验证码 -->
 			
 			<bean class="com.psp.admin.interceptor.UserInterceptor"></bean>

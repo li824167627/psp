@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 		PageResult<ROrderBean> result = new PageResult<ROrderBean>();
 		AdminBean admin = adminImpl.selectOneById(adminId);
 		String parkId = null;
-		if(admin.getType() == 1) {
+		if(admin.getType() == 0) {
 			parkId = admin.getPid();
 		}
 		int count = orderImpl.selectOrderCount(filteType, stype, key, stage, ttype, targetId, parkId);
@@ -146,6 +146,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(bean.getStatus());
 		order.setUid(bean.getUid());
 		order.setContent(bean.getContent());
+		order.setDataType(bean.getDataType());
 		return order;
 	}
 	

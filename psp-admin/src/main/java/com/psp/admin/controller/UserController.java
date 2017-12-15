@@ -46,6 +46,7 @@ public class UserController {
 			HttpServletResponse response) {
 		ListResult<RUserBean> result = new ListResult<>();
 		try {
+			String adminId = (String)request.getAttribute("adminId");
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
 			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
@@ -54,7 +55,7 @@ public class UserController {
 			String key = param.getKey();//关键字
 			String sid = param.getSid();
 			
-			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot, sid);
+			PageResult<RUserBean> resList = userServiceImpl.getUsers(page, pageSize, filteType, stype, key, isALlot, sid, adminId);
 			if(resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
@@ -82,8 +83,9 @@ public class UserController {
 			HttpServletResponse response) {
 		ObjectResult<Integer> result = new ObjectResult<>();
 		try {
+			String adminId = (String)request.getAttribute("adminId");
 			int isAllot = NumUtil.toInt(param.getIsAllot(), 0);
-			int userNum = userServiceImpl.getUserNum(isAllot);
+			int userNum = userServiceImpl.getUserNum(isAllot, adminId);
 			result.setData(userNum);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

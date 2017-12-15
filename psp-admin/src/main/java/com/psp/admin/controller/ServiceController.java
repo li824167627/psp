@@ -15,6 +15,7 @@ import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.RCategoryBean;
 import com.psp.admin.controller.res.bean.RCategoryJSONBean;
 import com.psp.admin.controller.springmvc.req.AddServiceParam;
+import com.psp.admin.controller.springmvc.req.DelServiceParam;
 import com.psp.admin.controller.springmvc.req.EditServiceParam;
 import com.psp.admin.controller.springmvc.req.GetServiceParam;
 import com.psp.admin.service.CategoryService;
@@ -147,6 +148,30 @@ public class ServiceController {
 			int sort = NumUtil.toInt(param.getSort(), 1);
 			int isService = NumUtil.toInt(param.getIsService(), 0);
 			boolean flag = categoryServiceImpl.editService(aid, cid, parentId, name, sort, isService);
+			result.setFlag(flag);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除分类
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public BaseResult delService(DelServiceParam param, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+			String aid = (String)request.getAttribute("adminId");
+			int cid = NumUtil.toInt(param.getCid(), 0);
+			boolean flag = categoryServiceImpl.delService(aid, cid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

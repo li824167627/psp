@@ -130,8 +130,8 @@ public class SProviderController {
 			res.setMsg(error.getFieldError().getDefaultMessage());
 			return res;
 		}
-		res.setMsg(null);
-		return res;
+
+		return providerController.delProvider(param, request, response);
 	}
 
 	/**

@@ -31,6 +31,7 @@ public class OrderBean {
 	private UserBean user;
 	private SellerBean seller;
 	private OrderFeedbackBean feedback;// 反馈
+	private Integer dataType;// 类型
 	
 	
 	public OrderFeedbackBean getFeedback() {
@@ -176,6 +177,12 @@ public class OrderBean {
 	}
 	public void setSeller(SellerBean seller) {
 		this.seller = seller;
+	}
+	public Integer getDataType() {
+		return dataType;
+	}
+	public void setDataType(Integer dataType) {
+		this.dataType = dataType;
 	}
 
 }

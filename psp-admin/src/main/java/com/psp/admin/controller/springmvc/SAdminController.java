@@ -87,22 +87,6 @@ public class SAdminController {
 	}
 
 	/**
-	 * 重设密码
-	 **/
-	@RequestMapping("/v1/resetPwd")
-	@ResponseBody
-	public BaseResult resetPwd(@Validated ResetPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult res = new BaseResult();
-		if (error.hasErrors()) {
-			res.setRescode(BaseResult.param.getCode());
-			res.setMsg(error.getFieldError().getDefaultMessage());
-			return res;
-		}
-
-		return adminController.resetPwd(param, request, response);
-	}
-
-	/**
 	 * 获取管理员信息
 	 **/
 	@RequestMapping("/v1/getAdmin")
@@ -123,8 +107,8 @@ public class SAdminController {
 	 **/
 	@RequestMapping("/v1/updateName")
 	@ResponseBody
-	public BaseResult updateName(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult res = new BaseResult();
+	public ObjectResult<RAdminBean> updateName(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RAdminBean> res = new ObjectResult<RAdminBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
 			res.setMsg(error.getFieldError().getDefaultMessage());

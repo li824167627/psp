@@ -88,10 +88,15 @@ public class AdminServiceImpl implements AdminService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public boolean updateName(String adminId, String name) {
+	public RAdminBean updateName(String adminId, String name) {
+		boolean flag = false;
 		AdminBean user = adminImpl.selectOneById(adminId);
 		user.setUsername(name);
-		return adminImpl.update(user) > 0;
+		flag = adminImpl.update(user) > 0;
+		if(!flag) {
+			throw new ServiceException("update_adimin_error");
+		}
+		return parse(user);
 	}
 
 	@Override
@@ -130,6 +135,8 @@ public class AdminServiceImpl implements AdminService {
 		admin.setStatus(user.getStatus());
 		admin.setType(user.getType());
 		admin.setUsername(user.getUsername());
+		admin.setPark(user.getPark());
+		admin.setPid(user.getPid());
 		return admin;
 	}
 
@@ -198,11 +205,12 @@ public class AdminServiceImpl implements AdminService {
 			}
 			
 			AdminBean phoneadmin = adminImpl.selectOneByPhone(phone);
-			if(phoneadmin != null) {// 编辑
+			if(phoneadmin != null && !aid.equals(phoneadmin.getAid())) {// 编辑
 				throw new ServiceException("object_is_exist", "绑定手机号");
 			}
 			admin.setPhoneNum(phone);
 			admin.setUsername(name);
+			admin.setType(type);
 			flag = adminImpl.update(admin) > 0;
 			if(!flag) {
 				throw new ServiceException("update_seller_error");
@@ -337,10 +345,13 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ROrderStatisticsBean getOrderStatistics(String adminId) { 
-		OrderStatusStatisticsBean orderStatus = orderImpl.selectOrderStatusCount(adminId);
-		OrderStageStatisticsBean orderStage = orderImpl.selectOrderStagesCount(adminId);
-		
-		
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		OrderStatusStatisticsBean orderStatus = orderImpl.selectOrderStatusCount(parkId);
+		OrderStageStatisticsBean orderStage = orderImpl.selectOrderStagesCount(parkId);
 		
 		logger.info(JSON.toJSONString(orderStage));
 		JSONArray status = new JSONArray();
@@ -420,9 +431,14 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public RUserStatisticsBean getUserStatistics(String adminId) {
-		UserLevelStatisticsBean level = userImpl.selectLevelCount(adminId);
-		UserStatusStatisticsBean status = userImpl.selectStatusCount(adminId);
-		UserOnlineStatisticsBean online = userImpl.selectOnlineCount(adminId);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		UserLevelStatisticsBean level = userImpl.selectLevelCount(parkId);
+		UserStatusStatisticsBean status = userImpl.selectStatusCount(parkId);
+		UserOnlineStatisticsBean online = userImpl.selectOnlineCount(parkId);
 		RUserLevelStatisticsBean rlevel = new RUserLevelStatisticsBean();
 		rlevel.setUnrated(level.getUnrated());
 		rlevel.setValid(level.getValid());

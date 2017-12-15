@@ -31,13 +31,11 @@
 		
 		<mvc:interceptor>
 			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
-			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/area/**"/><!--全国地址-->
-			<mvc:exclude-mapping path="/file/**"/><!--文件相关-->
+			<mvc:mapping path="/account/**" />
+			<mvc:mapping path="/order/**" />
 			<mvc:exclude-mapping path="/account/v1/login"/><!--登录-->
 			<mvc:exclude-mapping path="/account/v1/sendFindPwdCode"/><!-- 找回密碼 -->
 			<mvc:exclude-mapping path="/account/v1/confirmFindPwdCode"/><!-- 设置密码 -->
-			<mvc:exclude-mapping path="/account/v1/resetPwd"/><!-- 设置密码 -->
 			<mvc:exclude-mapping path="/account/v1/sendVCode"/><!-- 发送手机验证码 -->
 			<bean class="com.psp.provider.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>

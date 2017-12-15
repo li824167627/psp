@@ -1,9 +1,14 @@
 package com.psp.provider.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.psp.provider.cache.dao.AccountCacheDao;
 import com.psp.provider.controller.res.bean.RAccountBean;
 import com.psp.provider.model.AccountBean;
@@ -11,12 +16,15 @@ import com.psp.provider.model.Code;
 import com.psp.provider.persist.dao.AccountDao;
 import com.psp.provider.service.AccountService;
 import com.psp.provider.service.exception.ServiceException;
+import com.psp.provider.service.impl.res.PageResult;
+import com.psp.util.AppTextUtil;
 import com.psp.util.MD5Util;
 import com.psp.util.NumUtil;
 import com.psp.util.StringUtil;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
 	AccountDao accountImpl;
@@ -27,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountBean getAccountByToken(String token) {
 		if (token == null) {
-			return accountImpl.selectOneById("b9082f0c2b7f4d839f966d8f266c6224");
+			return accountImpl.selectOneById("437962beb13e48d9bb057fa4ff893720");
 		}
 		String sid = accountCacheImpl.getAccountIdByToken(token);
 		if (sid == null) {
@@ -119,6 +127,123 @@ public class AccountServiceImpl implements AccountService {
 			account.setLastLoginTime(user.getLastLoginTime().getTime() / 1000);
 		}
 		return account;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean resetPwd(AccountBean account, String pwd, String newPwd, String subPwd) {
+		if (account == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		if (!MD5Util.md5(pwd).equals(account.getPassword())) {
+			throw new ServiceException("user_password_is_error");
+		}
+		
+		if (newPwd != null && !newPwd.equals(subPwd)) {
+			throw new ServiceException("user_password_is_not_same");
+		}
+		
+		account.setPassword(MD5Util.md5(newPwd));
+		boolean flag = accountImpl.updatePwd(account) > 0;
+		if(!flag) {
+			throw new ServiceException("user_update_error");
+		}
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public RAccountBean updateName(AccountBean account, String name) {
+		if (account == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		account.setUsername(name);
+		boolean flag = accountImpl.updateName(account) > 0;
+		if(!flag) {
+			throw new ServiceException("update_seller_error");
+		}
+		return parse(account);
+	}
+
+	@Override
+	public PageResult<RAccountBean> getAccountList(AccountBean account, int page, int pageSize, String pid) {
+		PageResult<RAccountBean> result = new PageResult<RAccountBean>();
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		int count = accountImpl.selectAccountCount(account.getPid());
+		if(count == 0) {
+			return null;
+		}
+		List<AccountBean> resList = accountImpl.selectAccounts(page, pageSize, account.getPid());
+		List<RAccountBean> resData = new ArrayList<>();
+		logger.info(JSON.toJSONString(resList));
+		if (resList != null && resList.size() > 0) {
+			for (AccountBean bean : resList) {
+				RAccountBean rb = parse(bean);
+				resData.add(rb);
+			}
+		}
+		result.setCount(count);
+		result.setData(resData);
+		return result;
+	}
+
+	@Override
+	public boolean resetAccountPwd(AccountBean account, String aid) {
+		boolean flag = false;
+		AccountBean oa = accountImpl.selectOneById(aid);
+		if(oa == null) {
+			throw new ServiceException("object_is_not_exist", "服务商账号");
+		}
+		account.setPassword(MD5Util.md5("000000"));
+		flag = accountImpl.updateAccount(account) > 0;
+		if(!flag) {
+			throw new ServiceException("update_provider_account_error");
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean addAccount(AccountBean account, String name, String phone, String password, String pid) {
+		boolean flag = false;
+		if(account == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		AccountBean newaccount = accountImpl.selectOneByPhone(phone);
+		if(newaccount != null) {
+			throw new ServiceException("object_is_exist", "当前手机账号");
+		}
+		newaccount = new AccountBean();
+		newaccount.setPid(pid);
+		newaccount.setAid(AppTextUtil.getPrimaryKey());
+		newaccount.setUsername(name);
+		newaccount.setPhoneNum(phone);
+		newaccount.setType(0);//0 员工 1 服务商管理员
+		newaccount.setStatus(0);// 0 正常
+		newaccount.setPassword(MD5Util.md5(password));
+		flag = accountImpl.insertAccount(newaccount) > 0;
+		if(!flag) {
+			throw new ServiceException("add_provider_account_error");
+		}
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean delAccount(AccountBean account, String aid) {
+		boolean flag = false;
+		AccountBean oa = accountImpl.selectOneById(aid);
+		if(oa == null) {
+			throw new ServiceException("object_is_not_exist", "服务商账号");
+		}
+		//account.setPassword(MD5Util.md5("000000"));
+		account.setStatus(1);// 禁用
+		flag = accountImpl.updateAccount(account) > 0;
+		if(!flag) {
+			throw new ServiceException("update_provider_account_error");
+		}
+		return flag;
 	}
 
 }

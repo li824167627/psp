@@ -99,7 +99,7 @@
 	</protocol>
 	
 	<!-- 删除服务商 -->
-	<protocol name="delProvider" requestMapping="/v1/del" resType="json" notes="删除服务商" state="0" requestName="DelProviderParam"
+	<protocol name="delProvider" requestMapping="/v1/del" resType="json" notes="删除服务商" state="1" requestName="DelProviderParam"
 		resDataType="base" >
 		<request>
 			<param name="pid" type="String" demoValue="1" notes="服务商id">

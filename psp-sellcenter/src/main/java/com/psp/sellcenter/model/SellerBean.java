@@ -13,6 +13,7 @@ public class SellerBean {
 	private Timestamp createTime; // 创建时间
 	private Timestamp lastLoginTime; // 最后登录时间
 	private String password;
+	private Integer type;
 
 	public void setSid(String sid) {
  		this.sid = sid;
@@ -68,6 +69,14 @@ public class SellerBean {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 }

@@ -24,7 +24,6 @@ import com.psp.admin.controller.springmvc.req.GetAdminParam;
 import com.psp.admin.controller.springmvc.req.GetAdminsParam;
 import com.psp.admin.controller.springmvc.req.LoginParam;
 import com.psp.admin.controller.springmvc.req.ResetAdminPwdParam;
-import com.psp.admin.controller.springmvc.req.ResetPwdParam;
 import com.psp.admin.controller.springmvc.req.SendFindPwdCodeParam;
 import com.psp.admin.controller.springmvc.req.SendVCodeParam;
 import com.psp.admin.controller.springmvc.req.UpdateNameParam;
@@ -96,13 +95,13 @@ public class AdminController {
 	 * @param response
 	 * @return
 	 */
-	public BaseResult updateName(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult result = new BaseResult();
+	public ObjectResult<RAdminBean> updateName(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RAdminBean> result = new ObjectResult<RAdminBean>();
 		try {
 			String adminId = (String)request.getAttribute("adminId");
 			String name = param.getName();
-			boolean flag = adminServiceImpl.updateName(adminId, name);
-			result.setFlag(flag);
+			RAdminBean data = adminServiceImpl.updateName(adminId, name);
+			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
 		} catch (Exception e) {
@@ -128,8 +127,8 @@ public class AdminController {
 
 			String adminId = (String)request.getAttribute("adminId");
 			String pwd = param.getOldPwd();
-			String newPwd = param.getNewPwd();
-			String subPwd = param.getSubmitPwd();
+			String newPwd = param.getPassword();
+			String subPwd = param.getConfirmPwd();
 			boolean flag = adminServiceImpl.updatePassWord(adminId, pwd, newPwd, subPwd);
 			if (flag) {
 				result.setFlag(true);
@@ -321,12 +320,6 @@ public class AdminController {
 		return null;
 	}
 	
-
-	public BaseResult resetPwd(ResetPwdParam param, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public ObjectResult<ROrderStatisticsBean> getOrderStatistics(HttpServletRequest request,
 			HttpServletResponse response) {
 		ObjectResult<ROrderStatisticsBean> result = new ObjectResult<ROrderStatisticsBean>();

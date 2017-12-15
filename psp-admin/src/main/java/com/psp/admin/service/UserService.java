@@ -17,9 +17,10 @@ public interface UserService {
 	 * @param filteType 
 	 * @param isALlot 
 	 * @param sid 
+	 * @param adminId 
 	 * @return
 	 */
-	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid);
+	PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid, String adminId);
 	
 	/**
 	 * 获取客户详情
@@ -41,9 +42,10 @@ public interface UserService {
 	/**
 	 * 查询客户数量
 	 * @param isAllot
+	 * @param adminId 
 	 * @return
 	 */
-	int getUserNum(int isAllot);
+	int getUserNum(int isAllot, String adminId);
 	
 	/**
 	 * 分配客户给销售人员

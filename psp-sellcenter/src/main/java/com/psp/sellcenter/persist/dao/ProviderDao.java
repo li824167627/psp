@@ -17,5 +17,5 @@ public interface ProviderDao {
 
 	List<ProviderBean> selectAll();
 
-
+	int updateScore(ProviderBean proBean);
 }

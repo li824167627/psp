@@ -6,9 +6,9 @@ import com.psp.admin.model.ParkBean;
 
 public interface ParkDao {
 
-	int selectCount(String key);
+	int selectCount(String key, String parkId);
 
-	List<ParkBean> selectList(int page, int pageSize, String key);
+	List<ParkBean> selectList(int page, int pageSize, String key, String parkId);
 
 	int insert(ParkBean park);
 

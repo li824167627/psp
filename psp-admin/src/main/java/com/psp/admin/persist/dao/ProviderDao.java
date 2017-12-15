@@ -40,5 +40,7 @@ public interface ProviderDao {
 
 	ProviderServiceBean selectServiceByPidCid(String pid, String cid);
 
+	int updateStatus(ProviderBean provider);
+
 
 }

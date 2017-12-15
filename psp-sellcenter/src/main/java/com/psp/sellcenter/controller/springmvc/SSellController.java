@@ -123,8 +123,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/updateName")
 	@ResponseBody
-	public BaseResult updateName(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
-		BaseResult res = new BaseResult();
+	public ObjectResult<RSellerBean> updateName(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
 			res.setMsg(error.getFieldError().getDefaultMessage());

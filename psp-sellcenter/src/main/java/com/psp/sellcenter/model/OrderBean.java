@@ -18,6 +18,7 @@ public class OrderBean {
 	private String pid; // 服务商
 	private String providerJson; // 服务商信息
 	private Timestamp createTime; // 创建时间
+	private Double money; // 金额
 	private Integer status; // 状态
 	private Integer contractStatus; // 状态
 	private Integer stage; // 所处阶段
@@ -31,6 +32,7 @@ public class OrderBean {
 	private List<OrderContractBean> contracts; // 合同信息
 	private OrderFeedbackBean feedback;// 反馈
 	private UserBean user;
+	private Integer dataType;// 0 测试 1 正式 2 补充
 	public String getOid() {
 		return oid;
 	}
@@ -174,6 +176,18 @@ public class OrderBean {
 	}
 	public void setContractStatus(Integer contractStatus) {
 		this.contractStatus = contractStatus;
+	}
+	public Integer getDataType() {
+		return dataType;
+	}
+	public void setDataType(Integer dataType) {
+		this.dataType = dataType;
+	}
+	public Double getMoney() {
+		return money;
+	}
+	public void setMoney(Double money) {
+		this.money = money;
 	}
 	
 }

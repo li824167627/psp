@@ -22,8 +22,9 @@
 			ON p.pid = r.pid
 			</if>
 		<where>
+			status != 1
 			<if test="cid != 0">
-				r.cid = #{r.cid}
+				and r.cid = #{r.cid}
 			</if>
 		</where>
 	</select>
@@ -41,8 +42,9 @@
 			left join psp_admin a
 			on p.aid = a.aid
 		<where>
+			status != 1
 			<if test="cid != 0">
-				r.cid = #{r.cid}
+				and r.cid = #{r.cid}
 			</if>
 		</where>
 		order by p.status, p.createTime DESC
@@ -90,7 +92,7 @@
 		FROM
 			psp_provider_account
 		<where>
-			pid = #{pid}
+			pid = #{pid} and status != 1
 		</where>
 	</select>
 	
@@ -101,7 +103,7 @@
 		FROM
 			psp_provider_account
 		<where>
-			pid = #{pid}
+			pid = #{pid} and status != 1
 		</where>
 		order by status, createTime DESC
 		LIMIT #{start},#{length}
@@ -192,6 +194,16 @@
 			 pid = #{pid} and cid = #{cid}
 		</where>
 	</select>
+	
+	<!-- 更新服务商状态 -->
+	<update id="updateStatus">
+		UPDATE psp_provider
+		<set>
+			status = #{status}
+		</set> 
+		WHERE
+			pid = #{pid};
+	</update>
 	
 	
 </mapper>

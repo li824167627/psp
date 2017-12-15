@@ -20,7 +20,7 @@
 			<param name="key" type="String" demoValue="" notes="关键字">
 			</param>
 			<param name="filteType" type="string" demoValue="0" notes="筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止">
-				<pattern regexp="^[0-8]$" message="搜索条件错误： 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
+				<pattern regexp="^[0-9]|10|11|99$" message="搜索条件错误： 99全部0:待分配1已完成2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
 			</param>
 		</request>
 	</protocol>

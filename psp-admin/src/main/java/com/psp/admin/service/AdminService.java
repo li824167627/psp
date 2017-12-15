@@ -28,7 +28,7 @@ public interface AdminService {
 	 * @param name
 	 * @return
 	 */
-	boolean updateName(String adminId, String name);
+	RAdminBean updateName(String adminId, String name);
 	
 	/**
 	 * 查询管理员列表

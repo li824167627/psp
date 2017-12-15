@@ -127,5 +127,10 @@ public class ProviderImpl extends BaseImpl implements ProviderDao {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectServiceByPidCid", params);
 	}
 
+	@Override
+	public int updateStatus(ProviderBean provider) {
+		return sqlSessionTemplate.update(NAME_SPACE + ".updateStatus", provider);
+	}
+
 
 }

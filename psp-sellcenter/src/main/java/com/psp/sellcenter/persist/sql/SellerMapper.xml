@@ -33,5 +33,13 @@
 	</update>
 
 
+	<update id="updateName">
+		UPDATE psp_sale_center
+		<set>
+			username = #{username}
+		</set> 
+		WHERE
+			sid = #{sid};
+	</update>
 
 </mapper>

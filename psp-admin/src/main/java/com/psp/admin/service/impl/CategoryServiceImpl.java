@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 			 	JSONObject serviceObject = new JSONObject();
 		    		serviceObject.put("name", cate.getName());
 		    		serviceObject.put("cid", cate.getCid());
+		    		serviceObject.put("sort", cate.getSort());
 			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
 			    		AllServices.get(cate.getParentId()).add(serviceObject);
 	            }else{//map中不存在，新建key，用来存放数据  
@@ -70,6 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
 				JSONObject firstObject = new JSONObject();
 				firstObject.put("name", ca.getName());
 				firstObject.put("cid", ca.getCid());
+				firstObject.put("sort", ca.getSort());
 				List<CategoryBean> children = ca.getChildern();
 				JSONArray secondCates = new JSONArray();
 				if(children != null && children.size() > 0) {
@@ -77,6 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
 						JSONObject secondObject = new JSONObject();
 						secondObject.put("name", c.getName());
 						secondObject.put("cid", c.getCid());
+						secondObject.put("sort", c.getSort());
 						secondObject.put("children", AllServices.get(c.getCid()));
 						secondCates.add(secondObject);
 					}
@@ -256,6 +259,35 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		bean.setCategory(serviceCates);
 		return bean;
+	}
+	
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean delService(String aid, int cid) {
+		boolean flag = false;
+		CategoryBean cate = serviceImpl.selectServiceById(cid);
+		if(cate == null) {
+			throw new ServiceException("object_is_not_exist", "服务");
+		}
+		logger.info("page-270: " + JSON.toJSONString(cate));
+		int num = serviceImpl.selectServiceCountByPid(cid);
+		if(cate.getIsService() == 1) {
+			num = serviceImpl.selectProviderCountByCid(cid);
+		}
+		if(num > 0) {
+			throw new ServiceException("service_has_child");
+		}
+		
+		flag = serviceImpl.deleteService(cid) > 0;
+		if(!flag) {
+			throw new ServiceException("service_delete_error");
+		}
+		// 清除服务分类缓存
+		flag = serviceCacheImpl.setAllCategoryCache(null);
+		flag = serviceCacheImpl.setCategoryCache(null);
+		flag = serviceCacheImpl.setSellerCategoryCache(null);
+		return flag;
 	}
 	
 

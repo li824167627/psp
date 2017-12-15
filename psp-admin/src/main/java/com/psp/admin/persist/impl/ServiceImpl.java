@@ -69,5 +69,17 @@ public class ServiceImpl extends BaseImpl implements ServiceDao {
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectServiceByCids", params);
 	}
 
+	@Override
+	public int selectProviderCountByCid(int cid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cid", cid);
+		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectProviderCountByCid", params);
+	}
+
+	@Override
+	public int deleteService(int cid) {
+		return sqlSessionTemplate.delete(NAME_SPACE + ".deleteService", cid);
+	}
+
 
 }

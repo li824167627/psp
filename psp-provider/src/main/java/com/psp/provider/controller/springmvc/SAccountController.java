@@ -117,4 +117,84 @@ public class SAccountController {
 
 		return accountController.getAccount(param, request, response);
 	}
+
+	/**
+	 * 更新用户名
+	 **/
+	@RequestMapping("/v1/updateName")
+	@ResponseBody
+	public ObjectResult<RAccountBean> updateName(@Validated UpdateAccountNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ObjectResult<RAccountBean> res = new ObjectResult<RAccountBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return accountController.updateName(param, request, response);
+	}
+
+	/**
+	 * 获取服务商账户列表
+	 **/
+	@RequestMapping("/v1/getAccountList")
+	@ResponseBody
+	public ListResult<RAccountBean> getAccountList(@Validated GetProviderAccountListParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		ListResult<RAccountBean> res = new ListResult<RAccountBean>();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return accountController.getAccountList(param, request, response);
+	}
+
+	/**
+	 * 创建服务商账户
+	 **/
+	@RequestMapping("/v1/addAccount")
+	@ResponseBody
+	public BaseResult addAccount(@Validated AddProviderAccountParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return accountController.addAccount(param, request, response);
+	}
+
+	/**
+	 * 重置服务商账户密码
+	 **/
+	@RequestMapping("/v1/resetAccountPwd")
+	@ResponseBody
+	public BaseResult resetAccountPwd(@Validated ResetProviderPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return accountController.resetAccountPwd(param, request, response);
+	}
+
+	/**
+	 * 删除服务商账户
+	 **/
+	@RequestMapping("/v1/delAccount")
+	@ResponseBody
+	public BaseResult delAccount(@Validated DelProviderAccountParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+		BaseResult res = new BaseResult();
+		if (error.hasErrors()) {
+			res.setRescode(BaseResult.param.getCode());
+			res.setMsg(error.getFieldError().getDefaultMessage());
+			return res;
+		}
+
+		return accountController.delAccount(param, request, response);
+	}
 }

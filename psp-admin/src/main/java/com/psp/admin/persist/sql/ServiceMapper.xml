@@ -5,10 +5,12 @@
 	<resultMap type="CategoryBean" id="CategoryMap" autoMapping="true">
 		<id property="cid" column="cid"/>
 		<result property="name"  column="name"/>
+		<result property="sort"  column="sort"/>
 		<result property="parentId"  column="parentId"/>
 		<collection property="childern" ofType="CategoryBean">
           	<id property="cid" column="scid"/>
 			<result property="name"  column="sname"/>
+			<result property="sort"  column="ssort"/>
 			<result property="parentId"  column="sparentId"/>
    		</collection>
 	</resultMap>
@@ -18,8 +20,10 @@
 		SELECT
 			sc.cid,
 			sc.NAME,
+			sc.sort,
 			sc.parentId,
 			c.cid AS scid,
+			c.sort AS ssort,
 			c.NAME AS sname,
 			c.parentId AS sparentId
 		FROM
@@ -40,6 +44,7 @@
 		SELECT
 			cid,
 			name,
+			sort,
 			parentId
 		FROM
 			psp_category
@@ -126,8 +131,10 @@
 	<resultMap type="CategoryBean" id="CategoryParentMap" autoMapping="true">
 		<id property="cid" column="cid"/>
 		<result property="name"  column="name"/>
+		<result property="sort"  column="sort"/>
 		<association property="parent" javaType="CategoryBean">
 			<id property="cid" column="pcid"/>
+			<result property="sort"  column="psort"/>
 			<result property="name"  column="pname"/>
 		</association> 
 	</resultMap>
@@ -137,11 +144,13 @@
 		SELECT
 			sc.cid,
 			sc.NAME,
+			sc.sort,
 			p.cid AS pcid,
-			p.NAME AS pname
+			p.NAME AS pname,
+			p.sort AS psort
 		FROM
 			psp_category sc
-		LEFT JOIN psp_category p 
+		LEFT JOIN psp_category p
 		ON sc.parentId = p.cid
 		LEFT JOIN psp_category t 
 		ON t.parentId = sc.cid
@@ -172,4 +181,23 @@
 			c.parentId,
 			c.sort
 	</select>
+	
+	<select id="selectProviderCountByCid" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			psp_provider p
+		LEFT JOIN psp_provider_category_relation r
+		ON p.pid = r.pid
+		WHERE
+			r.cid = #{cid}
+	</select>
+	
+	<delete id="deleteService">
+		delete from psp_category
+		where cid = #{cid}
+	</delete>
+	
+	
+	
 </mapper>

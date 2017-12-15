@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.psp.admin.controller.res.bean.RSellerBean;
+import com.psp.admin.model.AdminBean;
 import com.psp.admin.model.SellerBean;
+import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.SellerDao;
 import com.psp.admin.service.SellerService;
 import com.psp.admin.service.exception.ServiceException;
@@ -26,16 +28,23 @@ public class SellerServiceImpl implements SellerService {
 	
 	@Autowired
 	SellerDao sellerImpl;
+	
+	@Autowired
+	AdminDao adminImpl;
 
 	@Override
-	public PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key) {
+	public PageResult<RSellerBean> getSellers(int page, int pageSize, String pid, String key, String adminId) {
 		PageResult<RSellerBean> result = new PageResult<RSellerBean>();
-		
-		int count = sellerImpl.selectSellerCount(pid, key);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		int count = sellerImpl.selectSellerCount(pid, key, parkId);
 		if(count == 0) {
 			return null;
 		}
-		List<SellerBean> resList = sellerImpl.selectSellers(page, pageSize, pid, key);
+		List<SellerBean> resList = sellerImpl.selectSellers(page, pageSize, pid, key, parkId);
 		List<RSellerBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {

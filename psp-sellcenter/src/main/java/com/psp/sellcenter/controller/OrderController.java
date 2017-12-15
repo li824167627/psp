@@ -25,6 +25,7 @@ import com.psp.sellcenter.controller.springmvc.req.GetOrderLogsParam;
 import com.psp.sellcenter.controller.springmvc.req.GetOrderNumParam;
 import com.psp.sellcenter.controller.springmvc.req.GetOrdersParam;
 import com.psp.sellcenter.controller.springmvc.req.UploadContractParam;
+import com.psp.sellcenter.model.SellerBean;
 import com.psp.sellcenter.service.OrderService;
 import com.psp.sellcenter.service.exception.ServiceException;
 import com.psp.sellcenter.service.res.PageResult;
@@ -54,7 +55,7 @@ public class OrderController {
 			String uid = param.getUid();
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
+			int filteType = NumUtil.toInt(param.getFilteType(), 99);//筛选类型
 			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
 			int stage = NumUtil.toInt(param.getStage(), 0);//阶段搜索
 			String key = param.getKey();//关键字
@@ -85,13 +86,12 @@ public class OrderController {
 	public BaseResult add(AddOrderParam param, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();
 		try {
-
-			String sid = (String)request.getAttribute("sellerId");
+			SellerBean seller = (SellerBean)request.getAttribute("seller");
 			String pid = param.getPid();
 			String uid = param.getUid();
 			String label = param.getLabel();
 			String content = param.getContent();
-			boolean flag = orderServiceImpl.addOrder(sid, pid, uid, label, content);
+			boolean flag = orderServiceImpl.addOrder(seller, pid, uid, label, content);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

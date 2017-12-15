@@ -8,9 +8,9 @@ public interface SellerDao {
 
 	SellerBean selectOneById(String sid);
 
-	int selectSellerCount(String pid, String key);
+	int selectSellerCount(String pid, String key, String parkId);
 
-	List<SellerBean> selectSellers(int page, int pageSize, String pid, String key);
+	List<SellerBean> selectSellers(int page, int pageSize, String pid, String key, String parkId);
 
 	int insert(SellerBean seller);
 

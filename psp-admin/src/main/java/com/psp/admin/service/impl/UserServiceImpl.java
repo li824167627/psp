@@ -49,13 +49,18 @@ public class UserServiceImpl implements UserService {
 	UserNewsDao userNewsImpl;
 
 	@Override
-	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid) {
+	public PageResult<RUserBean> getUsers(int page, int pageSize, int filteType, int stype, String key, int isALlot, String sid, String adminId) {
 		PageResult<RUserBean> result = new PageResult<RUserBean>();
-		int count = userImpl.selectUserCount(filteType, stype, key, isALlot, sid);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		int count = userImpl.selectUserCount(filteType, stype, key, isALlot, sid, parkId);
 		if(count == 0) {
 			return null;
 		}
-		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot, sid);
+		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot, sid, parkId);
 		List<RUserBean> resData = new ArrayList<>();
 		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
@@ -102,6 +107,7 @@ public class UserServiceImpl implements UserService {
 		res.setSid(user.getSid());
 		res.setUid(user.getUid());
 		res.setStatus(user.getStatus());
+		res.setType(user.getType());
 		return res;
 	}
 
@@ -234,9 +240,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int getUserNum(int isAllot) {
+	public int getUserNum(int isAllot, String adminId) {
 		//TODO:存入缓存 客户数量存入缓存
-		int count = userImpl.selectUserCount(0, 0, null, isAllot, null);
+		AdminBean admin = adminImpl.selectOneById(adminId);
+		String parkId = null;
+		if(admin.getType() == 0) {
+			parkId = admin.getPid();
+		}
+		int count = userImpl.selectUserCount(0, 0, null, isAllot, null, parkId);
 		return count;
 	}
 

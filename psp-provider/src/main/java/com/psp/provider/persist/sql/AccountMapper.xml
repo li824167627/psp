@@ -22,4 +22,22 @@
 		WHERE
 			aid = #{aid};
 	</update>
+	
+	<update id="updatePwd">
+		UPDATE psp_provider_account
+		<set>
+			password = #{password}
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
+	
+	<update id="updateName">
+		UPDATE psp_provider_account
+		<set>
+			username = #{username}
+		</set> 
+		WHERE
+			aid = #{aid};
+	</update>
 </mapper>

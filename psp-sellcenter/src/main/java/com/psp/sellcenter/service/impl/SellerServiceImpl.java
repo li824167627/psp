@@ -1,5 +1,6 @@
 package com.psp.sellcenter.service.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import com.psp.util.StringUtil;
 
 @Service
 public class SellerServiceImpl implements SellerService {
+
+	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
 	SellerDao sellerImpl;
@@ -27,7 +30,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public SellerBean getSellerByToken(String token) {
 		if (token == null) {
-			return sellerImpl.selectOneById("1862a08ec8a94e0ab1c47f91503396a5");
+			return sellerImpl.selectOneById("ec63d61665db4fd59836c1a4c7fe370c");
 		}
 		String sid = sellerCacheImpl.getSellerIdByToken(token);
 		if (sid == null) {
@@ -43,6 +46,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public SellerBean getSellerById(String sid) {
 		SellerBean user = sellerImpl.selectOneById(sid);
+		logger.info("page49:" + user);
 		if(user.getStatus() != 0) {
 			throw new ServiceException("account_is_forzen");
 		}
@@ -56,24 +60,24 @@ public class SellerServiceImpl implements SellerService {
 		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
 		}
-		Code code = sellerCacheImpl.getLoginCode(phone);
-		if (code == null) {
-			code = new Code();
-			code.setNum(0);
-			sellerCacheImpl.setLoginCode(phone, code);
-		} else if (code.getNum() > 4) {
-			if (StringUtil.isEmpty(code.getCode())) {
-				throw new ServiceException("imgcode_is_cross");
-			}
-			if (!code.getCode().equals(vcode.toUpperCase())) {
-				throw new ServiceException("imgcode_is_error");
-			}
-		}
+//		Code code = sellerCacheImpl.getLoginCode(phone);
+//		if (code == null) {
+//			code = new Code();
+//			code.setNum(0);
+//			sellerCacheImpl.setLoginCode(phone, code);
+//		} else if (code.getNum() > 4) {
+//			if (StringUtil.isEmpty(code.getCode())) {
+//				throw new ServiceException("imgcode_is_cross");
+//			}
+//			if (!code.getCode().equals(vcode.toUpperCase())) {
+//				throw new ServiceException("imgcode_is_error");
+//			}
+//		}
 
 		pwd = MD5Util.md5(pwd);
 		if (!pwd.equals(user.getPassword())) {
-			code.setNum(code.getNum() + 1);
-			sellerCacheImpl.setLoginCode(phone, code);
+//			code.setNum(code.getNum() + 1);
+//			sellerCacheImpl.setLoginCode(phone, code);
 			throw new ServiceException("user_password_is_error");
 		}
 
@@ -133,6 +137,20 @@ public class SellerServiceImpl implements SellerService {
 			throw new ServiceException("update_seller_error");
 		}
 		return flag;
+	}
+
+	@Override
+	public RSellerBean updateName(String uid, String name) {
+		SellerBean user = sellerImpl.selectOneById(uid);
+		if (user == null) {
+			throw new ServiceException("object_is_not_exist", "用户");
+		}
+		user.setUsername(name);
+		boolean flag = sellerImpl.updateName(user) > 0;
+		if(!flag) {
+			throw new ServiceException("update_seller_error");
+		}
+		return parse(user);
 	}
 
 }

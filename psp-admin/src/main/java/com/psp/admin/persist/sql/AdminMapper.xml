@@ -26,10 +26,12 @@
 	<!-- 查询管理员列表 -->
 	<select id="selectAdmins" resultType="AdminBean">
 		SELECT
-			*
+			a.*, p.name as park
 		FROM
-			psp_admin 
-		order by createTime DESC
+			psp_admin a
+		left join psp_park p
+		on a.pid = p.pid and a.type = 0
+		order by a.createTime DESC
 		LIMIT #{start},#{length}
 	</select>
 	
