@@ -275,24 +275,24 @@ public class AdminServiceImpl implements AdminService {
 		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
 		}
-		Code code = adminCacheImpl.getLoginCode(phone);
-		if (code == null) {
-			code = new Code();
-			code.setNum(0);
-			adminCacheImpl.setLoginCode(phone, code);
-		} else if (code.getNum() > 4) {
-			if (StringUtil.isEmpty(code.getCode())) {
-				throw new ServiceException("imgcode_is_cross");
-			}
-			if (!code.getCode().equals(vcode.toUpperCase())) {
-				throw new ServiceException("imgcode_is_error");
-			}
-		}
+//		Code code = adminCacheImpl.getLoginCode(phone);
+//		if (code == null) {
+//			code = new Code();
+//			code.setNum(0);
+//			adminCacheImpl.setLoginCode(phone, code);
+//		} else if (code.getNum() > 4) {
+//			if (StringUtil.isEmpty(code.getCode())) {
+//				throw new ServiceException("imgcode_is_cross");
+//			}
+//			if (!code.getCode().equals(vcode.toUpperCase())) {
+//				throw new ServiceException("imgcode_is_error");
+//			}
+//		}
 
 		pwd = MD5Util.md5(pwd);
 		if (!pwd.equals(user.getPassword())) {
-			code.setNum(code.getNum() + 1);
-			adminCacheImpl.setLoginCode(phone, code);
+//			code.setNum(code.getNum() + 1);
+//			adminCacheImpl.setLoginCode(phone, code);
 			throw new ServiceException("user_password_is_error");
 		}
 

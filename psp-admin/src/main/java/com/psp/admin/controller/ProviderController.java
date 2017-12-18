@@ -70,11 +70,12 @@ public class ProviderController {
 				result.setData(bean);
 			}
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);
 			result.setMsg(e.getMessage());
-			result.setServiceException(e);
 		}
 		return result;
 	}
@@ -106,6 +107,11 @@ public class ProviderController {
 			result.setTotalSize(totalSize);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
@@ -165,6 +171,11 @@ public class ProviderController {
 			result.setTotalSize(totalSize);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}
@@ -261,6 +272,8 @@ public class ProviderController {
 			boolean flag = providerServiceImpl.editProvider(pid, name, address, contact, phoneNum, content);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);
@@ -278,6 +291,8 @@ public class ProviderController {
 			boolean flag = providerServiceImpl.addService(pid, cid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);
@@ -295,6 +310,8 @@ public class ProviderController {
 			boolean flag = providerServiceImpl.delService(pid, cid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);
@@ -321,6 +338,8 @@ public class ProviderController {
 				result.setData(bean);
 			}
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
 			logger.info(e);
 			e.printStackTrace();
 			result.setFlag(false);

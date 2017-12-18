@@ -114,7 +114,9 @@ public class SellerServiceImpl implements SellerService {
 			seller.setUsername(name);
 			seller.setPid(pid);
 			seller.setType(type);
-			seller.setPassword(MD5Util.md5(password));
+			if(!StringUtil.isEmpty(password)) {
+				seller.setPassword(MD5Util.md5(password));
+			}
 			flag = sellerImpl.update(seller) > 0;
 			if(!flag) {
 				throw new ServiceException("update_seller_error");

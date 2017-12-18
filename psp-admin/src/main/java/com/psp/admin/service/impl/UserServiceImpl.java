@@ -88,7 +88,9 @@ public class UserServiceImpl implements UserService {
 			res.setAllotTime(user.getAllotTime().getTime() / 1000);
 		}
 		res.setCompanyName(user.getCompanyName());
-		res.setCreateTime(user.getCreateTime().getTime() / 1000);
+		if(user.getCreateTime() != null) {
+			res.setCreateTime(user.getCreateTime().getTime() / 1000);
+		}
 		res.setIsAllot(user.getIsAllot());
 		res.setLabel(user.getLabel());
 		res.setLevel(user.getLevel());
@@ -236,6 +238,9 @@ public class UserServiceImpl implements UserService {
 		userlog.setAdminJson(bean.getAdminJson());
 		userlog.setContent(bean.getContent());
 		userlog.setType(bean.getType());
+		if(bean.getCreateTime() != null) {
+			userlog.setCreateTime(bean.getCreateTime().getTime() / 1000);
+		}
 		return userlog;
 	}
 

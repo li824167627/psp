@@ -51,6 +51,11 @@
 		<msg>删除服务商</msg>
 	</result>
 	
+	<result name="update_provider_error">
+		<code>300011</code>
+		<msg>更新服务商失败</msg>
+	</result>
+	
 	
 	
 	

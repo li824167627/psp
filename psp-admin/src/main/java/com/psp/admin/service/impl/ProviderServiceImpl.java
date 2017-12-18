@@ -247,10 +247,9 @@ public class ProviderServiceImpl implements ProviderService {
 	public boolean editProvider(String pid, String name, String address, String contact, String phoneNum, String content) {
 		boolean flag = false;
 		ProviderBean provider = providerImpl.selectOneById(pid);
-		if(provider != null) {
+		if(provider == null) {
 			throw new ServiceException("object_is_not_exist", "服务商");
 		}
-		provider = new ProviderBean();
 		provider.setName(name);
 		provider.setAddress(address);
 		provider.setContact(contact);
@@ -260,27 +259,35 @@ public class ProviderServiceImpl implements ProviderService {
 		if(!flag) {
 			throw new ServiceException("update_provider_error");
 		}
-		AccountBean account = providerImpl.selectAccountByPhone(phoneNum);
-		if(account == null) {
-			account = new AccountBean();
-			String aid = AppTextUtil.getPrimaryKey();
-			account.setAid(aid);
-			account.setUsername(contact);
-			account.setPid(pid);
-			account.setPhoneNum(phoneNum);
-			account.setType(1); //0 员工 1 服务商管理员
-			account.setStatus(0);// 0 正常
-			account.setPassword(MD5Util.md5("000000"));
-			flag = providerImpl.insertAccount(account) > 0;
-			if(!flag) {
-				throw new ServiceException("add_provider_account_error");
+		if(phoneNum != null && !phoneNum.equals(provider.getPhoneNum())) {
+			AccountBean account = providerImpl.selectAccountByPhone(phoneNum);
+			if(account == null) {
+				account = new AccountBean();
+				String aid = AppTextUtil.getPrimaryKey();
+				account.setAid(aid);
+				account.setUsername(contact);
+				account.setPid(pid);
+				account.setPhoneNum(phoneNum);
+				account.setType(1); //0 员工 1 服务商管理员
+				account.setStatus(0);// 0 正常
+				account.setPassword(MD5Util.md5("000000"));
+				flag = providerImpl.insertAccount(account) > 0;
+				if(!flag) {
+					throw new ServiceException("add_provider_account_error");
+				}
+			} else {
+				if(!pid.equals(account.getPid())) {
+					throw new ServiceException("object_is_exist", "手机账号");
+				}
+				
 			}
-		} else {
-			if(!pid.equals(account.getPid())) {
-				throw new ServiceException("object_is_exist", "手机账号");
-			}
-			
 		}
+		
+		
+		// 清除服务分类缓存
+		flag = serviceCacheImpl.setAllCategoryCache(null);
+		flag = serviceCacheImpl.setCategoryCache(null);
+		flag = serviceCacheImpl.setSellerCategoryCache(null);
 		
 		return flag;
 	}
