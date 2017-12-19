@@ -117,4 +117,14 @@ public class SUserController {
 
 		return userController.getUserNews(param, request, response);
 	}
+
+	/**
+	 * 文件-导入客户信息
+	 **/
+	@RequestMapping("/v1/improtUsers")
+	@ResponseBody
+	public BaseResult ImportUsers(HttpServletRequest request, HttpServletResponse response) {
+
+		return userController.ImportUsers(request, response);
+	}
 }

@@ -134,8 +134,12 @@ public class AdminController {
 				result.setFlag(true);
 			}
 		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
 			result.setFlag(false);
-			result.setMsg(e.getServiceMsg());
+			result.setMsg(e.getMessage());
 		}
 		return result;
 	}

@@ -1,5 +1,7 @@
 package com.psp.admin.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.psp.admin.controller.res.bean.ROrderBean;
 import com.psp.admin.controller.res.bean.ROrderLogsBean;
 import com.psp.admin.service.res.PageResult;
@@ -46,6 +48,13 @@ public interface OrderService {
 	 * @return
 	 */
 	PageResult<ROrderLogsBean> getOrderLogs(String sid, String oid, String key);
+	
+	/**
+	 * 导入excel
+	 * @param request
+	 * @return
+	 */
+	boolean ImportOrders(HttpServletRequest request) throws Exception;
 
 
 }

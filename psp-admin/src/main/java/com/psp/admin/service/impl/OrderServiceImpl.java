@@ -1,13 +1,23 @@
 package com.psp.admin.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.controller.res.bean.ROrderBean;
 import com.psp.admin.controller.res.bean.ROrderContractBean;
@@ -20,12 +30,17 @@ import com.psp.admin.model.OrderFeedbackBean;
 import com.psp.admin.model.OrderLogBean;
 import com.psp.admin.model.ProviderBean;
 import com.psp.admin.model.UserBean;
+import com.psp.admin.model.excel.OrderInfoBean;
 import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.OrderDao;
 import com.psp.admin.persist.dao.OrderLogDao;
+import com.psp.admin.persist.dao.UserDao;
 import com.psp.admin.service.OrderService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
+import com.psp.util.AppTextUtil;
+import com.psp.util.NumUtil;
+import com.psp.util.excel.ImportExcel;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -37,6 +52,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	AdminDao adminImpl;
+
+	@Autowired
+	UserDao userImpl;
 	
 	@Autowired
 	OrderLogDao orderLogImpl;
@@ -232,6 +250,74 @@ public class OrderServiceImpl implements OrderService {
 			log.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
 		return log;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean ImportOrders(HttpServletRequest request) throws Exception {
+		boolean flag = false;
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+				request.getSession().getServletContext());
+		// 不是文件
+		if (!multipartResolver.isMultipart(request)) {
+			throw new ServiceException("param_is_error", "文件");
+		}
+		// 转换成多部分request
+		MultipartHttpServletRequest multRequest = (MultipartHttpServletRequest) request;
+		File excelfile = null;
+		try {
+			// 获得文件：   
+	        MultipartFile file = multRequest.getFile("file");   
+	        excelfile = File.createTempFile("tmp", null);
+	        // 读取excel内容
+	        ImportExcel<OrderInfoBean> test = new ImportExcel<OrderInfoBean>(OrderInfoBean.class);  
+	        file.transferTo(excelfile);      
+	        Long befor = System.currentTimeMillis();  
+	        List<OrderInfoBean> result = (ArrayList<OrderInfoBean>) test.importExcel(excelfile);  
+	        List<OrderBean> orders = new ArrayList<>();
+	        List<UserBean> users = userImpl.selectUsersByType(2);
+			logger.info(JSON.toJSON("获取所有客户：" + users));
+			Map<String, String> AllUsers = new HashMap<String, String>();  
+		    for (UserBean user : users) { 
+		    		AllUsers.put(user.getCompanyName(), user.getUid());  
+		    }  
+	        if(result != null && result.size() > 0) {
+	        		for(OrderInfoBean o : result) {
+	        			OrderBean order = new OrderBean();
+	        			order.setOid(AppTextUtil.getPrimaryKey());
+	        			String prefix = "GD";// 工单前缀
+	        			String orderNo = AppTextUtil.getRandomNo(prefix);
+	        			order.setOrderNo(orderNo);
+	        			order.setContent(o.getContent());
+	        			order.setDataType(2);// 1正常录入2补充数据0测试数据
+	        			order.setIsAllot(1);// 已分配
+	        			order.setPid(o.getProvider());
+	        			order.setSid(o.getSeller());
+	        			order.setMoney(NumUtil.toDouble(o.getMoney(),0));
+	        			order.setUid(AllUsers.get(o.getUser()));
+	        			order.setContractStatus(0);
+	        			order.setStage(2);// 已完成
+	        			order.setStatus(1);// 已完成
+	        			orders.add(order);
+	        		}
+	        		logger.info("page-289 : " + JSON.toJSONString(orders) );
+	        		if(orders.size() > 0) {
+	        			flag = orderImpl.insertOrders(orders) > 0;
+	        			if(!flag) {
+	        				throw new ServiceException("import_excel_error");
+	        			}
+	        		}
+	        		
+	        }
+	        
+	        Long after = System.currentTimeMillis();  
+	        System.out.println("此次操作共耗时：" + (after - befor) + "毫秒");  
+	        excelfile.deleteOnExit();
+			
+		} catch (Exception e) {
+			throw e;
+		}   
+		return flag;
 	}
 
 

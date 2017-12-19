@@ -103,4 +103,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 
 	}
 
+	@Override
+	public int insertOrders(List<OrderBean> orders) {
+		return sqlSessionTemplate.insert(NAME_SPACE + ".insertOrders", orders);
+	}
+
 }

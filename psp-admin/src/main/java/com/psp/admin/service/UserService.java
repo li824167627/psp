@@ -1,5 +1,7 @@
 package com.psp.admin.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.psp.admin.controller.res.bean.RUserBean;
 import com.psp.admin.controller.res.bean.RUserLogsBean;
 import com.psp.admin.controller.res.bean.RUserNewsBean;
@@ -67,5 +69,7 @@ public interface UserService {
 	 * @return
 	 */
 	PageResult<RUserNewsBean> getUserNews(String sid, int page, int pageSize, int stype, String key, String uid);
+
+	boolean ImportUsers(HttpServletRequest request) throws Exception;
 
 }

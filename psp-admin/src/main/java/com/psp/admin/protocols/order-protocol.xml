@@ -58,4 +58,9 @@
 			</param>
 		</request>
 	</protocol>
+	
+	<!-- 文件-批量导入工单 -->
+	<protocol name="ImportOrders" requestMapping="/v1/improtOrders" resType="json"  notes="文件-上传文件" state="1" 
+		resDataType="base" >
+	</protocol>
 </protocols>

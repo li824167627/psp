@@ -21,6 +21,7 @@ public class OrderBean {
 	private Integer status; // 状态
 	private Integer stage; // 所处阶段
 	private Integer isAllot; // 是否被分配
+	private Integer contractStatus; //  合同状态
 	private Timestamp expectedTime; // 预计完成时间
 	private Timestamp completeTime; // 实际完成时间
 	private Timestamp closeTime; // 关闭时间
@@ -32,6 +33,7 @@ public class OrderBean {
 	private SellerBean seller;
 	private OrderFeedbackBean feedback;// 反馈
 	private Integer dataType;// 类型
+	private Double money;// 金额
 	
 	
 	public OrderFeedbackBean getFeedback() {
@@ -184,5 +186,16 @@ public class OrderBean {
 	public void setDataType(Integer dataType) {
 		this.dataType = dataType;
 	}
-
+	public Double getMoney() {
+		return money;
+	}
+	public void setMoney(Double money) {
+		this.money = money;
+	}
+	public Integer getContractStatus() {
+		return contractStatus;
+	}
+	public void setContractStatus(Integer contractStatus) {
+		this.contractStatus = contractStatus;
+	}
 }

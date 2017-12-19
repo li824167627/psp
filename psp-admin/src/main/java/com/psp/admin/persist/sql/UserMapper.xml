@@ -222,4 +222,25 @@
 		from dual;
 	</select>
 	
+	<!-- 批量导入客户信息 -->
+	<insert id="insertUsers">
+		INSERT INTO psp_user
+		(uid, name, companyName, position, sid, createTime, communityTime, origin, level, type,
+		isAllot, status)
+		VALUES
+		<foreach collection="list" item="bean" open="" close="" separator="," index="index">
+		(#{bean.uid}, #{bean.name}, #{bean.companyName}, #{bean.position}, #{bean.sid}, now(),
+		now(), #{bean.origin}, #{bean.level}, #{bean.type}, #{bean.isAllot}, #{bean.status})
+		</foreach>
+	</insert>
+	
+	
+	<!-- 根据搜索类型获取客户 -->
+	<select id="selectUsersByType" resultType="UserBean">
+		SELECT *
+		FROM psp_user
+		where type = #{type}
+	</select>
+	
+	
 </mapper>

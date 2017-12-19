@@ -98,4 +98,14 @@ public class UserImpl extends BaseImpl implements UserDao {
 
 	}
 
+	@Override
+	public int insertUsers(List<UserBean> users) {
+		return sqlSessionTemplate.insert(NAME_SPACE + ".insertUsers", users);
+	}
+
+	@Override
+	public List<UserBean> selectUsersByType(int type) {
+		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectUsersByType", type);
+	}
+
 }

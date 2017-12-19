@@ -85,5 +85,10 @@
 			</param>
 		</request>
 	</protocol>
+	
+	<!-- 文件-批量导入客户 -->
+	<protocol name="ImportUsers" requestMapping="/v1/improtUsers" resType="json"  notes="文件-导入客户信息" state="1" 
+		resDataType="base" >
+	</protocol>
 
 </protocols>

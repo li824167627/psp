@@ -51,6 +51,12 @@
 		<msg>更新用户失败！</msg>
 	</result>
 	
+	<result name="import_excel_error">
+		<code>100011</code>
+		<msg>导入工单信息失败！</msg>
+	</result>
+	
+	
 	
 	
 

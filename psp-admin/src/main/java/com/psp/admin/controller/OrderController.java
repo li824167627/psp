@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.psp.admin.controller.res.BaseResult;
 import com.psp.admin.controller.res.ListResult;
 import com.psp.admin.controller.res.ObjectResult;
 import com.psp.admin.controller.res.bean.ROrderBean;
@@ -148,6 +149,24 @@ public class OrderController {
 			List<ROrderLogsBean> lists = resList.getData();
 			result.setData(lists);
 			result.setTotalSize(totalSize);
+		} catch (ServiceException e) {
+			result.setServiceException(e);
+		} catch (Exception e) {
+			logger.info(e);
+			e.printStackTrace();
+			result.setFlag(false);
+			result.setMsg(e.getMessage());
+		}
+		return result;
+	}
+
+
+	public BaseResult ImportOrders(HttpServletRequest request, HttpServletResponse response) {
+		BaseResult result = new BaseResult();
+		try {
+
+			boolean flag = orderServiceImpl.ImportOrders(request);
+			result.setFlag(flag);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
 		} catch (Exception e) {

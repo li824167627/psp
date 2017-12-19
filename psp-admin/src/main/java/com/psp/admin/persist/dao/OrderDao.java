@@ -21,5 +21,6 @@ public interface OrderDao {
 
 	OrderStageStatisticsBean selectOrderStagesCount(String aid);
 
+	int insertOrders(List<OrderBean> orders);
 
 }

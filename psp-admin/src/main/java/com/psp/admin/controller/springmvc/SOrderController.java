@@ -85,4 +85,14 @@ public class SOrderController {
 
 		return orderController.getOrderLogs(param, request, response);
 	}
+
+	/**
+	 * 文件-上传文件
+	 **/
+	@RequestMapping("/v1/improtOrders")
+	@ResponseBody
+	public BaseResult ImportOrders(HttpServletRequest request, HttpServletResponse response) {
+
+		return orderController.ImportOrders(request, response);
+	}
 }

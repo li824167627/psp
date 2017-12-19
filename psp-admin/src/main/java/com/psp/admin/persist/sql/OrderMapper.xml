@@ -356,4 +356,17 @@
 			</where>) as closed
 		from dual;
 	</select>
+	
+	<!-- 批量导入工单信息 -->
+	<insert id="insertOrders">
+		INSERT INTO psp_order
+		(oid, orderNo, sid, uid, label, content,
+		pid, status, stage, createTime, isAllot, updateTime, contractStatus, dataType)
+		VALUES
+		<foreach collection="list" item="bean" open="" close="" separator="," index="index">
+		(#{bean.oid}, #{bean.orderNo}, #{bean.sid}, #{bean.uid}, #{bean.label}, #{bean.content},
+		#{bean.pid}, #{bean.status}, #{bean.stage}, now(), #{bean.isAllot}, now(), #{bean.contractStatus}, #{bean.dataType})
+		</foreach>
+	</insert>
+	
 </mapper>

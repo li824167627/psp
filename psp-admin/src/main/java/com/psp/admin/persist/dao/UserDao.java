@@ -27,4 +27,8 @@ public interface UserDao {
 
 	UserOnlineStatisticsBean selectOnlineCount(String adminId);
 
+	int insertUsers(List<UserBean> users);
+
+	List<UserBean> selectUsersByType(int type);
+
 }

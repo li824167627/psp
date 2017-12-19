@@ -1,12 +1,18 @@
 package com.psp.admin.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -18,6 +24,7 @@ import com.psp.admin.model.SellerBean;
 import com.psp.admin.model.UserBean;
 import com.psp.admin.model.UserLogBean;
 import com.psp.admin.model.UserNewsBean;
+import com.psp.admin.model.excel.UserInfoBean;
 import com.psp.admin.persist.dao.AdminDao;
 import com.psp.admin.persist.dao.SellerDao;
 import com.psp.admin.persist.dao.UserDao;
@@ -26,7 +33,9 @@ import com.psp.admin.persist.dao.UserNewsDao;
 import com.psp.admin.service.UserService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
+import com.psp.util.AppTextUtil;
 import com.psp.util.StringUtil;
+import com.psp.util.excel.ImportExcel;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -294,6 +303,66 @@ public class UserServiceImpl implements UserService {
 		if(!flag) {
 			throw new ServiceException("create_user_log_error");
 		}
+		return flag;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean ImportUsers(HttpServletRequest request) throws Exception {
+		boolean flag = false;
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+				request.getSession().getServletContext());
+		// 不是文件
+		if (!multipartResolver.isMultipart(request)) {
+			throw new ServiceException("param_is_error", "文件");
+		}
+		// 转换成多部分request
+		MultipartHttpServletRequest multRequest = (MultipartHttpServletRequest) request;
+		File excelfile = null;
+		try {
+			// 获得文件：   
+	        MultipartFile file = multRequest.getFile("file");   
+	        excelfile = File.createTempFile("tmp", null);
+	        // 读取excel内容
+	        ImportExcel<UserInfoBean> test = new ImportExcel<UserInfoBean>(UserInfoBean.class);  
+	      
+	        file.transferTo(excelfile);      
+	        Long befor = System.currentTimeMillis();  
+	        List<UserInfoBean> result = (ArrayList<UserInfoBean>) test.importExcel(excelfile);  
+	        Long after = System.currentTimeMillis();  
+    			logger.info("page-289 : " + JSON.toJSONString(result));
+	        List<UserBean> users = new ArrayList<>();
+	        
+	        if(result != null && result.size() > 0) {
+	        		for(UserInfoBean u: result) {
+	        			UserBean user = new UserBean();
+	        			user.setUid(AppTextUtil.getPrimaryKey());
+	        			user.setCompanyName(u.getCompany());
+	        			user.setIsAllot(1);// 已分配
+	        			user.setLevel(1);// 有效
+	        			user.setName(u.getUser());
+	        			user.setOrigin(2);//	线下
+	        			user.setSid(u.getSeller());
+	        			user.setStatus(1);// 已沟通
+	        			user.setType(2);// 补录数据
+	        			users.add(user);
+	        		}
+	        		logger.info("page-289 : " + JSON.toJSONString(users));
+	        		if(users.size() > 0) {
+	        			flag = userImpl.insertUsers(users) > 0;
+	        			if(!flag) {
+	        				throw new ServiceException("import_excel_error");
+	        			}
+	        		}
+	        		
+	        }
+	        
+	        System.out.println("此次操作共耗时：" + (after - befor) + "毫秒");  
+	        excelfile.deleteOnExit();
+			
+		} catch (Exception e) {
+			throw e;
+		}   
 		return flag;
 	}
 
