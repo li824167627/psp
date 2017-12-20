@@ -54,7 +54,6 @@ public class UserNewsServiceImpl implements UserNewsService{
 		}
 		List<UserNewsBean> resList = userNewsImpl.selectUserNews(page, pageSize, null, stype, key, uid);
 		List<RUserNewsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserNewsBean bean : resList) {
 				RUserNewsBean rb = parse(bean);
@@ -100,7 +99,6 @@ public class UserNewsServiceImpl implements UserNewsService{
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		logger.info(JSON.toJSONString(user));
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}

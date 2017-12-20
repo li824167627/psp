@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.provider.controller.res.bean.ROrderBean;
 import com.psp.provider.controller.res.bean.ROrderContractBean;
@@ -65,7 +64,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize, provider.getPid(), filteType, stype, key, stage);
 		List<ROrderBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderBean bean : resList) {
 				ROrderBean rb = parse(bean);
@@ -136,7 +134,6 @@ public class OrderServiceImpl implements OrderService {
 		if(bean.getContracts() != null) {
 			List<OrderContractBean> contracts = bean.getContracts();
 			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
-			logger.info("合同：" + JSON.toJSON(contracts));
 			if(contracts.size() > 0) {
 				for(OrderContractBean con : contracts) {
 					recontracts.add(parse(con));
@@ -212,8 +209,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("order:" + JSON.toJSONString(order));
-		logger.info("account:" + JSON.toJSONString(account));
 		if(!account.getPid().equals(order.getPid())) {
 			throw new ServiceException("account_has_no_auth", "工单");
 		}
@@ -233,7 +228,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderLogBean> resList = orderLogImpl.selectOrderLogs(oid, key);
 		List<ROrderLogsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderLogBean bean : resList) {
 				ROrderLogsBean rb = parse(bean);
@@ -277,7 +271,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单： "+JSON.toJSONString(order));
 		if(order.getStatus() != 4 && order.getStatus() != 7) { //4 合同已上传 7 拒绝完成
 			throw new ServiceException("order_can_not_submit");
 		}
@@ -311,7 +304,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单： "+JSON.toJSONString(order));
 		if(order.getStatus() != 2) { //2 待处理
 			throw new ServiceException("order_can_not_handle");
 		}
@@ -347,7 +339,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单： "+JSON.toJSONString(order));
 		if(order.getStatus() != 2) { //2 待处理
 			throw new ServiceException("order_can_not_handle");
 		}
@@ -382,8 +373,7 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单： "+JSON.toJSONString(order));
-		if(order.getStatus() != 4 && order.getStatus() != 7) { //4 合同已上传 7 拒绝完成
+		if(order.getStatus() != 3 && order.getStatus() != 4 && order.getStatus() != 7) { //4 合同已上传 7 拒绝完成
 			throw new ServiceException("order_can_not_submit");
 		}
 		order.setStatus(8);//申请终止，status=8

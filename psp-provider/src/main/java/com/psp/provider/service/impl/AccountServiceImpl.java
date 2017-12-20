@@ -177,7 +177,6 @@ public class AccountServiceImpl implements AccountService {
 		}
 		List<AccountBean> resList = accountImpl.selectAccounts(page, pageSize, account.getPid());
 		List<RAccountBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (AccountBean bean : resList) {
 				RAccountBean rb = parse(bean);

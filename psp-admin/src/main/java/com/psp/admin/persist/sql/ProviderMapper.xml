@@ -72,6 +72,7 @@
 			psp_provider_account
 		<where>
 			phoneNum = #{phoneNum}
+			and status != 1
 		</where>
 	</select>
 	

@@ -31,14 +31,12 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		boolean flag = false;
 		String token = request.getHeader("token");
 		if (!StringUtil.isEmpty(token)) {
-			logger.info("token is:" + token);
 			AdminBean admin = adminServiceImpl.getAdminByToken(token);
 			if (admin != null) {
 				request.setAttribute("adminId", admin.getAid());
 				request.setAttribute("token", token);
 				request.setAttribute("admin", admin);
 				flag = true;
-				logger.info("adminid is :" + admin.getAid());
 			}
 		} else {
 			AdminBean admin = adminServiceImpl.getAdminById("324f8f79cd604dd09353725c7d62de24");
@@ -47,7 +45,6 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				request.setAttribute("token", token);
 				request.setAttribute("admin", admin);
 				flag = true;
-				logger.info("adminid is :" + admin.getAid());
 			}
 		}
 		if (!flag) {

@@ -77,8 +77,6 @@ public class QiniuServiceImpl implements QiniuService {
             int pre = (int) System.currentTimeMillis();  
             //取得上传文件  
             if(file != null){  
-            		logger.info("文件" + JSON.toJSONString(file));
-    				logger.info("文件类型" + file.getContentType());
     				boolean allowed = Arrays.asList(allowedType).contains(file.getContentType());
 //	    				if (!allowed) {
 //	    					throw new ServiceException("fileType_not_allow", file.getContentType());

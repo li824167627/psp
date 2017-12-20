@@ -270,7 +270,6 @@ public class CategoryServiceImpl implements CategoryService {
 		if(cate == null) {
 			throw new ServiceException("object_is_not_exist", "服务");
 		}
-		logger.info("page-270: " + JSON.toJSONString(cate));
 		int num = serviceImpl.selectServiceCountByPid(cid);
 		if(cate.getIsService() == 1) {
 			num = serviceImpl.selectProviderCountByCid(cid);

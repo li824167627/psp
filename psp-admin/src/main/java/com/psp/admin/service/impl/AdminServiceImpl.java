@@ -109,7 +109,6 @@ public class AdminServiceImpl implements AdminService {
 		}
 		List<AdminBean> resList = adminImpl.selectAdmins(page, pageSize, key);
 		List<RAdminBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (AdminBean bean : resList) {
 				RAdminBean rb = parse(bean);
@@ -223,13 +222,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void checkImgCode(String userName, String imgcode) {
 		Code imgCode = adminCacheImpl.getImgCode(userName);
-		logger.info("the imgcode is : " + imgCode);
 		if (imgCode == null) {
 			throw new ServiceException("imgcode_is_expire");
 		}
 		imgcode = imgcode.toUpperCase();
 		if ((StringUtil.isEmpty(imgcode)) || (!imgcode.equals(imgCode.getCode()))) {
-			logger.info("set imgcode is : " + imgCode);
 			throw new ServiceException("imgcode_is_error");
 		}
 	}
@@ -243,13 +240,10 @@ public class AdminServiceImpl implements AdminService {
 			throw new ServiceException("object_is_exist", "手机号");
 		}
 		long now = System.currentTimeMillis() / 1000;
-		logger.info("now is : " + now);
 
 		Code c = adminCacheImpl.getVCode(type, phone);
-		logger.info("vcode is : " + c);
 		if (c != null) {
 			long passTime = now - c.getTime();
-			logger.info("passTime is : " + passTime);
 			if (passTime < 60) {
 				throw new ServiceException("vcode_in_limit");
 			}
@@ -353,7 +347,6 @@ public class AdminServiceImpl implements AdminService {
 		OrderStatusStatisticsBean orderStatus = orderImpl.selectOrderStatusCount(parkId);
 		OrderStageStatisticsBean orderStage = orderImpl.selectOrderStagesCount(parkId);
 		
-		logger.info(JSON.toJSONString(orderStage));
 		JSONArray status = new JSONArray();
 		
 		JSONObject obj = new JSONObject();

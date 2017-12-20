@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.admin.controller.res.bean.ROrderBean;
 import com.psp.admin.controller.res.bean.ROrderContractBean;
@@ -29,6 +27,7 @@ import com.psp.admin.model.OrderContractBean;
 import com.psp.admin.model.OrderFeedbackBean;
 import com.psp.admin.model.OrderLogBean;
 import com.psp.admin.model.ProviderBean;
+import com.psp.admin.model.SellerBean;
 import com.psp.admin.model.UserBean;
 import com.psp.admin.model.excel.OrderInfoBean;
 import com.psp.admin.persist.dao.AdminDao;
@@ -76,7 +75,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize,filteType, stype, key, stage, ttype, targetId, parkId);
 		List<ROrderBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderBean bean : resList) {
 				ROrderBean rb = parse(bean);
@@ -140,7 +138,6 @@ public class OrderServiceImpl implements OrderService {
 		if(bean.getContracts() != null) {
 			List<OrderContractBean> contracts = bean.getContracts();
 			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
-			logger.info("合同：" + JSON.toJSON(contracts));
 			if(contracts.size() > 0) {
 				for(OrderContractBean con : contracts) {
 					recontracts.add(parse(con));
@@ -159,6 +156,14 @@ public class OrderServiceImpl implements OrderService {
 			order.setFeedback(rfeed);
 		}
 		
+		if(bean.getSeller() != null) {
+			SellerBean seller = bean.getSeller();
+			JSONObject sellerJson = new JSONObject();
+			sellerJson.put("sid", seller.getSid());
+			sellerJson.put("name", seller.getUsername());
+			sellerJson.put("phone", seller.getPhoneNum());
+			order.setSellerJson(sellerJson.toJSONString());
+		}
 		order.setSid(bean.getSid());
 		order.setStage(bean.getStage());
 		order.setStatus(bean.getStatus());
@@ -219,7 +224,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderLogBean> resList = orderLogImpl.selectOrderLogs(oid, key);
 		List<ROrderLogsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderLogBean bean : resList) {
 				ROrderLogsBean rb = parse(bean);
@@ -276,7 +280,6 @@ public class OrderServiceImpl implements OrderService {
 	        List<OrderInfoBean> result = (ArrayList<OrderInfoBean>) test.importExcel(excelfile);  
 	        List<OrderBean> orders = new ArrayList<>();
 	        List<UserBean> users = userImpl.selectUsersByType(2);
-			logger.info(JSON.toJSON("获取所有客户：" + users));
 			Map<String, String> AllUsers = new HashMap<String, String>();  
 		    for (UserBean user : users) { 
 		    		AllUsers.put(user.getCompanyName(), user.getUid());  
@@ -300,7 +303,6 @@ public class OrderServiceImpl implements OrderService {
 	        			order.setStatus(1);// 已完成
 	        			orders.add(order);
 	        		}
-	        		logger.info("page-289 : " + JSON.toJSONString(orders) );
 	        		if(orders.size() > 0) {
 	        			flag = orderImpl.insertOrders(orders) > 0;
 	        			if(!flag) {

@@ -46,7 +46,6 @@ public class SellerServiceImpl implements SellerService {
 		}
 		List<SellerBean> resList = sellerImpl.selectSellers(page, pageSize, pid, key, parkId);
 		List<RSellerBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (SellerBean bean : resList) {
 				RSellerBean rb = parse(bean);

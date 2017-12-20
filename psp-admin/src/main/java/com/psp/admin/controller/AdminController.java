@@ -162,7 +162,6 @@ public class AdminController {
 			String sessionId = request.getSession().getId();
 			String ip = AppTextUtil.getIpAddr(request);
 			RAdminBean user = adminServiceImpl.login(sessionId, phone, pwd, vcode, device, ip);
-			logger.info("login user is:" + user);
 			if (user != null) {
 				result.setToken(sessionId);
 				result.setData(user);

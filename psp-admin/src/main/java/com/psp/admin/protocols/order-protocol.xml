@@ -16,8 +16,8 @@
 			</param>
 			<param name="targetId" type="string" demoValue="e1a123dc12c31b2a3e1b23e123e12a3" notes="客户ID，空则查询当前销售待工单">
 			</param>
-			<param name="stype" type="string" demoValue="0" notes="搜索条件类型，0:全部1:描述2:标签">
-				<pattern regexp="^0|1|2$" message="搜索条件错误：0:全部1:描述2:标签" />
+			<param name="stype" type="string" demoValue="0" notes="搜索条件类型，0:全部1:描述2:标签3销售姓名">
+				<pattern regexp="^0|1|2|3$" message="搜索条件错误：0:全部1:描述2:标签3:销售姓名" />
 			</param>
 			<param name="key" type="String" demoValue="" notes="关键字">
 			</param>

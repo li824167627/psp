@@ -52,7 +52,6 @@ public class ParkServiceImpl implements ParkService {
 		}
 		List<ParkBean> resList = parkImpl.selectList(page, pageSize, key, parkId);
 		List<RParkBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (ParkBean bean : resList) {
 				RParkBean rb = parse(bean);

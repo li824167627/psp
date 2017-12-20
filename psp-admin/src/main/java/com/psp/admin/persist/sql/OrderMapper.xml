@@ -24,7 +24,7 @@
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status > 1
 			</if>
-			<!-- 关键字搜索 1描述 2标签 -->
+			<!-- 关键字搜索 1描述 2标签 3销售姓名 -->
 			<if test="stype == 0 and key != null">
 				AND (o.content like CONCAT('%', '${key}' ,'%') or o.label like CONCAT('%', '${key}' ,'%'))
 			</if>
@@ -33,6 +33,9 @@
 			</if>
 			<if test="stype == 2">
 				AND (o.label like CONCAT('%', '${key}' ,'%')) 
+			</if>
+			<if test="stype == 3">
+				AND (s.username like CONCAT('%', '${key}' ,'%')) 
 			</if>
 			<!-- 用户详情下-->
 			<if test="uid != null">
@@ -78,6 +81,11 @@
 			<result property="phoneNum"  column="uphoneNum"/>
 			<result property="companyName"  column="ucompanyName"/>
 		</association> 
+		<association property="seller" javaType="SellerBean">
+			<id property="sid" column="ssid"/>
+			<result property="username"  column="sname"/>
+			<result property="phoneNum"  column="sphoneNum"/>
+		</association> 
 		<association property="feedback" javaType="OrderFeedbackBean">
 			<id property="fid" column="fid"/>
 			<result property="averageScore"  column="averageScore"/>
@@ -108,6 +116,7 @@
 	<select id="selectOrders" resultMap="OrderMap">
 		SELECT o.*,p.pid as ppid,p.name as pname,
 		 p.phoneNum as pphoneNum, p.contact as ppcontact,
+		 s.sid as ssid,s.username as sname, s.phoneNum as sphoneNum,
 		 u.uid as uuid, u.name as uname,u.phoneNum as uphoneNum, 
 		 u.companyName as ucompanyName
 		FROM psp_order o 
@@ -141,6 +150,9 @@
 			<if test="stype == 2">
 				AND (o.label like CONCAT('%', '${key}' ,'%')) 
 			</if>
+			<if test="stype == 3">
+				AND (s.username like CONCAT('%', '${key}' ,'%')) 
+			</if>
 			<!-- 用户详情下-->
 			<if test="uid != null">
 				and o.uid = #{uid}
@@ -163,6 +175,7 @@
 	<select id="selectOrderById" resultMap="OrderMap">
 		SELECT o.*,p.pid as ppid,p.name as pname, p.phoneNum as pphoneNum,
 		 p.contact as ppcontact, u.uid as uuid, u.name as uname,
+		 s.sid as ssid,s.username as sname, s.phoneNum as sphoneNum,
 		 u.phoneNum as uphoneNum, u.companyName as ucompanyName,
 		 c.cid as ccid,c.oid as coid, c.name as cname, c.contractNo, c.partyA, c.partyB, c.contractUrl, 
 		 c.signTime, c.startTime, c.endTime, c.createTime, c.service, c.money, c.payment, c.paymentWay, c.paymentDesc,
@@ -172,6 +185,8 @@
 		on o.pid = p.pid
 		left join psp_user u
 		on o.uid = u.uid
+		left join psp_sale_center s
+		on u.sid = s.sid
 		left join psp_order_contract c
 		on o.oid = c.oid
 		left join psp_order_feedback f

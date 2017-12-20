@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
 		}
 		List<UserBean> resList = userImpl.selectUsers(page, pageSize, filteType, stype, key, isALlot, sid, parkId);
 		List<RUserBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserBean bean : resList) {
 				RUserBean rb = parse(bean);
@@ -140,7 +139,6 @@ public class UserServiceImpl implements UserService {
 		}
 		List<UserLogBean> resList = userLogImpl.selectUserLogs(uid, key);
 		List<RUserLogsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserLogBean bean : resList) {
 				RUserLogsBean rb = parse(bean);
@@ -162,7 +160,6 @@ public class UserServiceImpl implements UserService {
 		}
 		List<UserNewsBean> resList = userNewsImpl.selectUserNews(page, pageSize, null, stype, key, uid);
 		List<RUserNewsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserNewsBean bean : resList) {
 				RUserNewsBean rb = parse(bean);
@@ -269,9 +266,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean allot(String aid, String sid, String uid) {
 		AdminBean admin = adminImpl.selectOneById(aid);
-		logger.info("管理员：" + JSON.toJSONString(admin));
 		UserBean user = userImpl.selectUserById(uid);
-		logger.info("编辑用户" + JSON.toJSONString(user));
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "被分配的客户");
 		}
@@ -282,7 +277,6 @@ public class UserServiceImpl implements UserService {
 		adminJson.put("name", admin.getUsername());
 		adminJson.put("phone", admin.getPhoneNum());
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		logger.info("分配的销售：" + JSON.toJSONString(seller));
 		boolean flag = false;
 		if(seller == null) {
 			throw new ServiceException("object_is_not_exist", "分配的销售");
@@ -330,7 +324,6 @@ public class UserServiceImpl implements UserService {
 	        Long befor = System.currentTimeMillis();  
 	        List<UserInfoBean> result = (ArrayList<UserInfoBean>) test.importExcel(excelfile);  
 	        Long after = System.currentTimeMillis();  
-    			logger.info("page-289 : " + JSON.toJSONString(result));
 	        List<UserBean> users = new ArrayList<>();
 	        
 	        if(result != null && result.size() > 0) {
@@ -347,7 +340,6 @@ public class UserServiceImpl implements UserService {
 	        			user.setType(2);// 补录数据
 	        			users.add(user);
 	        		}
-	        		logger.info("page-289 : " + JSON.toJSONString(users));
 	        		if(users.size() > 0) {
 	        			flag = userImpl.insertUsers(users) > 0;
 	        			if(!flag) {

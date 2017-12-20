@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.psp.admin.cache.dao.ServiceCacheDao;
 import com.psp.admin.controller.res.bean.RAccountBean;
 import com.psp.admin.controller.res.bean.RProviderBean;
@@ -122,7 +121,6 @@ public class ProviderServiceImpl implements ProviderService {
 		}
 		List<ProviderBean> resList = providerImpl.selectProviders(page, pageSize, cid);
 		List<RProviderBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (ProviderBean bean : resList) {
 				RProviderBean rb = parse(bean);
@@ -169,7 +167,6 @@ public class ProviderServiceImpl implements ProviderService {
 		}
 		List<AccountBean> resList = providerImpl.selectAccounts(page, pageSize, pid);
 		List<RAccountBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (AccountBean bean : resList) {
 				RAccountBean rb = parse(bean);

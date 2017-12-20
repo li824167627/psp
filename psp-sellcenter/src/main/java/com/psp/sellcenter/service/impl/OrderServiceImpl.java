@@ -83,7 +83,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderBean> resList = orderImpl.selectOrders(page, pageSize, sid, filteType, stype, key, uid, stage);
 		List<ROrderBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderBean bean : resList) {
 				ROrderBean rb = parse(bean);
@@ -107,13 +106,9 @@ public class OrderServiceImpl implements OrderService {
 		}
 		bean.setContent(bean.getContent());
 		if(bean.getCreateTime() != null) {
-			logger.info("page-110:" + bean.getCreateTime());
-			logger.info("page-111:" + bean.getCreateTime().getTime());
 			order.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
 		if(bean.getExpectedTime() != null) {
-			logger.info("page-115:" + bean.getExpectedTime());
-			logger.info("page-116:" + bean.getExpectedTime().getTime());
 			order.setExpectedTime(bean.getExpectedTime().getTime() / 1000);
 		}
 		if(bean.getCloseTime() != null) {
@@ -149,7 +144,6 @@ public class OrderServiceImpl implements OrderService {
 		if(bean.getContracts() != null) {
 			List<OrderContractBean> contracts = bean.getContracts();
 			List<ROrderContractBean> recontracts = new ArrayList<ROrderContractBean>();
-			logger.info("合同：" + JSON.toJSON(contracts));
 			if(contracts.size() > 0) {
 				for(OrderContractBean con : contracts) {
 					recontracts.add(parse(con));
@@ -217,7 +211,6 @@ public class OrderServiceImpl implements OrderService {
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		logger.info(JSON.toJSONString(user));
 		if(user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}
@@ -310,7 +303,6 @@ public class OrderServiceImpl implements OrderService {
 				return null;
 			}
 			List<ProviderBean> providers = providerImpl.selectAll();
-			logger.info(JSON.toJSON("获取所有服务商：" + providers));
 			Map<Integer, JSONArray> AllProviders = new HashMap<Integer, JSONArray>();  
 			
 			JSONArray subProviders = new JSONArray();
@@ -373,7 +365,6 @@ public class OrderServiceImpl implements OrderService {
 				jsonArray.add(firstObject);
 			}
 			String jsonMenu = JSON.toJSONString(jsonArray);
-			logger.info(JSON.toJSON("服务json：" + jsonMenu));
 			serviceCacheImpl.setCategoryCache(jsonMenu);
 		} else {
 			jsonArray = JSON.parseArray(cateStr);
@@ -406,7 +397,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<OrderLogBean> resList = orderLogImpl.selectOrderLogs(oid, key);
 		List<ROrderLogsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (OrderLogBean bean : resList) {
 				ROrderLogsBean rb = parse(bean);
@@ -494,7 +484,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单"+JSON.toJSONString(order));
 		if((status == -1 && order.getStatus() != 0) // 待处理时关闭
 				|| (status == -2 && order.getStatus() != 3) // 服务商已接受后，合同问题关闭
 				|| (status == -3 && order.getStatus() != 8)) { // 服务商无法完成，客户提出终止
@@ -531,7 +520,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单"+JSON.toJSONString(order));
 		if(order.getStatus() != 3) { // 服务商已接受状态后，销售可以与客户签合同
 			throw new ServiceException("order_can_not_sign_contract");
 		}
@@ -611,7 +599,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单"+JSON.toJSONString(order));
 		if(order.getStatus() != 5) { // 服务商申请完成，销售确认工单状态
 			throw new ServiceException("order_can_not_confirm");
 		}
@@ -653,7 +640,6 @@ public class OrderServiceImpl implements OrderService {
 		if(order == null) {
 			throw new ServiceException("object_is_not_exist", "工单");
 		}
-		logger.info("工单"+JSON.toJSONString(order));
 		if(order.getStatus() != 6) { // 6 销售确认完成，等待反馈状态
 			throw new ServiceException("order_can_not_feedback");
 		}

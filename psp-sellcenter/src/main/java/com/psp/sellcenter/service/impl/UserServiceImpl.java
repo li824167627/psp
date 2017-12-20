@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
 		}
 		List<UserBean> resList = userImpl.selectUsers2Seller(page, pageSize, sid, filteType, stype, key, status);
 		List<RUserBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserBean bean : resList) {
 				RUserBean rb = parse(bean);
@@ -104,7 +103,6 @@ public class UserServiceImpl implements UserService {
 		res.setSid(user.getSid());
 		res.setUid(user.getUid());
 		res.setStatus(user.getStatus());
-		logger.info(JSON.toJSONString(res));
 		return res;
 	}
 
@@ -137,7 +135,6 @@ public class UserServiceImpl implements UserService {
 			user.setOrigin(2);// 线下
 			user.setLevel(1);//有效
 			user.setType(seller.getType() == 0 ? 0 : 1);
-			logger.info("新建用户："+JSON.toJSONString(user));
 			flag = userImpl.insert(user) > 0;
 			if(!flag) {
 				throw new ServiceException("create_user_error");
@@ -368,7 +365,6 @@ public class UserServiceImpl implements UserService {
 		}
 		List<UserLogBean> resList = userLogImpl.selectUserLogs(uid, key);
 		List<RUserLogsBean> resData = new ArrayList<>();
-		logger.info(JSON.toJSONString(resList));
 		if (resList != null && resList.size() > 0) {
 			for (UserLogBean bean : resList) {
 				RUserLogsBean rb = parse(bean);

@@ -56,7 +56,6 @@ public class AccountController {
 			String sessionId = request.getSession().getId();
 			String ip = AppTextUtil.getIpAddr(request);
 			RAccountBean user = accountServiceImpl.login(sessionId, phone, pwd, vcode, device, ip);
-			logger.info("login user is:" + user);
 			if (user != null) {
 				result.setToken(sessionId);
 				result.setData(user);

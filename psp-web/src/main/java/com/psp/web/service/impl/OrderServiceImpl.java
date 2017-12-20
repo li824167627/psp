@@ -188,7 +188,6 @@ public class OrderServiceImpl implements OrderService {
 			user.setIsAllot(0);
 			user.setOrigin(1);// 线上
 			user.setLevel(1);//有效
-			logger.info("新建用户："+JSON.toJSONString(user));
 			flag = userImpl.insert(user) > 0;
 			if(!flag) {
 				throw new ServiceException("create_user_error");

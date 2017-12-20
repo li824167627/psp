@@ -46,7 +46,6 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public SellerBean getSellerById(String sid) {
 		SellerBean user = sellerImpl.selectOneById(sid);
-		logger.info("page49:" + user);
 		if(user.getStatus() != 0) {
 			throw new ServiceException("account_is_forzen");
 		}
