@@ -42,7 +42,7 @@
 				and o.uid = #{uid}
 			</if>
 			<if test="sid != null">
-				and o.sid = #{sid}
+				and u.sid = #{sid}
 			</if>
 			<if test="pid != null">
 				and o.pid = #{pid}
@@ -158,7 +158,7 @@
 				and o.uid = #{uid}
 			</if>
 			<if test="sid != null">
-				and o.sid = #{sid}
+				and u.sid = #{sid}
 			</if>
 			<if test="pid != null">
 				and o.pid = #{pid}

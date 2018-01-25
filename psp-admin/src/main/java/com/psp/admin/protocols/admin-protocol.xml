@@ -6,6 +6,7 @@
 		<request>
 			<param name="phoneNum" type="String" demoValue="15654724214" notes="手机号">
 				<notEmpty message="手机号不能为空"></notEmpty>
+				<pattern regexp="^(1)\\d{10}$" message="手机号格式不正确！" />
 			</param>
 			<param name="password" type="String" demoValue="123123" notes="密码">
 				<notEmpty message="密码不能为空"></notEmpty>

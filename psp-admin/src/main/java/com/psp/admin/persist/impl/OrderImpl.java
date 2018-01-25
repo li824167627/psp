@@ -22,7 +22,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		Map<String, Object> where = new HashMap<>();
 		where.put("filteType", filteType);
 		where.put("stype", stype);
-		where.put("key", key);
+		if(!StringUtil.isEmpty(key)) {
+			where.put("key", key);
+		}
 		where.put("stage", stage);
 		switch (ttype) {//0:全部1:服务商2:客户3:销售
 			case 1:
@@ -51,7 +53,9 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("length", pageSize);
 		where.put("filteType", filteType);
 		where.put("stype", stype);
-		where.put("key", key);
+		if(!StringUtil.isEmpty(key)) {
+			where.put("key", key);
+		}
 		where.put("stage", stage);
 		switch (ttype) {//0:全部1:服务商2:客户3:销售
 			case 1:

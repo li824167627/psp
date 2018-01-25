@@ -30,9 +30,9 @@
 			and  sc.parentId = 0 
 			
 		ORDER BY
-			sc.sort,
+			sc.createTime,
 			c.parentId,
-			c.sort
+			c.createTime
 	</select>
 	
 	<!-- 获取所有服务 -->
@@ -51,7 +51,7 @@
 		</where>
 		ORDER BY
 			parentId,
-			sort
+			createTime
 	</select>
 	
 	<!-- 获取服务数量 -->

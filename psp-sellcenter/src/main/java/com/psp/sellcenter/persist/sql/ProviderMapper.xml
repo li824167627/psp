@@ -19,9 +19,9 @@
 			and  sc.parentId = 0 
 			
 		ORDER BY
-			sc.sort,
+			sc.createTime,
 			c.parentId,
-			c.sort
+			c.createTime
 	</select>
 	
 	<!-- 获取所有服务 -->
@@ -40,7 +40,7 @@
 		</where>
 		ORDER BY
 			parentId,
-			sort
+			createTime
 	</select>
 	
 	<resultMap type="CategoryBean" id="CategoryMap" autoMapping="true">
@@ -79,9 +79,8 @@
 			LEFT JOIN psp_category pc ON r.cid = pc.cid ON p.pid = r.pid 
 		where p.status = 0
 		ORDER BY
-			pc.parentId,
-			pc.sort,
-			p.createTime DESC
+			pc.createTime,
+			p.createTime
 
 	</select>
 	
