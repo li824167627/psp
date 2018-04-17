@@ -86,11 +86,15 @@
 		INSERT INTO psp_user
 		(uid, name, phoneNum, companyName, position, sid, sellerJson,
 		orderNum, createTime, communityTime, label, origin, level, type,
-		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>)
+		isAllot, aid, adminJson<if test="isAllot == 1">,allotTime</if>,
+		visitDest,visitNum,refCompany,referrer,visitTime,escort,introducer,
+		remark,visitflow,cType)
 		VALUES
 		(#{uid}, #{name}, #{phoneNum}, #{companyName}, #{position}, #{sid}, #{sellerJson},
 		0, now(), now(), #{label}, #{origin}, #{level}, #{type},
-		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>);
+		#{isAllot}, #{aid}, #{adminJson}<if test="isAllot == 1">, now()</if>,
+		#{visitDest},#{visitNum},#{refCompany},#{referrer},#{visitTime},#{escort},#{introducer},
+		#{remark},#{visitflow},#{cType});
 	</insert>
 	
 	<!-- 更新客户的销售人员 -->
@@ -110,7 +114,16 @@
 			<if test="phoneNum != null">phoneNum=#{phoneNum},</if>
 			<if test="companyName != null">companyName=#{companyName},</if>
 			<if test="position != null">position=#{position},</if>
+			<if test="visitDest != null">visitDest=#{visitDest},</if>
 			<if test="label != null">label=#{label},</if>
+			<if test="visitNum != null">visitNum=#{visitNum},</if>
+			<if test="refCompany != null">refCompany=#{refCompany},</if>
+			<if test="referrer != null">referrer=#{referrer},</if>
+			<if test="escort != null">escort=#{escort},</if>
+			<if test="remark != null">remark=#{remark},</if>
+			<if test="visitflow != null">visitflow=#{visitflow},</if>
+			<if test="introducer != null">introducer=#{introducer},</if>
+			<if test="cType != null">cType=#{cType},</if>
 		</set> 
 		WHERE
 			uid = #{uid};

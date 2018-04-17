@@ -29,10 +29,20 @@ public interface UserService {
 	 * @param label
 	 * @param isUpdate
 	 * @param isClaim
+	 * @param remark 
+	 * @param visitFlow 
+	 * @param introducer 
+	 * @param escort 
+	 * @param visitTime 
+	 * @param referrer 
+	 * @param refCompany 
+	 * @param visitNum 
+	 * @param visitDest 
+	 * @param cType 
 	 * @return
 	 */
 	RUserBean addUser(String sid, String name, String phoneNum, String companyName, String position, String label,
-			int isUpdate, int isClaim);
+			int isUpdate, int isClaim, String visitDest, int visitNum, String refCompany, String referrer, String visitTime, String escort, String introducer, String visitFlow, String remark, int cType);
 	
 	/**
 	 * 编辑客户
@@ -43,10 +53,19 @@ public interface UserService {
 	 * @param position
 	 * @param label
 	 * @param uid
+	 * @param remark 
+	 * @param visitFlow 
+	 * @param introducer 
+	 * @param escort 
+	 * @param visitTime 
+	 * @param referrer 
+	 * @param refCompany 
+	 * @param visitNum 
+	 * @param visitDest 
 	 * @return
 	 */
 	RUserBean eidtUser(String sid, String name, String phoneNum, String companyName, String position, String label,
-			String uid);
+			String uid, String visitDest, int visitNum, String refCompany, String referrer, String visitTime, String escort, String introducer, String visitFlow, String remark, int cType);
 	/**
 	 * 查询客户数量
 	 * @param sid

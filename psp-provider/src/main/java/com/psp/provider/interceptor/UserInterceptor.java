@@ -40,15 +40,16 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("accountid is :" + account.getAid());
 			}
-		} else {
-			AccountBean account = accountServiceImpl.getAccountById("437962beb13e48d9bb057fa4ff893720");
-			if (account != null) {
-				request.setAttribute("accountId", account.getAid());
-				request.setAttribute("token", token);
-				request.setAttribute("account", account);
-				flag = true;
-				logger.info("accountid is :" + account.getAid());
-			}
+//		} else {
+//			AccountBean account = accountServiceImpl.getAccountById("437962beb13e48d9bb057fa4ff893720");
+//			if (account != null) {
+//				request.setAttribute("accountId", account.getAid());
+//				request.setAttribute("token", token);
+//				request.setAttribute("account", account);
+//				flag = true;
+//				logger.info("accountid is :" + account.getAid());
+//			}
+//		}
 		}
 		if (!flag) {
 			BaseResult result = new BaseResult();

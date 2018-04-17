@@ -18,7 +18,7 @@ processResources {
 }
 
 war {  
-	archiveName 'psp-web.war'  
+	archiveName 'psp2-web.war'  
 }
 
 
@@ -72,7 +72,7 @@ task copy(dependsOn:del) << {
   ssh.run {  
     session(remotes.deployServer) {  
       println 'start copying war...'   
-      put from: buildDir.toString() + '/libs/psp-web.war', into: '/usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/webapps'  
+      put from: buildDir.toString() + '/libs/psp2-web.war', into: '/usr/local/tomcat/tomcat80/apache-tomcat-8.5.15/webapps'  
     }  
   }  
 }  

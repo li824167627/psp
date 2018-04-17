@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 	public RCategoryJSONBean getAllServices() {
 		RCategoryJSONBean bean = new RCategoryJSONBean();
 		JSONArray jsonArray = new JSONArray();
-		String cateStr = serviceCacheImpl.getAllCategoryCache();
+		String cateStr = null;//serviceCacheImpl.getAllCategoryCache();
 		if (StringUtil.isEmpty(cateStr)) {
 			List<CategoryBean> cates = serviceImpl.selectAllCates();
 			if(cates == null) {
@@ -58,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
 			JSONArray subCates = new JSONArray();
 		    for (CategoryBean cate : Services) { 
 			 	JSONObject serviceObject = new JSONObject();
-		    		serviceObject.put("name", cate.getName());
-		    		serviceObject.put("cid", cate.getCid());
+		    		serviceObject.put("label", cate.getName());
+		    		serviceObject.put("value", cate.getCid());
 			    if(AllServices.containsKey(cate.getParentId())){//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中  
 			    		AllServices.get(cate.getParentId()).add(serviceObject);
 	            }else{//map中不存在，新建key，用来存放数据  
@@ -72,15 +72,15 @@ public class OrderServiceImpl implements OrderService {
 		    // 构造三级树
 			for(CategoryBean ca : cates) {
 				JSONObject firstObject = new JSONObject();
-				firstObject.put("name", ca.getName());
-				firstObject.put("cid", ca.getCid());
+				firstObject.put("label", ca.getName());
+				firstObject.put("value", ca.getCid());
 				List<CategoryBean> children = ca.getChildern();
 				JSONArray secondCates = new JSONArray();
 				if(children != null && children.size() > 0) {
 					for(CategoryBean c : children){
 						JSONObject secondObject = new JSONObject();
-						secondObject.put("name", c.getName());
-						secondObject.put("cid", c.getCid());
+						secondObject.put("label", c.getName());
+						secondObject.put("value", c.getCid());
 						secondObject.put("children", AllServices.get(c.getCid()));
 						secondCates.add(secondObject);
 					}
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
 				jsonArray.add(firstObject);
 			}
 			String jsonMenu = JSON.toJSONString(jsonArray);
-			serviceCacheImpl.setAllCategoryCache(jsonMenu);
+			//serviceCacheImpl.setAllCategoryCache(jsonMenu);
 		} else {
 			jsonArray = JSON.parseArray(cateStr);
 		}
@@ -188,6 +188,7 @@ public class OrderServiceImpl implements OrderService {
 			user.setIsAllot(0);
 			user.setOrigin(1);// 线上
 			user.setLevel(1);//有效
+			user.setLabel("[]");
 			flag = userImpl.insert(user) > 0;
 			if(!flag) {
 				throw new ServiceException("create_user_error");
@@ -213,11 +214,12 @@ public class OrderServiceImpl implements OrderService {
 		news.setUid(uid);
 		news.setContent(content);
 		news.setOrigin(1);// 线上
+		news.setLabel("[]");
 		flag = userImpl.insertUserNews(news) > 0;
 		if(!flag) {
 			throw new ServiceException("create_user_news_error");
 		}
-		return false;
+		return flag;
 	}
 
 }

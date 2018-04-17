@@ -14,6 +14,7 @@ public class UserBean {
 	private String sid; // 当前销售
 	private String sellerJson; // 当前销售JSON
 	private Integer orderNum; // 工单数量
+	private Integer cType; // 客户类型
 	private Timestamp createTime; // 创建时间
 	private Timestamp communityTime; // 最后沟通时间
 	private String label; // 客户标签
@@ -26,6 +27,15 @@ public class UserBean {
 	private Timestamp allotTime; // 分配时间
 	private Integer type;
 	private SellerBean seller;
+	private String visitDest; // 参观目的
+	private Integer visitNum; // 参观人数
+	private String refCompany; // 推荐单位
+	private String referrer; // 推荐人
+	private Timestamp visitTime; // 访问时间
+	private String escort; // 职位
+	private String introducer; // 引导介绍
+	private String remark; // 备注
+	private String visitflow; // 参观流程
 	public String getUid() {
 		return uid;
 	}
@@ -145,6 +155,66 @@ public class UserBean {
 	}
 	public void setType(Integer type) {
 		this.type = type;
+	}
+	public String getVisitDest() {
+		return visitDest;
+	}
+	public void setVisitDest(String visitDest) {
+		this.visitDest = visitDest;
+	}
+	public Integer getVisitNum() {
+		return visitNum;
+	}
+	public void setVisitNum(Integer visitNum) {
+		this.visitNum = visitNum;
+	}
+	public String getRefCompany() {
+		return refCompany;
+	}
+	public void setRefCompany(String refCompany) {
+		this.refCompany = refCompany;
+	}
+	public String getReferrer() {
+		return referrer;
+	}
+	public void setReferrer(String referrer) {
+		this.referrer = referrer;
+	}
+	public Timestamp getVisitTime() {
+		return visitTime;
+	}
+	public void setVisitTime(Timestamp visitTime) {
+		this.visitTime = visitTime;
+	}
+	public String getEscort() {
+		return escort;
+	}
+	public void setEscort(String escort) {
+		this.escort = escort;
+	}
+	public String getIntroducer() {
+		return introducer;
+	}
+	public void setIntroducer(String introducer) {
+		this.introducer = introducer;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getVisitflow() {
+		return visitflow;
+	}
+	public void setVisitflow(String visitflow) {
+		this.visitflow = visitflow;
+	}
+	public Integer getcType() {
+		return cType;
+	}
+	public void setcType(Integer cType) {
+		this.cType = cType;
 	}
 	
 }

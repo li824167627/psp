@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.psp.sellcenter.controller.res.bean.RUserBean;
 import com.psp.sellcenter.controller.res.bean.RUserLogsBean;
@@ -23,6 +22,7 @@ import com.psp.sellcenter.service.UserService;
 import com.psp.sellcenter.service.exception.ServiceException;
 import com.psp.sellcenter.service.res.PageResult;
 import com.psp.util.AppTextUtil;
+import com.psp.util.DateUtil;
 import com.psp.util.StringUtil;
 
 @Service
@@ -93,6 +93,19 @@ public class UserServiceImpl implements UserService {
 		res.setPhoneNum(user.getPhoneNum());
 		res.setPosition(user.getPosition());
 		res.setCreaterJson(user.getSellerJson());
+		res.setVisitDest(user.getVisitDest());
+		res.setVisitNum(user.getVisitNum()+"");
+		res.setRefCompany(user.getRefCompany());
+		res.setReferrer(user.getReferrer());
+		res.setEscort(user.getEscort());
+		res.setIntroducer(user.getIntroducer());
+		res.setRemark(user.getRemark());
+		res.setCtype(user.getcType());
+		res.setVisitflow(user.getVisitflow());
+		if(user.getVisitTime() != null) {
+			res.setVisitTime(user.getVisitTime().getTime() / 1000);
+		}
+	
 		if(user.getSeller() != null) {
 			SellerBean selBean = user.getSeller();
 			JSONObject sellerJson = new JSONObject();
@@ -109,7 +122,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RUserBean addUser(String sid, String name, String phoneNum, String companyName, String position,
-			String label, int isUpdate, int isClaim) {
+			String label, int isUpdate, int isClaim, String visitDest, int visitNum, String refCompany, 
+			String referrer, String visitTime, String escort, String introducer, String visitFlow, String remark, int cType) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
 		if(seller == null) {
@@ -134,6 +148,19 @@ public class UserServiceImpl implements UserService {
 			user.setLabel(label);
 			user.setOrigin(2);// 线下
 			user.setLevel(1);//有效
+			user.setcType(cType);
+			user.setVisitDest(visitDest);
+			user.setEscort(escort);
+			user.setVisitNum(visitNum);
+			user.setRefCompany(refCompany);
+			user.setReferrer(referrer);
+			if(!StringUtil.isEmpty(visitTime)) {
+				user.setVisitTime(DateUtil.getTimestamp(visitTime, "yyyy-MM-dd HH:mm"));
+			}
+			user.setIntroducer(introducer);
+			user.setVisitflow(visitFlow);
+			user.setRemark(remark);
+			
 			user.setType(seller.getType() == 0 ? 0 : 1);
 			flag = userImpl.insert(user) > 0;
 			if(!flag) {
@@ -202,7 +229,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RUserBean eidtUser(String sid, String name, String phoneNum, String companyName, String position,
-			String label, String uid) {
+			String label, String uid, String visitDest, int visitNum, String refCompany, String referrer, 
+			String visitTime, String escort, String introducer, String visitFlow, String remark, int cType) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
 		if(seller == null) {
@@ -220,6 +248,18 @@ public class UserServiceImpl implements UserService {
 		user.setPhoneNum(phoneNum);
 		user.setCompanyName(companyName);
 		user.setPosition(position);
+		user.setVisitDest(visitDest);
+		user.setEscort(escort);
+		user.setVisitNum(visitNum);
+		user.setRefCompany(refCompany);
+		user.setReferrer(referrer);
+		user.setcType(cType);
+		if(!StringUtil.isEmpty(visitTime)) {
+			user.setVisitTime(DateUtil.getTimestamp(visitTime, "yyyy-MM-dd HH:mm"));
+		}
+		user.setIntroducer(introducer);
+		user.setVisitflow(visitFlow);
+		user.setRemark(remark);
 		if(!StringUtil.isEmpty(label)) {
 			user.setLabel(label);
 		}
@@ -461,6 +501,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return userlog;
 	}
-
+	
 
 }

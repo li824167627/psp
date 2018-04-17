@@ -96,8 +96,19 @@ public class UserController {
 			String label = param.getLabel();
 			int isUpdate = NumUtil.toInt(param.getIsUpdate(), 0);
 			int isClaim = NumUtil.toInt(param.getIsClaim(), 0);
+			String visitDest = param.getVisitDest();
+			int visitNum = NumUtil.toInt(param.getVisitNum(), 1);
+			String refCompany = param.getRefCompany();
+			String referrer = param.getReferrer();
+			String visitTime = param.getVisitTime();
+			String escort = param.getEscort();
+			String introducer = param.getIntroducer();
+			String visitFlow = param.getVisitflow();
+			String remark = param.getRemark();
+			int cType = NumUtil.toInt(param.getCtype(), 1);
 			
-			RUserBean data = userServiceImpl.addUser(sid, name, phoneNum, companyName, position, label, isUpdate, isClaim);
+			RUserBean data = userServiceImpl.addUser(sid, name, phoneNum, companyName, position, label, isUpdate, isClaim,
+				visitDest,visitNum,refCompany,referrer,visitTime,escort,introducer,visitFlow,remark,cType);
 			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -129,8 +140,18 @@ public class UserController {
 			String position = param.getPosition();
 			String label = param.getLabel();
 			String uid = param.getUserId();
-			
-			RUserBean data = userServiceImpl.eidtUser(sid, name, phoneNum, companyName, position, label, uid);
+			String visitDest = param.getVisitDest();
+			int visitNum = NumUtil.toInt(param.getVisitNum(), 1);
+			String refCompany = param.getRefCompany();
+			String referrer = param.getReferrer();
+			String visitTime = param.getVisitTime();
+			String escort = param.getEscort();
+			String introducer = param.getIntroducer();
+			String visitFlow = param.getVisitflow();
+			String remark = param.getRemark();
+			int cType = NumUtil.toInt(param.getCtype(), 1);
+			RUserBean data = userServiceImpl.eidtUser(sid, name, phoneNum, companyName, position, label, uid,
+					visitDest,visitNum,refCompany,referrer,visitTime,escort,introducer,visitFlow,remark,cType);
 			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);

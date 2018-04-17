@@ -10,6 +10,16 @@ public class RUserBean {
 	private String phoneNum; // 手机号
 	private String companyName; // 公司名称
 	private String position; // 职位
+	private String visitDest; // 参观目的
+	private String visitNum; // 参观人数
+	private String refCompany; // 推荐单位
+	private String referrer; // 推荐人
+	private Integer ctype; // 客户类型：1 普通 2 参观
+	private Long visitTime; // 访问时间
+	private String escort; // 职位
+	private String introducer; // 引导介绍
+	private String remark; // 备注
+	private String visitflow; // 参观流程
 	private String sid; // 当前销售
 	private String createrJson; // 创建人
 	private String sellerJson; // 当前销售JSON
@@ -62,6 +72,86 @@ public class RUserBean {
 
 	public String getPosition() {
  		return position;
+	}
+
+	public void setVisitDest(String visitDest) {
+ 		this.visitDest = visitDest;
+	}
+
+	public String getVisitDest() {
+ 		return visitDest;
+	}
+
+	public void setVisitNum(String visitNum) {
+ 		this.visitNum = visitNum;
+	}
+
+	public String getVisitNum() {
+ 		return visitNum;
+	}
+
+	public void setRefCompany(String refCompany) {
+ 		this.refCompany = refCompany;
+	}
+
+	public String getRefCompany() {
+ 		return refCompany;
+	}
+
+	public void setReferrer(String referrer) {
+ 		this.referrer = referrer;
+	}
+
+	public String getReferrer() {
+ 		return referrer;
+	}
+
+	public void setCtype(Integer ctype) {
+ 		this.ctype = ctype;
+	}
+
+	public Integer getCtype() {
+ 		return ctype;
+	}
+
+	public void setVisitTime(Long visitTime) {
+ 		this.visitTime = visitTime;
+	}
+
+	public Long getVisitTime() {
+ 		return visitTime;
+	}
+
+	public void setEscort(String escort) {
+ 		this.escort = escort;
+	}
+
+	public String getEscort() {
+ 		return escort;
+	}
+
+	public void setIntroducer(String introducer) {
+ 		this.introducer = introducer;
+	}
+
+	public String getIntroducer() {
+ 		return introducer;
+	}
+
+	public void setRemark(String remark) {
+ 		this.remark = remark;
+	}
+
+	public String getRemark() {
+ 		return remark;
+	}
+
+	public void setVisitflow(String visitflow) {
+ 		this.visitflow = visitflow;
+	}
+
+	public String getVisitflow() {
+ 		return visitflow;
 	}
 
 	public void setSid(String sid) {

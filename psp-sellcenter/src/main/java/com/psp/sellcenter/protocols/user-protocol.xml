@@ -47,7 +47,27 @@
 			</param>
 			<param name="position" type="string" demoValue="CEO" notes="职位">
 			</param>
+			<param name="ctype" type="int" demoValue="客户类型" notes="1">
+			</param>
 			<param name="label" type="string" demoValue="['重要','软件']" notes="标签">
+			</param>
+			<param name="visitDest" type="string" demoValue="" notes="参观目的">
+			</param>
+			<param name="visitNum" type="int" demoValue="" notes="参观人数">
+			</param>
+			<param name="refCompany" type="string" demoValue="" notes="推荐单位">
+			</param>
+			<param name="referrer" type="string" demoValue="" notes="推荐人">
+			</param>
+			<param name="visitTime" type="string" demoValue="" notes="参观时间：yyyy-MM-dd HH:mm">
+			</param>
+			<param name="escort" type="string" demoValue="" notes="陪同人">
+			</param>
+			<param name="introducer" type="string" demoValue="" notes="引导介绍">
+			</param>
+			<param name="visitflow" type="string" demoValue="" notes="参观流程">
+			</param>
+			<param name="remark" type="string" demoValue="" notes="备注">
 			</param>
 			<param name="isUpdate" type="string" demoValue="1" notes="更新：1:更新 0不更新">
 				<pattern regexp="^0|1$" message="更新：1:更新 0不更新" />
@@ -70,11 +90,31 @@
 			<param name="phoneNum" type="String" demoValue="15762880191" notes="手机号码">
 				<pattern regexp="^(1[1-9])\\d{9}$" message="手机号格式不正确！" />
 			</param>
+			<param name="ctype" type="int" demoValue="客户类型" notes="1">
+			</param>
 			<param name="companyName" type="string" demoValue="北京硬创云加信息技术有限公司" notes="公司名称">
 			</param>
 			<param name="position" type="string" demoValue="CEO" notes="职位">
 			</param>
 			<param name="label" type="string" demoValue="['重要','软件']" notes="标签">
+			</param>
+			<param name="visitDest" type="string" demoValue="" notes="参观目的">
+			</param>
+			<param name="visitNum" type="int" demoValue="" notes="参观人数">
+			</param>
+			<param name="refCompany" type="string" demoValue="" notes="推荐单位">
+			</param>
+			<param name="referrer" type="string" demoValue="" notes="推荐人">
+			</param>
+			<param name="visitTime" type="string" demoValue="" notes="参观时间：yyyy-MM-dd HH:mm">
+			</param>
+			<param name="escort" type="string" demoValue="" notes="陪同人">
+			</param>
+			<param name="introducer" type="string" demoValue="" notes="引导介绍">
+			</param>
+			<param name="visitflow" type="string" demoValue="" notes="参观流程">
+			</param>
+			<param name="remark" type="string" demoValue="" notes="备注">
 			</param>
 		</request>
 	</protocol>

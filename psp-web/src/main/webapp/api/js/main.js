@@ -1,7 +1,7 @@
 //var Base_Path = 'http://10.0.0.6/scope-app/';
 var href = window.document.location.href;
-var index = href.indexOf("psp-web");
-var Base_Path = href.substring(0, index) + 'psp-web';
+var index = href.indexOf("psp2-web");
+var Base_Path = href.substring(0, index) + 'psp2-web';
 //字符转json对象
 var jsonData = '';
 var protocolsJson = '';//eval("("+protocols+")")
