@@ -226,11 +226,11 @@
 	<insert id="insertUsers">
 		INSERT INTO psp_user
 		(uid, name, companyName, position, sid, createTime, communityTime, origin, level, type,
-		isAllot, status)
+		isAllot, status, phoneNum)
 		VALUES
 		<foreach collection="list" item="bean" open="" close="" separator="," index="index">
 		(#{bean.uid}, #{bean.name}, #{bean.companyName}, #{bean.position}, #{bean.sid}, now(),
-		now(), #{bean.origin}, #{bean.level}, #{bean.type}, #{bean.isAllot}, #{bean.status})
+		now(), #{bean.origin}, #{bean.level}, #{bean.type}, #{bean.isAllot}, #{bean.status}, #{bean.phoneNum})
 		</foreach>
 	</insert>
 	

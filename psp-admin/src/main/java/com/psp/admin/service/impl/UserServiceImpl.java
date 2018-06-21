@@ -336,6 +336,7 @@ public class UserServiceImpl implements UserService {
 	        			user.setName(u.getUser());
 	        			user.setOrigin(2);//	线下
 	        			user.setSid(u.getSeller());
+	        			user.setPhoneNum(u.getPhoneNum());
 	        			user.setStatus(1);// 已沟通
 	        			user.setType(2);// 补录数据
 	        			users.add(user);
@@ -348,7 +349,6 @@ public class UserServiceImpl implements UserService {
 	        		}
 	        		
 	        }
-	        
 	        System.out.println("此次操作共耗时：" + (after - befor) + "毫秒");  
 	        excelfile.deleteOnExit();
 			

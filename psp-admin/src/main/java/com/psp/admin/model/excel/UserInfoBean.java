@@ -13,7 +13,10 @@ public class UserInfoBean {
     @ExcelAnnotation(exportName = "公司名称")  
     private String company;  
     @ExcelAnnotation(exportName = "客户")  
-    private String user;  
+    private String user; 
+    @ExcelAnnotation(exportName = "手机号")  
+    private String phoneNum;   
+    
 	public String getSeller() {
 		return seller;
 	}
@@ -32,4 +35,11 @@ public class UserInfoBean {
 	public void setUser(String user) {
 		this.user = user;
 	}
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+	
 }  
