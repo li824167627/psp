@@ -22,16 +22,18 @@ import com.psp.admin.service.OrderService;
 import com.psp.admin.service.exception.ServiceException;
 import com.psp.admin.service.res.PageResult;
 import com.psp.util.NumUtil;
+
 @Component
 public class OrderController {
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Autowired
 	OrderService orderServiceImpl;
 
 	/**
 	 * 获取工单列表
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -41,18 +43,21 @@ public class OrderController {
 			HttpServletResponse response) {
 		ListResult<ROrderBean> result = new ListResult<>();
 		try {
-			String adminId = (String)request.getAttribute("adminId");
+			String adminId = (String) request.getAttribute("adminId");
 			String targetId = param.getTargetId();
 			int ttype = NumUtil.toInt(param.getTtype(), 0);
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			int filteType = NumUtil.toInt(param.getFilteType(), 99);//筛选类型
-			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
-			int stage = NumUtil.toInt(param.getStage(), 0);//阶段搜索
-			String key = param.getKey();//关键字
-			
-			PageResult<ROrderBean> resList = orderServiceImpl.getOrders(adminId, page, pageSize, filteType, stype, key, targetId, ttype, stage);
-			if(resList == null) {
+			int filteType = NumUtil.toInt(param.getFilteType(), 99);// 筛选类型
+			int stype = NumUtil.toInt(param.getStype(), 0);// 搜索类型
+			int stage = NumUtil.toInt(param.getStage(), 0);// 阶段搜索
+			String key = param.getKey();// 关键字
+			int saleType = 0;
+			int dataType = NumUtil.toInt(param.getDataType(), 99);
+
+			PageResult<ROrderBean> resList = orderServiceImpl.getOrders(adminId, page, pageSize, filteType, stype, key,
+					targetId, ttype, stage, saleType, dataType);
+			if (resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
 				return result;
@@ -67,9 +72,9 @@ public class OrderController {
 		return result;
 	}
 
-
 	/**
 	 * 获取各个阶段工单数量
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -80,7 +85,7 @@ public class OrderController {
 		ObjectResult<Integer> result = new ObjectResult<>();
 		try {
 
-			String adminId = (String)request.getAttribute("adminId");
+			String adminId = (String) request.getAttribute("adminId");
 			int stage = NumUtil.toInt(param.getStage(), 0);
 			int userNum = orderServiceImpl.getOrderNum(adminId, stage);
 			result.setData(userNum);
@@ -94,9 +99,10 @@ public class OrderController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 获取工单详情
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -107,9 +113,9 @@ public class OrderController {
 		ObjectResult<ROrderBean> result = new ObjectResult<>();
 		try {
 
-			String adminId = (String)request.getAttribute("adminId");
+			String adminId = (String) request.getAttribute("adminId");
 			String oid = param.getOid();
-			
+
 			ROrderBean data = orderServiceImpl.getDetail(adminId, oid);
 			result.setData(data);
 		} catch (ServiceException e) {
@@ -125,6 +131,7 @@ public class OrderController {
 
 	/**
 	 * 获取操作工单日志列表
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -134,13 +141,13 @@ public class OrderController {
 			HttpServletResponse response) {
 		ListResult<ROrderLogsBean> result = new ListResult<>();
 		try {
-			String adminId = (String)request.getAttribute("adminId");
+			String adminId = (String) request.getAttribute("adminId");
 			String oid = param.getOid();
-			String key = param.getKey();//关键字
-			
+			String key = param.getKey();// 关键字
+
 			PageResult<ROrderLogsBean> resList = orderServiceImpl.getOrderLogs(adminId, oid, key);
-			
-			if(resList == null) {
+
+			if (resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
 				return result;
@@ -159,7 +166,6 @@ public class OrderController {
 		}
 		return result;
 	}
-
 
 	public BaseResult ImportOrders(HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = new BaseResult();

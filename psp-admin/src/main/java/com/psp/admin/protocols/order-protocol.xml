@@ -24,6 +24,11 @@
 			<param name="filteType" type="string" demoValue="0" notes="筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止">
 				<pattern regexp="^[0-9]|10|11|99$" message="搜索条件错误： 99全部0:待分配1已完成2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止" />
 			</param>
+			<!-- <param name="saleType" type="String" demoValue="3" notes="用户类型：0 测试用户 1 正式用户">
+				<pattern regexp="^0|1|2|3$" message="搜索条件错误：用户类型：0 测试用户 1 正式用户3:全部用户" />
+			</param> -->
+			<param name="dataType" type="String" demoValue="" notes="类型 1：真实  99:全部">
+			</param>
 		</request>
 	</protocol>
 	

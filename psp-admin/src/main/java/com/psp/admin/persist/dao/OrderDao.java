@@ -8,10 +8,10 @@ import com.psp.admin.model.OrderStatusStatisticsBean;
 
 public interface OrderDao {
 
-	int selectOrderCount(int filteType, int stype, String key, int stage, int ttype, String targetId, String parkId);
+	int selectOrderCount(int filteType, int stype, String key, int stage, int ttype, String targetId, String parkId,int saleType,int dataType);
 
 	List<OrderBean> selectOrders(int page, int pageSize, int filteType, int stype, String key, int stage, int ttype,
-			String targetId, String parkId);
+			String targetId, String parkId,int saleType,int dataType);
 
 	OrderBean selectOrderById(String oid);
 

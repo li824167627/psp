@@ -2,12 +2,14 @@ package com.psp.admin.controller.springmvc.req;
 
 
 import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 /**
  * 登录
  **/
 public class LoginParam {
 	@NotEmpty(message = "手机号不能为空")
+	@Pattern(regexp = "^(1)\\d{10}$", message = "手机号格式不正确！")
 	private String phoneNum; // 手机号
 	@NotEmpty(message = "密码不能为空")
 	private String password; // 密码

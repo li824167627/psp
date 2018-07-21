@@ -19,6 +19,7 @@ public class GetOrdersParam {
 	private String key; // 关键字
 	@Pattern(regexp = "^[0-9]|10|11|99$", message = "搜索条件错误： 99全部0:待分配1已完成2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止")
 	private String filteType; // 筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止
+	private String dataType; // 类型 1：真实  99:全部
 
 	public void setPage(Integer page) {
  		this.page = page;
@@ -82,6 +83,14 @@ public class GetOrdersParam {
 
 	public String getFilteType() {
  		return filteType;
+	}
+
+	public void setDataType(String dataType) {
+ 		this.dataType = dataType;
+	}
+
+	public String getDataType() {
+ 		return dataType;
 	}
 
 }

@@ -24,6 +24,9 @@
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status > 1
 			</if>
+			<if test="dataType == 1"><!-- 1:真实数据  99:全部数据-->
+				and o.dataType !=0
+			</if>
 			<!-- 关键字搜索 1描述 2标签 3销售姓名 -->
 			<if test="stype == 0 and key != null">
 				AND (o.content like CONCAT('%', '${key}' ,'%') or o.label like CONCAT('%', '${key}' ,'%'))
@@ -50,6 +53,10 @@
 			<if test="parkId != null">
 				and s.pid = #{parkId}
 			</if>
+			<!-- 销售的真假用户 -->
+			<!-- <if test="saleType != 3">
+				and s.type =#{saleType}
+			</if> -->
 		</where> 
 	</select>
 	
@@ -140,6 +147,9 @@
 			<if test="stage != 0"><!-- 待处理 1 已完成 小于0 已关闭 -->
 				and o.status > 1
 			</if>
+			<if test="dataType == 1"><!-- 1:真实数据  99:全部数据-->
+				and o.dataType !=0
+			</if>
 			<!-- 关键字搜索 1描述 2标签 -->
 			<if test="stype == 0 and key != null">
 				AND (o.content like CONCAT('%', '${key}' ,'%') or o.label like CONCAT('%', '${key}' ,'%'))
@@ -166,6 +176,10 @@
 			<if test="parkId != null">
 				and s.pid = #{parkId}
 			</if>
+			<!-- 销售的真假用户 -->
+			<!-- <if test="saleType != 3">
+				and s.type =#{saleType}
+			</if> -->
 		</where> 
 		ORDER BY o.stage, o.updateTime desc, o.createTime desc
 		LIMIT #{start},#{length}
