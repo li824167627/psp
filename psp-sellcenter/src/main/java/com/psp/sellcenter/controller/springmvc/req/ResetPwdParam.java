@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -15,27 +14,27 @@ public class ResetPwdParam {
 	private String confirmPwd; // 确认新密码
 
 	public void setOldPwd(String oldPwd) {
- 		this.oldPwd = oldPwd;
+		this.oldPwd = oldPwd;
 	}
 
 	public String getOldPwd() {
- 		return oldPwd;
+		return oldPwd;
 	}
 
 	public void setPassword(String password) {
- 		this.password = password;
+		this.password = password;
 	}
 
 	public String getPassword() {
- 		return password;
+		return password;
 	}
 
 	public void setConfirmPwd(String confirmPwd) {
- 		this.confirmPwd = confirmPwd;
+		this.confirmPwd = confirmPwd;
 	}
 
 	public String getConfirmPwd() {
- 		return confirmPwd;
+		return confirmPwd;
 	}
 
 }

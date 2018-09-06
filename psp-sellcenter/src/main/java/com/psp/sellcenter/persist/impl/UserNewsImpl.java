@@ -11,7 +11,7 @@ import com.psp.sellcenter.persist.dao.UserNewsDao;
 
 @Repository
 public class UserNewsImpl extends BaseImpl implements UserNewsDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".UserNewsMapper";
 
 	@Override
@@ -41,6 +41,5 @@ public class UserNewsImpl extends BaseImpl implements UserNewsDao {
 	public int insert(UserNewsBean news) {
 		return sqlSessionTemplate.insert(NAME_SPACE + ".insert", news);
 	}
-
 
 }

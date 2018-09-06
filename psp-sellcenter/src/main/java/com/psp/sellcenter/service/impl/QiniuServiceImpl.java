@@ -73,40 +73,40 @@ public class QiniuServiceImpl implements QiniuService {
 		byte[] value;
 		try {
 			// 取得request中的所有文件名
-			MultipartFile file = multRequest.getFile("file");   
-            int pre = (int) System.currentTimeMillis();  
-            //取得上传文件  
-            if(file != null){  
-    				boolean allowed = Arrays.asList(allowedType).contains(file.getContentType());
-//	    				if (!allowed) {
-//	    					throw new ServiceException("fileType_not_allow", file.getContentType());
-//	    				}
+			MultipartFile file = multRequest.getFile("file");
+			int pre = (int) System.currentTimeMillis();
+			// 取得上传文件
+			if (file != null) {
+				boolean allowed = Arrays.asList(allowedType).contains(file.getContentType());
+				// if (!allowed) {
+				// throw new ServiceException("fileType_not_allow", file.getContentType());
+				// }
 
-    				// 图片大小限制
-    				if (file.getSize() > 104857600) { // 100M
-    					throw new ServiceException("file_too_large");
-    				}
-    				// 包含原始文件名的字符串
-    				String fi = file.getOriginalFilename();
-    				// 提取文件拓展名
-    				String fileNameExtension = fi.substring(fi.indexOf("."), fi.length());
-    				// 生成云端的真实文件名
-    				String remoteFileName = AppTextUtil.getFileKey() + fileNameExtension;
-    				value = file.getBytes();
-    				String qiniuToken = getQiniuToken();
-    				QiniuReFile qinuFile = qiniuManager.upload(qiniuToken, remoteFileName, value);
-    				if (qinuFile != null) {
-    					RQiniuFileBean data = new RQiniuFileBean();
-    					data.setKey(qinuFile.getKey());
-    					data.setImgH(qinuFile.getImgH());
-    					data.setImgW(qinuFile.getImgW());
-    					data.setUrl(qiniulinkurl + qinuFile.getKey());
+				// 图片大小限制
+				if (file.getSize() > 104857600) { // 100M
+					throw new ServiceException("file_too_large");
+				}
+				// 包含原始文件名的字符串
+				String fi = file.getOriginalFilename();
+				// 提取文件拓展名
+				String fileNameExtension = fi.substring(fi.indexOf("."), fi.length());
+				// 生成云端的真实文件名
+				String remoteFileName = AppTextUtil.getFileKey() + fileNameExtension;
+				value = file.getBytes();
+				String qiniuToken = getQiniuToken();
+				QiniuReFile qinuFile = qiniuManager.upload(qiniuToken, remoteFileName, value);
+				if (qinuFile != null) {
+					RQiniuFileBean data = new RQiniuFileBean();
+					data.setKey(qinuFile.getKey());
+					data.setImgH(qinuFile.getImgH());
+					data.setImgW(qinuFile.getImgW());
+					data.setUrl(qiniulinkurl + qinuFile.getKey());
 
-    					return data;
-    				}
-                //记录上传该文件后的时间  
-                int finaltime = (int) System.currentTimeMillis();  
-                System.out.println("上传用时：" + (finaltime - pre));  
+					return data;
+				}
+				// 记录上传该文件后的时间
+				int finaltime = (int) System.currentTimeMillis();
+				System.out.println("上传用时：" + (finaltime - pre));
 			}
 
 		} catch (IOException e) {

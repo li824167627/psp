@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -14,19 +13,19 @@ public class EditUserLevelParam {
 	private String level; // 客户级别 0尚未定级 1 有效客户 2 无效客户
 
 	public void setUserId(String userId) {
- 		this.userId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserId() {
- 		return userId;
+		return userId;
 	}
 
 	public void setLevel(String level) {
- 		this.level = level;
+		this.level = level;
 	}
 
 	public String getLevel() {
- 		return level;
+		return level;
 	}
 
 }

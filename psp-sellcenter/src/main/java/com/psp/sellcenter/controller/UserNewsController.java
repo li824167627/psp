@@ -22,15 +22,15 @@ import com.psp.util.NumUtil;
 
 @Component
 public class UserNewsController {
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
-	
+
 	@Autowired
 	UserNewsService userNewsServiceImpl;
-	
+
 	/**
 	 * 获取客户消息流
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -40,15 +40,15 @@ public class UserNewsController {
 			HttpServletResponse response) {
 		ListResult<RUserNewsBean> result = new ListResult<>();
 		try {
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			String uid = param.getUid();
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
-			String key = param.getKey();//关键字
-			
+			int stype = NumUtil.toInt(param.getStype(), 0);// 搜索类型
+			String key = param.getKey();// 关键字
+
 			PageResult<RUserNewsBean> resList = userNewsServiceImpl.getUserNews(sid, page, pageSize, stype, key, uid);
-			if(resList == null) {
+			if (resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
 				return result;
@@ -72,11 +72,11 @@ public class UserNewsController {
 		BaseResult result = new BaseResult();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			String uid = !StringUtil.isEmpty(param.getUid()) ? param.getUid() : null;
 			String label = param.getLabel();
 			String content = param.getContent();
-			
+
 			boolean flag = userNewsServiceImpl.add(sid, uid, label, content);
 			result.setFlag(flag);
 		} catch (ServiceException e) {

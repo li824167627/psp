@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -15,27 +14,27 @@ public class ConfirmOrderParam {
 	private String content; // 完成描述
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setType(String type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public String getType() {
- 		return type;
+		return type;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 }

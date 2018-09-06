@@ -17,7 +17,7 @@ public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
 	String KEY_VCODE = NAME_SPACE + "vcode:";
 	String KEY_TOKEN_UID = NAME_SPACE + "token:sellerId:";
 	String KEY_UID_TOKEN = NAME_SPACE + "sellerId:token:";
-	
+
 	@Override
 	public String getSellerIdByToken(String token) {
 		return redisTemplate.execute(new RedisCallback<String>() {
@@ -36,7 +36,7 @@ public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
 			}
 		});
 	}
-	
+
 	@Override
 	public String getTOKENBySellerId(String sellerId) {
 		return redisTemplate.execute(new RedisCallback<String>() {
@@ -103,7 +103,7 @@ public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
 				return Boolean.valueOf(true);
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -138,6 +138,5 @@ public class SellerCacheImpl extends BaseCacheImpl implements SellerCacheDao {
 			}
 		});
 	}
-
 
 }

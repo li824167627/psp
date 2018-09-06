@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 合同反馈详情信息
  **/
@@ -11,35 +10,35 @@ public class ROrderFeedbackBean {
 	private String suggestion; // 反馈意见
 
 	public void setFid(Integer fid) {
- 		this.fid = fid;
+		this.fid = fid;
 	}
 
 	public Integer getFid() {
- 		return fid;
+		return fid;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 	public void setAverageScore(Double averageScore) {
- 		this.averageScore = averageScore;
+		this.averageScore = averageScore;
 	}
 
 	public Double getAverageScore() {
- 		return averageScore;
+		return averageScore;
 	}
 
 	public void setSuggestion(String suggestion) {
- 		this.suggestion = suggestion;
+		this.suggestion = suggestion;
 	}
 
 	public String getSuggestion() {
- 		return suggestion;
+		return suggestion;
 	}
 
 }

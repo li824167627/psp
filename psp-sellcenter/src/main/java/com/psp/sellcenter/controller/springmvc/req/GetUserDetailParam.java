@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -11,11 +10,11 @@ public class GetUserDetailParam {
 	private String uid; // 客户ID
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 }

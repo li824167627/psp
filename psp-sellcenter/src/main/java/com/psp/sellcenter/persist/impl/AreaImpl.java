@@ -9,7 +9,7 @@ import com.psp.sellcenter.persist.dao.AreaDao;
 
 @Repository
 public class AreaImpl extends BaseImpl implements AreaDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".AreaMapper";
 
 	@Override
@@ -21,6 +21,5 @@ public class AreaImpl extends BaseImpl implements AreaDao {
 	public AreaBean selectById(String id) {
 		return sqlSessionTemplate.selectOne(NAME_SPACE + ".selectListById", id);
 	}
-
 
 }

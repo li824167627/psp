@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import javax.validation.constraints.Pattern;
 
 /**
@@ -18,51 +17,51 @@ public class GetUsersParam {
 	private String status; // 搜索客户状态，0:全部1:待沟通客户2:已处理客户
 
 	public void setPage(Integer page) {
- 		this.page = page;
+		this.page = page;
 	}
 
 	public Integer getPage() {
- 		return page;
+		return page;
 	}
 
 	public void setPagesize(Integer pagesize) {
- 		this.pagesize = pagesize;
+		this.pagesize = pagesize;
 	}
 
 	public Integer getPagesize() {
- 		return pagesize;
+		return pagesize;
 	}
 
 	public void setStype(String stype) {
- 		this.stype = stype;
+		this.stype = stype;
 	}
 
 	public String getStype() {
- 		return stype;
+		return stype;
 	}
 
 	public void setKey(String key) {
- 		this.key = key;
+		this.key = key;
 	}
 
 	public String getKey() {
- 		return key;
+		return key;
 	}
 
 	public void setFilteType(String filteType) {
- 		this.filteType = filteType;
+		this.filteType = filteType;
 	}
 
 	public String getFilteType() {
- 		return filteType;
+		return filteType;
 	}
 
 	public void setStatus(String status) {
- 		this.status = status;
+		this.status = status;
 	}
 
 	public String getStatus() {
- 		return status;
+		return status;
 	}
 
 }

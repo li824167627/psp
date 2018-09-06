@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import javax.validation.constraints.Pattern;
 
 /**
@@ -11,11 +10,11 @@ public class GetUserNumParam {
 	private String status; // 搜索客户状态，0:全部1:待沟通客户
 
 	public void setStatus(String status) {
- 		this.status = status;
+		this.status = status;
 	}
 
 	public String getStatus() {
- 		return status;
+		return status;
 	}
 
 }

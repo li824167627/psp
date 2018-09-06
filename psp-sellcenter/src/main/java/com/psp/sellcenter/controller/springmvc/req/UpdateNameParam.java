@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -11,11 +10,11 @@ public class UpdateNameParam {
 	private String name; // 姓名
 
 	public void setName(String name) {
- 		this.name = name;
+		this.name = name;
 	}
 
 	public String getName() {
- 		return name;
+		return name;
 	}
 
 }

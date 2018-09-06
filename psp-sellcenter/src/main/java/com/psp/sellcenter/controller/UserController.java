@@ -30,14 +30,15 @@ import com.psp.util.NumUtil;
 
 @Component
 public class UserController {
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Autowired
 	UserService userServiceImpl;
-	
+
 	/**
 	 * 获取客户列表
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -47,16 +48,17 @@ public class UserController {
 			HttpServletResponse response) {
 		ListResult<RUserBean> result = new ListResult<>();
 		try {
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			int page = NumUtil.toInt(param.getPage(), 0);
 			int pageSize = NumUtil.toInt(param.getPagesize(), 20);
-			int filteType = NumUtil.toInt(param.getFilteType(), 0);//筛选类型
-			int stype = NumUtil.toInt(param.getStype(), 0);//搜索类型
+			int filteType = NumUtil.toInt(param.getFilteType(), 0);// 筛选类型
+			int stype = NumUtil.toInt(param.getStype(), 0);// 搜索类型
 			int status = NumUtil.toInt(param.getStatus(), -1);// 沟通状态
-			String key = param.getKey();//关键字
-			
-			PageResult<RUserBean> resList = userServiceImpl.getUsers2Seller(sid, page, pageSize, filteType, stype, key, status);
-			if(resList == null) {
+			String key = param.getKey();// 关键字
+
+			PageResult<RUserBean> resList = userServiceImpl.getUsers2Seller(sid, page, pageSize, filteType, stype, key,
+					status);
+			if (resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
 				return result;
@@ -75,9 +77,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 新建客户
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -87,8 +90,8 @@ public class UserController {
 		ObjectResult<RUserBean> result = new ObjectResult<>();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
-			
+			String sid = (String) request.getAttribute("sellerId");
+
 			String name = param.getName();
 			String phoneNum = param.getPhoneNum();
 			String companyName = param.getCompanyName();
@@ -106,9 +109,10 @@ public class UserController {
 			String visitFlow = param.getVisitflow();
 			String remark = param.getRemark();
 			int cType = NumUtil.toInt(param.getCtype(), 1);
-			
-			RUserBean data = userServiceImpl.addUser(sid, name, phoneNum, companyName, position, label, isUpdate, isClaim,
-				visitDest,visitNum,refCompany,referrer,visitTime,escort,introducer,visitFlow,remark,cType);
+
+			RUserBean data = userServiceImpl.addUser(sid, name, phoneNum, companyName, position, label, isUpdate,
+					isClaim, visitDest, visitNum, refCompany, referrer, visitTime, escort, introducer, visitFlow,
+					remark, cType);
 			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -120,9 +124,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 编辑客户
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -132,8 +137,8 @@ public class UserController {
 		ObjectResult<RUserBean> result = new ObjectResult<>();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
-			
+			String sid = (String) request.getAttribute("sellerId");
+
 			String name = param.getName();
 			String phoneNum = param.getPhoneNum();
 			String companyName = param.getCompanyName();
@@ -150,8 +155,8 @@ public class UserController {
 			String visitFlow = param.getVisitflow();
 			String remark = param.getRemark();
 			int cType = NumUtil.toInt(param.getCtype(), 1);
-			RUserBean data = userServiceImpl.eidtUser(sid, name, phoneNum, companyName, position, label, uid,
-					visitDest,visitNum,refCompany,referrer,visitTime,escort,introducer,visitFlow,remark,cType);
+			RUserBean data = userServiceImpl.eidtUser(sid, name, phoneNum, companyName, position, label, uid, visitDest,
+					visitNum, refCompany, referrer, visitTime, escort, introducer, visitFlow, remark, cType);
 			result.setData(data);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
@@ -163,9 +168,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 根据状态获取客户数量
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -176,7 +182,7 @@ public class UserController {
 		ObjectResult<Integer> result = new ObjectResult<>();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			int isAllot = NumUtil.toInt(param.getStatus(), 0);
 			int userNum = userServiceImpl.getUserNum2Seller(sid, isAllot);
 			result.setData(userNum);
@@ -190,9 +196,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 编辑客户评级
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -202,11 +209,11 @@ public class UserController {
 		BaseResult result = new BaseResult();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
-			
+			String sid = (String) request.getAttribute("sellerId");
+
 			String uid = param.getUserId();
 			int level = NumUtil.toInt(param.getLevel(), 0);
-			
+
 			boolean flag = userServiceImpl.eidtUserLevel(sid, level, uid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {
@@ -219,9 +226,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 归档客户
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -231,8 +239,8 @@ public class UserController {
 		BaseResult result = new BaseResult();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
-			
+			String sid = (String) request.getAttribute("sellerId");
+
 			String uid = param.getUserId();
 			boolean flag = userServiceImpl.archive(sid, uid);
 			result.setFlag(flag);
@@ -246,9 +254,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 获取客户详情
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -259,9 +268,9 @@ public class UserController {
 		ObjectResult<RUserBean> result = new ObjectResult<>();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			String uid = param.getUid();
-			
+
 			RUserBean data = userServiceImpl.getDetail(sid, uid);
 			result.setData(data);
 		} catch (ServiceException e) {
@@ -274,9 +283,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 获取客户操作列表
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -286,13 +296,13 @@ public class UserController {
 			HttpServletResponse response) {
 		ListResult<RUserLogsBean> result = new ListResult<>();
 		try {
-			String sid = (String)request.getAttribute("sellerId");
+			String sid = (String) request.getAttribute("sellerId");
 			String uid = param.getUid();
-			String key = param.getKey();//关键字
-			
+			String key = param.getKey();// 关键字
+
 			PageResult<RUserLogsBean> resList = userServiceImpl.getUserLogs(sid, uid, key);
-			
-			if(resList == null) {
+
+			if (resList == null) {
 				result.setData(null);
 				result.setTotalSize(0);
 				return result;
@@ -311,9 +321,10 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 编辑客户标签
+	 * 
 	 * @param param
 	 * @param request
 	 * @param response
@@ -323,11 +334,11 @@ public class UserController {
 		BaseResult result = new BaseResult();
 		try {
 
-			String sid = (String)request.getAttribute("sellerId");
-			
+			String sid = (String) request.getAttribute("sellerId");
+
 			String uid = param.getUserId();
 			String label = param.getLabel();
-			
+
 			boolean flag = userServiceImpl.eidtUserLabel(sid, label, uid);
 			result.setFlag(flag);
 		} catch (ServiceException e) {

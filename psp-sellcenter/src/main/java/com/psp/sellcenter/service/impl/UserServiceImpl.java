@@ -27,32 +27,31 @@ import com.psp.util.StringUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Autowired
 	SellerDao sellerImpl;
-	
+
 	@Autowired
 	UserDao userImpl;
-	
+
 	@Autowired
 	UserLogDao userLogImpl;
-	
+
 	@Autowired
 	OrderDao orderImpl;
-	
 
 	@Override
-	public PageResult<RUserBean> getUsers2Seller(String sid, int page, int pageSize,
-				int filteType, int stype, String key, int status) {
+	public PageResult<RUserBean> getUsers2Seller(String sid, int page, int pageSize, int filteType, int stype,
+			String key, int status) {
 		PageResult<RUserBean> result = new PageResult<RUserBean>();
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
-		}	
+		}
 		int count = userImpl.selectUserCount2Seller(sid, filteType, stype, key, status);
-		if(count == 0) {
+		if (count == 0) {
 			return null;
 		}
 		List<UserBean> resList = userImpl.selectUsers2Seller(page, pageSize, sid, filteType, stype, key, status);
@@ -66,10 +65,11 @@ public class UserServiceImpl implements UserService {
 		result.setCount(count);
 		result.setData(resData);
 		return result;
-	}	
-	
+	}
+
 	/**
 	 * 格式化数据
+	 * 
 	 * @param user
 	 * @return
 	 */
@@ -78,11 +78,11 @@ public class UserServiceImpl implements UserService {
 		res.setName(user.getName());
 		res.setAdminJson(user.getAdminJson());
 		res.setAid(user.getAid());
-		if(user.getAllotTime() != null) {
+		if (user.getAllotTime() != null) {
 			res.setAllotTime(user.getAllotTime().getTime() / 1000);
 		}
 		res.setCompanyName(user.getCompanyName());
-		if(user.getCreateTime() != null) {
+		if (user.getCreateTime() != null) {
 			res.setCreateTime(user.getCreateTime().getTime() / 1000);
 		}
 		res.setIsAllot(user.getIsAllot());
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 		res.setPosition(user.getPosition());
 		res.setCreaterJson(user.getSellerJson());
 		res.setVisitDest(user.getVisitDest());
-		res.setVisitNum(user.getVisitNum()+"");
+		res.setVisitNum(user.getVisitNum() + "");
 		res.setRefCompany(user.getRefCompany());
 		res.setReferrer(user.getReferrer());
 		res.setEscort(user.getEscort());
@@ -102,11 +102,11 @@ public class UserServiceImpl implements UserService {
 		res.setRemark(user.getRemark());
 		res.setCtype(user.getcType());
 		res.setVisitflow(user.getVisitflow());
-		if(user.getVisitTime() != null) {
+		if (user.getVisitTime() != null) {
 			res.setVisitTime(user.getVisitTime().getTime() / 1000);
 		}
-	
-		if(user.getSeller() != null) {
+
+		if (user.getSeller() != null) {
 			SellerBean selBean = user.getSeller();
 			JSONObject sellerJson = new JSONObject();
 			sellerJson.put("name", selBean.getUsername());
@@ -122,11 +122,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RUserBean addUser(String sid, String name, String phoneNum, String companyName, String position,
-			String label, int isUpdate, int isClaim, String visitDest, int visitNum, String refCompany, 
-			String referrer, String visitTime, String escort, String introducer, String visitFlow, String remark, int cType) {
+			String label, int isUpdate, int isClaim, String visitDest, int visitNum, String refCompany, String referrer,
+			String visitTime, String escort, String introducer, String visitFlow, String remark, int cType) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		JSONObject sellerJson = new JSONObject();
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 		sellerJson.put("phone", seller.getPhoneNum());
 		// 根据手机号判断用户是否存在
 		UserBean user = userImpl.selectUserByPhone(phoneNum);
-		if(user == null) { // 新建用户
+		if (user == null) { // 新建用户
 			user = new UserBean();
 			user.setUid(AppTextUtil.getPrimaryKey());
 			user.setName(name);
@@ -147,54 +147,54 @@ public class UserServiceImpl implements UserService {
 			user.setIsAllot(1);
 			user.setLabel(label);
 			user.setOrigin(2);// 线下
-			user.setLevel(1);//有效
+			user.setLevel(1);// 有效
 			user.setcType(cType);
 			user.setVisitDest(visitDest);
 			user.setEscort(escort);
 			user.setVisitNum(visitNum);
 			user.setRefCompany(refCompany);
 			user.setReferrer(referrer);
-			if(!StringUtil.isEmpty(visitTime)) {
+			if (!StringUtil.isEmpty(visitTime)) {
 				user.setVisitTime(DateUtil.getTimestamp(visitTime, "yyyy-MM-dd HH:mm"));
 			}
 			user.setIntroducer(introducer);
 			user.setVisitflow(visitFlow);
 			user.setRemark(remark);
-			
+
 			user.setType(seller.getType() == 0 ? 0 : 1);
 			flag = userImpl.insert(user) > 0;
-			if(!flag) {
+			if (!flag) {
 				throw new ServiceException("create_user_error");
 			}
 			flag = insertUserLog(1, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null, null);
-			if(!flag) {
+			if (!flag) {
 				throw new ServiceException("create_user_log_error");
 			}
 			return parse(userImpl.selectUserByPhone(phoneNum));
 		} else { // 当用户已存在
-			String userInfo = "客户姓名："+ user.getName();
-			userInfo += "，电话："+ user.getPhoneNum();
-			userInfo += "，公司："+ user.getCompanyName();
-			userInfo += "，职称："+ user.getPosition();
-			if(user.getIsAllot() != 1) { // 用户未分配
-				if(isClaim != 1) { //如果不主动认领
+			String userInfo = "客户姓名：" + user.getName();
+			userInfo += "，电话：" + user.getPhoneNum();
+			userInfo += "，公司：" + user.getCompanyName();
+			userInfo += "，职称：" + user.getPosition();
+			if (user.getIsAllot() != 1) { // 用户未分配
+				if (isClaim != 1) { // 如果不主动认领
 					throw new ServiceException("user_not_claim", userInfo);
 				}
 				// 如果主动认领,更新用户seller为当前用户
 				user.setSid(sid);
 				user.setSellerJson(sellerJson.toJSONString());
 				flag = userImpl.updateSeller(user) > 0;
-				if(!flag) {
+				if (!flag) {
 					throw new ServiceException("update_user_seller_error");
 				}
 				flag = insertUserLog(4, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null, null);
-				if(!flag) {
+				if (!flag) {
 					throw new ServiceException("create_user_log_error");
 				}
 				return parse(userImpl.selectUserByPhone(phoneNum));
 			} else { // 用户已分配
-				if(sid.equals(user.getSid())) {// 如果是当前销售管理的客户
-					if(isUpdate != 1) {// 不更新客户信息，提示已认领
+				if (sid.equals(user.getSid())) {// 如果是当前销售管理的客户
+					if (isUpdate != 1) {// 不更新客户信息，提示已认领
 						throw new ServiceException("user_is_claimed_by_u", userInfo);
 					}
 					user.setName(name);
@@ -203,25 +203,26 @@ public class UserServiceImpl implements UserService {
 					user.setPosition(position);
 					user.setLabel(label);
 					flag = userImpl.update(user) > 0;
-					if(!flag) {
+					if (!flag) {
 						throw new ServiceException("update_user_error");
 					}
-					flag = insertUserLog(2, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null, null);
-					if(!flag) {
+					flag = insertUserLog(2, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null,
+							null);
+					if (!flag) {
 						throw new ServiceException("create_user_log_error");
 					}
 					return parse(userImpl.selectUserByPhone(phoneNum));
 				} else { // 不是当前销售管理的客户
 					SellerBean hisSeller = sellerImpl.selectOneById(user.getSid());
-					if(hisSeller == null) {
+					if (hisSeller == null) {
 						throw new ServiceException("user_not_claim", userInfo);
 					} else {
-						String sellerInfo = "姓名："+ hisSeller.getUsername();
-						sellerInfo += "，手机号："+ hisSeller.getPhoneNum();
+						String sellerInfo = "姓名：" + hisSeller.getUsername();
+						sellerInfo += "，手机号：" + hisSeller.getPhoneNum();
 						throw new ServiceException("user_is_claimed", sellerInfo);
 					}
 				}
-					
+
 			}
 		}
 	}
@@ -229,11 +230,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RUserBean eidtUser(String sid, String name, String phoneNum, String companyName, String position,
-			String label, String uid, String visitDest, int visitNum, String refCompany, String referrer, 
+			String label, String uid, String visitDest, int visitNum, String refCompany, String referrer,
 			String visitTime, String escort, String introducer, String visitFlow, String remark, int cType) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		JSONObject sellerJson = new JSONObject();
@@ -241,7 +242,7 @@ public class UserServiceImpl implements UserService {
 		sellerJson.put("phone", seller.getPhoneNum());
 		// 根据手机号判断用户是否存在
 		UserBean user = userImpl.selectUserByPhone(phoneNum);
-		if(user != null && !user.getUid().equals(uid)) {
+		if (user != null && !user.getUid().equals(uid)) {
 			throw new ServiceException("object_is_exist", "该手机号注册客户");
 		}
 		user.setName(name);
@@ -254,21 +255,21 @@ public class UserServiceImpl implements UserService {
 		user.setRefCompany(refCompany);
 		user.setReferrer(referrer);
 		user.setcType(cType);
-		if(!StringUtil.isEmpty(visitTime)) {
+		if (!StringUtil.isEmpty(visitTime)) {
 			user.setVisitTime(DateUtil.getTimestamp(visitTime, "yyyy-MM-dd HH:mm"));
 		}
 		user.setIntroducer(introducer);
 		user.setVisitflow(visitFlow);
 		user.setRemark(remark);
-		if(!StringUtil.isEmpty(label)) {
+		if (!StringUtil.isEmpty(label)) {
 			user.setLabel(label);
 		}
 		flag = userImpl.update(user) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_user_error");
 		}
 		flag = insertUserLog(2, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null, null);
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("create_user_log_error");
 		}
 		return parse(userImpl.selectUserByPhone(phoneNum));
@@ -276,11 +277,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int getUserNum2Seller(String sid, int status) {
-		//TODO:存入缓存 客户数量存入缓存
+		// TODO:存入缓存 客户数量存入缓存
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
-		}	
+		}
 		int count = userImpl.selectUserCount2Seller(sid, 0, 0, null, status);
 		return count;
 	}
@@ -290,105 +291,105 @@ public class UserServiceImpl implements UserService {
 	public boolean eidtUserLevel(String sid, int level, String uid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		if(user == null) {
+		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "设置客户");
 		}
-		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
+		if (user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
 		}
 		flag = userImpl.updateLevel(uid, level) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_user_error");
 		}
-		flag = insertUserLog(sid, seller.getUsername(), sellerJson.toJSONString(), user, level, null,  4);
-		if(!flag) {
+		flag = insertUserLog(sid, seller.getUsername(), sellerJson.toJSONString(), user, level, null, 4);
+		if (!flag) {
 			throw new ServiceException("create_user_log_error");
 		}
 		return flag;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean eidtUserLabel(String sid, String label, String uid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		if(user == null) {
+		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "设置客户");
 		}
-		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
+		if (user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
 		}
 		flag = userImpl.updateLabel(uid, label) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_user_error");
 		}
 		flag = insertUserLog(sid, seller.getUsername(), sellerJson.toJSONString(), user, user.getLevel(), label, 5);
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("create_user_log_error");
 		}
 		return flag;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean archive(String sid, String uid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
 		boolean flag = false;
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		JSONObject sellerJson = new JSONObject();
 		sellerJson.put("name", seller.getUsername());
 		sellerJson.put("phone", seller.getPhoneNum());
 		UserBean user = userImpl.selectUserById(uid);
-		if(user == null) {
+		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}
-//		int userOrders = orderImpl.selectStageCount2User(uid, 1);
-//		if(userOrders > 0) {
-//			throw new ServiceException("can_no_archive");
-//		}
-		if(user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
+		// int userOrders = orderImpl.selectStageCount2User(uid, 1);
+		// if(userOrders > 0) {
+		// throw new ServiceException("can_no_archive");
+		// }
+		if (user.getIsAllot() == 0 || !sid.equals(user.getSid())) {
 			throw new ServiceException("seller_has_no_auth");
 		}
 		flag = userImpl.archive(uid) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_user_error");
 		}
 		flag = insertUserLog(3, sid, seller.getUsername(), sellerJson.toJSONString(), user, null, null, null);
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("create_user_log_error");
 		}
 		return flag;
 	}
-	
+
 	@Override
 	public RUserBean getDetail(String sid, String uid) {
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
 		}
 		UserBean user = userImpl.selectUserById(uid);
-		if(user == null) {
+		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "客户");
 		}
 		return parse(user);
 	}
-	
+
 	/**
 	 * 获取客户操作日志
 	 */
@@ -396,11 +397,11 @@ public class UserServiceImpl implements UserService {
 	public PageResult<RUserLogsBean> getUserLogs(String sid, String uid, String key) {
 		PageResult<RUserLogsBean> result = new PageResult<RUserLogsBean>();
 		SellerBean seller = sellerImpl.selectOneById(sid);
-		if(seller == null) {
+		if (seller == null) {
 			throw new ServiceException("object_is_not_exist", "销售");
-		}	
+		}
 		int count = userLogImpl.selectUserLogsCount(uid, key);
-		if(count == 0) {
+		if (count == 0) {
 			return null;
 		}
 		List<UserLogBean> resList = userLogImpl.selectUserLogs(uid, key);
@@ -415,28 +416,37 @@ public class UserServiceImpl implements UserService {
 		result.setData(resData);
 		return result;
 	}
-	
+
 	/**
 	 * 插入客户操作日志
-	 * @param type 操作类型
-	 * @param sid 销售id
-	 * @param sellerName 销售名称
-	 * @param sellerJson 销售json
-	 * @param user 用户信息
-	 * @param aid 管理员ID
-	 * @param adminName 管理员名称
-	 * @param adminJson 管理员json
+	 * 
+	 * @param type
+	 *            操作类型
+	 * @param sid
+	 *            销售id
+	 * @param sellerName
+	 *            销售名称
+	 * @param sellerJson
+	 *            销售json
+	 * @param user
+	 *            用户信息
+	 * @param aid
+	 *            管理员ID
+	 * @param adminName
+	 *            管理员名称
+	 * @param adminJson
+	 *            管理员json
 	 * @return
 	 */
-	private boolean insertUserLog(int type, String sid, String sellerName, String sellerJson, 
-			UserBean user, String aid, String adminName, String adminJson) {
+	private boolean insertUserLog(int type, String sid, String sellerName, String sellerJson, UserBean user, String aid,
+			String adminName, String adminJson) {
 		UserLogBean userlog = new UserLogBean();
 		userlog.setUid(user.getUid());
-		if(!StringUtil.isEmpty(sid)) {
+		if (!StringUtil.isEmpty(sid)) {
 			userlog.setSid(sid);
 			userlog.setSellerJson(sellerJson);
 		}
-		if(!StringUtil.isEmpty(aid)) {
+		if (!StringUtil.isEmpty(aid)) {
 			userlog.setAid(aid);
 			userlog.setAdminJson(adminJson);
 		}
@@ -449,11 +459,12 @@ public class UserServiceImpl implements UserService {
 		userlog.setContent(userJson.toJSONString());
 		userlog.setType(type);
 		return userLogImpl.insert(userlog) > 0;
-		
+
 	}
-	
+
 	/**
 	 * 插入客户更新日志
+	 * 
 	 * @param sid
 	 * @param username
 	 * @param sellerJson
@@ -463,10 +474,11 @@ public class UserServiceImpl implements UserService {
 	 * @param type
 	 * @return
 	 */
-	private boolean insertUserLog(String sid, String username, String sellerJson, UserBean user, int level, String label, int type) {
+	private boolean insertUserLog(String sid, String username, String sellerJson, UserBean user, int level,
+			String label, int type) {
 		UserLogBean userlog = new UserLogBean();
 		userlog.setUid(user.getUid());
-		if(!StringUtil.isEmpty(sid)) {
+		if (!StringUtil.isEmpty(sid)) {
 			userlog.setSid(sid);
 			userlog.setSellerJson(sellerJson);
 		}
@@ -480,9 +492,9 @@ public class UserServiceImpl implements UserService {
 		return userLogImpl.insert(userlog) > 0;
 	}
 
-	
 	/**
 	 * 格式化客户操作日志
+	 * 
 	 * @param bean
 	 * @return
 	 */
@@ -496,11 +508,10 @@ public class UserServiceImpl implements UserService {
 		userlog.setAdminJson(bean.getAdminJson());
 		userlog.setContent(bean.getContent());
 		userlog.setType(bean.getType());
-		if(bean.getCreateTime() != null) {
+		if (bean.getCreateTime() != null) {
 			userlog.setCreateTime(bean.getCreateTime().getTime() / 1000);
 		}
 		return userlog;
 	}
-	
 
 }

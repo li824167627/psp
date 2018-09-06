@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 操作工单信息
  **/
@@ -16,75 +15,75 @@ public class ROrderLogsBean {
 	private Integer type; // 操作类型0 创建并分配 1 编辑 2 派单 3 上传合同 4 调查反馈 5 归档
 
 	public void setLid(Integer lid) {
- 		this.lid = lid;
+		this.lid = lid;
 	}
 
 	public Integer getLid() {
- 		return lid;
+		return lid;
 	}
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setSellerJson(String sellerJson) {
- 		this.sellerJson = sellerJson;
+		this.sellerJson = sellerJson;
 	}
 
 	public String getSellerJson() {
- 		return sellerJson;
+		return sellerJson;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 	public void setPid(String pid) {
- 		this.pid = pid;
+		this.pid = pid;
 	}
 
 	public String getPid() {
- 		return pid;
+		return pid;
 	}
 
 	public void setProviderJson(String providerJson) {
- 		this.providerJson = providerJson;
+		this.providerJson = providerJson;
 	}
 
 	public String getProviderJson() {
- 		return providerJson;
+		return providerJson;
 	}
 
 	public void setCreateTime(Long createTime) {
- 		this.createTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public Long getCreateTime() {
- 		return createTime;
+		return createTime;
 	}
 
 	public void setType(Integer type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public Integer getType() {
- 		return type;
+		return type;
 	}
 
 }

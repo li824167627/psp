@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -13,19 +12,19 @@ public class AllotOrderParam {
 	private String pid; // 选择服务商
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setPid(String pid) {
- 		this.pid = pid;
+		this.pid = pid;
 	}
 
 	public String getPid() {
- 		return pid;
+		return pid;
 	}
 
 }

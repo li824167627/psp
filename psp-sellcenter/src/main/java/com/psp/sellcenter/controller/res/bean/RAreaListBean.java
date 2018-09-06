@@ -12,27 +12,27 @@ public class RAreaListBean {
 	private List<RAreaListBean> children; // 下级区域
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 	public void setValue(String value) {
- 		this.value = value;
+		this.value = value;
 	}
 
 	public String getValue() {
- 		return value;
+		return value;
 	}
 
 	public void setChildren(List<RAreaListBean> children) {
- 		this.children = children;
+		this.children = children;
 	}
 
 	public List<RAreaListBean> getChildren() {
- 		return children;
+		return children;
 	}
 
 }

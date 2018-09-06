@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -11,11 +10,11 @@ public class GetSellerParam {
 	private String token; // 登录token
 
 	public void setToken(String token) {
- 		this.token = token;
+		this.token = token;
 	}
 
 	public String getToken() {
- 		return token;
+		return token;
 	}
 
 }

@@ -11,7 +11,7 @@ import com.psp.sellcenter.persist.dao.UserDao;
 
 @Repository
 public class UserImpl extends BaseImpl implements UserDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".UserMapper";
 
 	@Override
@@ -26,7 +26,8 @@ public class UserImpl extends BaseImpl implements UserDao {
 	}
 
 	@Override
-	public List<UserBean> selectUsers2Seller(int page, int pageSize, String sid, int filteType, int stype, String key, int status) {
+	public List<UserBean> selectUsers2Seller(int page, int pageSize, String sid, int filteType, int stype, String key,
+			int status) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("start", page * pageSize);
 		where.put("length", pageSize);

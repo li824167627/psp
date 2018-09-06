@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import javax.validation.constraints.Pattern;
 
 /**
@@ -19,59 +18,59 @@ public class GetOrdersParam {
 	private String filteType; // 筛选工单 0全部1:待分配2:待处理3:已接受4:合同一上传5:申请完成6:待反馈7拒绝完成8申请终止
 
 	public void setPage(Integer page) {
- 		this.page = page;
+		this.page = page;
 	}
 
 	public Integer getPage() {
- 		return page;
+		return page;
 	}
 
 	public void setPagesize(Integer pagesize) {
- 		this.pagesize = pagesize;
+		this.pagesize = pagesize;
 	}
 
 	public Integer getPagesize() {
- 		return pagesize;
+		return pagesize;
 	}
 
 	public void setStage(String stage) {
- 		this.stage = stage;
+		this.stage = stage;
 	}
 
 	public String getStage() {
- 		return stage;
+		return stage;
 	}
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setStype(String stype) {
- 		this.stype = stype;
+		this.stype = stype;
 	}
 
 	public String getStype() {
- 		return stype;
+		return stype;
 	}
 
 	public void setKey(String key) {
- 		this.key = key;
+		this.key = key;
 	}
 
 	public String getKey() {
- 		return key;
+		return key;
 	}
 
 	public void setFilteType(String filteType) {
- 		this.filteType = filteType;
+		this.filteType = filteType;
 	}
 
 	public String getFilteType() {
- 		return filteType;
+		return filteType;
 	}
 
 }

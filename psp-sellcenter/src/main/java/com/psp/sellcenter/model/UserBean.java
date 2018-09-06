@@ -36,185 +36,245 @@ public class UserBean {
 	private String introducer; // 引导介绍
 	private String remark; // 备注
 	private String visitflow; // 参观流程
+
 	public String getUid() {
 		return uid;
 	}
+
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getPhoneNum() {
 		return phoneNum;
 	}
+
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
 	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
 	public String getPosition() {
 		return position;
 	}
+
 	public void setPosition(String position) {
 		this.position = position;
 	}
+
 	public String getSid() {
 		return sid;
 	}
+
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
+
 	public String getSellerJson() {
 		return sellerJson;
 	}
+
 	public void setSellerJson(String sellerJson) {
 		this.sellerJson = sellerJson;
 	}
+
 	public Integer getOrderNum() {
 		return orderNum;
 	}
+
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
+
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
+
 	public String getLabel() {
 		return label;
 	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 	public Integer getOrigin() {
 		return origin;
 	}
+
 	public void setOrigin(Integer origin) {
 		this.origin = origin;
 	}
+
 	public Integer getLevel() {
 		return level;
 	}
+
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
+
 	public Integer getIsAllot() {
 		return isAllot;
 	}
+
 	public void setIsAllot(Integer isAllot) {
 		this.isAllot = isAllot;
 	}
+
 	public String getAid() {
 		return aid;
 	}
+
 	public void setAid(String aid) {
 		this.aid = aid;
 	}
+
 	public String getAdminJson() {
 		return adminJson;
 	}
+
 	public void setAdminJson(String adminJson) {
 		this.adminJson = adminJson;
 	}
+
 	public Timestamp getAllotTime() {
 		return allotTime;
 	}
+
 	public void setAllotTime(Timestamp allotTime) {
 		this.allotTime = allotTime;
 	}
+
 	public Timestamp getCommunityTime() {
 		return communityTime;
 	}
+
 	public void setCommunityTime(Timestamp communityTime) {
 		this.communityTime = communityTime;
 	}
+
 	public Integer getStatus() {
 		return status;
 	}
+
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 	public SellerBean getSeller() {
 		return seller;
 	}
+
 	public void setSeller(SellerBean seller) {
 		this.seller = seller;
 	}
+
 	public Integer getType() {
 		return type;
 	}
+
 	public void setType(Integer type) {
 		this.type = type;
 	}
+
 	public String getVisitDest() {
 		return visitDest;
 	}
+
 	public void setVisitDest(String visitDest) {
 		this.visitDest = visitDest;
 	}
+
 	public Integer getVisitNum() {
 		return visitNum;
 	}
+
 	public void setVisitNum(Integer visitNum) {
 		this.visitNum = visitNum;
 	}
+
 	public String getRefCompany() {
 		return refCompany;
 	}
+
 	public void setRefCompany(String refCompany) {
 		this.refCompany = refCompany;
 	}
+
 	public String getReferrer() {
 		return referrer;
 	}
+
 	public void setReferrer(String referrer) {
 		this.referrer = referrer;
 	}
+
 	public Timestamp getVisitTime() {
 		return visitTime;
 	}
+
 	public void setVisitTime(Timestamp visitTime) {
 		this.visitTime = visitTime;
 	}
+
 	public String getEscort() {
 		return escort;
 	}
+
 	public void setEscort(String escort) {
 		this.escort = escort;
 	}
+
 	public String getIntroducer() {
 		return introducer;
 	}
+
 	public void setIntroducer(String introducer) {
 		this.introducer = introducer;
 	}
+
 	public String getRemark() {
 		return remark;
 	}
+
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
 	public String getVisitflow() {
 		return visitflow;
 	}
+
 	public void setVisitflow(String visitflow) {
 		this.visitflow = visitflow;
 	}
+
 	public Integer getcType() {
 		return cType;
 	}
+
 	public void setcType(Integer cType) {
 		this.cType = cType;
 	}
-	
+
 }

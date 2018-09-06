@@ -27,7 +27,8 @@ public class SUserNewsController {
 	 **/
 	@RequestMapping("/v1/getUserNews")
 	@ResponseBody
-	public ListResult<RUserNewsBean> getUserNews(@Validated GetUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ListResult<RUserNewsBean> getUserNews(@Validated GetUserNewsParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ListResult<RUserNewsBean> res = new ListResult<RUserNewsBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -43,7 +44,8 @@ public class SUserNewsController {
 	 **/
 	@RequestMapping("/v1/add")
 	@ResponseBody
-	public BaseResult add(@Validated AddUserNewsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult add(@Validated AddUserNewsParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

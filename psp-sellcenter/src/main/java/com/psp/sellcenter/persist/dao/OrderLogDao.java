@@ -11,6 +11,5 @@ public interface OrderLogDao {
 	int selectOrderLogsCount(String uid, String key);
 
 	List<OrderLogBean> selectOrderLogs(String uid, String key);
-	
 
 }

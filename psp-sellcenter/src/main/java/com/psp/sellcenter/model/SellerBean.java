@@ -16,35 +16,35 @@ public class SellerBean {
 	private Integer type;
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setPhoneNum(String phoneNum) {
- 		this.phoneNum = phoneNum;
+		this.phoneNum = phoneNum;
 	}
 
 	public String getPhoneNum() {
- 		return phoneNum;
+		return phoneNum;
 	}
 
 	public void setUsername(String username) {
- 		this.username = username;
+		this.username = username;
 	}
 
 	public String getUsername() {
- 		return username;
+		return username;
 	}
 
 	public void setStatus(Integer status) {
- 		this.status = status;
+		this.status = status;
 	}
 
 	public Integer getStatus() {
- 		return status;
+		return status;
 	}
 
 	public Timestamp getCreateTime() {

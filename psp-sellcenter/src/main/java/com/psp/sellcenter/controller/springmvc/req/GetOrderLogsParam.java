@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -12,19 +11,19 @@ public class GetOrderLogsParam {
 	private String key; // 关键字
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setKey(String key) {
- 		this.key = key;
+		this.key = key;
 	}
 
 	public String getKey() {
- 		return key;
+		return key;
 	}
 
 }

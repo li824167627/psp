@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -15,35 +14,35 @@ public class LoginParam {
 	private String device; // 设备
 
 	public void setPhoneNum(String phoneNum) {
- 		this.phoneNum = phoneNum;
+		this.phoneNum = phoneNum;
 	}
 
 	public String getPhoneNum() {
- 		return phoneNum;
+		return phoneNum;
 	}
 
 	public void setPassword(String password) {
- 		this.password = password;
+		this.password = password;
 	}
 
 	public String getPassword() {
- 		return password;
+		return password;
 	}
 
 	public void setImgCode(String imgCode) {
- 		this.imgCode = imgCode;
+		this.imgCode = imgCode;
 	}
 
 	public String getImgCode() {
- 		return imgCode;
+		return imgCode;
 	}
 
 	public void setDevice(String device) {
- 		this.device = device;
+		this.device = device;
 	}
 
 	public String getDevice() {
- 		return device;
+		return device;
 	}
 
 }

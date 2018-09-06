@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 图片验证码
  **/
@@ -12,43 +11,43 @@ public class RImgCodeBean {
 	private String format; // 文件格式
 
 	public void setKey(String key) {
- 		this.key = key;
+		this.key = key;
 	}
 
 	public String getKey() {
- 		return key;
+		return key;
 	}
 
 	public void setUrl(String url) {
- 		this.url = url;
+		this.url = url;
 	}
 
 	public String getUrl() {
- 		return url;
+		return url;
 	}
 
 	public void setImgH(Integer imgH) {
- 		this.imgH = imgH;
+		this.imgH = imgH;
 	}
 
 	public Integer getImgH() {
- 		return imgH;
+		return imgH;
 	}
 
 	public void setImgW(Integer imgW) {
- 		this.imgW = imgW;
+		this.imgW = imgW;
 	}
 
 	public Integer getImgW() {
- 		return imgW;
+		return imgW;
 	}
 
 	public void setFormat(String format) {
- 		this.format = format;
+		this.format = format;
 	}
 
 	public String getFormat() {
- 		return format;
+		return format;
 	}
 
 }

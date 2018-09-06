@@ -15,58 +15,75 @@ public class UserNewsBean {
 	private String sid; // 当前销售
 	private String sellerJson; // 当前销售JSON
 	private Timestamp createTime; // 创建时间
-	
+
 	public Integer getNid() {
 		return nid;
 	}
+
 	public void setNid(Integer nid) {
 		this.nid = nid;
 	}
+
 	public String getLabel() {
 		return label;
 	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public String getUid() {
 		return uid;
 	}
+
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+
 	public String getUserJson() {
 		return userJson;
 	}
+
 	public void setUserJson(String userJson) {
 		this.userJson = userJson;
 	}
+
 	public Integer getOrigin() {
 		return origin;
 	}
+
 	public void setOrigin(Integer origin) {
 		this.origin = origin;
 	}
+
 	public String getSid() {
 		return sid;
 	}
+
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
+
 	public String getSellerJson() {
 		return sellerJson;
 	}
+
 	public void setSellerJson(String sellerJson) {
 		this.sellerJson = sellerJson;
 	}
+
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}

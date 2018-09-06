@@ -11,7 +11,7 @@ import com.psp.sellcenter.persist.dao.UserLogDao;
 
 @Repository
 public class UserLogImpl extends BaseImpl implements UserLogDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".UserLogMapper";
 
 	@Override
@@ -33,7 +33,7 @@ public class UserLogImpl extends BaseImpl implements UserLogDao {
 		where.put("uid", uid);
 		where.put("key", key);
 		return sqlSessionTemplate.selectList(NAME_SPACE + ".selectUserLogs", where);
-	
+
 	}
 
 }

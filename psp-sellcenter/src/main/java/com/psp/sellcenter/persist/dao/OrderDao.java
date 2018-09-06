@@ -7,10 +7,11 @@ import com.psp.sellcenter.model.OrderContractBean;
 import com.psp.sellcenter.model.OrderFeedbackBean;
 
 public interface OrderDao {
-	
+
 	int selectOrderCount(String sid, int filteType, int stype, String key, String uid, int stage);
 
-	List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key, String uid, int stage);
+	List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key, String uid,
+			int stage);
 
 	int insert(OrderBean order);
 
@@ -31,6 +32,5 @@ public interface OrderDao {
 	OrderContractBean selectOrderContractInType(String oid, int contractType);
 
 	int updateContract(OrderContractBean contract);
-
 
 }

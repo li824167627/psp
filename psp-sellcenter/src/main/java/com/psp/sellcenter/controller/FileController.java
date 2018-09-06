@@ -23,6 +23,7 @@ import com.psp.sellcenter.service.exception.ServiceException;
 import com.psp.util.AppTextUtil;
 import com.psp.util.NumUtil;
 import com.psp.util.VerifyCodeUtil;
+
 @Component
 public class FileController {
 
@@ -88,8 +89,7 @@ public class FileController {
 		return null;
 	}
 
-	public ObjectResult<RQiniuFileBean> uploadImage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ObjectResult<RQiniuFileBean> uploadImage(HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RQiniuFileBean> result = new ObjectResult<>();
 		try {
 			RQiniuFileBean file = qiniuServiceImpl.uploadImgFile(request);
@@ -110,9 +110,8 @@ public class FileController {
 			result.setFlag(token != null);
 		} catch (ServiceException e) {
 			result.setServiceException(e);
-		}	
+		}
 		return result;
 	}
-
 
 }

@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -13,19 +12,19 @@ public class ConfirmFindPwdCodeParam {
 	private String vcode; // 验证码
 
 	public void setAccount(String account) {
- 		this.account = account;
+		this.account = account;
 	}
 
 	public String getAccount() {
- 		return account;
+		return account;
 	}
 
 	public void setVcode(String vcode) {
- 		this.vcode = vcode;
+		this.vcode = vcode;
 	}
 
 	public String getVcode() {
- 		return vcode;
+		return vcode;
 	}
 
 }

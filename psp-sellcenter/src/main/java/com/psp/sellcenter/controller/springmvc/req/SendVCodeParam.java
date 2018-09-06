@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -17,35 +16,35 @@ public class SendVCodeParam {
 	private String imgCode; // 图形验证码
 
 	public void setPhone(String phone) {
- 		this.phone = phone;
+		this.phone = phone;
 	}
 
 	public String getPhone() {
- 		return phone;
+		return phone;
 	}
 
 	public void setType(String type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public String getType() {
- 		return type;
+		return type;
 	}
 
 	public void setImgKey(String imgKey) {
- 		this.imgKey = imgKey;
+		this.imgKey = imgKey;
 	}
 
 	public String getImgKey() {
- 		return imgKey;
+		return imgKey;
 	}
 
 	public void setImgCode(String imgCode) {
- 		this.imgCode = imgCode;
+		this.imgCode = imgCode;
 	}
 
 	public String getImgCode() {
- 		return imgCode;
+		return imgCode;
 	}
 
 }

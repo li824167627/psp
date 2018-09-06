@@ -20,13 +20,13 @@ import com.psp.util.StringUtil;
 public class SellerServiceImpl implements SellerService {
 
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Autowired
 	SellerDao sellerImpl;
-	
+
 	@Autowired
 	SellerCacheDao sellerCacheImpl;
-	
+
 	@Override
 	public SellerBean getSellerByToken(String token) {
 		if (token == null) {
@@ -37,7 +37,7 @@ public class SellerServiceImpl implements SellerService {
 			return null;
 		}
 		SellerBean user = sellerImpl.selectOneById(sid);
-		if(user.getStatus() != 0) {
+		if (user.getStatus() != 0) {
 			throw new ServiceException("account_is_forzen");
 		}
 		return user;
@@ -46,7 +46,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public SellerBean getSellerById(String sid) {
 		SellerBean user = sellerImpl.selectOneById(sid);
-		if(user.getStatus() != 0) {
+		if (user.getStatus() != 0) {
 			throw new ServiceException("account_is_forzen");
 		}
 		return user;
@@ -59,24 +59,24 @@ public class SellerServiceImpl implements SellerService {
 		if (user == null) {
 			throw new ServiceException("object_is_not_exist", "用户");
 		}
-//		Code code = sellerCacheImpl.getLoginCode(phone);
-//		if (code == null) {
-//			code = new Code();
-//			code.setNum(0);
-//			sellerCacheImpl.setLoginCode(phone, code);
-//		} else if (code.getNum() > 4) {
-//			if (StringUtil.isEmpty(code.getCode())) {
-//				throw new ServiceException("imgcode_is_cross");
-//			}
-//			if (!code.getCode().equals(vcode.toUpperCase())) {
-//				throw new ServiceException("imgcode_is_error");
-//			}
-//		}
+		// Code code = sellerCacheImpl.getLoginCode(phone);
+		// if (code == null) {
+		// code = new Code();
+		// code.setNum(0);
+		// sellerCacheImpl.setLoginCode(phone, code);
+		// } else if (code.getNum() > 4) {
+		// if (StringUtil.isEmpty(code.getCode())) {
+		// throw new ServiceException("imgcode_is_cross");
+		// }
+		// if (!code.getCode().equals(vcode.toUpperCase())) {
+		// throw new ServiceException("imgcode_is_error");
+		// }
+		// }
 
 		pwd = MD5Util.md5(pwd);
 		if (!pwd.equals(user.getPassword())) {
-//			code.setNum(code.getNum() + 1);
-//			sellerCacheImpl.setLoginCode(phone, code);
+			// code.setNum(code.getNum() + 1);
+			// sellerCacheImpl.setLoginCode(phone, code);
 			throw new ServiceException("user_password_is_error");
 		}
 
@@ -84,23 +84,23 @@ public class SellerServiceImpl implements SellerService {
 			throw new ServiceException("account_is_forzen");
 		}
 
-		sellerCacheImpl.setAccountIdTOKEN(sessionId, user.getSid(), 24*1000*60L);
+		sellerCacheImpl.setAccountIdTOKEN(sessionId, user.getSid(), 24 * 1000 * 60L);
 		boolean flag = sellerImpl.updateLoginTime(user.getSid()) > 0;
 		if (!flag) {
 			throw new ServiceException("user_update_error");
 		}
-//		if (flag) {
-//			logger.info("sessionId= " + sessionId);
-//			UserLoginLogBean loginLog = new UserLoginLogBean();
-//			loginLog.setDevice(device);
-//			loginLog.setLoginIp(ip);
-//			loginLog.setUid(user.getAid());
-//			loginLog.setOstate(1);// 1 登录 2注册
-//			flag = adminImpl.insertLoginLog(loginLog) > 0;
-//			if (!flag) {
-//				throw new ServiceException("user_log_insert_error");
-//			}
-//		}
+		// if (flag) {
+		// logger.info("sessionId= " + sessionId);
+		// UserLoginLogBean loginLog = new UserLoginLogBean();
+		// loginLog.setDevice(device);
+		// loginLog.setLoginIp(ip);
+		// loginLog.setUid(user.getAid());
+		// loginLog.setOstate(1);// 1 登录 2注册
+		// flag = adminImpl.insertLoginLog(loginLog) > 0;
+		// if (!flag) {
+		// throw new ServiceException("user_log_insert_error");
+		// }
+		// }
 
 		return parse(user);
 	}
@@ -114,7 +114,7 @@ public class SellerServiceImpl implements SellerService {
 		seller.setLetter(StringUtil.getFirstLetter(user.getUsername()));
 		return seller;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean resetPwd(String sid, String pwd, String newPwd, String subPwd) {
@@ -125,14 +125,14 @@ public class SellerServiceImpl implements SellerService {
 		if (!MD5Util.md5(pwd).equals(user.getPassword())) {
 			throw new ServiceException("user_password_is_error");
 		}
-		
+
 		if (newPwd != null && !newPwd.equals(subPwd)) {
 			throw new ServiceException("user_password_is_not_same");
 		}
-		
+
 		user.setPassword(MD5Util.md5(newPwd));
 		boolean flag = sellerImpl.updatePwd(user) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_seller_error");
 		}
 		return flag;
@@ -146,7 +146,7 @@ public class SellerServiceImpl implements SellerService {
 		}
 		user.setUsername(name);
 		boolean flag = sellerImpl.updateName(user) > 0;
-		if(!flag) {
+		if (!flag) {
 			throw new ServiceException("update_seller_error");
 		}
 		return parse(user);

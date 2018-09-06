@@ -12,5 +12,4 @@ public interface UserLogDao {
 
 	List<UserLogBean> selectUserLogs(String uid, String key);
 
-
 }

@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 操作客户信息
  **/
@@ -16,75 +15,75 @@ public class RUserLogsBean {
 	private Integer type; // 操作类型 0管理员分配 1 新建客户 2 修改客户 3归档客户 4 设置评级 5编辑标签 6开始沟通
 
 	public void setLid(Integer lid) {
- 		this.lid = lid;
+		this.lid = lid;
 	}
 
 	public Integer getLid() {
- 		return lid;
+		return lid;
 	}
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setSellerJson(String sellerJson) {
- 		this.sellerJson = sellerJson;
+		this.sellerJson = sellerJson;
 	}
 
 	public String getSellerJson() {
- 		return sellerJson;
+		return sellerJson;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 	public void setAid(String aid) {
- 		this.aid = aid;
+		this.aid = aid;
 	}
 
 	public String getAid() {
- 		return aid;
+		return aid;
 	}
 
 	public void setAdminJson(String adminJson) {
- 		this.adminJson = adminJson;
+		this.adminJson = adminJson;
 	}
 
 	public String getAdminJson() {
- 		return adminJson;
+		return adminJson;
 	}
 
 	public void setCreateTime(Long createTime) {
- 		this.createTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public Long getCreateTime() {
- 		return createTime;
+		return createTime;
 	}
 
 	public void setType(Integer type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public Integer getType() {
- 		return type;
+		return type;
 	}
 
 }

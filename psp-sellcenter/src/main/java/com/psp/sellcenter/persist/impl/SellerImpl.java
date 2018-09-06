@@ -7,7 +7,7 @@ import com.psp.sellcenter.persist.dao.SellerDao;
 
 @Repository
 public class SellerImpl extends BaseImpl implements SellerDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".SellerMapper";
 
 	@Override

@@ -7,8 +7,9 @@ import com.psp.sellcenter.model.UserBean;
 public interface UserDao {
 
 	int selectUserCount2Seller(String sid, int filteType, int stype, String key, int status);
-	
-	List<UserBean> selectUsers2Seller(int page, int pageSize, String sid, int filteType, int stype, String key, int status);
+
+	List<UserBean> selectUsers2Seller(int page, int pageSize, String sid, int filteType, int stype, String key,
+			int status);
 
 	UserBean selectUserByPhone(String phoneNum);
 

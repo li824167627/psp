@@ -47,7 +47,8 @@ public class SFileController {
 	 **/
 	@RequestMapping("/v1/getImgCode")
 	@ResponseBody
-	public ObjectResult<RImgCodeBean> getImgCode(@Validated getImgcodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RImgCodeBean> getImgCode(@Validated getImgcodeParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RImgCodeBean> res = new ObjectResult<RImgCodeBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -63,7 +64,8 @@ public class SFileController {
 	 **/
 	@RequestMapping("/v1/getLoginImgCode")
 	@ResponseBody
-	public BaseResult getLoginImgCode(@Validated getLoginImgcodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult getLoginImgCode(@Validated getLoginImgcodeParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

@@ -30,171 +30,171 @@ public class ROrderBean {
 	private ROrderFeedbackBean feedback; // 反馈意见
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setOrderNo(String orderNo) {
- 		this.orderNo = orderNo;
+		this.orderNo = orderNo;
 	}
 
 	public String getOrderNo() {
- 		return orderNo;
+		return orderNo;
 	}
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setUserJson(String userJson) {
- 		this.userJson = userJson;
+		this.userJson = userJson;
 	}
 
 	public String getUserJson() {
- 		return userJson;
+		return userJson;
 	}
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 	public void setPid(String pid) {
- 		this.pid = pid;
+		this.pid = pid;
 	}
 
 	public String getPid() {
- 		return pid;
+		return pid;
 	}
 
 	public void setProviderJson(String providerJson) {
- 		this.providerJson = providerJson;
+		this.providerJson = providerJson;
 	}
 
 	public String getProviderJson() {
- 		return providerJson;
+		return providerJson;
 	}
 
 	public void setCreateTime(Long createTime) {
- 		this.createTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public Long getCreateTime() {
- 		return createTime;
+		return createTime;
 	}
 
 	public void setStatus(Integer status) {
- 		this.status = status;
+		this.status = status;
 	}
 
 	public Integer getStatus() {
- 		return status;
+		return status;
 	}
 
 	public void setContractStatus(Integer contractStatus) {
- 		this.contractStatus = contractStatus;
+		this.contractStatus = contractStatus;
 	}
 
 	public Integer getContractStatus() {
- 		return contractStatus;
+		return contractStatus;
 	}
 
 	public void setStage(Integer stage) {
- 		this.stage = stage;
+		this.stage = stage;
 	}
 
 	public Integer getStage() {
- 		return stage;
+		return stage;
 	}
 
 	public void setIsAllot(Integer isAllot) {
- 		this.isAllot = isAllot;
+		this.isAllot = isAllot;
 	}
 
 	public Integer getIsAllot() {
- 		return isAllot;
+		return isAllot;
 	}
 
 	public void setExpectedTime(Long expectedTime) {
- 		this.expectedTime = expectedTime;
+		this.expectedTime = expectedTime;
 	}
 
 	public Long getExpectedTime() {
- 		return expectedTime;
+		return expectedTime;
 	}
 
 	public void setCompleteTime(Long completeTime) {
- 		this.completeTime = completeTime;
+		this.completeTime = completeTime;
 	}
 
 	public Long getCompleteTime() {
- 		return completeTime;
+		return completeTime;
 	}
 
 	public void setCloseTime(Long closeTime) {
- 		this.closeTime = closeTime;
+		this.closeTime = closeTime;
 	}
 
 	public Long getCloseTime() {
- 		return closeTime;
+		return closeTime;
 	}
 
 	public void setUpdateime(Long updateime) {
- 		this.updateime = updateime;
+		this.updateime = updateime;
 	}
 
 	public Long getUpdateime() {
- 		return updateime;
+		return updateime;
 	}
 
 	public void setIsNeedInvoice(Long isNeedInvoice) {
- 		this.isNeedInvoice = isNeedInvoice;
+		this.isNeedInvoice = isNeedInvoice;
 	}
 
 	public Long getIsNeedInvoice() {
- 		return isNeedInvoice;
+		return isNeedInvoice;
 	}
 
 	public void setContracts(List<ROrderContractBean> contracts) {
- 		this.contracts = contracts;
+		this.contracts = contracts;
 	}
 
 	public List<ROrderContractBean> getContracts() {
- 		return contracts;
+		return contracts;
 	}
 
 	public void setFeedback(ROrderFeedbackBean feedback) {
- 		this.feedback = feedback;
+		this.feedback = feedback;
 	}
 
 	public ROrderFeedbackBean getFeedback() {
- 		return feedback;
+		return feedback;
 	}
 
 }

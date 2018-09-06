@@ -19,6 +19,7 @@ public interface QiniuService {
 
 	/**
 	 * 上传图片到七牛
+	 * 
 	 * @param request
 	 * @return
 	 */

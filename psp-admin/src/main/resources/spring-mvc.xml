@@ -67,14 +67,14 @@
 	</bean>
 	
 	<!-- 配置数据库注解aop -->
-    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
     <bean id="manyDataSourceAspect" class="com.air.shop.proxy.DataSourceAspect" />
     <aop:config>
         <aop:aspect id="c" ref="manyDataSourceAspect">
             <aop:pointcut id="tx" expression="execution(* com.air.shop.mapper.*.*(..))"/>
             <aop:before pointcut-ref="tx" method="before"/>
         </aop:aspect>
-    </aop:config>
+    </aop:config> -->
     <!-- 配置数据库注解aop -->
 
 	<!-- json转换 -->

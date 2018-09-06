@@ -18,9 +18,9 @@ import com.psp.util.StringUtil;
 
 @Service
 public class AreaServiceImpl implements AreaService {
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Autowired
 	AreaDao areaImpl;
 
@@ -72,5 +72,5 @@ public class AreaServiceImpl implements AreaService {
 		result.setData(resultList);
 		return result;
 	}
-	
+
 }

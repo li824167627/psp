@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 合同工单详情信息
  **/
@@ -23,131 +22,131 @@ public class ROrderContractBean {
 	private Integer type; // 所属类型：1客户合同2服务商合同
 
 	public void setCid(Integer cid) {
- 		this.cid = cid;
+		this.cid = cid;
 	}
 
 	public Integer getCid() {
- 		return cid;
+		return cid;
 	}
 
 	public void setName(String name) {
- 		this.name = name;
+		this.name = name;
 	}
 
 	public String getName() {
- 		return name;
+		return name;
 	}
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setContractNo(String contractNo) {
- 		this.contractNo = contractNo;
+		this.contractNo = contractNo;
 	}
 
 	public String getContractNo() {
- 		return contractNo;
+		return contractNo;
 	}
 
 	public void setContractUrl(String contractUrl) {
- 		this.contractUrl = contractUrl;
+		this.contractUrl = contractUrl;
 	}
 
 	public String getContractUrl() {
- 		return contractUrl;
+		return contractUrl;
 	}
 
 	public void setSignTime(Long signTime) {
- 		this.signTime = signTime;
+		this.signTime = signTime;
 	}
 
 	public Long getSignTime() {
- 		return signTime;
+		return signTime;
 	}
 
 	public void setStartTime(Long startTime) {
- 		this.startTime = startTime;
+		this.startTime = startTime;
 	}
 
 	public Long getStartTime() {
- 		return startTime;
+		return startTime;
 	}
 
 	public void setEndTime(Long endTime) {
- 		this.endTime = endTime;
+		this.endTime = endTime;
 	}
 
 	public Long getEndTime() {
- 		return endTime;
+		return endTime;
 	}
 
 	public void setPartyA(String partyA) {
- 		this.partyA = partyA;
+		this.partyA = partyA;
 	}
 
 	public String getPartyA() {
- 		return partyA;
+		return partyA;
 	}
 
 	public void setPartyB(String partyB) {
- 		this.partyB = partyB;
+		this.partyB = partyB;
 	}
 
 	public String getPartyB() {
- 		return partyB;
+		return partyB;
 	}
 
 	public void setMoney(Double money) {
- 		this.money = money;
+		this.money = money;
 	}
 
 	public Double getMoney() {
- 		return money;
+		return money;
 	}
 
 	public void setService(String service) {
- 		this.service = service;
+		this.service = service;
 	}
 
 	public String getService() {
- 		return service;
+		return service;
 	}
 
 	public void setPayment(Integer payment) {
- 		this.payment = payment;
+		this.payment = payment;
 	}
 
 	public Integer getPayment() {
- 		return payment;
+		return payment;
 	}
 
 	public void setPaymentWay(String paymentWay) {
- 		this.paymentWay = paymentWay;
+		this.paymentWay = paymentWay;
 	}
 
 	public String getPaymentWay() {
- 		return paymentWay;
+		return paymentWay;
 	}
 
 	public void setPaymentDesc(String paymentDesc) {
- 		this.paymentDesc = paymentDesc;
+		this.paymentDesc = paymentDesc;
 	}
 
 	public String getPaymentDesc() {
- 		return paymentDesc;
+		return paymentDesc;
 	}
 
 	public void setType(Integer type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public Integer getType() {
- 		return type;
+		return type;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 客户信息流信息
  **/
@@ -16,75 +15,75 @@ public class RUserNewsBean {
 	private String sellerJson; // 当前销售JSON
 
 	public void setNid(Integer nid) {
- 		this.nid = nid;
+		this.nid = nid;
 	}
 
 	public Integer getNid() {
- 		return nid;
+		return nid;
 	}
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 	public void setContent(String content) {
- 		this.content = content;
+		this.content = content;
 	}
 
 	public String getContent() {
- 		return content;
+		return content;
 	}
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setUserJson(String userJson) {
- 		this.userJson = userJson;
+		this.userJson = userJson;
 	}
 
 	public String getUserJson() {
- 		return userJson;
+		return userJson;
 	}
 
 	public void setOrigin(Integer origin) {
- 		this.origin = origin;
+		this.origin = origin;
 	}
 
 	public Integer getOrigin() {
- 		return origin;
+		return origin;
 	}
 
 	public void setCreateTime(Long createTime) {
- 		this.createTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public Long getCreateTime() {
- 		return createTime;
+		return createTime;
 	}
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setSellerJson(String sellerJson) {
- 		this.sellerJson = sellerJson;
+		this.sellerJson = sellerJson;
 	}
 
 	public String getSellerJson() {
- 		return sellerJson;
+		return sellerJson;
 	}
 
 }

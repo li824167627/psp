@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.res.bean;
 
-
 /**
  * 客户基本信息
  **/
@@ -35,227 +34,227 @@ public class RUserBean {
 	private Long allotTime; // 分配时间
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setName(String name) {
- 		this.name = name;
+		this.name = name;
 	}
 
 	public String getName() {
- 		return name;
+		return name;
 	}
 
 	public void setPhoneNum(String phoneNum) {
- 		this.phoneNum = phoneNum;
+		this.phoneNum = phoneNum;
 	}
 
 	public String getPhoneNum() {
- 		return phoneNum;
+		return phoneNum;
 	}
 
 	public void setCompanyName(String companyName) {
- 		this.companyName = companyName;
+		this.companyName = companyName;
 	}
 
 	public String getCompanyName() {
- 		return companyName;
+		return companyName;
 	}
 
 	public void setPosition(String position) {
- 		this.position = position;
+		this.position = position;
 	}
 
 	public String getPosition() {
- 		return position;
+		return position;
 	}
 
 	public void setVisitDest(String visitDest) {
- 		this.visitDest = visitDest;
+		this.visitDest = visitDest;
 	}
 
 	public String getVisitDest() {
- 		return visitDest;
+		return visitDest;
 	}
 
 	public void setVisitNum(String visitNum) {
- 		this.visitNum = visitNum;
+		this.visitNum = visitNum;
 	}
 
 	public String getVisitNum() {
- 		return visitNum;
+		return visitNum;
 	}
 
 	public void setRefCompany(String refCompany) {
- 		this.refCompany = refCompany;
+		this.refCompany = refCompany;
 	}
 
 	public String getRefCompany() {
- 		return refCompany;
+		return refCompany;
 	}
 
 	public void setReferrer(String referrer) {
- 		this.referrer = referrer;
+		this.referrer = referrer;
 	}
 
 	public String getReferrer() {
- 		return referrer;
+		return referrer;
 	}
 
 	public void setCtype(Integer ctype) {
- 		this.ctype = ctype;
+		this.ctype = ctype;
 	}
 
 	public Integer getCtype() {
- 		return ctype;
+		return ctype;
 	}
 
 	public void setVisitTime(Long visitTime) {
- 		this.visitTime = visitTime;
+		this.visitTime = visitTime;
 	}
 
 	public Long getVisitTime() {
- 		return visitTime;
+		return visitTime;
 	}
 
 	public void setEscort(String escort) {
- 		this.escort = escort;
+		this.escort = escort;
 	}
 
 	public String getEscort() {
- 		return escort;
+		return escort;
 	}
 
 	public void setIntroducer(String introducer) {
- 		this.introducer = introducer;
+		this.introducer = introducer;
 	}
 
 	public String getIntroducer() {
- 		return introducer;
+		return introducer;
 	}
 
 	public void setRemark(String remark) {
- 		this.remark = remark;
+		this.remark = remark;
 	}
 
 	public String getRemark() {
- 		return remark;
+		return remark;
 	}
 
 	public void setVisitflow(String visitflow) {
- 		this.visitflow = visitflow;
+		this.visitflow = visitflow;
 	}
 
 	public String getVisitflow() {
- 		return visitflow;
+		return visitflow;
 	}
 
 	public void setSid(String sid) {
- 		this.sid = sid;
+		this.sid = sid;
 	}
 
 	public String getSid() {
- 		return sid;
+		return sid;
 	}
 
 	public void setCreaterJson(String createrJson) {
- 		this.createrJson = createrJson;
+		this.createrJson = createrJson;
 	}
 
 	public String getCreaterJson() {
- 		return createrJson;
+		return createrJson;
 	}
 
 	public void setSellerJson(String sellerJson) {
- 		this.sellerJson = sellerJson;
+		this.sellerJson = sellerJson;
 	}
 
 	public String getSellerJson() {
- 		return sellerJson;
+		return sellerJson;
 	}
 
 	public void setOrderNum(Integer orderNum) {
- 		this.orderNum = orderNum;
+		this.orderNum = orderNum;
 	}
 
 	public Integer getOrderNum() {
- 		return orderNum;
+		return orderNum;
 	}
 
 	public void setCreateTime(Long createTime) {
- 		this.createTime = createTime;
+		this.createTime = createTime;
 	}
 
 	public Long getCreateTime() {
- 		return createTime;
+		return createTime;
 	}
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 	public void setOrigin(Integer origin) {
- 		this.origin = origin;
+		this.origin = origin;
 	}
 
 	public Integer getOrigin() {
- 		return origin;
+		return origin;
 	}
 
 	public void setLevel(Integer level) {
- 		this.level = level;
+		this.level = level;
 	}
 
 	public Integer getLevel() {
- 		return level;
+		return level;
 	}
 
 	public void setIsAllot(Integer isAllot) {
- 		this.isAllot = isAllot;
+		this.isAllot = isAllot;
 	}
 
 	public Integer getIsAllot() {
- 		return isAllot;
+		return isAllot;
 	}
 
 	public void setStatus(Integer status) {
- 		this.status = status;
+		this.status = status;
 	}
 
 	public Integer getStatus() {
- 		return status;
+		return status;
 	}
 
 	public void setAid(String aid) {
- 		this.aid = aid;
+		this.aid = aid;
 	}
 
 	public String getAid() {
- 		return aid;
+		return aid;
 	}
 
 	public void setAdminJson(String adminJson) {
- 		this.adminJson = adminJson;
+		this.adminJson = adminJson;
 	}
 
 	public String getAdminJson() {
- 		return adminJson;
+		return adminJson;
 	}
 
 	public void setAllotTime(Long allotTime) {
- 		this.allotTime = allotTime;
+		this.allotTime = allotTime;
 	}
 
 	public Long getAllotTime() {
- 		return allotTime;
+		return allotTime;
 	}
 
 }

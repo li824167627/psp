@@ -14,7 +14,7 @@ import com.psp.util.StringUtil;
 
 @Repository
 public class OrderImpl extends BaseImpl implements OrderDao {
-	
+
 	final String NAME_SPACE = NAME_SPACE_HEADER + ".OrderMapper";
 
 	@Override
@@ -24,7 +24,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("filteType", filteType);
 		where.put("stype", stype);
 		where.put("key", key);
-		if(!StringUtil.isEmpty(uid)) {
+		if (!StringUtil.isEmpty(uid)) {
 			where.put("uid", uid);
 		}
 		where.put("stage", stage);
@@ -32,7 +32,8 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	}
 
 	@Override
-	public List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key, String uid, int stage) {
+	public List<OrderBean> selectOrders(int page, int pageSize, String sid, int filteType, int stype, String key,
+			String uid, int stage) {
 		Map<String, Object> where = new HashMap<>();
 		where.put("start", page * pageSize);
 		where.put("length", pageSize);
@@ -40,7 +41,7 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 		where.put("filteType", filteType);
 		where.put("stype", stype);
 		where.put("key", key);
-		if(!StringUtil.isEmpty(uid)) {
+		if (!StringUtil.isEmpty(uid)) {
 			where.put("uid", uid);
 		}
 		where.put("stage", stage);
@@ -120,6 +121,5 @@ public class OrderImpl extends BaseImpl implements OrderDao {
 	public int updateContract(OrderContractBean contract) {
 		return sqlSessionTemplate.update(NAME_SPACE + ".updateContract", contract);
 	}
-
 
 }

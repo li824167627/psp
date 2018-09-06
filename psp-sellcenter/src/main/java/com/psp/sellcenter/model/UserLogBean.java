@@ -20,54 +20,71 @@ public class UserLogBean {
 	public Integer getLid() {
 		return lid;
 	}
+
 	public void setLid(Integer lid) {
 		this.lid = lid;
 	}
+
 	public String getUid() {
 		return uid;
 	}
+
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+
 	public String getSid() {
 		return sid;
 	}
+
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
+
 	public String getSellerJson() {
 		return sellerJson;
 	}
+
 	public void setSellerJson(String sellerJson) {
 		this.sellerJson = sellerJson;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public String getAid() {
 		return aid;
 	}
+
 	public void setAid(String aid) {
 		this.aid = aid;
 	}
+
 	public String getAdminJson() {
 		return adminJson;
 	}
+
 	public void setAdminJson(String adminJson) {
 		this.adminJson = adminJson;
 	}
+
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
+
 	public Integer getType() {
 		return type;
 	}
+
 	public void setType(Integer type) {
 		this.type = type;
 	}

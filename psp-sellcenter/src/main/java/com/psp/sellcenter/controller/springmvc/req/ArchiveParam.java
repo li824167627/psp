@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -11,11 +10,11 @@ public class ArchiveParam {
 	private String userId; // 客户id
 
 	public void setUserId(String userId) {
- 		this.userId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserId() {
- 		return userId;
+		return userId;
 	}
 
 }

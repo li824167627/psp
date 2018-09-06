@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -26,123 +25,123 @@ public class UploadContractParam {
 	private Integer type; // 合同状态：1客户合同2服务商合同
 
 	public void setOid(String oid) {
- 		this.oid = oid;
+		this.oid = oid;
 	}
 
 	public String getOid() {
- 		return oid;
+		return oid;
 	}
 
 	public void setContractNo(String contractNo) {
- 		this.contractNo = contractNo;
+		this.contractNo = contractNo;
 	}
 
 	public String getContractNo() {
- 		return contractNo;
+		return contractNo;
 	}
 
 	public void setName(String name) {
- 		this.name = name;
+		this.name = name;
 	}
 
 	public String getName() {
- 		return name;
+		return name;
 	}
 
 	public void setSignTime(String signTime) {
- 		this.signTime = signTime;
+		this.signTime = signTime;
 	}
 
 	public String getSignTime() {
- 		return signTime;
+		return signTime;
 	}
 
 	public void setStartTime(String startTime) {
- 		this.startTime = startTime;
+		this.startTime = startTime;
 	}
 
 	public String getStartTime() {
- 		return startTime;
+		return startTime;
 	}
 
 	public void setEndTime(String endTime) {
- 		this.endTime = endTime;
+		this.endTime = endTime;
 	}
 
 	public String getEndTime() {
- 		return endTime;
+		return endTime;
 	}
 
 	public void setPartyA(String partyA) {
- 		this.partyA = partyA;
+		this.partyA = partyA;
 	}
 
 	public String getPartyA() {
- 		return partyA;
+		return partyA;
 	}
 
 	public void setPartyB(String partyB) {
- 		this.partyB = partyB;
+		this.partyB = partyB;
 	}
 
 	public String getPartyB() {
- 		return partyB;
+		return partyB;
 	}
 
 	public void setContractUrl(String contractUrl) {
- 		this.contractUrl = contractUrl;
+		this.contractUrl = contractUrl;
 	}
 
 	public String getContractUrl() {
- 		return contractUrl;
+		return contractUrl;
 	}
 
 	public void setPayment(String payment) {
- 		this.payment = payment;
+		this.payment = payment;
 	}
 
 	public String getPayment() {
- 		return payment;
+		return payment;
 	}
 
 	public void setPaymentWay(String paymentWay) {
- 		this.paymentWay = paymentWay;
+		this.paymentWay = paymentWay;
 	}
 
 	public String getPaymentWay() {
- 		return paymentWay;
+		return paymentWay;
 	}
 
 	public void setPayDesc(String payDesc) {
- 		this.payDesc = payDesc;
+		this.payDesc = payDesc;
 	}
 
 	public String getPayDesc() {
- 		return payDesc;
+		return payDesc;
 	}
 
 	public void setService(String service) {
- 		this.service = service;
+		this.service = service;
 	}
 
 	public String getService() {
- 		return service;
+		return service;
 	}
 
 	public void setMoney(Double money) {
- 		this.money = money;
+		this.money = money;
 	}
 
 	public Double getMoney() {
- 		return money;
+		return money;
 	}
 
 	public void setType(Integer type) {
- 		this.type = type;
+		this.type = type;
 	}
 
 	public Integer getType() {
- 		return type;
+		return type;
 	}
 
 }

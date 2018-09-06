@@ -27,7 +27,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/getUsers")
 	@ResponseBody
-	public ListResult<RUserBean> getUsers(@Validated GetUsersParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ListResult<RUserBean> getUsers(@Validated GetUsersParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ListResult<RUserBean> res = new ListResult<RUserBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -43,7 +44,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/getUserNum")
 	@ResponseBody
-	public ObjectResult<Integer> getUserNum(@Validated GetUserNumParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<Integer> getUserNum(@Validated GetUserNumParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<Integer> res = new ObjectResult<Integer>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -59,7 +61,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/add")
 	@ResponseBody
-	public ObjectResult<RUserBean> add(@Validated AddUserParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RUserBean> add(@Validated AddUserParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -75,7 +78,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/edit")
 	@ResponseBody
-	public ObjectResult<RUserBean> edit(@Validated EditUserParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RUserBean> edit(@Validated EditUserParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -91,7 +95,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/editLabel")
 	@ResponseBody
-	public BaseResult editLabel(@Validated EditUserLabelParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult editLabel(@Validated EditUserLabelParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -107,7 +112,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/editLevel")
 	@ResponseBody
-	public BaseResult editLevel(@Validated EditUserLevelParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult editLevel(@Validated EditUserLevelParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -123,7 +129,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/archive")
 	@ResponseBody
-	public BaseResult archive(@Validated ArchiveParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult archive(@Validated ArchiveParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -139,7 +146,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/getDetail")
 	@ResponseBody
-	public ObjectResult<RUserBean> getDetail(@Validated GetUserDetailParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RUserBean> getDetail(@Validated GetUserDetailParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RUserBean> res = new ObjectResult<RUserBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -155,7 +163,8 @@ public class SUserController {
 	 **/
 	@RequestMapping("/v1/getUserLogs")
 	@ResponseBody
-	public ListResult<RUserLogsBean> getUserLogs(@Validated GetUserLogsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ListResult<RUserLogsBean> getUserLogs(@Validated GetUserLogsParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ListResult<RUserLogsBean> res = new ListResult<RUserLogsBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

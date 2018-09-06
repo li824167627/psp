@@ -10,5 +10,4 @@ public interface AreaDao {
 
 	AreaBean selectById(String p);
 
-
 }

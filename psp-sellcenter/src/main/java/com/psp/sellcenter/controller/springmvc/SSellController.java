@@ -27,7 +27,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/login")
 	@ResponseBody
-	public ObjectResult<RSellerBean> login(@Validated LoginParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> login(@Validated LoginParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -43,7 +44,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/sendVCode")
 	@ResponseBody
-	public BaseResult sendVCode(@Validated SendVCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult sendVCode(@Validated SendVCodeParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -59,7 +61,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/sendFindPwdCode")
 	@ResponseBody
-	public ObjectResult<RSellerBean> sendFindPwdCode(@Validated SendFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> sendFindPwdCode(@Validated SendFindPwdCodeParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -75,7 +78,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/confirmFindPwdCode")
 	@ResponseBody
-	public ObjectResult<RSellerBean> confirmFindPwdCode(@Validated ConfirmFindPwdCodeParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> confirmFindPwdCode(@Validated ConfirmFindPwdCodeParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -91,7 +95,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/resetPwd")
 	@ResponseBody
-	public BaseResult resetPwd(@Validated ResetPwdParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult resetPwd(@Validated ResetPwdParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -107,7 +112,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/getSeller")
 	@ResponseBody
-	public ObjectResult<RSellerBean> getSeller(@Validated GetSellerParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> getSeller(@Validated GetSellerParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -123,7 +129,8 @@ public class SSellController {
 	 **/
 	@RequestMapping("/v1/updateName")
 	@ResponseBody
-	public ObjectResult<RSellerBean> updateName(@Validated UpdateNameParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> updateName(@Validated UpdateNameParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<RSellerBean> res = new ObjectResult<RSellerBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

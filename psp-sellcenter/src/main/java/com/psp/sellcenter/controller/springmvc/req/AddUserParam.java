@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -32,139 +31,139 @@ public class AddUserParam {
 	private String isClaim; // 认领：1:认领 0不认领
 
 	public void setName(String name) {
- 		this.name = name;
+		this.name = name;
 	}
 
 	public String getName() {
- 		return name;
+		return name;
 	}
 
 	public void setPhoneNum(String phoneNum) {
- 		this.phoneNum = phoneNum;
+		this.phoneNum = phoneNum;
 	}
 
 	public String getPhoneNum() {
- 		return phoneNum;
+		return phoneNum;
 	}
 
 	public void setCompanyName(String companyName) {
- 		this.companyName = companyName;
+		this.companyName = companyName;
 	}
 
 	public String getCompanyName() {
- 		return companyName;
+		return companyName;
 	}
 
 	public void setPosition(String position) {
- 		this.position = position;
+		this.position = position;
 	}
 
 	public String getPosition() {
- 		return position;
+		return position;
 	}
 
 	public void setCtype(Integer ctype) {
- 		this.ctype = ctype;
+		this.ctype = ctype;
 	}
 
 	public Integer getCtype() {
- 		return ctype;
+		return ctype;
 	}
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 	public void setVisitDest(String visitDest) {
- 		this.visitDest = visitDest;
+		this.visitDest = visitDest;
 	}
 
 	public String getVisitDest() {
- 		return visitDest;
+		return visitDest;
 	}
 
 	public void setVisitNum(Integer visitNum) {
- 		this.visitNum = visitNum;
+		this.visitNum = visitNum;
 	}
 
 	public Integer getVisitNum() {
- 		return visitNum;
+		return visitNum;
 	}
 
 	public void setRefCompany(String refCompany) {
- 		this.refCompany = refCompany;
+		this.refCompany = refCompany;
 	}
 
 	public String getRefCompany() {
- 		return refCompany;
+		return refCompany;
 	}
 
 	public void setReferrer(String referrer) {
- 		this.referrer = referrer;
+		this.referrer = referrer;
 	}
 
 	public String getReferrer() {
- 		return referrer;
+		return referrer;
 	}
 
 	public void setVisitTime(String visitTime) {
- 		this.visitTime = visitTime;
+		this.visitTime = visitTime;
 	}
 
 	public String getVisitTime() {
- 		return visitTime;
+		return visitTime;
 	}
 
 	public void setEscort(String escort) {
- 		this.escort = escort;
+		this.escort = escort;
 	}
 
 	public String getEscort() {
- 		return escort;
+		return escort;
 	}
 
 	public void setIntroducer(String introducer) {
- 		this.introducer = introducer;
+		this.introducer = introducer;
 	}
 
 	public String getIntroducer() {
- 		return introducer;
+		return introducer;
 	}
 
 	public void setVisitflow(String visitflow) {
- 		this.visitflow = visitflow;
+		this.visitflow = visitflow;
 	}
 
 	public String getVisitflow() {
- 		return visitflow;
+		return visitflow;
 	}
 
 	public void setRemark(String remark) {
- 		this.remark = remark;
+		this.remark = remark;
 	}
 
 	public String getRemark() {
- 		return remark;
+		return remark;
 	}
 
 	public void setIsUpdate(String isUpdate) {
- 		this.isUpdate = isUpdate;
+		this.isUpdate = isUpdate;
 	}
 
 	public String getIsUpdate() {
- 		return isUpdate;
+		return isUpdate;
 	}
 
 	public void setIsClaim(String isClaim) {
- 		this.isClaim = isClaim;
+		this.isClaim = isClaim;
 	}
 
 	public String getIsClaim() {
- 		return isClaim;
+		return isClaim;
 	}
 
 }

@@ -116,6 +116,9 @@ dependencies {
 	compile group: 'org.springframework', name: 'spring-jdbc', version: springVersion
 	compile group: 'org.springframework', name: 'spring-aop', version: springVersion
 	compile group: 'org.springframework', name: 'spring-beans', version: springVersion
+	// https://mvnrepository.com/artifact/org.springframework/spring-aspects
+compile group: 'org.springframework', name: 'spring-aspects', version: springVersion
+	
 	//spring 测试
 	compile group: 'org.springframework', name: 'spring-test', version: springVersion
     
@@ -180,6 +183,8 @@ dependencies {
 	
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+    
+    
 }
 
 tasks.withType(JavaCompile) {

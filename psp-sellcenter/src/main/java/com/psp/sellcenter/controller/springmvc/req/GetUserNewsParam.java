@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -17,43 +16,43 @@ public class GetUserNewsParam {
 	private String key; // 关键字
 
 	public void setPage(Integer page) {
- 		this.page = page;
+		this.page = page;
 	}
 
 	public Integer getPage() {
- 		return page;
+		return page;
 	}
 
 	public void setPagesize(Integer pagesize) {
- 		this.pagesize = pagesize;
+		this.pagesize = pagesize;
 	}
 
 	public Integer getPagesize() {
- 		return pagesize;
+		return pagesize;
 	}
 
 	public void setUid(String uid) {
- 		this.uid = uid;
+		this.uid = uid;
 	}
 
 	public String getUid() {
- 		return uid;
+		return uid;
 	}
 
 	public void setStype(String stype) {
- 		this.stype = stype;
+		this.stype = stype;
 	}
 
 	public String getStype() {
- 		return stype;
+		return stype;
 	}
 
 	public void setKey(String key) {
- 		this.key = key;
+		this.key = key;
 	}
 
 	public String getKey() {
- 		return key;
+		return key;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -13,27 +12,27 @@ public class getLoginImgcodeParam {
 	private String h; // 验证码的高
 
 	public void setUserId(String userId) {
- 		this.userId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserId() {
- 		return userId;
+		return userId;
 	}
 
 	public void setW(String w) {
- 		this.w = w;
+		this.w = w;
 	}
 
 	public String getW() {
- 		return w;
+		return w;
 	}
 
 	public void setH(String h) {
- 		this.h = h;
+		this.h = h;
 	}
 
 	public String getH() {
- 		return h;
+		return h;
 	}
 
 }

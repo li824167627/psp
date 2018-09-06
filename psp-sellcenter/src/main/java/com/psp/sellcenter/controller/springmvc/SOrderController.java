@@ -27,7 +27,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/getOrders")
 	@ResponseBody
-	public ListResult<ROrderBean> getOrders(@Validated GetOrdersParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ListResult<ROrderBean> getOrders(@Validated GetOrdersParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ListResult<ROrderBean> res = new ListResult<ROrderBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -43,7 +44,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/getOrderNum")
 	@ResponseBody
-	public ObjectResult<Integer> getOrderNum(@Validated GetOrderNumParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<Integer> getOrderNum(@Validated GetOrderNumParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<Integer> res = new ObjectResult<Integer>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -59,7 +61,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/add")
 	@ResponseBody
-	public BaseResult add(@Validated AddOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult add(@Validated AddOrderParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -75,7 +78,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/getServiceProviders")
 	@ResponseBody
-	public ObjectResult<RServiceProviderBean> getServiceProviders(HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RServiceProviderBean> getServiceProviders(HttpServletRequest request,
+			HttpServletResponse response) {
 
 		return orderController.getServiceProviders(request, response);
 	}
@@ -85,7 +89,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/getDetail")
 	@ResponseBody
-	public ObjectResult<ROrderBean> getDetail(@Validated GetOrderDetailParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<ROrderBean> getDetail(@Validated GetOrderDetailParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ObjectResult<ROrderBean> res = new ObjectResult<ROrderBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -101,7 +106,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/getOrderLogs")
 	@ResponseBody
-	public ListResult<ROrderLogsBean> getOrderLogs(@Validated GetOrderLogsParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public ListResult<ROrderLogsBean> getOrderLogs(@Validated GetOrderLogsParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		ListResult<ROrderLogsBean> res = new ListResult<ROrderLogsBean>();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -117,7 +123,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/allotOrder")
 	@ResponseBody
-	public BaseResult allotOrder(@Validated AllotOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult allotOrder(@Validated AllotOrderParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -133,7 +140,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/closeOrder")
 	@ResponseBody
-	public BaseResult closeOrder(@Validated CloseOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult closeOrder(@Validated CloseOrderParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -149,7 +157,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/uploadContract")
 	@ResponseBody
-	public BaseResult uploadContract(@Validated UploadContractParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult uploadContract(@Validated UploadContractParam param, BindingResult error,
+			HttpServletRequest request, HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -165,7 +174,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/confirmOrder")
 	@ResponseBody
-	public BaseResult confirmOrder(@Validated ConfirmOrderParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult confirmOrder(@Validated ConfirmOrderParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());
@@ -181,7 +191,8 @@ public class SOrderController {
 	 **/
 	@RequestMapping("/v1/feedback")
 	@ResponseBody
-	public BaseResult feedback(@Validated FeedbackParam param, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
+	public BaseResult feedback(@Validated FeedbackParam param, BindingResult error, HttpServletRequest request,
+			HttpServletResponse response) {
 		BaseResult res = new BaseResult();
 		if (error.hasErrors()) {
 			res.setRescode(BaseResult.param.getCode());

@@ -12,7 +12,7 @@ public interface ProviderDao {
 	List<ProviderBean> selectListByCid(Integer categoryId);
 
 	ProviderBean selectOneById(String pid);
-	
+
 	List<CategoryBean> selectService(Integer parentId);
 
 	List<ProviderBean> selectAll();

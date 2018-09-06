@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -12,19 +11,19 @@ public class EditUserLabelParam {
 	private String label; // 客户标签
 
 	public void setUserId(String userId) {
- 		this.userId = userId;
+		this.userId = userId;
 	}
 
 	public String getUserId() {
- 		return userId;
+		return userId;
 	}
 
 	public void setLabel(String label) {
- 		this.label = label;
+		this.label = label;
 	}
 
 	public String getLabel() {
- 		return label;
+		return label;
 	}
 
 }

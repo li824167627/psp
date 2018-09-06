@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -14,27 +13,27 @@ public class SendFindPwdCodeParam {
 	private String imgCode; // 图形验证码
 
 	public void setAccount(String account) {
- 		this.account = account;
+		this.account = account;
 	}
 
 	public String getAccount() {
- 		return account;
+		return account;
 	}
 
 	public void setImgKey(String imgKey) {
- 		this.imgKey = imgKey;
+		this.imgKey = imgKey;
 	}
 
 	public String getImgKey() {
- 		return imgKey;
+		return imgKey;
 	}
 
 	public void setImgCode(String imgCode) {
- 		this.imgCode = imgCode;
+		this.imgCode = imgCode;
 	}
 
 	public String getImgCode() {
- 		return imgCode;
+		return imgCode;
 	}
 
 }

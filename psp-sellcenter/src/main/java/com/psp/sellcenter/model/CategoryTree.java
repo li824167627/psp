@@ -2,25 +2,25 @@ package com.psp.sellcenter.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class CategoryTree {
 	private String name;
 	private String cid;
 	private String phone;
 	private ArrayList<CategoryTree> children = new ArrayList<CategoryTree>();
-	
+
 	public CategoryTree(String name, String cid, String phone) {
 		this.name = name;
 		this.cid = cid;
 		this.phone = phone;
 	}
-	
-	
+
 	public CategoryTree(String name, int cid, List<ProviderBean> lists) {
 		this.name = name;
-		this.cid = cid+"";
-		if(lists != null && lists.size() > 0) {
+		this.cid = cid + "";
+		if (lists != null && lists.size() > 0) {
 			ArrayList<CategoryTree> ptrees = new ArrayList<CategoryTree>();
-			for(ProviderBean p : lists) {
+			for (ProviderBean p : lists) {
 				CategoryTree pt = new CategoryTree(p.getName(), p.getPid(), p.getPhoneNum());
 				ptrees.add(pt);
 			}

@@ -1,6 +1,5 @@
 package com.psp.sellcenter.controller.springmvc.req;
 
-
 import javax.validation.constraints.Pattern;
 
 /**
@@ -11,11 +10,11 @@ public class GetOrderNumParam {
 	private String stage; // 搜索工单状态，0:全部1进行中2已完成3已关闭
 
 	public void setStage(String stage) {
- 		this.stage = stage;
+		this.stage = stage;
 	}
 
 	public String getStage() {
- 		return stage;
+		return stage;
 	}
 
 }

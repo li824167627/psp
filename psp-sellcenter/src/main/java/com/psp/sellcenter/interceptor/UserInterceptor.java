@@ -40,7 +40,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 				flag = true;
 				logger.info("sellerid is :" + seller.getSid());
 			}
-		} 
+		}
 		if (!flag) {
 			BaseResult result = new BaseResult();
 			Rescode rescode = RescodeConstants.getInstance().get("token_fail");

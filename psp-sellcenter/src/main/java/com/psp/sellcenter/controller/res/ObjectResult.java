@@ -9,9 +9,9 @@ package com.psp.sellcenter.controller.res;
 public class ObjectResult<T> extends BaseResult {
 
 	private T data;// 对象数据
-	
+
 	private int errorCount;// 错误次数
-	
+
 	public T getData() {
 		return data;
 	}
@@ -27,6 +27,5 @@ public class ObjectResult<T> extends BaseResult {
 	public void setErrorCount(int errorCount) {
 		this.errorCount = errorCount;
 	}
-
 
 }

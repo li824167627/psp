@@ -26,10 +26,10 @@ import com.psp.util.AppTextUtil;
 @Component
 public class SellController {
 	Logger logger = Logger.getLogger(SellController.class);
-	
+
 	@Autowired
 	SellerService sellerServiceImpl;
-	
+
 	@Autowired
 	SellerCacheDao sellerCacheImpl;
 
@@ -63,18 +63,19 @@ public class SellController {
 		return result;
 	}
 
-	public ObjectResult<RSellerBean> updateName(UpdateNameParam param, HttpServletRequest request, HttpServletResponse response) {
+	public ObjectResult<RSellerBean> updateName(UpdateNameParam param, HttpServletRequest request,
+			HttpServletResponse response) {
 		ObjectResult<RSellerBean> result = new ObjectResult<RSellerBean>();
 		try {
 
-			String uid = (String)request.getAttribute("sellerId");
+			String uid = (String) request.getAttribute("sellerId");
 			String name = param.getName();
 			RSellerBean user = sellerServiceImpl.updateName(uid, name);
 			logger.info("login user is:" + user);
 			if (user != null) {
 				result.setData(user);
 				result.setFlag(true);
-			} 
+			}
 		} catch (ServiceException e) {
 			result.setFlag(false);
 			result.setRescode(e.getServiceCode());
@@ -110,7 +111,7 @@ public class SellController {
 		BaseResult result = new BaseResult();
 		try {
 
-			String uid = (String)request.getAttribute("sellerId");
+			String uid = (String) request.getAttribute("sellerId");
 			String pwd = param.getOldPwd();
 			String newPwd = param.getPassword();
 			String subPwd = param.getConfirmPwd();
